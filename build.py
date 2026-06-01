@@ -204,6 +204,31 @@ FOOTER = f'''<footer class="site-footer">
 ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>'
 
 
+def faq_block(faqs):
+    """Return (visible HTML section, FAQPage JSON-LD) for a list of (q, a) pairs."""
+    if not faqs:
+        return "", ""
+    items = "\n      ".join(
+        f'''<details class="faq-item">
+        <summary>{esc(q)}</summary>
+        <div class="faq-a">{a}</div>
+      </details>''' for q, a in faqs)
+    section = f'''
+<section class="alt" id="faq">
+  <div class="container content" style="max-width:820px;">
+    <div class="eyebrow">FAQ</div>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq">
+      {items}
+    </div>
+  </div>
+</section>'''
+    ld = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q,
+         "acceptedAnswer": {"@type": "Answer", "text": re.sub("<[^>]+>", "", a)}} for q, a in faqs]}
+    return section, f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
+
+
 def head(title, desc, canonical, extra=""):
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -213,10 +238,22 @@ def head(title, desc, canonical, extra=""):
 <title>{title}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canonical}">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="Atlanta Bounce House Rentals">
+<meta name="geo.region" content="US-GA">
+<meta name="geo.placename" content="Atlanta, Georgia">
+<meta name="theme-color" content="#3a93d6">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Atlanta Bounce House Rentals">
+<meta property="og:locale" content="en_US">
 <meta property="og:title" content="{esc(title)}">
+<meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{canonical}">
+<meta property="og:image" content="{DOMAIN}/images/hero-bounce-house.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(title)}">
+<meta name="twitter:description" content="{esc(desc)}">
+<meta name="twitter:image" content="{DOMAIN}/images/hero-bounce-house.svg">
 <link rel="stylesheet" href="/css/style.css">
 {ADSENSE}
 {extra}</head>
@@ -285,10 +322,33 @@ def build_index(providers):
     area_links = "\n      ".join(f'<li>{esc(a)}</li>' for a in areas)
     chips = "\n          ".join(
         f'<button type="button" data-q="{SERVICES[s].lower()}">{SERVICES[s]}</button>' for s in SERVICES)
-    extra = '''<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","name":"Atlanta Bounce House Rental Directory","telephone":"+14018890182","url":"https://atlbouncehouserentals.com/","areaServed":{"@type":"City","name":"Atlanta"},"address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"}}
+
+    faqs = [
+        ("How much does it cost to rent a bounce house in Atlanta?",
+         "<p>In Atlanta, a classic bounce house typically rents for about $120&ndash;$260 per day, while larger combo units, water slides and obstacle courses range from roughly $180 to $900+ depending on size. Full party packages run from around $220 to $1,800+. Final pricing depends on the date, delivery distance, rental length and add-ons. <a href=\"/#providers\">Request a free quote</a> for an exact figure.</p>"),
+        ("How do I book a bounce house rental in Atlanta?",
+         "<p>Use the free quote form on this page or call <a href=\"tel:+14018890182\">(401) 889-0182</a>. Tell us your event date, ZIP code and what you need, and we'll match you with available providers from our Atlanta directory so you can compare and book.</p>"),
+        ("What areas around Atlanta do you serve?",
+         "<p>Our directory providers serve the City of Atlanta and the surrounding metro, including Midtown, Buckhead, Downtown, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more.</p>"),
+        ("What types of bounce houses and party rentals are available?",
+         "<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games, complete party packages and event staff. See the <a href=\"/services/\">full list of services</a>.</p>"),
+        ("Are the rental providers verified?",
+         "<p>Yes. Each provider listing shows whether the business is verified on Google along with its star rating and review count, so you can choose a trusted, well-reviewed Atlanta company with confidence.</p>"),
+        ("How far in advance should I book a bounce house in Atlanta?",
+         "<p>For weekends in spring and summer&mdash;Atlanta's busiest party season&mdash;book 2 to 4 weeks ahead. Water slides and large combos sell out fastest. For last-minute needs, call <a href=\"tel:+14018890182\">(401) 889-0182</a> and we'll check live availability.</p>"),
+    ]
+    faq_html, faq_ld = faq_block(faqs)
+
+    extra = f'''<script type="application/ld+json">
+{json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Atlanta Bounce House Rentals","url":DOMAIN+"/","logo":DOMAIN+"/images/hero-bounce-house.svg","telephone":PHONE_HREF,"areaServed":{"@type":"City","name":"Atlanta"},"contactPoint":{"@type":"ContactPoint","telephone":PHONE_HREF,"contactType":"customer service","areaServed":"US","availableLanguage":"English"}}, ensure_ascii=False)}
 </script>
-'''
+<script type="application/ld+json">
+{json.dumps({"@context":"https://schema.org","@type":"WebSite","name":"Atlanta Bounce House Rentals","url":DOMAIN+"/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":DOMAIN+"/partners.html?q={{search_term_string}}"},"query-input":"required name=search_term_string"}}, ensure_ascii=False)}
+</script>
+<script type="application/ld+json">
+{json.dumps({"@context":"https://schema.org","@type":"LocalBusiness","name":"Atlanta Bounce House Rental Directory","telephone":PHONE_HREF,"url":DOMAIN+"/","areaServed":{"@type":"City","name":"Atlanta"},"address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"}}, ensure_ascii=False)}
+</script>
+{faq_ld}'''
     html_out = head(
         "Atlanta Bounce House Rental Directory | Connect With All Providers And Compare",
         "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
@@ -386,6 +446,7 @@ def build_index(providers):
 {provider_table(providers)}
   </div>
 </section>
+{faq_html}
 
 <section class="cta-band">
   <div class="container">
@@ -637,8 +698,23 @@ def build_service_pages(providers):
             {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
             {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
             {"@type": "ListItem", "position": 3, "name": s["name"], "item": f"{DOMAIN}/services/{slug}/"}]}
+        nm = s["name"]
+        nml = nm.lower()
+        lo = s["prices"][0]["amount"]
+        hi = s["prices"][-1]["amount"]
+        faqs = [
+            (f"How much do {nml} cost in Atlanta?",
+             f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
+            (f"How do I book {nml} in Atlanta?",
+             f"<p>Call <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> or submit the quote form on this page. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+            (f"Do providers deliver {nml} across metro Atlanta?",
+             f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
+            (f"How far in advance should I reserve {nml}?",
+             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+        ]
+        faq_html, faq_ld = faq_block(faqs)
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
-                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n')
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}')
 
         page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
                     f"{DOMAIN}/services/{slug}/", extra)
@@ -708,6 +784,7 @@ def build_service_pages(providers):
     </div>
   </div>
 </section>
+{faq_html}
 
 <section class="cta-band">
   <div class="container">
@@ -841,6 +918,43 @@ def build_404():
     open(os.path.join(ROOT, "404.html"), "w").write(page)
 
 
+def build_llms(providers):
+    """Generate /llms.txt (llmstxt.org) so answer engines and LLMs can quickly
+    understand and cite the site."""
+    svc_lines = "\n".join(
+        f"- [{SERVICES[s]} in Atlanta]({DOMAIN}/services/{s}/): Pricing and providers for {SERVICES[s].lower()} across metro Atlanta."
+        for s in SERVICES)
+    top = sorted(providers, key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0)))[:15]
+    prov_lines = "\n".join(
+        f"- [{p['name']}]({DOMAIN}/partners/{p['slug']}/): {p['category']} in Atlanta, GA"
+        + (f" — {p['rating']}★ ({p['reviews']} reviews)" if p["rating"] else "")
+        for p in top)
+    txt = f"""# Atlanta Bounce House Rentals
+
+> Atlanta Bounce House Rentals (atlbouncehouserentals.com) is an independent directory that connects customers in Atlanta, Georgia with {len(providers)} local bounce house and party rental providers. Visitors compare providers by rating, reviews and verification, see typical price ranges, and request free quotes. Booking and quotes: call (401) 889-0182.
+
+Key facts:
+- Location served: Atlanta, Georgia and surrounding metro (Midtown, Buckhead, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more).
+- Phone for quotes and booking: (401) 889-0182
+- Number of listed providers: {len(providers)}
+- Typical price ranges: classic bounce houses ~$120-$260/day; combos, water slides and obstacle courses ~$180-$900+/day; full party packages ~$220-$1,800+.
+- The site is a directory; it does not own equipment. Quotes are free and no-obligation.
+
+## Services
+{svc_lines}
+
+## Top-rated providers
+{prov_lines}
+
+## Key pages
+- [All services]({DOMAIN}/services/): Full list of bounce house and party rental categories in Atlanta.
+- [Provider directory]({DOMAIN}/partners.html): All {len(providers)} providers with ratings, reviews and verification.
+- [About]({DOMAIN}/legal/about.html): What the directory is and how it works.
+- [Contact]({DOMAIN}/legal/contact.html): Phone, email and message form.
+"""
+    open(os.path.join(ROOT, "llms.txt"), "w").write(txt)
+
+
 def build_sitemap(providers):
     urls = ["/", "/services/", "/partners.html", "/leads.html"]
     urls += [f"/services/{s}/" for s in SERVICES]
@@ -871,7 +985,8 @@ def main():
     build_legal()
     build_404()
     build_sitemap(providers)
-    print(f"Built site: {len(providers)} providers + services + legal + leads")
+    build_llms(providers)
+    print(f"Built site: {len(providers)} providers + services + legal + leads + llms.txt")
 
 
 if __name__ == "__main__":

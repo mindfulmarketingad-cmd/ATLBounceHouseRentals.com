@@ -63,7 +63,10 @@ a:hover { text-decoration: underline; }
 .nav-toggle { display: none; background: none; border: 0; font-size: 1.6rem; cursor: pointer; color: var(--black); line-height: 1; }
 
 /* ---------- Hero ---------- */
-.hero { background: linear-gradient(100deg, rgba(234,244,252,0.97) 0%, rgba(234,244,252,0.92) 38%, rgba(216,235,251,0.55) 100%), url('/images/hero-bounce-house.jpg') center right / cover no-repeat, linear-gradient(165deg, var(--sky) 0%, var(--sky-2) 100%); color: var(--black); padding: 58px 0 66px; border-bottom: 1px solid var(--line); }
+/* Hero background: light gradient over the hero image. Currently using the
+   placeholder SVG; swap the url() to '/images/hero-bounce-house.jpg' once the
+   real photo is added to /images. */
+.hero { background: linear-gradient(100deg, rgba(234,244,252,0.96) 0%, rgba(234,244,252,0.88) 36%, rgba(216,235,251,0.45) 100%), url('/images/hero-bounce-house.svg') center right / cover no-repeat, linear-gradient(165deg, var(--sky) 0%, var(--sky-2) 100%); color: var(--black); padding: 58px 0 66px; border-bottom: 1px solid var(--line); }
 .hero .container { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
 .hero h1 { color: var(--black); font-size: 2.6rem; }
 .hero p.lead { font-size: 1.18rem; color: #2c333b; margin-bottom: 22px; }
@@ -235,6 +238,17 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .footer-brand { font-weight: 800; color: #fff; font-size: 1.2rem; margin-bottom: 10px; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 34px; padding-top: 20px; font-size: 0.82rem; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; color: #7e8896; }
 .footer-bottom a { display: inline; }
+
+/* ---------- FAQ ---------- */
+.faq { border-top: 1px solid var(--line); }
+.faq-item { border-bottom: 1px solid var(--line); }
+.faq-item summary { cursor: pointer; list-style: none; padding: 18px 36px 18px 2px; font-weight: 700; color: var(--black); font-size: 1.06rem; position: relative; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; position: absolute; right: 6px; top: 14px; font-size: 1.5rem; font-weight: 400; color: var(--accent); }
+.faq-item[open] summary::after { content: "\2212"; }
+.faq-item .faq-a { padding: 0 2px 18px; color: var(--ink); }
+.faq-item .faq-a p { margin: 0 0 10px; }
+.faq-item .faq-a p:last-child { margin-bottom: 0; }
 
 /* ---------- Table wrap ---------- */
 .table-wrap { overflow-x: auto; }
