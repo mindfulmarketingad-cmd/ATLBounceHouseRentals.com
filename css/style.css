@@ -299,6 +299,42 @@ section.alt { background: var(--bg-soft); }
 .footer-bottom { border-top:1px solid rgba(255,255,255,0.12); margin-top:34px; padding-top:20px; font-size:0.82rem; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; color:#8fa3bd; }
 .footer-bottom a { display:inline; }
 
+/* ---------- Partner directory table ---------- */
+.table-wrap { overflow-x: auto; border:1px solid var(--line); border-radius:12px; box-shadow: var(--shadow); }
+table.directory { width:100%; border-collapse: collapse; font-size:0.92rem; min-width: 760px; }
+table.directory th, table.directory td { text-align:left; padding:14px 16px; border-bottom:1px solid var(--line); vertical-align:top; }
+table.directory thead th { background:var(--navy); color:#fff; font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em; position:sticky; top:0; }
+table.directory tbody tr:hover { background: var(--bg-soft); }
+table.directory td.biz a { font-weight:700; color:var(--navy); }
+table.directory .svc { color:var(--muted); font-size:0.85rem; }
+table.directory .rate { white-space:nowrap; font-weight:700; color:var(--navy); }
+table.directory .rate .stars { display:block; font-weight:400; }
+table.directory .hrs { font-size:0.85rem; white-space:nowrap; }
+.dir-tools { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:18px; }
+.dir-tools input { flex:1; min-width:220px; padding:11px 14px; border:1px solid var(--line); border-radius:8px; font-size:0.95rem; font-family:inherit; background:var(--bg-soft); }
+.dir-tools input:focus { outline:none; border-color:var(--accent); background:#fff; box-shadow:0 0 0 3px rgba(31,111,235,0.12); }
+.dir-count { color:var(--muted); font-size:0.9rem; }
+
+/* ---------- Verified / badges ---------- */
+.verified-badge { display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:700; color:#1a73e8; background:#e8f0fe; border:1px solid #c6dafc; padding:5px 11px; border-radius:20px; }
+.unverified-badge { display:inline-flex; align-items:center; gap:6px; font-size:0.82rem; font-weight:600; color:var(--muted); background:var(--bg-soft); border:1px solid var(--line); padding:5px 11px; border-radius:20px; }
+.partner-meta { display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin:6px 0 0; }
+.rating-inline { font-weight:700; color:var(--navy); }
+.rating-inline .stars { color:var(--gold); }
+
+/* ---------- Hours table ---------- */
+table.hours { width:100%; border-collapse:collapse; font-size:0.95rem; }
+table.hours td { padding:9px 12px; border-bottom:1px solid var(--line); }
+table.hours td.day { font-weight:600; color:var(--navy); width:45%; }
+table.hours tr.today { background:#e7f6ec; }
+table.hours tr.today td { color:#1c6b3a; font-weight:700; }
+table.hours tr.today td.day::after { content:" • Today"; font-size:0.72rem; color:#1c8a47; font-weight:700; }
+.info-box { border:1px solid var(--line); border-radius:12px; padding:22px; background:#fff; box-shadow:var(--shadow); margin-bottom:22px; }
+.info-box h3 { margin-top:0; font-size:1.05rem; }
+.svc-tags { display:flex; flex-wrap:wrap; gap:8px; }
+.svc-tags a { font-size:0.82rem; font-weight:700; padding:6px 12px; border-radius:20px; background:var(--bg-soft); color:var(--navy); border:1px solid var(--line); text-decoration:none; }
+.svc-tags a:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
 /* ---------- Ad slots ---------- */
 .ad-slot { max-width: var(--maxw); margin: 0 auto; padding: 14px 20px; text-align:center; }
 .ad-slot .ad-inner { background: var(--bg-soft); border:1px dashed var(--line); border-radius:8px; padding:14px; color:var(--muted); font-size:0.78rem; letter-spacing:0.05em; }
