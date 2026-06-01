@@ -1,0 +1,878 @@
+#!/usr/bin/env python3
+"""Static-site generator for Atlanta Bounce House Rentals.
+Reads data/providers.json and regenerates the whole site:
+homepage, services, individual service pages, partners directory,
+individual partner pages, leads board, legal pages, 404, sitemap.
+
+Theme: light blue + black. No emojis. No ad placeholders.
+Business phone/contact are never published — the site phone is shown instead.
+Run: python3 build.py
+"""
+import json, os, re, html
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+PHONE_DISPLAY = "(401) 889-0182"
+PHONE_HREF = "+14018890182"
+DOMAIN = "https://atlbouncehouserentals.com"
+
+SERVICES = {
+    "classic-bounce-house-rentals": "Classic Bounce House Rentals",
+    "bounce-and-slide-combo-rentals": "Bounce and Slide Combo Rentals",
+    "water-slide-rentals": "Water Slide Rentals",
+    "obstacle-course-rentals": "Obstacle Course Rentals",
+    "concession-rentals": "Concession Rentals",
+    "tents-tables-and-chair-rentals": "Tents, Tables and Chair Rentals",
+    "interactive-rentals": "Interactive Rentals",
+    "party-package-rentals": "Party Package Rentals",
+    "party-entertainment-and-staff-rentals": "Party Entertainment and Staff Rentals",
+}
+
+KEYWORDS = [
+    (["water slide", "waterslide", "water-slide", "splash", "slip"], "water-slide-rentals"),
+    (["combo", "bounce and slide", "bounce & slide", "slide combo"], "bounce-and-slide-combo-rentals"),
+    (["obstacle", "course"], "obstacle-course-rentals"),
+    (["concession", "popcorn", "cotton candy", "snow cone", "snowcone", "shaved ice", "frozen drink"], "concession-rentals"),
+    (["tent", "table", "chair", "canopy", "linen", "drapery"], "tents-tables-and-chair-rentals"),
+    (["photo booth", "photobooth", "arcade", "amusement", "game", "interactive", "dunk", "carnival", "mechanical", "axe", "laser"], "interactive-rentals"),
+    (["dj", "bartend", "bartending", "entertainer", "entertainment", "host", "character", "costume", "clown", "face paint", "balloon", "limousine", "limo", "staff", "magician", "videograph", "catering", "caterer", "petting", "pony"], "party-entertainment-and-staff-rentals"),
+    (["bounce", "jump", "jumper", "moonwalk", "moon walk", "inflatable", "bouncer", "bouncy", "castle"], "classic-bounce-house-rentals"),
+    (["package", "party rental", "party equipment", "event rental", "event planner", "event management", "party planner", "party supply"], "party-package-rentals"),
+]
+
+DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+# Real Atlanta ZIP codes present in the listings, mapped to their common area names.
+ZIP_AREAS = {
+    "30303": "Downtown Atlanta", "30307": "Inman Park / Candler Park", "30308": "Midtown / Old Fourth Ward",
+    "30309": "Midtown", "30310": "West End", "30311": "Cascade Heights", "30312": "Grant Park / Cabbagetown",
+    "30314": "Vine City", "30315": "South Atlanta / Lakewood", "30316": "East Atlanta / Reynoldstown",
+    "30317": "Kirkwood / East Lake", "30318": "West Midtown", "30319": "Brookhaven",
+    "30324": "Morningside / Lindbergh", "30326": "Buckhead (Lenox)", "30327": "Buckhead (Northwest)",
+    "30328": "Sandy Springs", "30329": "North Druid Hills", "30331": "Southwest Atlanta",
+    "30336": "Adamsville / Fulton Industrial", "30339": "Cumberland / Vinings", "30340": "Doraville",
+    "30341": "Chamblee", "30342": "Sandy Springs (Buckhead North)", "30344": "East Point",
+    "30349": "College Park", "30350": "Sandy Springs (North)", "30360": "Dunwoody / Peachtree Corners",
+}
+
+
+def esc(s):
+    return html.escape(str(s)) if s is not None else ""
+
+
+def map_services(it):
+    hay = " ".join([it["name"], it["subtypes"], it["category"]]).lower()
+    found = [slug for words, slug in KEYWORDS if any(w in hay for w in words)]
+    if not found:
+        found = ["party-package-rentals"]
+    return [s for s in SERVICES if s in found]
+
+
+def stars(rating):
+    if not rating:
+        return ""
+    full = int(round(float(rating)))
+    return "★" * full + "☆" * (5 - full)
+
+
+def parse_attrs(about_json):
+    bits = []
+    try:
+        for grp in json.loads(about_json).values():
+            if isinstance(grp, dict):
+                for k, v in grp.items():
+                    if v is True and k not in bits:
+                        bits.append(k)
+    except Exception:
+        pass
+    return bits
+
+
+def about_text(it, services):
+    cat = it["category"].lower()
+    names = [SERVICES[s] for s in services]
+    phrase = (", ".join(names[:-1]) + " and " + names[-1]) if len(names) > 1 else names[0]
+    rating, reviews = it["rating"], it["reviews"]
+    rev = ""
+    if rating and reviews:
+        rev = f" The company holds a {rating}-star rating across {reviews} Google reviews from local customers."
+    elif reviews:
+        rev = f" The company has earned {reviews} Google reviews from local customers."
+    attrs = [a for a in parse_attrs(it["about"]) if any(t in a.lower() for t in ["owned", "veteran", "lgbtq", "wheelchair", "online appointment", "onsite"])]
+    attr = (" Notable highlights include " + ", ".join(a.lower() for a in attrs[:3]) + ".") if attrs else ""
+    return (f"{it['name']} is a trusted {cat} serving {it['city']}, {it['state']} and the surrounding "
+            f"Atlanta metro area.{rev} Through the Atlanta Bounce House Rentals directory you can request "
+            f"availability and pricing for {phrase.lower()}.{attr} To check open dates or get a free quote "
+            f"for your event, call {PHONE_DISPLAY}.")
+
+
+def hours_map(it):
+    data = {}
+    if it["hours"]:
+        try:
+            data = json.loads(it["hours"])
+        except Exception:
+            data = {}
+    out = {}
+    for d in DAYS:
+        v = data.get(d)
+        if isinstance(v, list):
+            out[d] = ", ".join(v) if v else "Closed"
+        elif v:
+            out[d] = str(v)
+        elif data:
+            out[d] = "Closed"
+    return out
+
+
+def hours_rows(it):
+    m = hours_map(it)
+    rows = []
+    for d in DAYS:
+        txt = m.get(d, "Call to confirm")
+        rows.append(f'<tr data-day="{d}"><td class="day">{d}</td><td>{esc(txt)}</td></tr>')
+    return "\n        ".join(rows)
+
+
+def map_embed(it):
+    if it["lat"] and it["lng"]:
+        q = f'{it["lat"]},{it["lng"]}'
+    else:
+        q = (it["address"] or (it["name"] + " Atlanta GA")).replace(" ", "+")
+    return f"https://www.google.com/maps?q={q}&z=15&output=embed"
+
+
+# ----------------------------------------------------------------- shells
+def header(active=""):
+    def cls(name):
+        return ' class="active"' if name == active else ""
+    return f'''<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/"><span class="brand-accent">Atlanta</span> Bounce House Rentals</a>
+    <div class="header-right">
+      <nav class="main-nav" aria-label="Primary">
+        <a href="/"{cls("home")}>Home</a>
+        <a href="/services/"{cls("services")}>Services</a>
+        <a href="/partners.html"{cls("partners")}>Partners</a>
+        <a href="/leads.html"{cls("leads")}>Leads</a>
+      </nav>
+      <a class="phone-cta" href="tel:{PHONE_HREF}"><span><span class="ph-label">Call Now</span>{PHONE_DISPLAY}</span></a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+    </div>
+  </div>
+</header>'''
+
+
+FOOTER = f'''<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">Atlanta Bounce House Rentals</div>
+        <p>Your trusted directory for bounce house and party rentals across Atlanta, Georgia.</p>
+        <p><a href="tel:{PHONE_HREF}"><strong>{PHONE_DISPLAY}</strong></a></p>
+      </div>
+      <div>
+        <h4>Top Services</h4>
+        <a href="/services/classic-bounce-house-rentals/">Classic Bounce Houses</a>
+        <a href="/services/water-slide-rentals/">Water Slides</a>
+        <a href="/services/obstacle-course-rentals/">Obstacle Courses</a>
+        <a href="/services/party-package-rentals/">Party Packages</a>
+        <a href="/services/">All Services</a>
+      </div>
+      <div>
+        <h4>Directory</h4>
+        <a href="/">Home</a>
+        <a href="/services/">Services</a>
+        <a href="/partners.html">Partners</a>
+        <a href="/leads.html">Leads</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="/legal/about.html">About Us</a>
+        <a href="/legal/contact.html">Contact</a>
+        <a href="/legal/privacy-policy.html">Privacy Policy</a>
+        <a href="/legal/terms.html">Terms of Service</a>
+        <a href="/legal/disclaimer.html">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year>2026</span> Atlanta Bounce House Rentals. All rights reserved.</span>
+      <span>Atlanta, Georgia &middot; <a href="/legal/privacy-policy.html">Privacy</a> &middot; <a href="/legal/terms.html">Terms</a></span>
+    </div>
+  </div>
+</footer>'''
+
+ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>'
+
+
+def head(title, desc, canonical, extra=""):
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{title}</title>
+<meta name="description" content="{esc(desc)}">
+<link rel="canonical" href="{canonical}">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{esc(title)}">
+<meta property="og:url" content="{canonical}">
+<link rel="stylesheet" href="/css/style.css">
+{ADSENSE}
+{extra}</head>
+<body>
+'''
+
+
+# ----------------------------------------------------------------- provider table
+def provider_rows(providers):
+    rows = []
+    for it in providers:
+        svc_names = [SERVICES[s] for s in it["services"]]
+        search = " ".join([it["name"], it["subtypes"], it["category"]] + svc_names + [it["city"]]).lower()
+        search = esc(re.sub(r"\s+", " ", search))
+        rating = it["rating"]
+        if rating:
+            rate_html = f'<span class="star">&#9733;</span>{rating}'
+        else:
+            rate_html = '<span class="muted">&mdash;</span>'
+        ver = '<span class="yes">Yes</span>' if it["verified"] else '<span class="no">&mdash;</span>'
+        loc = esc(f'{it["city"]}, {it["state"]}')
+        rows.append(f'''        <tr data-search="{search}">
+          <td class="biz"><a href="/partners/{it["slug"]}/">{esc(it["name"])}</a><span class="loc">{loc}</span></td>
+          <td class="rating">{rate_html}</td>
+          <td class="num">{it["reviews"]}</td>
+          <td class="verified">{ver}</td>
+          <td class="arrow"><a href="/partners/{it["slug"]}/" aria-label="View {esc(it["name"])}">&#8599;</a></td>
+        </tr>''')
+    return "\n".join(rows)
+
+
+def provider_table(providers, search_id="dir-search"):
+    return f'''    <div class="dir-tools">
+      <input type="search" id="{search_id}" placeholder="Search providers by name, service or area..." aria-label="Search providers">
+      <span class="dir-count" id="{search_id}-count">{len(providers)} providers</span>
+    </div>
+    <div class="table-wrap">
+      <table class="provider-table" id="provider-table">
+        <thead>
+          <tr><th>Contractor</th><th>Rating</th><th class="num">Reviews</th><th>Verified</th><th></th></tr>
+        </thead>
+        <tbody>
+{provider_rows(providers)}
+          <tr id="no-results" style="display:none;"><td colspan="5" class="no-results">No providers match your search. Call {PHONE_DISPLAY} and we'll find one for you.</td></tr>
+        </tbody>
+      </table>
+    </div>'''
+
+
+# ----------------------------------------------------------------- homepage
+def coverage_areas(providers):
+    """Distinct real areas covered, derived from listing ZIP codes, ordered by count."""
+    counts = {}
+    for it in providers:
+        z = str(it.get("postal") or "").strip()
+        area = ZIP_AREAS.get(z)
+        if area:
+            counts[area] = counts.get(area, 0) + 1
+    return [a for a, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
+
+
+def build_index(providers):
+    svc_links = "\n      ".join(
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
+    areas = coverage_areas(providers)
+    area_links = "\n      ".join(f'<li>{esc(a)}</li>' for a in areas)
+    chips = "\n          ".join(
+        f'<button type="button" data-q="{SERVICES[s].lower()}">{SERVICES[s]}</button>' for s in SERVICES)
+    extra = '''<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"LocalBusiness","name":"Atlanta Bounce House Rental Directory","telephone":"+14018890182","url":"https://atlbouncehouserentals.com/","areaServed":{"@type":"City","name":"Atlanta"},"address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"}}
+</script>
+'''
+    html_out = head(
+        "Atlanta Bounce House Rental Directory | Connect With All Providers And Compare",
+        "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
+        DOMAIN + "/", extra)
+    html_out += header("home") + f'''
+<section class="hero">
+  <div class="container">
+    <div class="hero-copy">
+      <h1>Atlanta Bounce House Rental Directory</h1>
+      <p class="lead">Find, compare and book bounce houses, water slides and party rentals from trusted providers across Atlanta, Georgia.</p>
+      <div class="hero-search">
+        <label for="hero-search-input">What do you need for your event?</label>
+        <div class="search-row">
+          <input type="search" id="hero-search-input" placeholder="Try &quot;water slide&quot;, &quot;bounce house&quot;, &quot;tents&quot;..." aria-label="Search for a service">
+          <a class="btn" href="#providers" id="hero-search-btn">Search</a>
+        </div>
+        <div class="chips">
+          {chips}
+        </div>
+      </div>
+      <ul class="hero-points">
+        <li>Compare every local provider in one place</li>
+        <li>Free, no-obligation quotes in minutes</li>
+        <li>Serving Atlanta and all surrounding metro areas</li>
+      </ul>
+    </div>
+
+    <div class="quote-card">
+      <h2>Get a Free Quote</h2>
+      <p class="sub">Tell us about your event and we'll connect you with available Atlanta providers.</p>
+      <form data-quote-form novalidate>
+        <div data-success class="form-success" style="display:none;">
+          Thanks! Your request was received. An Atlanta provider will contact you shortly. Need it now? Call <strong>{PHONE_DISPLAY}</strong>.
+        </div>
+        <div data-fields>
+          <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+          <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+          <div class="field"><label for="q-service">Service Needed</label>
+            <select id="q-service" name="service">
+              {"".join(f'<option value="{SERVICES[s]}">{SERVICES[s]}</option>' for s in SERVICES)}
+            </select>
+          </div>
+          <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+            <div><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+          </div>
+          <div class="field"><label for="q-msg">Event Details</label><textarea id="q-msg" name="message" rows="2" placeholder="Guests, ages, venue..."></textarea></div>
+          <button class="btn btn-block" type="submit">Get My Free Quote</button>
+          <p class="form-note">No spam. Your details are only shared with matched providers.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">What You Can Rent</div>
+      <h2>All Bounce House Rental Services In Atlanta Georgia</h2>
+      <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them.</p>
+    </div>
+    <ul class="bullet-services">
+      {svc_links}
+    </ul>
+  </div>
+</section>
+
+<section class="alt" id="service-area">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Service Area</div>
+      <h2>Bounce House Rentals Across Metro Atlanta</h2>
+      <p>The {len(providers)} providers in our directory are based across these Atlanta neighborhoods and ZIP codes, and serve the surrounding metro area:</p>
+    </div>
+    <ul class="bullet-services" style="columns:3;margin-bottom:30px;">
+      {area_links}
+    </ul>
+    <div class="map-wrap">
+      <iframe title="Map of Atlanta, Georgia service area" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Atlanta,Georgia&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="providers">
+  <div class="container">
+    <div class="section-head flex">
+      <div>
+        <div class="eyebrow">The Directory</div>
+        <h2>Bounce House &amp; Party Rental Providers in Atlanta Georgia</h2>
+      </div>
+      <a class="view-all" href="/partners.html">View all {len(providers)} &#8599;</a>
+    </div>
+{provider_table(providers)}
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Ready to Book Your Atlanta Bounce House Rental?</h2>
+    <p>Get matched with available providers in minutes. Compare quotes, check availability and lock in your date with confidence.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/directory.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "index.html"), "w").write(html_out)
+
+
+# ----------------------------------------------------------------- partners directory
+def build_partners(providers):
+    html_out = head(
+        "Atlanta Bounce House Rental Providers Directory | Partners",
+        f"Directory of {len(providers)} bounce house and party rental providers serving Atlanta, Georgia. Compare ratings, reviews and verification, then call for a free quote.",
+        DOMAIN + "/partners.html")
+    html_out += header("partners") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Partners</div>
+    <h1>Atlanta Bounce House &amp; Party Rental Providers</h1>
+    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews below, then call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote and we'll match you with the right provider.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+{provider_table(providers)}
+    <div class="callout" style="margin-top:26px;">
+      <p><strong>Ready to book?</strong> Contact for every provider is handled through the directory &mdash; call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and we'll connect you with an available company for your event.</p>
+    </div>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/directory.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "partners.html"), "w").write(html_out)
+
+
+# ----------------------------------------------------------------- partner pages
+def build_partner_pages(providers):
+    by_cat = {}
+    for it in providers:
+        by_cat.setdefault(it["category"], []).append(it)
+
+    for it in providers:
+        name, slug = it["name"], it["slug"]
+        services = it["services"]
+        about = about_text(it, services)
+        title = f"{name} {it['city']} {it['state']}"
+        desc = about[:155].replace('"', "'")
+        svc_tags = "\n          ".join(f'<a href="/services/{s}/">{SERVICES[s]}</a>' for s in services)
+
+        similar = [x for x in by_cat.get(it["category"], []) if x["slug"] != slug][:6]
+        if len(similar) < 4:
+            for x in providers:
+                if x["slug"] != slug and x not in similar:
+                    similar.append(x)
+                if len(similar) >= 6:
+                    break
+        sim_html = "\n        ".join(
+            f'<li><a href="/partners/{x["slug"]}/">{esc(x["name"])}</a><span class="muted"> &mdash; {esc(x["category"])}</span></li>'
+            for x in similar)
+
+        verified = ('<span class="verified-badge">Verified on Google</span>' if it["verified"]
+                    else '<span class="unverified-badge">Listing from Google</span>')
+        rating_html = ""
+        if it["rating"]:
+            rating_html = (f'<span class="rating-inline"><span class="stars">{stars(it["rating"])}</span> '
+                           f'{it["rating"]} ({it["reviews"]} Google reviews)</span>')
+        elif it["reviews"]:
+            rating_html = f'<span class="rating-inline">{it["reviews"]} Google reviews</span>'
+        addr = esc(it["address"]) or esc(f'{it["city"]}, {it["state"]}')
+
+        ld = {
+            "@context": "https://schema.org", "@type": "LocalBusiness", "name": name,
+            "address": {"@type": "PostalAddress", "streetAddress": it["street"], "addressLocality": it["city"],
+                        "addressRegion": it.get("state", ""), "postalCode": it["postal"], "addressCountry": "US"},
+            "telephone": PHONE_HREF, "url": f"{DOMAIN}/partners/{slug}/",
+            "areaServed": {"@type": "City", "name": "Atlanta"},
+        }
+        if it["rating"] and it["reviews"]:
+            ld["aggregateRating"] = {"@type": "AggregateRating", "ratingValue": it["rating"], "reviewCount": it["reviews"]}
+        if it["lat"] and it["lng"]:
+            ld["geo"] = {"@type": "GeoCoordinates", "latitude": it["lat"], "longitude": it["lng"]}
+        extra = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
+
+        page = head(esc(title), desc, f"{DOMAIN}/partners/{slug}/", extra)
+        page += header("partners") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/partners.html">Partners</a> &rsaquo; {esc(name)}</div>
+    <h1>{esc(name)}</h1>
+    <div class="partner-meta">
+      {verified}
+      {rating_html}
+      <span class="muted">{addr}</span>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:40px; align-items:start;">
+      <div class="content">
+        <h2>About {esc(name)}</h2>
+        <p>{esc(about)}</p>
+
+        <h2>Services Offered</h2>
+        <p>Through our directory, {esc(name)} can be booked for the following Atlanta party rental services. Select any service to see pricing and request a quote:</p>
+        <div class="svc-tags">
+          {svc_tags}
+        </div>
+
+        <h2>Location</h2>
+        <p class="muted" style="margin-bottom:14px;">{addr}</p>
+        <div class="map-wrap">
+          <iframe title="Map showing {esc(name)} in {esc(it["city"])}, {esc(it["state"])}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="{map_embed(it)}"></iframe>
+        </div>
+
+        <h2 style="margin-top:36px;">Similar Providers in Atlanta</h2>
+        <ul>
+        {sim_html}
+        </ul>
+        <p><a href="/partners.html">&larr; Back to the full partner directory</a></p>
+      </div>
+
+      <aside>
+        <div class="quote-card" style="margin-bottom:22px;">
+          <h2>Request a Free Quote</h2>
+          <p class="sub">Check availability with {esc(name)} and compare Atlanta providers.</p>
+          <a class="btn btn-block" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+          <p class="form-note" style="margin-top:14px;">Or <a href="/#providers">submit a quote request</a> and we'll match you with available providers.</p>
+        </div>
+
+        <div class="info-box">
+          <h3>Business Hours</h3>
+          <table class="hours">
+        {hours_rows(it)}
+          </table>
+          <p class="muted" style="font-size:0.8rem;margin:12px 0 0;">Hours from Google. Call to confirm holiday availability.</p>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/partners.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "partners", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- service pages
+SERVICE_CONTENT = json.load(open(os.path.join(ROOT, "data", "service-content.json"))) if os.path.exists(os.path.join(ROOT, "data", "service-content.json")) else None
+
+
+def build_services_index():
+    links = "\n      ".join(
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
+    html_out = head(
+        "Bounce House Rental In Atlanta Georgia",
+        "Browse every Bounce House Rental service in Atlanta, Georgia. Classic bounce houses, water slides, obstacle courses, concessions, tents, party packages and more with free quotes.",
+        DOMAIN + "/services/")
+    html_out += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Services</div>
+    <h1>Bounce House Rental In Atlanta Georgia</h1>
+    <p>Explore every bounce house and party rental service available across Atlanta, Georgia. Select any service below to view price estimates and request a free quote.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    <h2>All Bounce House Rental Services in Atlanta</h2>
+    <ul class="bullet-services">
+      {links}
+    </ul>
+    <div class="callout">
+      <p><strong>Not sure what you need?</strong> Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and an Atlanta provider will help you choose the right rentals for your event.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Get a Free Atlanta Bounce House Quote</h2>
+    <p>Compare providers and pricing across the Atlanta metro in minutes.</p>
+    <a class="btn" href="/#providers">Request a Free Quote</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "services", "index.html"), "w").write(html_out)
+
+
+def build_service_pages(providers):
+    data = SERVICE_CONTENT
+    for s in data:
+        slug = s["slug"]
+        others = "\n            ".join(
+            f'<li><a href="/services/{x}/">{SERVICES[x]}</a></li>' for x in SERVICES if x != slug)
+        offering = [p for p in providers if slug in p["services"]]
+        offering.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+        providers_links = "\n            ".join(
+            f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a></li>' for p in offering)
+        options = "\n              ".join(
+            f'<option value="{SERVICES[x]}"{" selected" if x == slug else ""}>{SERVICES[x]}</option>' for x in SERVICES)
+        prices = "\n          ".join(
+            f'''<div class="price-card{" featured" if i == 1 else ""}">
+            <div class="tier">{p["tier"]}</div>
+            <div class="amount">{p["amount"]} <span>{p["sub"]}</span></div>
+            <ul>
+              {"".join(f"<li>{it}</li>" for it in p["items"])}
+            </ul>
+          </div>''' for i, p in enumerate(s["prices"]))
+        body = "\n        ".join(f"<p>{p}</p>" for p in s["body"])
+        ld = {"@context": "https://schema.org", "@type": "Service", "serviceType": s["name"],
+              "areaServed": {"@type": "City", "name": "Atlanta"},
+              "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory", "telephone": PHONE_HREF},
+              "url": f"{DOMAIN}/services/{slug}/"}
+        bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
+            {"@type": "ListItem", "position": 3, "name": s["name"], "item": f"{DOMAIN}/services/{slug}/"}]}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n')
+
+        page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
+                    f"{DOMAIN}/services/{slug}/", extra)
+        page += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; {s["name"]}</div>
+    <h1>{s["h1"]}</h1>
+    <p>{s["intro"]}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
+      <div class="content">
+        <h2>About {s["name"]} in Atlanta</h2>
+        {body}
+
+        <div class="callout">
+          <p><strong>Serving all of metro Atlanta.</strong> Providers in our directory deliver {s["name"].lower()} to Atlanta, Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell, East Point and surrounding Georgia communities.</p>
+        </div>
+
+        <h2>{s["name"]} Price Estimates in Atlanta</h2>
+        <p>Below are typical Atlanta price ranges for {s["name"].lower()} by event size. Final pricing depends on the date, delivery distance, rental duration and add-ons. Request a free quote for an exact figure.</p>
+        <div class="price-grid">
+          {prices}
+        </div>
+
+        <h2>Atlanta Providers Offering {s["name"]}</h2>
+        <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:</p>
+        <ul class="bullet-services">
+            {providers_links}
+        </ul>
+
+        <h2>Other Bounce House Rental Services in Atlanta</h2>
+        <ul>
+            {others}
+        </ul>
+      </div>
+
+      <aside>
+        <div class="quote-card" style="position:sticky; top:90px;">
+          <h2>Free Quote</h2>
+          <p class="sub">Request pricing for {s["name"].lower()} in Atlanta.</p>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! A provider will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <div class="field"><label for="q-service">Service</label>
+                <select id="q-service" name="service">
+              {options}
+                </select>
+              </div>
+              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+              <button class="btn btn-block" type="submit">Get My Free Quote</button>
+              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book {s["name"]} in Atlanta Today</h2>
+    <p>Compare available Atlanta providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "services", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- leads
+def build_leads():
+    extra = ""
+    html_out = head(
+        "Live Atlanta Bounce House Rental Leads | Provider Board",
+        "Live board of incoming bounce house and party rental leads across Atlanta, Georgia, from our quote form and phone line. Partners log in to view full contact details.",
+        DOMAIN + "/leads.html", extra)
+    html_out += header("leads") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Leads</div>
+    <h1>Live Atlanta Rental Leads</h1>
+    <p>Real-time inquiries from customers across Atlanta, captured through our website quote form and phone line. Directory partners log in to unlock full contact details and claim the job.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="login-banner" id="login-banner">
+      <div>
+        <h3>You're viewing limited lead previews</h3>
+        <p>Contact names, phone numbers and emails are hidden. Partners can log in to view full lead details and reach out directly.</p>
+      </div>
+      <button class="btn" data-open-login>Partner Log In</button>
+    </div>
+
+    <div class="leads-bar" id="logged-bar" style="display:none;">
+      <span class="badge-live"><span class="dot"></span> Live feed &mdash; full access</span>
+      <button class="btn btn-ghost" id="logout-btn">Log Out</button>
+    </div>
+
+    <div id="leads-board"></div>
+
+    <div class="callout" style="margin-top:30px;">
+      <p><strong>Want these leads?</strong> Join the Atlanta provider directory to get matched with customers in your service area. <a href="/legal/contact.html">Contact us to become a partner.</a></p>
+    </div>
+  </div>
+</section>
+
+<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+  <div class="modal">
+    <button class="modal-close" data-close-login aria-label="Close">&times;</button>
+    <h3 id="login-title">Partner Log In</h3>
+    <p class="sub">Log in to view full lead contact details and claim jobs.</p>
+    <div id="login-error" class="form-success" style="display:none;background:#fdeaea;border-color:#f3c2c2;color:#a12626;">
+      Incorrect email or password. Please try again.
+    </div>
+    <form id="login-form" novalidate>
+      <div class="field"><label for="l-email">Email</label><input id="l-email" name="email" type="email" placeholder="partner@atlbouncehouserentals.com" required></div>
+      <div class="field"><label for="l-pass">Password</label><input id="l-pass" name="password" type="password" placeholder="********" required></div>
+      <button class="btn btn-block" type="submit">Log In</button>
+      <p class="form-note">Demo access &mdash; email: partner@atlbouncehouserentals.com &middot; password: atlanta2026</p>
+    </form>
+  </div>
+</div>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/leads.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "leads.html"), "w").write(html_out)
+
+
+# ----------------------------------------------------------------- legal
+def build_legal():
+    data = json.load(open(os.path.join(ROOT, "data", "legal-content.json")))
+    for slug, p in data.items():
+        page = head(p["title"], p["desc"], f"{DOMAIN}/legal/{slug}.html")
+        page += header() + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; {p["h1"]}</div>
+    <h1>{p["h1"]}</h1>
+  </div>
+</div>
+
+<section>
+  <div class="container content">
+    {p["body"]}
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        open(os.path.join(ROOT, "legal", slug + ".html"), "w").write(page)
+
+
+def build_404():
+    page = head("Page Not Found | Atlanta Bounce House Rentals", "Page not found.", DOMAIN + "/404.html")
+    page = page.replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="noindex">')
+    page += header() + f'''
+<section style="text-align:center;padding:90px 0;">
+  <div class="container">
+    <h1>404 &mdash; Page Not Found</h1>
+    <p class="muted">The page you're looking for doesn't exist or has moved.</p>
+    <p style="margin-top:24px;"><a class="btn" href="/">Back to Home</a> &nbsp; <a class="btn btn-ghost" href="/services/">Browse Services</a></p>
+  </div>
+</section>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "404.html"), "w").write(page)
+
+
+def build_sitemap(providers):
+    urls = ["/", "/services/", "/partners.html", "/leads.html"]
+    urls += [f"/services/{s}/" for s in SERVICES]
+    urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
+    urls += [f"/partners/{it['slug']}/" for it in providers]
+    items = "\n".join(
+        f"  <url><loc>{DOMAIN}{u}</loc></url>" for u in urls)
+    sm = f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{items}
+</urlset>
+'''
+    open(os.path.join(ROOT, "sitemap.xml"), "w").write(sm)
+
+
+def main():
+    providers = json.load(open(os.path.join(ROOT, "data", "providers.json")))
+    for it in providers:
+        it["services"] = map_services(it)
+    providers.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+
+    build_index(providers)
+    build_partners(providers)
+    build_partner_pages(providers)
+    build_services_index()
+    build_service_pages(providers)
+    build_leads()
+    build_legal()
+    build_404()
+    build_sitemap(providers)
+    print(f"Built site: {len(providers)} providers + services + legal + leads")
+
+
+if __name__ == "__main__":
+    main()
