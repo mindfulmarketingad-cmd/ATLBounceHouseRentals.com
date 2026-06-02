@@ -43,6 +43,30 @@
   }
   if (heroBtn) heroBtn.addEventListener("click", function (e) { e.preventDefault(); runHero(); });
 
+  // Services column on partners page
+  if (document.getElementById("dir-search")) {
+    var SERVICES = [
+      ["Classic Bounce Houses",    "classic bounce house rentals"],
+      ["Bounce & Slide Combos",    "bounce and slide combo rentals"],
+      ["Water Slides",             "water slide rentals"],
+      ["Obstacle Courses",         "obstacle course rentals"],
+      ["Concessions",              "concession rentals"],
+      ["Tents, Tables & Chairs",   "tents"],
+      ["Interactive Rentals",      "interactive rentals"],
+      ["Party Packages",           "party package rentals"],
+      ["Entertainment & Staff",    "party entertainment and staff rentals"],
+    ];
+    rows.forEach(function (r) {
+      var search = (r.getAttribute("data-search") || "").toLowerCase();
+      var found = SERVICES.filter(function (s) { return search.indexOf(s[1]) > -1; }).map(function (s) { return s[0]; });
+      var td = document.createElement("td");
+      td.className = "svc";
+      td.textContent = found.length ? found.join(", ") : "—";
+      var arrow = r.querySelector(".arrow");
+      r.insertBefore(td, arrow);
+    });
+  }
+
   // Service quick-search chips
   document.querySelectorAll(".hero-search .chips button[data-q]").forEach(function (b) {
     b.addEventListener("click", function () {
