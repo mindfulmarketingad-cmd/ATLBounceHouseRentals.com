@@ -119,5 +119,47 @@
       "Cleaning: all units are cleaned and sanitized before use.",
       "For long-term rentals, call for custom pricing."
     ]
+  },
+  {
+    "slug": "minecraft-bounce-house",
+    "name": "Minecraft Bounce House",
+    "category": "Themed Bounce House",
+    "tagline": "Level up your party with our Minecraft Bounce House — the ultimate inflatable for gamers and energy-burners alike!",
+    "description": "<p>Level up your party with our Minecraft Bounce House&mdash;the ultimate inflatable for gamers and energy-burners alike! With bright, blocky graphics and tons of room to jump, this fan-favorite transforms any birthday or event into a pixel-powered adventure where kids can bounce, laugh, and play for hours.</p><h3>Why it&rsquo;s a hit</h3><ul><li>Minecraft-inspired theme kids instantly recognize and love</li><li>Perfect party centerpiece that looks awesome in photos</li></ul><h3>Perfect for</h3><p>Birthday parties &bull; Gamer parties &bull; School field days &bull; Church events &bull; Daycares &bull; Community events &bull; Family gatherings</p><p>Ready to build the best party ever? Book our Minecraft Bounce House today&mdash;popular dates fill fast!</p>",
+    "images": [
+      "/images/bounce-houses/minecraft-bounce-house-1.jpg",
+      "/images/bounce-houses/minecraft-bounce-house-2.jpg"
+    ],
+    "pricing": [
+      { "tier": "Standard", "label": "Up to 6 hours (10am–7pm)", "price": "299.00", "featured": false },
+      { "tier": "Overnight", "label": "Overnight rental", "price": "358.80", "featured": true },
+      { "tier": "All Weekend", "label": "Full weekend", "price": "403.65", "featured": false }
+    ],
+    "deposit": 50,
+    "extra_per_hour_pct": 10,
+    "circuits": 1,
+    "dimensions_item": "13L × 13W × 14H ft",
+    "dimensions_space": "15L × 15W × 14H ft",
+    "max_occupancy": "5–6 kids of equal size (bounce houses); 1 person at a time (slides)",
+    "included": [
+      "Extension cord",
+      "Blower",
+      "Safety stakes or sandbags to secure to ground"
+    ],
+    "you_need": [
+      "Enough space with a clear path to the setup location",
+      "Electric outlet within 50 ft of setup area",
+      "Water source + hose within 50 ft if renting a water slide"
+    ],
+    "policies": [
+      "All prices include setup and teardown (inflatables only).",
+      "Reserve today with a $50 deposit (deposits vary based on item).",
+      "10% extra per hour for inflatables only.",
+      "Holiday pricing may vary.",
+      "If your rental time is outside 10am–7pm, call us for special accommodations.",
+      "Rain policy: reschedule due to rain at no extra cost if done by 8am the morning prior to your event.",
+      "Cleaning: all units are cleaned and sanitized before use.",
+      "For long-term rentals, call for custom pricing."
+    ]
   }
 ]

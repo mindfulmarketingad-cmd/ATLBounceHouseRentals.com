@@ -894,6 +894,9 @@ def build_bounce_houses():
             f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in existing_imgs
         ) if existing_imgs else f'<div class="bh-gallery-placeholder">Photos coming soon &mdash; call {PHONE_DISPLAY} to see more.</div>'
 
+        desc_html = (f'\n        <div class="bh-description content" style="margin-top:30px;max-width:none;">\n          <h2>About This Bounce House</h2>\n          {it["description"]}\n        </div>'
+                     if it.get("description") else "")
+
         ld = json.dumps({
             "@context": "https://schema.org",
             "@type": "Product",
@@ -933,7 +936,7 @@ def build_bounce_houses():
         <div class="bh-gallery">
           {gallery_html}
         </div>
-
+{desc_html}
         <h2 style="margin-top:34px;">Product Details</h2>
 
         <dl class="bh-specs" style="margin-bottom:28px;">
