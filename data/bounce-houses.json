@@ -78,5 +78,46 @@
       "Rain policy: reschedule due to rain at no extra cost if done by 8am the morning prior to your event.",
       "For long-term rentals, call for custom pricing."
     ]
+  },
+  {
+    "slug": "royal-castle-bounce-house",
+    "name": "Royal Castle Bounce House",
+    "category": "Classic Bounce House",
+    "tagline": "Classic royal castle-themed inflatable — a timeless favorite for birthday parties and backyard events across Atlanta.",
+    "images": [
+      "/images/bounce-houses/royal-castle-bounce-house-1.jpg",
+      "/images/bounce-houses/royal-castle-bounce-house-2.jpg"
+    ],
+    "pricing": [
+      { "tier": "Standard", "label": "Up to 6 hours (10am–7pm)", "price": "209.00", "featured": false },
+      { "tier": "Overnight", "label": "Overnight rental", "price": "250.80", "featured": true },
+      { "tier": "All Weekend", "label": "Full weekend", "price": "282.15", "featured": false }
+    ],
+    "deposit": 50,
+    "extra_per_hour_pct": 10,
+    "circuits": 1,
+    "dimensions_item": "13W × 13L × 15H ft",
+    "dimensions_space": "15W × 15L × 17H ft",
+    "max_occupancy": "5–6 kids of equal size (bounce houses); 1 person at a time (slides)",
+    "included": [
+      "Extension cord",
+      "Blower",
+      "Safety stakes or sandbags to secure to ground"
+    ],
+    "you_need": [
+      "Enough space with a clear path to the setup location",
+      "Electric outlet within 50 ft of setup area",
+      "Water source + hose within 50 ft if renting a water slide"
+    ],
+    "policies": [
+      "All prices include setup and teardown (inflatables only).",
+      "Reserve today with a $50 deposit (deposits vary based on item).",
+      "10% extra per hour for inflatables only.",
+      "Holiday pricing may vary.",
+      "If your rental time is outside 10am–7pm, call us for special accommodations.",
+      "Rain policy: reschedule due to rain at no extra cost if done by 8am the morning prior to your event.",
+      "Cleaning: all units are cleaned and sanitized before use.",
+      "For long-term rentals, call for custom pricing."
+    ]
   }
 ]
