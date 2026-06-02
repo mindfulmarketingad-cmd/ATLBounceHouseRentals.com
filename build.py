@@ -165,6 +165,7 @@ def header(active=""):
       <nav class="main-nav" aria-label="Primary">
         <a href="/"{cls("home")}>Home</a>
         <a href="/services/"{cls("services")}>Services</a>
+        <a href="/bounce-houses/"{cls("bounce-houses")}>Bounce Houses</a>
         <a href="/partners.html"{cls("partners")}>Partners</a>
         <a href="/leads.html"{cls("leads")}>Leads</a>
       </nav>
@@ -195,6 +196,7 @@ FOOTER = f'''<footer class="site-footer">
         <h4>Directory</h4>
         <a href="/">Home</a>
         <a href="/services/">Services</a>
+        <a href="/bounce-houses/">Bounce Houses for Rent</a>
         <a href="/partners.html">Partners</a>
         <a href="/leads.html">Leads</a>
       </div>
@@ -819,6 +821,217 @@ def build_service_pages(providers):
         open(os.path.join(d, "index.html"), "w").write(page)
 
 
+# ----------------------------------------------------------------- bounce houses
+def build_bounce_houses():
+    items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
+
+    # --- index page ---
+    cards = []
+    for it in items:
+        from_price = it["pricing"][0]["price"]
+        has_img = True  # placeholder toggle; real check would test file existence
+        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
+                    if has_img else
+                    f'<div class="bh-card-img-placeholder">Image coming soon</div>')
+        cards.append(f'''    <a class="bh-card" href="/bounce-houses/{it["slug"]}/">
+      {img_html}
+      <div class="bh-card-body">
+        <div class="bh-cat">{esc(it["category"])}</div>
+        <h3>{esc(it["name"])}</h3>
+        <p class="bh-from">From <strong>${from_price}</strong> &middot; Setup &amp; teardown included</p>
+      </div>
+    </a>''')
+    cards_html = "\n".join(cards)
+
+    idx = head(
+        "Bounce Houses for Rent in Atlanta Georgia | ATL Bounce House Rentals",
+        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call (401) 889-0182 for pricing and availability.",
+        DOMAIN + "/bounce-houses/")
+    idx += header("bounce-houses") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Bounce Houses</div>
+    <h1>Bounce Houses for Rent in Atlanta, Georgia</h1>
+    <p>Browse our selection of inflatable bounce houses available for rent across Atlanta and the surrounding metro. All units include delivery, setup and teardown. Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or request a quote below for pricing and availability.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="bh-grid">
+{cards_html}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Need Help Choosing?</h2>
+    <p>Call us and we'll match you with the right bounce house for your event size and budget.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "bounce-houses")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(idx)
+
+    # --- detail pages ---
+    for it in items:
+        pricing_rows = []
+        for tier in it["pricing"]:
+            featured_cls = " featured" if tier["featured"] else ""
+            pricing_rows.append(f'''          <div class="bh-tier{featured_cls}">
+            <div class="bh-tier-label">{esc(tier["tier"])}<small>{esc(tier["label"])}</small></div>
+            <div class="bh-tier-price">${esc(tier["price"])}</div>
+          </div>''')
+        pricing_html = "\n".join(pricing_rows)
+
+        included_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["included"])
+        you_need_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["you_need"])
+        policies_html = "\n".join(f"<li>{esc(p)}</li>" for p in it["policies"])
+
+        imgs = it.get("images", [])
+        gallery_html = "\n".join(
+            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in imgs
+        ) if imgs else f'<div class="bh-gallery-placeholder">Photos coming soon — call {PHONE_DISPLAY} to see more.</div>'
+
+        ld = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": it["name"],
+            "description": it["tagline"],
+            "image": [DOMAIN + src for src in imgs],
+            "brand": {"@type": "Brand", "name": "Atlanta Bounce House Rentals"},
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "USD",
+                "price": it["pricing"][0]["price"],
+                "availability": "https://schema.org/InStock",
+                "seller": {"@type": "Organization", "name": "Atlanta Bounce House Rentals", "telephone": PHONE_HREF}
+            }
+        }, ensure_ascii=False)
+
+        extra = f'<script type="application/ld+json">\n{ld}\n</script>'
+
+        page = head(
+            f'{it["name"]} Rental Atlanta Georgia | ATL Bounce House Rentals',
+            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call (401) 889-0182 or request a quote.',
+            f'{DOMAIN}/bounce-houses/{it["slug"]}/',
+            extra)
+        page += header("bounce-houses") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/bounce-houses/">Bounce Houses</a> &rsaquo; {esc(it["name"])}</div>
+    <h1>{esc(it["name"])} Rental</h1>
+    <p>{esc(it["tagline"])}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="bh-detail">
+
+      <!-- Left: gallery + specs -->
+      <div>
+        <div class="bh-gallery">
+          {gallery_html}
+        </div>
+
+        <h2 style="margin-top:34px;">Product Details</h2>
+
+        <dl class="bh-specs" style="margin-bottom:28px;">
+          <div class="bh-spec"><dt>Item Dimensions</dt><dd>{esc(it["dimensions_item"])}</dd></div>
+          <div class="bh-spec"><dt>Space Needed</dt><dd>{esc(it["dimensions_space"])}</dd></div>
+          <div class="bh-spec"><dt>Circuits</dt><dd>{it["circuits"]}</dd></div>
+          <div class="bh-spec"><dt>Max Occupancy</dt><dd>{esc(it["max_occupancy"])}</dd></div>
+        </dl>
+
+        <h3>What&rsquo;s Included</h3>
+        <ul class="bh-policy-list" style="margin-bottom:24px;">
+          {included_html}
+        </ul>
+
+        <h3>What You&rsquo;ll Need</h3>
+        <ul class="bh-policy-list" style="margin-bottom:24px;">
+          {you_need_html}
+        </ul>
+
+        <h3>Policies &amp; Notes</h3>
+        <ul class="bh-policy-list">
+          {policies_html}
+        </ul>
+      </div>
+
+      <!-- Right: pricing + contact -->
+      <div class="bh-info">
+        <div class="bh-pricing-card">
+          <h3>Pricing</h3>
+{pricing_html}
+          <ul class="bh-inclusions">
+            <li>All prices include setup and teardown</li>
+            <li>Reserve with just a ${it["deposit"]} deposit</li>
+            <li>{it["extra_per_hour_pct"]}% extra per additional hour</li>
+          </ul>
+        </div>
+
+        <div class="bh-contact-card">
+          <h3>Get Pricing &amp; Reserve</h3>
+          <p class="sub">Call us or fill out the form below and we&rsquo;ll confirm availability and send you a quote.</p>
+          <a class="bh-call-btn" href="tel:{PHONE_HREF}">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.23 1.03L7.83 9.24a16.06 16.06 0 006.93 6.93l1.23-1.27a1 1 0 011.03-.23l3.3 1.1a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg>
+            {PHONE_DISPLAY}
+          </a>
+          <div class="bh-or">— or fill out the form —</div>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! We received your request for the {esc(it["name"])}. We&rsquo;ll be in touch shortly. Need it sooner? Call <strong>{PHONE_DISPLAY}</strong>.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <input type="hidden" name="item" value="{esc(it["name"])}">
+              <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+                <div><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+              </div>
+              <div class="field"><label for="q-msg">Message (optional)</label><textarea id="q-msg" name="message" rows="3" placeholder="Any questions or details about your event..."></textarea></div>
+              <button class="btn btn-block" type="submit">Request a Quote</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Ready to Book?</h2>
+    <p>Call us now to check availability and lock in your date with a $50 deposit.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        slug_dir = os.path.join(ROOT, "bounce-houses", it["slug"])
+        os.makedirs(slug_dir, exist_ok=True)
+        open(os.path.join(slug_dir, "index.html"), "w").write(page)
+
+
 # ----------------------------------------------------------------- leads
 def build_leads():
     extra = ""
@@ -970,8 +1183,10 @@ Key facts:
 
 
 def build_sitemap(providers):
-    urls = ["/", "/services/", "/partners.html", "/leads.html"]
+    bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
+    urls = ["/", "/services/", "/bounce-houses/", "/partners.html", "/leads.html"]
     urls += [f"/services/{s}/" for s in SERVICES]
+    urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
     items = "\n".join(
@@ -995,12 +1210,13 @@ def main():
     build_partner_pages(providers)
     build_services_index()
     build_service_pages(providers)
+    build_bounce_houses()
     build_leads()
     build_legal()
     build_404()
     build_sitemap(providers)
     build_llms(providers)
-    print(f"Built site: {len(providers)} providers + services + legal + leads + llms.txt")
+    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + llms.txt")
 
 
 if __name__ == "__main__":
