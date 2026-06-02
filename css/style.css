@@ -48,7 +48,8 @@ a:hover { text-decoration: underline; }
 /* ---------- Header ---------- */
 .site-header { border-bottom: 1px solid var(--line); background: #fff; position: sticky; top: 0; z-index: 100; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 20px; max-width: var(--maxw); margin: 0 auto; }
-.brand { font-weight: 800; font-size: 1.15rem; color: var(--black); text-decoration: none; letter-spacing: -0.02em; }
+.brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.15rem; color: var(--black); text-decoration: none; letter-spacing: -0.02em; }
+.brand-logo { display: block; width: 40px; height: 40px; flex: none; }
 .brand:hover { text-decoration: none; color: var(--accent-dark); }
 .brand .brand-accent { color: var(--accent); }
 .header-right { display: flex; align-items: center; gap: 22px; }
