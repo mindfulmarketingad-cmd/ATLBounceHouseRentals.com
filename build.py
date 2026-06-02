@@ -27,6 +27,19 @@ SERVICES = {
     "party-entertainment-and-staff-rentals": "Party Entertainment and Staff Rentals",
 }
 
+# Compact labels for the directory table "Services" column.
+SERVICES_SHORT = {
+    "classic-bounce-house-rentals": "Bounce Houses",
+    "bounce-and-slide-combo-rentals": "Combos",
+    "water-slide-rentals": "Water Slides",
+    "obstacle-course-rentals": "Obstacle Courses",
+    "concession-rentals": "Concessions",
+    "tents-tables-and-chair-rentals": "Tents & Tables",
+    "interactive-rentals": "Interactive",
+    "party-package-rentals": "Party Packages",
+    "party-entertainment-and-staff-rentals": "Entertainment & Staff",
+}
+
 KEYWORDS = [
     (["water slide", "waterslide", "water-slide", "splash", "slip"], "water-slide-rentals"),
     (["combo", "bounce and slide", "bounce & slide", "slide combo"], "bounce-and-slide-combo-rentals"),
@@ -147,7 +160,7 @@ def header(active=""):
         return ' class="active"' if name == active else ""
     return f'''<header class="site-header">
   <div class="header-inner">
-    <a class="brand" href="/"><span class="brand-accent">Atlanta</span> Bounce House Rentals</a>
+    <a class="brand" href="/"><img class="brand-logo" src="/images/favicon.svg" alt="" width="40" height="40"><span><span class="brand-accent">Atlanta</span> Bounce House Rentals</span></a>
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/"{cls("home")}>Home</a>
@@ -239,6 +252,8 @@ def head(title, desc, canonical, extra=""):
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{canonical}">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+<link rel="apple-touch-icon" href="/images/favicon.svg">
 <meta name="author" content="Atlanta Bounce House Rentals">
 <meta name="geo.region" content="US-GA">
 <meta name="geo.placename" content="Atlanta, Georgia">
@@ -275,11 +290,13 @@ def provider_rows(providers):
             rate_html = '<span class="muted">&mdash;</span>'
         ver = '<span class="yes">Yes</span>' if it["verified"] else '<span class="no">&mdash;</span>'
         loc = esc(f'{it["city"]}, {it["state"]}')
+        svc_short = ", ".join(SERVICES_SHORT[s] for s in it["services"]) or "&mdash;"
         rows.append(f'''        <tr data-search="{search}">
           <td class="biz"><a href="/partners/{it["slug"]}/">{esc(it["name"])}</a><span class="loc">{loc}</span></td>
           <td class="rating">{rate_html}</td>
           <td class="num">{it["reviews"]}</td>
           <td class="verified">{ver}</td>
+          <td class="svc">{svc_short}</td>
           <td class="arrow"><a href="/partners/{it["slug"]}/" aria-label="View {esc(it["name"])}">&#8599;</a></td>
         </tr>''')
     return "\n".join(rows)
@@ -293,11 +310,11 @@ def provider_table(providers, search_id="dir-search"):
     <div class="table-wrap">
       <table class="provider-table" id="provider-table">
         <thead>
-          <tr><th>Contractor</th><th>Rating</th><th class="num">Reviews</th><th>Verified</th><th></th></tr>
+          <tr><th>Contractor</th><th>Rating</th><th class="num">Reviews</th><th>Verified</th><th>Services</th><th></th></tr>
         </thead>
         <tbody>
 {provider_rows(providers)}
-          <tr id="no-results" style="display:none;"><td colspan="5" class="no-results">No providers match your search. Call {PHONE_DISPLAY} and we'll find one for you.</td></tr>
+          <tr id="no-results" style="display:none;"><td colspan="6" class="no-results">No providers match your search. Call {PHONE_DISPLAY} and we'll find one for you.</td></tr>
         </tbody>
       </table>
     </div>'''
@@ -340,7 +357,7 @@ def build_index(providers):
     faq_html, faq_ld = faq_block(faqs)
 
     extra = f'''<script type="application/ld+json">
-{json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Atlanta Bounce House Rentals","url":DOMAIN+"/","logo":DOMAIN+"/images/hero-bounce-house.svg","telephone":PHONE_HREF,"areaServed":{"@type":"City","name":"Atlanta"},"contactPoint":{"@type":"ContactPoint","telephone":PHONE_HREF,"contactType":"customer service","areaServed":"US","availableLanguage":"English"}}, ensure_ascii=False)}
+{json.dumps({"@context":"https://schema.org","@type":"Organization","name":"Atlanta Bounce House Rentals","url":DOMAIN+"/","logo":DOMAIN+"/images/logo.svg","telephone":PHONE_HREF,"areaServed":{"@type":"City","name":"Atlanta"},"contactPoint":{"@type":"ContactPoint","telephone":PHONE_HREF,"contactType":"customer service","areaServed":"US","availableLanguage":"English"}}, ensure_ascii=False)}
 </script>
 <script type="application/ld+json">
 {json.dumps({"@context":"https://schema.org","@type":"WebSite","name":"Atlanta Bounce House Rentals","url":DOMAIN+"/","potentialAction":{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":DOMAIN+"/partners.html?q={{search_term_string}}"},"query-input":"required name=search_term_string"}}, ensure_ascii=False)}
@@ -428,9 +445,6 @@ def build_index(providers):
     <ul class="bullet-services" style="columns:3;margin-bottom:30px;">
       {area_links}
     </ul>
-    <div class="map-wrap">
-      <iframe title="Map of Atlanta, Georgia service area" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Atlanta,Georgia&output=embed"></iframe>
-    </div>
   </div>
 </section>
 

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 560" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- balloon 1 (navy, top-left) -->
+  <ellipse cx="175" cy="170" rx="95" ry="112" stroke="#0a2a4d" stroke-width="14"/>
+  <path d="M135 95q22-30 62-22" stroke="#0a2a4d" stroke-width="12"/>
+  <path d="M175 282l-20 32h40z" fill="#0a2a4d"/>
+  <path d="M175 314q30 30-8 64" stroke="#0a2a4d" stroke-width="11"/>
+  <!-- balloon 2 (cyan, top-right) -->
+  <ellipse cx="345" cy="150" rx="95" ry="112" stroke="#19b9ec" stroke-width="14"/>
+  <path d="M305 75q22-30 62-22" stroke="#19b9ec" stroke-width="12"/>
+  <path d="M345 262l-20 32h40z" fill="#19b9ec"/>
+  <path d="M345 294q30 30-8 64" stroke="#19b9ec" stroke-width="11"/>
+  <!-- balloon 3 (navy, bottom-right) -->
+  <ellipse cx="320" cy="330" rx="92" ry="108" stroke="#0a2a4d" stroke-width="14"/>
+  <path d="M282 258q22-28 60-21" stroke="#0a2a4d" stroke-width="12"/>
+  <path d="M320 438l-20 32h40z" fill="#0a2a4d"/>
+  <!-- wordmark -->
+  <text x="260" y="500" text-anchor="middle" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue',cursive" font-weight="700" font-size="64" fill="#19b9ec">ATL</text>
+  <text x="260" y="548" text-anchor="middle" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue',cursive" font-weight="700" font-size="46" fill="#0a2a4d">Bounce House Rentals</text>
+</svg>

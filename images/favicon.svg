@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <!-- balloon 1 (navy, top-left) -->
+  <ellipse cx="21" cy="22" rx="12.5" ry="14.5" stroke="#0a2a4d" stroke-width="3"/>
+  <path d="M15.5 12.5q3-4 8-3" stroke="#0a2a4d" stroke-width="2.6"/>
+  <path d="M21 36.5l-2.6 4.2h5.2z" fill="#0a2a4d"/>
+  <path d="M21 40.7q4 4-1 8.5" stroke="#0a2a4d" stroke-width="2.4"/>
+  <!-- balloon 2 (cyan, top-right) -->
+  <ellipse cx="43" cy="20" rx="12.5" ry="14.5" stroke="#19b9ec" stroke-width="3"/>
+  <path d="M37.5 10.5q3-4 8-3" stroke="#19b9ec" stroke-width="2.6"/>
+  <path d="M43 34.5l-2.6 4.2h5.2z" fill="#19b9ec"/>
+  <path d="M43 38.7q4 4-1 8.5" stroke="#19b9ec" stroke-width="2.4"/>
+  <!-- balloon 3 (navy, bottom-right) -->
+  <ellipse cx="40" cy="43" rx="12" ry="14" stroke="#0a2a4d" stroke-width="3"/>
+  <path d="M34.5 33.5q3-4 7.5-3" stroke="#0a2a4d" stroke-width="2.6"/>
+  <path d="M40 57l-2.6 4.2h5.2z" fill="#0a2a4d"/>
+</svg>
