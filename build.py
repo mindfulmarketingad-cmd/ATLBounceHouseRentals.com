@@ -828,17 +828,17 @@ def build_bounce_houses():
     # --- index page ---
     cards = []
     for it in items:
-        from_price = it["pricing"][0]["price"]
-        has_img = True  # placeholder toggle; real check would test file existence
+        img_path = os.path.join(ROOT, it["images"][0].lstrip("/")) if it.get("images") else ""
+        has_img = img_path and os.path.exists(img_path)
         img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
                     if has_img else
-                    f'<div class="bh-card-img-placeholder">Image coming soon</div>')
+                    f'<div class="bh-card-img-placeholder">Photo coming soon</div>')
         cards.append(f'''    <a class="bh-card" href="/bounce-houses/{it["slug"]}/">
       {img_html}
       <div class="bh-card-body">
         <div class="bh-cat">{esc(it["category"])}</div>
         <h3>{esc(it["name"])}</h3>
-        <p class="bh-from">From <strong>${from_price}</strong> &middot; Setup &amp; teardown included</p>
+        <p class="bh-from">Setup &amp; teardown included &middot; Call for pricing</p>
       </div>
     </a>''')
     cards_html = "\n".join(cards)
@@ -884,35 +884,25 @@ def build_bounce_houses():
 
     # --- detail pages ---
     for it in items:
-        pricing_rows = []
-        for tier in it["pricing"]:
-            featured_cls = " featured" if tier["featured"] else ""
-            pricing_rows.append(f'''          <div class="bh-tier{featured_cls}">
-            <div class="bh-tier-label">{esc(tier["tier"])}<small>{esc(tier["label"])}</small></div>
-            <div class="bh-tier-price">${esc(tier["price"])}</div>
-          </div>''')
-        pricing_html = "\n".join(pricing_rows)
-
         included_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["included"])
         you_need_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["you_need"])
         policies_html = "\n".join(f"<li>{esc(p)}</li>" for p in it["policies"])
 
         imgs = it.get("images", [])
+        existing_imgs = [src for src in imgs if os.path.exists(os.path.join(ROOT, src.lstrip("/")))]
         gallery_html = "\n".join(
-            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in imgs
-        ) if imgs else f'<div class="bh-gallery-placeholder">Photos coming soon — call {PHONE_DISPLAY} to see more.</div>'
+            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in existing_imgs
+        ) if existing_imgs else f'<div class="bh-gallery-placeholder">Photos coming soon &mdash; call {PHONE_DISPLAY} to see more.</div>'
 
         ld = json.dumps({
             "@context": "https://schema.org",
             "@type": "Product",
             "name": it["name"],
             "description": it["tagline"],
-            "image": [DOMAIN + src for src in imgs],
+            "image": [DOMAIN + src for src in existing_imgs],
             "brand": {"@type": "Brand", "name": "Atlanta Bounce House Rentals"},
             "offers": {
                 "@type": "Offer",
-                "priceCurrency": "USD",
-                "price": it["pricing"][0]["price"],
                 "availability": "https://schema.org/InStock",
                 "seller": {"@type": "Organization", "name": "Atlanta Bounce House Rentals", "telephone": PHONE_HREF}
             }
@@ -922,7 +912,7 @@ def build_bounce_houses():
 
         page = head(
             f'{it["name"]} Rental Atlanta Georgia | ATL Bounce House Rentals',
-            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call (401) 889-0182 or request a quote.',
+            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Call (401) 889-0182 or request a quote for pricing and availability.',
             f'{DOMAIN}/bounce-houses/{it["slug"]}/',
             extra)
         page += header("bounce-houses") + f'''
@@ -969,21 +959,11 @@ def build_bounce_houses():
         </ul>
       </div>
 
-      <!-- Right: pricing + contact -->
+      <!-- Right: contact -->
       <div class="bh-info">
-        <div class="bh-pricing-card">
-          <h3>Pricing</h3>
-{pricing_html}
-          <ul class="bh-inclusions">
-            <li>All prices include setup and teardown</li>
-            <li>Reserve with just a ${it["deposit"]} deposit</li>
-            <li>{it["extra_per_hour_pct"]}% extra per additional hour</li>
-          </ul>
-        </div>
-
         <div class="bh-contact-card">
-          <h3>Get Pricing &amp; Reserve</h3>
-          <p class="sub">Call us or fill out the form below and we&rsquo;ll confirm availability and send you a quote.</p>
+          <h3>Request Pricing &amp; Reserve</h3>
+          <p class="sub">Call us or fill out the form and we&rsquo;ll send you a custom quote and confirm availability.</p>
           <a class="bh-call-btn" href="tel:{PHONE_HREF}">
             <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.23 1.03L7.83 9.24a16.06 16.06 0 006.93 6.93l1.23-1.27a1 1 0 011.03-.23l3.3 1.1a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg>
             {PHONE_DISPLAY}
