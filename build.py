@@ -825,14 +825,21 @@ def build_service_pages(providers):
 
 
 # ----------------------------------------------------------------- bounce houses
+def _img_exists(src):
+    """True if an image src is usable: external URLs are assumed live;
+    local paths must exist on disk."""
+    if src.startswith("http://") or src.startswith("https://"):
+        return True
+    return os.path.exists(os.path.join(ROOT, src.lstrip("/")))
+
+
 def build_bounce_houses():
     items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
 
     # --- index page ---
     cards = []
     for it in items:
-        img_path = os.path.join(ROOT, it["images"][0].lstrip("/")) if it.get("images") else ""
-        has_img = img_path and os.path.exists(img_path)
+        has_img = it.get("images") and _img_exists(it["images"][0])
         img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
                     if has_img else
                     f'<div class="bh-card-img-placeholder">Photo coming soon</div>')
@@ -892,7 +899,7 @@ def build_bounce_houses():
         policies_html = "\n".join(f"<li>{esc(p)}</li>" for p in it["policies"])
 
         imgs = it.get("images", [])
-        existing_imgs = [src for src in imgs if os.path.exists(os.path.join(ROOT, src.lstrip("/")))]
+        existing_imgs = [src for src in imgs if _img_exists(src)]
         gallery_html = "\n".join(
             f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in existing_imgs
         ) if existing_imgs else f'<div class="bh-gallery-placeholder">Photos coming soon &mdash; call {PHONE_DISPLAY} to see more.</div>'
@@ -905,7 +912,7 @@ def build_bounce_houses():
             "@type": "Product",
             "name": it["name"],
             "description": it["tagline"],
-            "image": [DOMAIN + src for src in existing_imgs],
+            "image": [src if src.startswith("http") else DOMAIN + src for src in existing_imgs],
             "brand": {"@type": "Brand", "name": "Atlanta Bounce House Rentals"},
             "offers": {
                 "@type": "Offer",

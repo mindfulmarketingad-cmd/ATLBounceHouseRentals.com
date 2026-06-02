@@ -5,8 +5,7 @@
     "category": "Classic Bounce House",
     "tagline": "Colorful castle-themed inflatable — perfect for birthday parties and backyard events across Atlanta.",
     "images": [
-      "/images/bounce-houses/rainbow-castle-1.jpg",
-      "/images/bounce-houses/rainbow-castle-2.jpg"
+      "https://www.jumptastic.com/wp-content/uploads/2026/01/rainbow20castle20bounce20house_1768650190_big.png.webp"
     ],
     "pricing": [
       { "tier": "Standard", "label": "Up to 6 hours (10am–7pm)", "price": "209.00", "featured": false },
@@ -45,8 +44,7 @@
     "category": "Classic Bounce House",
     "tagline": "Cool blue arctic-themed inflatable castle — great for all ages at birthday parties and backyard events across Atlanta.",
     "images": [
-      "/images/bounce-houses/arctic-bounce-house-1.jpg",
-      "/images/bounce-houses/arctic-bounce-house-2.jpg"
+      "https://www.jumptastic.com/wp-content/uploads/2026/01/arctic20bounce20house201_1768598445_big.png.webp"
     ],
     "pricing": [
       { "tier": "Standard", "label": "Up to 6 hours (10am–7pm)", "price": "209.00", "featured": false },
@@ -85,8 +83,7 @@
     "category": "Classic Bounce House",
     "tagline": "Classic royal castle-themed inflatable — a timeless favorite for birthday parties and backyard events across Atlanta.",
     "images": [
-      "/images/bounce-houses/royal-castle-bounce-house-1.jpg",
-      "/images/bounce-houses/royal-castle-bounce-house-2.jpg"
+      "https://www.jumptastic.com/wp-content/uploads/2026/01/royal20castle20bounce20house_1768650257_big.png.webp"
     ],
     "pricing": [
       { "tier": "Standard", "label": "Up to 6 hours (10am–7pm)", "price": "209.00", "featured": false },
