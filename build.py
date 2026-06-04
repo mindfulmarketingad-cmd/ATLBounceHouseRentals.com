@@ -665,6 +665,134 @@ def build_partner_pages(providers):
         open(os.path.join(d, "index.html"), "w").write(page)
 
 
+# ----------------------------------------------------------------- comparison pages
+COMPARE_TOP_N = 25  # number of top providers to cross-compare
+
+
+def comparison_pairs(providers):
+    """Return unordered pairs among the top-N providers, slugs alphabetised
+    so each pair yields a single canonical URL."""
+    top = providers[:COMPARE_TOP_N]
+    pairs = []
+    for i in range(len(top)):
+        for j in range(i + 1, len(top)):
+            a, b = top[i], top[j]
+            pairs.append((a, b) if a["slug"] < b["slug"] else (b, a))
+    return pairs
+
+
+def _partner_profile_block(it):
+    """Per-partner block: reviews summary + services, from available data."""
+    name = it["name"]
+    services = it["services"]
+    svc_tags = "\n          ".join(f'<a href="/services/{s}/">{SERVICES[s]}</a>' for s in services)
+    if it["rating"] and it["reviews"]:
+        rev = (f'<p><span class="rating-inline"><span class="stars">{stars(it["rating"])}</span> '
+               f'{it["rating"]} out of 5</span> based on {it["reviews"]} Google reviews.</p>')
+    elif it["reviews"]:
+        rev = f'<p>{it["reviews"]} Google reviews from local customers.</p>'
+    else:
+        rev = '<p>No public Google rating yet &mdash; call for references and availability.</p>'
+    return f'''      <div class="compare-profile">
+        <h3>{esc(name)}</h3>
+        <p>{esc(about_text(it, services))}</p>
+        <h4>{esc(name)} Reviews</h4>
+        {rev}
+        <h4>{esc(name)} Services</h4>
+        <div class="svc-tags">
+          {svc_tags}
+        </div>
+        <p style="margin-top:12px;"><a href="/partners/{it["slug"]}/">View full {esc(name)} profile &rarr;</a></p>
+      </div>'''
+
+
+def _yn(v):
+    return '<span class="yes">Yes</span>' if v else '<span class="no">&mdash;</span>'
+
+
+def build_comparisons(providers):
+    pairs = comparison_pairs(providers)
+    out_root = os.path.join(ROOT, "compare")
+    for a, b in pairs:
+        slug = f'{a["slug"]}-vs-{b["slug"]}'
+        title = f'{a["name"]} vs. {b["name"]} | Costs, Services Comparison'
+        desc = (f'Compare {a["name"]} and {b["name"]} for bounce house and party rentals in Atlanta, GA &mdash; '
+                f'services, ratings, reviews and location. Call {PHONE_DISPLAY} for pricing.')
+
+        def svc_list(it):
+            return ", ".join(SERVICES[s] for s in it["services"]) or "&mdash;"
+
+        def rating_cell(it):
+            if it["rating"]:
+                return f'<span class="stars">{stars(it["rating"])}</span> {it["rating"]}'
+            return "&mdash;"
+
+        ld = {
+            "@context": "https://schema.org", "@type": "ItemList", "name": f'{a["name"]} vs. {b["name"]}',
+            "itemListElement": [
+                {"@type": "ListItem", "position": 1, "url": f'{DOMAIN}/partners/{a["slug"]}/', "name": a["name"]},
+                {"@type": "ListItem", "position": 2, "url": f'{DOMAIN}/partners/{b["slug"]}/', "name": b["name"]},
+            ],
+        }
+        extra = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
+
+        page = head(esc(title), desc.replace("&mdash;", "-"), f"{DOMAIN}/compare/{slug}/", extra)
+        page += header() + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/partners.html">Partners</a> &rsaquo; Compare</div>
+    <h1>{esc(a["name"])} vs. {esc(b["name"])}</h1>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    <p>Trying to choose between <strong>{esc(a["name"])}</strong> and <strong>{esc(b["name"])}</strong> for your Atlanta event? Both serve the Atlanta, Georgia metro area through our directory. Below we compare their services, Google ratings, reviews and locations side by side so you can decide which provider fits your party best. For exact pricing and availability from either company, call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or request a free quote.</p>
+
+    <div class="table-wrap">
+      <table class="provider-table compare-table">
+        <thead>
+          <tr><th>&nbsp;</th><th>{esc(a["name"])}</th><th>{esc(b["name"])}</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rowlabel">Category</td><td>{esc(a["category"])}</td><td>{esc(b["category"])}</td></tr>
+          <tr><td class="rowlabel">Services</td><td>{svc_list(a)}</td><td>{svc_list(b)}</td></tr>
+          <tr><td class="rowlabel">Google Rating</td><td class="rating">{rating_cell(a)}</td><td class="rating">{rating_cell(b)}</td></tr>
+          <tr><td class="rowlabel">Reviews</td><td>{a["reviews"] or "&mdash;"}</td><td>{b["reviews"] or "&mdash;"}</td></tr>
+          <tr><td class="rowlabel">Verified on Google</td><td>{_yn(a["verified"])}</td><td>{_yn(b["verified"])}</td></tr>
+          <tr><td class="rowlabel">Location</td><td>{esc(a["city"])}, {esc(a["state"])}</td><td>{esc(b["city"])}, {esc(b["state"])}</td></tr>
+          <tr><td class="rowlabel">Pricing</td><td>Call {PHONE_DISPLAY}</td><td>Call {PHONE_DISPLAY}</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="compare-cols">
+{_partner_profile_block(a)}
+{_partner_profile_block(b)}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Get Pricing From {esc(a["name"])} or {esc(b["name"])}</h2>
+    <p>Tell us your date and what you need, and we'll help you compare quotes and book the right Atlanta provider.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(out_root, slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+    return pairs
+
+
 # ----------------------------------------------------------------- service pages
 SERVICE_CONTENT = json.load(open(os.path.join(ROOT, "data", "service-content.json"))) if os.path.exists(os.path.join(ROOT, "data", "service-content.json")) else None
 
@@ -1208,6 +1336,7 @@ def build_sitemap(providers):
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
+    urls += [f'/compare/{a["slug"]}-vs-{b["slug"]}/' for a, b in comparison_pairs(providers)]
     items = "\n".join(
         f"  <url><loc>{DOMAIN}{u}</loc></url>" for u in urls)
     sm = f'''<?xml version="1.0" encoding="UTF-8"?>
@@ -1227,6 +1356,7 @@ def main():
     build_index(providers)
     build_partners(providers)
     build_partner_pages(providers)
+    pairs = build_comparisons(providers)
     build_services_index()
     build_service_pages(providers)
     build_bounce_houses()
@@ -1235,7 +1365,7 @@ def main():
     build_404()
     build_sitemap(providers)
     build_llms(providers)
-    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + llms.txt")
+    print(f"Built site: {len(providers)} providers + {len(pairs)} comparison pages + services + bounce houses + legal + leads + llms.txt")
 
 
 if __name__ == "__main__":

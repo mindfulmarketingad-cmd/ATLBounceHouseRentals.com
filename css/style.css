@@ -271,6 +271,18 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 /* ---------- Table wrap ---------- */
 .table-wrap { overflow-x: auto; }
 
+/* ---------- Comparison pages ---------- */
+.compare-table { margin: 22px 0 30px; }
+.compare-table th { font-size: 0.95rem; text-transform: none; letter-spacing: 0; color: var(--black); font-weight: 800; }
+.compare-table td { vertical-align: top; }
+.compare-table td.rowlabel { font-weight: 700; color: var(--muted); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.05em; width: 180px; }
+.compare-table .rating .stars { color: var(--accent); }
+.compare-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 14px; }
+.compare-profile { border: 1px solid var(--line); border-radius: 12px; padding: 24px; background: #fff; }
+.compare-profile h3 { margin-top: 0; }
+.compare-profile h4 { margin: 18px 0 8px; font-size: 1rem; }
+@media (max-width: 800px) { .compare-cols { grid-template-columns: 1fr; } }
+
 /* ---------- Bounce house catalog ---------- */
 .bh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-top: 28px; }
 .bh-card { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; transition: box-shadow 0.15s, transform 0.15s; text-decoration: none; color: inherit; display: block; }
