@@ -282,6 +282,11 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .compare-profile h3 { margin-top: 0; }
 .compare-profile h4 { margin: 18px 0 8px; font-size: 1rem; }
 @media (max-width: 800px) { .compare-cols { grid-template-columns: 1fr; } }
+.compare-index { list-style: none; padding: 0; columns: 2; column-gap: 36px; }
+.compare-index li { margin-bottom: 10px; break-inside: avoid; }
+.compare-index a { font-weight: 600; color: var(--black); }
+.compare-index a:hover { color: var(--accent-dark); }
+@media (max-width: 700px) { .compare-index { columns: 1; } }
 
 /* ---------- Bounce house catalog ---------- */
 .bh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-top: 28px; }

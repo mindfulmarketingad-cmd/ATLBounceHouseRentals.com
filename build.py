@@ -167,6 +167,7 @@ def header(active=""):
         <a href="/services/"{cls("services")}>Services</a>
         <a href="/bounce-houses/"{cls("bounce-houses")}>Bounce Houses</a>
         <a href="/partners.html"{cls("partners")}>Partners</a>
+        <a href="/compare/"{cls("compare")}>Compare</a>
         <a href="/leads.html"{cls("leads")}>Leads</a>
       </nav>
       <a class="phone-cta" href="tel:{PHONE_HREF}"><span><span class="ph-label">Call Now</span>{PHONE_DISPLAY}</span></a>
@@ -713,6 +714,50 @@ def _yn(v):
 def build_comparisons(providers):
     pairs = comparison_pairs(providers)
     out_root = os.path.join(ROOT, "compare")
+    os.makedirs(out_root, exist_ok=True)
+
+    # --- compare index page ---
+    rows = "\n".join(
+        f'<li><a href="/compare/{a["slug"]}-vs-{b["slug"]}/">{esc(a["name"])} <span class="muted">vs.</span> {esc(b["name"])}</a></li>'
+        for a, b in pairs)
+    idx = head(
+        "Compare Atlanta Bounce House & Party Rental Providers | Side-by-Side",
+        "Compare top Atlanta bounce house and party rental providers side by side &mdash; services, ratings, reviews and locations. Find the best fit for your event, then call for pricing.",
+        DOMAIN + "/compare/")
+    idx += header("compare") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Compare</div>
+    <h1>Compare Atlanta Bounce House &amp; Party Rental Providers</h1>
+    <p>See how the top-rated providers in our Atlanta directory stack up against each other &mdash; services, Google ratings, reviews and location, side by side. Pick a matchup below, then call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for pricing and availability.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    <h2>{len(pairs)} Provider Comparisons</h2>
+    <ul class="compare-index">
+{rows}
+    </ul>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Not Sure Which to Choose?</h2>
+    <p>Tell us your date and what you need &mdash; we'll match you with the right Atlanta provider.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(out_root, "index.html"), "w").write(idx)
+
     for a, b in pairs:
         slug = f'{a["slug"]}-vs-{b["slug"]}'
         title = f'{a["name"]} vs. {b["name"]} | Costs, Services Comparison'
@@ -1331,7 +1376,7 @@ Key facts:
 
 def build_sitemap(providers):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/bounce-houses/", "/partners.html", "/leads.html"]
+    urls = ["/", "/services/", "/bounce-houses/", "/partners.html", "/compare/", "/leads.html"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
