@@ -369,7 +369,7 @@ def build_index(providers):
 </script>
 {faq_ld}'''
     html_out = head(
-        "Atlanta Bounce House Rental Directory | Connect With All Providers And Compare",
+        "Atlanta Bounce House Rental | Inflatables, Slides and Party Rentals",
         "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
         DOMAIN + "/", extra)
     html_out += header("home") + f'''
@@ -463,6 +463,32 @@ def build_index(providers):
       <a class="view-all" href="/partners.html">View all {len(providers)} &#8599;</a>
     </div>
 {provider_table(providers)}
+  </div>
+</section>
+
+<section class="alt" id="reviews">
+  <div class="container">
+    <div class="section-head" style="text-align:center;margin-bottom:8px;">
+      <div class="eyebrow" style="display:block;">What Customers Say</div>
+      <h2>Atlanta Families Love Booking With Us</h2>
+    </div>
+    <div class="reviews-grid">
+      <figure class="review-card">
+        <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>&ldquo;ATL Bounce House Rentals helped me find a water slide for my kids' party fast. Super easy and the provider showed up right on time!&rdquo;</blockquote>
+        <figcaption>&mdash; Tasha M., Decatur</figcaption>
+      </figure>
+      <figure class="review-card">
+        <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>&ldquo;Booked a bounce house for my son's birthday in minutes. Great selection and the whole process was stress-free.&rdquo;</blockquote>
+        <figcaption>&mdash; Marcus B., Atlanta</figcaption>
+      </figure>
+      <figure class="review-card">
+        <div class="stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <blockquote>&ldquo;Found a verified, well-reviewed company for our church event. Setup and teardown were included and everything was spotless.&rdquo;</blockquote>
+        <figcaption>&mdash; Priya S., Sandy Springs</figcaption>
+      </figure>
+    </div>
   </div>
 </section>
 {faq_html}
