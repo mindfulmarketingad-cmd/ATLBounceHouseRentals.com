@@ -273,6 +273,13 @@ def head(title, desc, canonical, extra=""):
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{DOMAIN}/images/hero-bounce-house.svg">
 <link rel="stylesheet" href="/css/style.css">
+<!-- SEO Agent Installation Script -->
+<script>
+    const script = document.createElement('script');
+    script.src = `https://api.arvow.com/olayer/e163b09b-06fd-4d10-8731-c402d77d83d6?path=${{window.location.pathname}}`;
+    script.defer = true;
+    document.head.appendChild(script);
+</script>
 {ADSENSE}
 {extra}</head>
 <body>
