@@ -12,6 +12,9 @@ Main keyword: **Atlanta Bounce House Rental**
 | Homepage (hero + free quote form, map, services, providers) | `/index.html` |
 | Services index (all services, bulleted, linked) | `/services/index.html` |
 | Individual service pages (with small/medium/large price estimates) | `/services/<slug>/index.html` |
+| Service Areas index (all metro cities/districts) | `/locations/index.html` |
+| Location landing pages (per-city, providers mapped by ZIP) | `/locations/<slug>/index.html` |
+| Cheap / $99 bounce house rentals landing page | `/cheap-bounce-house-rentals/index.html` |
 | Partners directory | `/partners.html` |
 | Leads board (login-gated, blurred for guests) | `/leads.html` |
 | About / Contact / Privacy / Terms / Disclaimer | `/legal/*.html` |
@@ -37,6 +40,9 @@ small Python build script from data files.
   partners directory, 98 partner pages, leads, legal, 404, sitemap).
   Run with `python3 build.py`.
 - `data/providers.json` — the 98 partner listings (from the Outscraper export).
+- `data/locations.json` — metro Atlanta cities/districts for the location landing
+  pages. Each has a slug, ZIP list (used to map real providers to the area),
+  neighborhoods, landmarks, unique blurb and nearby-area cross-links.
 - `data/service-content.json`, `data/legal-content.json` — page copy.
 - `css/style.css` — design system. Theme: **light blue + black**, responsive.
 - `js/main.js` — mobile nav + quote form handling.

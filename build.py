@@ -166,6 +166,7 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/services/"{cls("services")}>Services</a>
         <a href="/bounce-houses/"{cls("bounce-houses")}>Bounce Houses</a>
+        <a href="/locations/"{cls("locations")}>Service Areas</a>
         <a href="/partners.html"{cls("partners")}>Partners</a>
         <a href="/leads.html"{cls("leads")}>Leads</a>
       </nav>
@@ -197,6 +198,8 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/">Home</a>
         <a href="/services/">Services</a>
         <a href="/bounce-houses/">Bounce Houses for Rent</a>
+        <a href="/locations/">Service Areas</a>
+        <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
         <a href="/partners.html">Partners</a>
         <a href="/leads.html">Leads</a>
       </div>
@@ -338,7 +341,9 @@ def build_index(providers):
     svc_links = "\n      ".join(
         f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
     areas = coverage_areas(providers)
-    area_links = "\n      ".join(f'<li>{esc(a)}</li>' for a in areas)
+    area_links = "\n      ".join(
+        f'<li><a href="/locations/{l["slug"]}/">Bounce House Rentals in {esc(l["name"])}</a></li>'
+        for l in LOCATIONS)
     chips = "\n          ".join(
         f'<button type="button" data-q="{SERVICES[s].lower()}">{SERVICES[s]}</button>' for s in SERVICES)
 
@@ -442,11 +447,12 @@ def build_index(providers):
     <div class="section-head">
       <div class="eyebrow">Service Area</div>
       <h2>Bounce House Rentals Across Metro Atlanta</h2>
-      <p>The {len(providers)} providers in our directory are based across these Atlanta neighborhoods and ZIP codes, and serve the surrounding metro area:</p>
+      <p>The {len(providers)} providers in our directory serve every corner of the Atlanta metro. Choose your city or neighborhood to see local providers and pricing:</p>
     </div>
-    <ul class="bullet-services" style="columns:3;margin-bottom:30px;">
+    <ul class="bullet-services" style="columns:3;margin-bottom:24px;">
       {area_links}
     </ul>
+    <p style="text-align:center;"><a class="btn btn-outline" href="/locations/">View All Service Areas</a></p>
   </div>
 </section>
 
@@ -639,6 +645,17 @@ def build_partner_pages(providers):
 # ----------------------------------------------------------------- service pages
 SERVICE_CONTENT = json.load(open(os.path.join(ROOT, "data", "service-content.json"))) if os.path.exists(os.path.join(ROOT, "data", "service-content.json")) else None
 
+LOCATIONS = json.load(open(os.path.join(ROOT, "data", "locations.json"))) if os.path.exists(os.path.join(ROOT, "data", "locations.json")) else []
+LOC_BY_SLUG = {l["slug"]: l for l in LOCATIONS}
+
+
+def providers_for_location(loc, providers, limit=12):
+    """Providers whose listing ZIP falls within this location's ZIP set, best first."""
+    zset = set(loc.get("zips", []))
+    matched = [p for p in providers if str(p.get("postal") or "").strip() in zset]
+    matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+    return matched[:limit]
+
 
 def build_services_index():
     links = "\n      ".join(
@@ -691,6 +708,9 @@ def build_service_pages(providers):
         slug = s["slug"]
         others = "\n            ".join(
             f'<li><a href="/services/{x}/">{SERVICES[x]}</a></li>' for x in SERVICES if x != slug)
+        loc_links = "\n            ".join(
+            f'<li><a href="/locations/{l["slug"]}/">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
+            for l in LOCATIONS[:12])
         offering = [p for p in providers if slug in p["services"]]
         offering.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
         providers_links = "\n            ".join(
@@ -764,6 +784,13 @@ def build_service_pages(providers):
         <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:</p>
         <ul class="bullet-services">
             {providers_links}
+        </ul>
+
+        <h2>{s["name"]} by Atlanta Area</h2>
+        <p>We connect you with providers offering {s["name"].lower()} across the metro:</p>
+        <ul class="bullet-services">
+            {loc_links}
+            <li><a href="/locations/">View all service areas</a></li>
         </ul>
 
         <h2>Other Bounce House Rental Services in Atlanta</h2>
@@ -1032,6 +1059,331 @@ def build_bounce_houses():
         open(os.path.join(slug_dir, "index.html"), "w").write(page)
 
 
+# ----------------------------------------------------------------- locations
+def build_locations(providers):
+    """Service-area landing pages: /locations/ index + one page per metro city/district.
+    Every page links up to the index, across to nearby areas, down to services and
+    matched providers, and out to the cheap-rentals page — so none are orphaned."""
+
+    # --- index page ---
+    cards = []
+    for loc in LOCATIONS:
+        n = providers_for_location(loc, providers)
+        hoods = ", ".join(loc["neighborhoods"][:3])
+        cards.append(f'''    <a class="loc-card" href="/locations/{loc["slug"]}/">
+      <h3>Bounce House Rentals in {esc(loc["name"])}</h3>
+      <p class="loc-card-hoods">{esc(hoods)}</p>
+      <p class="loc-card-meta">{len(n)} nearby provider{"s" if len(n) != 1 else ""} &middot; {esc(loc["type"].title())}</p>
+    </a>''')
+    cards_html = "\n".join(cards)
+    svc_links = "\n      ".join(
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta</a></li>' for s in SERVICES)
+
+    item_ld = {"@context": "https://schema.org", "@type": "ItemList",
+               "itemListElement": [
+                   {"@type": "ListItem", "position": i + 1,
+                    "name": f'Bounce House Rentals in {l["name"]}',
+                    "url": f'{DOMAIN}/locations/{l["slug"]}/'}
+                   for i, l in enumerate(LOCATIONS)]}
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Service Areas", "item": DOMAIN + "/locations/"}]}
+    extra = (f'<script type="application/ld+json">\n{json.dumps(item_ld, ensure_ascii=False)}\n</script>\n'
+             f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n')
+
+    idx = head(
+        "Bounce House Rental Service Areas in Atlanta, Georgia | Cities We Serve",
+        "Bounce house rentals across metro Atlanta, GA — Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell, Alpharetta and more. Find providers serving your city and get a free quote.",
+        DOMAIN + "/locations/", extra)
+    idx += header("locations") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Service Areas</div>
+    <h1>Bounce House Rental Service Areas Across Metro Atlanta</h1>
+    <p>We connect you with bounce house and party rental providers in every corner of the Atlanta metro. Choose your city or neighborhood below to see local providers, pricing and a free quote, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="loc-grid">
+{cards_html}
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container content" style="max-width:none;">
+    <h2>Every Rental Service, Available Across Atlanta</h2>
+    <p>No matter which area you are in, our directory providers offer the full range of party rentals:</p>
+    <ul class="bullet-services">
+      {svc_links}
+    </ul>
+    <div class="callout">
+      <p><strong>Looking for a deal?</strong> See our <a href="/cheap-bounce-house-rentals/">cheap bounce house rentals in Atlanta</a>, including $99 specials, or browse <a href="/bounce-houses/">bounce houses available to rent</a>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Find Bounce House Rentals Near You</h2>
+    <p>Compare local Atlanta providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "locations")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(idx)
+
+    # --- individual city pages ---
+    for loc in LOCATIONS:
+        name = loc["name"]
+        nl = name
+        matched = providers_for_location(loc, providers)
+        if matched:
+            prov_links = "\n          ".join(
+                f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+                f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                for p in matched)
+            prov_intro = (f'These directory providers are based in or around {nl} and deliver across the area. '
+                          f'Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:')
+            prov_block = f'<ul class="bullet-services">\n          {prov_links}\n        </ul>'
+        else:
+            prov_intro = (f'Providers from across the Atlanta directory deliver to {nl}. '
+                          f'Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or request a quote and we will match you with a company covering your ZIP code.')
+            prov_block = (f'<p><a href="/partners.html">Browse all Atlanta providers</a> or '
+                          f'<a href="/#providers">request a free quote</a> to be matched with one serving {nl}.</p>')
+
+        svc_links_loc = "\n          ".join(
+            f'<li><a href="/services/{s}/">{SERVICES[s]} in {nl}</a></li>' for s in SERVICES)
+        hoods = ", ".join(loc["neighborhoods"])
+        landmarks = ", ".join(loc["landmarks"])
+        zips = ", ".join(loc["zips"])
+        nearby = [LOC_BY_SLUG[s] for s in loc.get("nearby", []) if s in LOC_BY_SLUG]
+        nearby_links = "\n          ".join(
+            f'<li><a href="/locations/{x["slug"]}/">Bounce House Rentals in {esc(x["name"])}</a></li>' for x in nearby)
+
+        faqs = [
+            (f"How much does it cost to rent a bounce house in {nl}?",
+             f"<p>In {nl}, a classic bounce house typically rents for about $120&ndash;$260 per day, with combo slides, water slides and obstacle courses running roughly $180&ndash;$900+ depending on size. Final pricing depends on your date, delivery distance and rental length. <a href=\"/cheap-bounce-house-rentals/\">See current $99 specials</a> or <a href=\"/#providers\">request a free quote</a>.</p>"),
+            (f"Do providers deliver bounce houses to {nl}?",
+             f"<p>Yes. Directory providers deliver bounce houses, water slides, tents, tables, chairs and concessions throughout {nl}, including {esc(hoods)}, and handle setup and pickup.</p>"),
+            (f"How far in advance should I book a bounce house in {nl}?",
+             f"<p>For weekend dates in {nl} during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+            (f"What can I rent for a party in {nl}?",
+             f"<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See <a href=\"/services/\">all services</a>.</p>"),
+        ]
+        faq_html, faq_ld = faq_block(faqs)
+
+        svc_ld = {"@context": "https://schema.org", "@type": "Service",
+                  "serviceType": "Bounce House Rental",
+                  "areaServed": {"@type": "Place", "name": f"{nl}, Georgia"},
+                  "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory",
+                               "telephone": PHONE_HREF, "areaServed": f"{nl}, GA"},
+                  "url": f"{DOMAIN}/locations/{loc['slug']}/"}
+        bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Service Areas", "item": DOMAIN + "/locations/"},
+            {"@type": "ListItem", "position": 3, "name": nl, "item": f"{DOMAIN}/locations/{loc['slug']}/"}]}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}')
+
+        page = head(
+            f"Bounce House Rentals in {nl}, GA | Atlanta Bounce House Rentals",
+            f"Rent bounce houses, water slides and party rentals in {nl}, Georgia. Compare local providers serving {hoods[:80]}. Free quotes &mdash; call {PHONE_DISPLAY}.",
+            f"{DOMAIN}/locations/{loc['slug']}/", extra)
+        page += header("locations") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/locations/">Service Areas</a> &rsaquo; {esc(nl)}</div>
+    <h1>Bounce House Rentals in {esc(nl)}, Georgia</h1>
+    <p>{esc(loc["blurb"])}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
+      <div class="content">
+        <h2>Bounce House &amp; Party Rentals Serving {esc(nl)}</h2>
+        <p>Whether you are planning a birthday party, school field day, church festival or corporate family day in {esc(nl)}, our directory connects you with vetted local providers. Popular areas served include {esc(hoods)}, with delivery near {esc(landmarks)} and throughout ZIP codes {esc(zips)}.</p>
+
+        <div class="callout">
+          <p><strong>Serving all of {esc(nl)} and nearby Atlanta.</strong> Providers deliver bounce houses, water slides, obstacle courses, tents, tables, chairs and concessions with setup and teardown included.</p>
+        </div>
+
+        <h2>Rental Services Available in {esc(nl)}</h2>
+        <ul class="bullet-services">
+          {svc_links_loc}
+        </ul>
+
+        <h2>Bounce House Providers Near {esc(nl)}</h2>
+        <p>{prov_intro}</p>
+        {prov_block}
+
+        <h2>Looking for Cheap Bounce House Rentals in {esc(nl)}?</h2>
+        <p>Compare budget-friendly options including $99 bounce house specials on our <a href="/cheap-bounce-house-rentals/">cheap bounce house rentals</a> page, or browse individual <a href="/bounce-houses/">bounce houses available to rent</a>.</p>
+
+        <h2>Nearby Service Areas</h2>
+        <ul>
+          {nearby_links}
+          <li><a href="/locations/">View all Atlanta service areas</a></li>
+        </ul>
+      </div>
+
+      <aside>
+        <div class="quote-card" style="position:sticky; top:90px;">
+          <h2>Free Quote</h2>
+          <p class="sub">Request pricing for bounce house rentals in {esc(nl)}.</p>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! A provider serving {esc(nl)} will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <input type="hidden" name="area" value="{esc(nl)}">
+              <div class="field"><label for="q-service">Service</label>
+                <select id="q-service" name="service">
+              {"".join(f'<option value="{SERVICES[x]}">{SERVICES[x]}</option>' for x in SERVICES)}
+                </select>
+              </div>
+              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="{esc(loc["zips"][0])}"></div>
+              <button class="btn btn-block" type="submit">Get My Free Quote</button>
+              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book a Bounce House in {esc(nl)} Today</h2>
+    <p>Compare available {esc(nl)} providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        sd = os.path.join(ROOT, "locations", loc["slug"])
+        os.makedirs(sd, exist_ok=True)
+        open(os.path.join(sd, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- cheap / $99 landing
+def build_cheap(providers):
+    """High-intent landing page for 'cheap bounce house rentals near me' and
+    '$99 bounce house rental' — both surfaced as ranking opportunities in GSC."""
+    top = sorted(providers, key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0)))[:8]
+    prov_links = "\n          ".join(
+        f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+        f'{" &mdash; " + str(p["rating"]) + "&#9733;" if p.get("rating") else ""}</li>' for p in top)
+    loc_links = "\n          ".join(
+        f'<li><a href="/locations/{l["slug"]}/">Cheap bounce house rentals in {esc(l["name"])}</a></li>'
+        for l in LOCATIONS[:12])
+    svc_links = "\n          ".join(
+        f'<li><a href="/services/{s}/">{SERVICES[s]}</a></li>' for s in SERVICES)
+
+    faqs = [
+        ("Are there really $99 bounce house rentals in Atlanta?",
+         f"<p>Yes. Several Atlanta providers offer entry-level bounce houses starting around $99 for a standard rental window, typically for smaller residential units booked on weekdays or off-peak weekends. Availability varies by date&mdash;call <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to find a $99 special for your day.</p>"),
+        ("How can I rent a cheap bounce house near me without sacrificing safety?",
+         "<p>Every provider in our directory shows its Google rating and review count, and many are verified. Even budget rentals include commercial-grade, cleaned units with delivery and setup. Compare well-reviewed providers below to get a low price from a trusted company.</p>"),
+        ("What is the cheapest day to rent a bounce house in Atlanta?",
+         "<p>Weekdays and Sundays are usually the most affordable, as Saturday is the busiest party day. Booking early and choosing a smaller classic bounce house over a large combo or water slide also keeps costs down.</p>"),
+        ("Do cheap bounce house rentals include delivery and setup?",
+         f"<p>In most cases, yes&mdash;Atlanta providers include delivery, setup and teardown in the quoted price within their standard service radius. Confirm the delivery area for your ZIP code when you <a href=\"/#providers\">request a free quote</a> or call {PHONE_DISPLAY}.</p>"),
+    ]
+    faq_html, faq_ld = faq_block(faqs)
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Cheap Bounce House Rentals", "item": DOMAIN + "/cheap-bounce-house-rentals/"}]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}'
+
+    page = head(
+        "Cheap Bounce House Rentals in Atlanta, GA | $99 Specials & Budget Inflatables",
+        "Find cheap bounce house rentals near you in Atlanta, including $99 specials. Compare budget-friendly, well-reviewed local providers and get a free quote. Call (401) 889-0182.",
+        DOMAIN + "/cheap-bounce-house-rentals/", extra)
+    page += header("") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Cheap Bounce House Rentals</div>
+    <h1>Cheap Bounce House Rentals in Atlanta &mdash; Including $99 Specials</h1>
+    <p>Renting a bounce house in Atlanta does not have to be expensive. Compare budget-friendly, well-reviewed local providers&mdash;some with bounce houses starting around $99&mdash;and request a free quote in minutes. Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> to find today's lowest available price.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    <h2>How to Get a Cheap Bounce House Rental Near You</h2>
+    <p>The lowest prices in Atlanta usually come from booking a smaller classic bounce house, choosing a weekday or Sunday over a busy Saturday, and reserving early. Our directory makes it easy to compare providers side by side so you get a low price from a company you can trust&mdash;not just the cheapest listing.</p>
+
+    <h2>$99 Bounce House Rental Specials</h2>
+    <p>A $99 bounce house rental typically covers a standard residential unit during an off-peak window. Larger combo units, <a href="/services/water-slide-rentals/">water slides</a> and <a href="/services/obstacle-course-rentals/">obstacle courses</a> cost more, but full-day classic bouncers remain the most affordable way to keep kids entertained. Ask about $99 specials when you request your quote.</p>
+
+    <h2>Affordable Providers in Our Atlanta Directory</h2>
+    <p>These highly rated Atlanta providers are a great place to start for an affordable, reliable rental:</p>
+    <ul class="bullet-services">
+          {prov_links}
+    </ul>
+
+    <h2>Cheap Bounce House Rentals by Area</h2>
+    <p>Find budget-friendly rentals in your part of the metro:</p>
+    <ul class="bullet-services">
+          {loc_links}
+          <li><a href="/locations/">View all Atlanta service areas</a></li>
+    </ul>
+
+    <h2>Browse Affordable Rental Services</h2>
+    <ul class="bullet-services">
+          {svc_links}
+    </ul>
+
+    <div class="callout">
+      <p><strong>Want to see specific units?</strong> Browse <a href="/bounce-houses/">bounce houses available to rent</a> with pricing, or <a href="/#providers">request a free quote</a> to compare the best deals for your date.</p>
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Get the Lowest Bounce House Price in Atlanta</h2>
+    <p>Compare budget providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "cheap-bounce-house-rentals")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(page)
+
+
 # ----------------------------------------------------------------- leads
 def build_leads():
     extra = ""
@@ -1184,9 +1536,11 @@ Key facts:
 
 def build_sitemap(providers):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/bounce-houses/", "/partners.html", "/leads.html"]
+    urls = ["/", "/services/", "/bounce-houses/", "/locations/",
+            "/cheap-bounce-house-rentals/", "/partners.html", "/leads.html"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
+    urls += [f"/locations/{l['slug']}/" for l in LOCATIONS]
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
     items = "\n".join(
@@ -1211,6 +1565,8 @@ def main():
     build_services_index()
     build_service_pages(providers)
     build_bounce_houses()
+    build_locations(providers)
+    build_cheap(providers)
     build_leads()
     build_legal()
     build_404()

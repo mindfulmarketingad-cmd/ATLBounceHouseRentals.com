@@ -267,6 +267,16 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .bh-card-body .bh-from { font-size: 0.92rem; color: var(--muted); }
 .bh-card-body .bh-from strong { color: var(--black); font-size: 1.1rem; }
 
+/* Location (service area) cards */
+.loc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; margin-top: 28px; }
+.loc-card { border: 1px solid var(--line); border-radius: 12px; background: #fff; padding: 20px 22px; text-decoration: none; color: inherit; display: block; transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s; }
+.loc-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+.loc-card h3 { margin: 0 0 8px; font-size: 1.04rem; color: var(--black); }
+.loc-card .loc-card-hoods { margin: 0 0 10px; font-size: 0.9rem; color: var(--muted); }
+.loc-card .loc-card-meta { margin: 0; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); }
+.btn-outline { background: transparent; border: 2px solid var(--accent); color: var(--accent); padding: 11px 22px; }
+.btn-outline:hover { background: var(--accent); color: #fff; }
+
 /* Bounce house detail page */
 .bh-detail { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
 .bh-gallery { position: sticky; top: 20px; }
