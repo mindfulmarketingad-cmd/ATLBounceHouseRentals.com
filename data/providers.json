@@ -15,7 +15,15 @@
   "lng": -84.48113359999999,
   "about": "{\"From the business\": {\"Identifies as Latino-owned\": true, \"Identifies as women-owned\": true}, \"Service options\": {\"Online appointments\": true, \"Onsite services\": true}, \"Accessibility\": {\"Wheelchair accessible parking lot\": true}, \"Amenities\": {\"Gender-neutral restroom\": true}, \"Crowd\": {\"LGBTQ+ friendly\": true, \"Transgender safespace\": true}, \"Planning\": {\"Appointment required\": true}, \"Other\": {\"LGBTQ+ friendly\": true, \"Identifies as women-owned\": true, \"Identifies as Latino-owned\": true}}",
   "hours": "{\"Monday\": [\"9AM-6PM\"], \"Tuesday\": [\"9AM-6PM\"], \"Wednesday\": [\"9AM-6PM\"], \"Thursday\": [\"9AM-6PM\"], \"Friday\": [\"9AM-6PM\"], \"Saturday\": [\"8:30AM-5PM\"], \"Sunday\": [\"10AM-3PM\"]}",
-  "verified": true
+  "verified": true,
+  "place_id": "",
+  "phone_direct": "",
+  "website": "",
+  "photos": [
+   "/images/providers/trendy-fun-party/photo_0.jpg",
+   "/images/providers/trendy-fun-party/photo_1.jpg"
+  ],
+  "photo_refs": []
  },
  {
   "name": "5 Star Parties LLC",

@@ -23,6 +23,9 @@ SERVICES = {
     "concession-rentals": "Concession Rentals",
     "tents-tables-and-chair-rentals": "Tents, Tables and Chair Rentals",
     "interactive-rentals": "Interactive Rentals",
+    "silent-disco-rentals": "Silent Disco Rentals",
+    "photo-booth-rentals": "Photo Booth Rentals",
+    "wedding-decor-rentals": "Wedding and Event Decor Rentals",
     "party-package-rentals": "Party Package Rentals",
     "party-entertainment-and-staff-rentals": "Party Entertainment and Staff Rentals",
 }
@@ -36,6 +39,9 @@ SERVICES_SHORT = {
     "concession-rentals": "Concessions",
     "tents-tables-and-chair-rentals": "Tents & Tables",
     "interactive-rentals": "Interactive",
+    "silent-disco-rentals": "Silent Disco",
+    "photo-booth-rentals": "Photo Booths",
+    "wedding-decor-rentals": "Wedding Decor",
     "party-package-rentals": "Party Packages",
     "party-entertainment-and-staff-rentals": "Entertainment & Staff",
 }
@@ -45,8 +51,11 @@ KEYWORDS = [
     (["combo", "bounce and slide", "bounce & slide", "slide combo"], "bounce-and-slide-combo-rentals"),
     (["obstacle", "course"], "obstacle-course-rentals"),
     (["concession", "popcorn", "cotton candy", "snow cone", "snowcone", "shaved ice", "frozen drink"], "concession-rentals"),
-    (["tent", "table", "chair", "canopy", "linen", "drapery"], "tents-tables-and-chair-rentals"),
-    (["photo booth", "photobooth", "arcade", "amusement", "game", "interactive", "dunk", "carnival", "mechanical", "axe", "laser"], "interactive-rentals"),
+    (["tent", "table", "chair", "canopy", "linen"], "tents-tables-and-chair-rentals"),
+    (["silent disco", "silent party", "headphone party", "silent headphone"], "silent-disco-rentals"),
+    (["photo booth", "photobooth", "360 booth", "360 photo", "roaming photo"], "photo-booth-rentals"),
+    (["wedding decor", "wedding rental", "wedding linen", "event decor", "drapery", "floral"], "wedding-decor-rentals"),
+    (["arcade", "amusement", "game", "interactive", "dunk", "carnival", "mechanical", "axe", "laser"], "interactive-rentals"),
     (["dj", "bartend", "bartending", "entertainer", "entertainment", "host", "character", "costume", "clown", "face paint", "balloon", "limousine", "limo", "staff", "magician", "videograph", "catering", "caterer", "petting", "pony"], "party-entertainment-and-staff-rentals"),
     (["bounce", "jump", "jumper", "moonwalk", "moon walk", "inflatable", "bouncer", "bouncy", "castle"], "classic-bounce-house-rentals"),
     (["package", "party rental", "party equipment", "event rental", "event planner", "event management", "party planner", "party supply"], "party-package-rentals"),
@@ -190,6 +199,8 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/services/classic-bounce-house-rentals/">Classic Bounce Houses</a>
         <a href="/services/water-slide-rentals/">Water Slides</a>
         <a href="/services/obstacle-course-rentals/">Obstacle Courses</a>
+        <a href="/services/silent-disco-rentals/">Silent Disco Rentals</a>
+        <a href="/services/photo-booth-rentals/">Photo Booth Rentals</a>
         <a href="/services/party-package-rentals/">Party Packages</a>
         <a href="/services/">All Services</a>
       </div>
@@ -383,14 +394,14 @@ def build_index(providers):
     <div class="hero-copy">
       <h1>Atlanta Bounce House Rental Directory</h1>
       <p class="lead">Find, compare and book bounce houses, water slides and party rentals from trusted providers across Atlanta, Georgia.</p>
-      <div class="hero-search">
-        <label for="hero-search-input">What do you need for your event?</label>
-        <div class="search-row">
-          <input type="search" id="hero-search-input" placeholder="Try &quot;water slide&quot;, &quot;bounce house&quot;, &quot;tents&quot;..." aria-label="Search for a service">
-          <a class="btn" href="#providers" id="hero-search-btn">Search</a>
-        </div>
-        <div class="chips">
-          {chips}
+      <div class="wizard-cta-block">
+        <p class="wizard-hero-tagline">Tell us about your event and we'll match you with the right Atlanta providers.</p>
+        <a class="btn" href="#" id="wizard-open" style="font-size:1.1rem;padding:16px 32px;">Book Now &rsaquo;</a>
+        <div class="hero-trust">
+          <span>Free quotes</span>
+          <span>No obligation</span>
+          <span>98 Atlanta providers</span>
+          <span>Fast response</span>
         </div>
       </div>
       <ul class="hero-points">
@@ -482,6 +493,7 @@ def build_index(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/directory.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -656,50 +668,6 @@ def providers_for_location(loc, providers, limit=12):
     matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
     return matched[:limit]
 
-
-def build_services_index():
-    links = "\n      ".join(
-        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
-    html_out = head(
-        "Bounce House Rental In Atlanta Georgia",
-        "Browse every Bounce House Rental service in Atlanta, Georgia. Classic bounce houses, water slides, obstacle courses, concessions, tents, party packages and more with free quotes.",
-        DOMAIN + "/services/")
-    html_out += header("services") + f'''
-<div class="page-head">
-  <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Services</div>
-    <h1>Bounce House Rental In Atlanta Georgia</h1>
-    <p>Explore every bounce house and party rental service available across Atlanta, Georgia. Select any service below to view price estimates and request a free quote.</p>
-  </div>
-</div>
-
-<section>
-  <div class="container content" style="max-width:none;">
-    <h2>All Bounce House Rental Services in Atlanta</h2>
-    <ul class="bullet-services">
-      {links}
-    </ul>
-    <div class="callout">
-      <p><strong>Not sure what you need?</strong> Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and an Atlanta provider will help you choose the right rentals for your event.</p>
-    </div>
-  </div>
-</section>
-
-<section class="cta-band">
-  <div class="container">
-    <h2>Get a Free Atlanta Bounce House Quote</h2>
-    <p>Compare providers and pricing across the Atlanta metro in minutes.</p>
-    <a class="btn" href="/#providers">Request a Free Quote</a>
-  </div>
-</section>
-
-{FOOTER}
-
-<script src="/js/main.js"></script>
-</body>
-</html>
-'''
-    open(os.path.join(ROOT, "services", "index.html"), "w").write(html_out)
 
 
 def build_service_pages(providers):
@@ -1060,6 +1028,708 @@ def build_bounce_houses():
 
 
 # ----------------------------------------------------------------- locations
+
+
+SPECIALTY_SLUGS = [
+    ("chiavari-chair-rentals", "Chiavari Chair Rentals Atlanta"),
+    ("ghost-chair-rentals", "Ghost Chair Rentals Atlanta"),
+    ("kids-table-and-chair-rentals", "Kids Table and Chair Rentals Atlanta"),
+    ("farmhouse-table-rentals", "Farmhouse Table Rentals Atlanta"),
+    ("throne-chair-rentals", "Throne Chair Rentals Atlanta"),
+    ("cocktail-table-rentals", "Cocktail Table Rentals Atlanta"),
+    ("slushy-machine-rentals", "Slushy Machine and Snow Cone Rentals Atlanta"),
+]
+
+
+def build_services_index():
+    links = "\n      ".join(
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
+    specialty_links = "\n      ".join(
+        f'<li><a href="/services/{slug}/">{name}</a></li>' for slug, name in SPECIALTY_SLUGS)
+    html_out = head(
+        "Bounce House Rental In Atlanta Georgia",
+        "Browse every Bounce House Rental service in Atlanta, Georgia. Classic bounce houses, water slides, obstacle courses, concessions, tents, party packages and more with free quotes.",
+        DOMAIN + "/services/")
+    html_out += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Services</div>
+    <h1>Bounce House Rental In Atlanta Georgia</h1>
+    <p>Explore every bounce house and party rental service available across Atlanta, Georgia. Select any service below to view price estimates and request a free quote.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    <h2>All Bounce House Rental Services in Atlanta</h2>
+    <ul class="bullet-services">
+      {links}
+    </ul>
+    <h2>Specialty Rental Equipment</h2>
+    <p>Deep-dive pages for specific event equipment popular at Atlanta weddings, corporate events and parties:</p>
+    <ul class="bullet-services">
+      {specialty_links}
+    </ul>
+    <div class="callout">
+      <p><strong>Not sure what you need?</strong> Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and an Atlanta provider will help you choose the right rentals for your event.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Get a Free Atlanta Bounce House Quote</h2>
+    <p>Compare providers and pricing across the Atlanta metro in minutes.</p>
+    <a class="btn" href="/#providers">Request a Free Quote</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(ROOT, "services", "index.html"), "w").write(html_out)
+
+
+def build_service_pages(providers):
+    data = SERVICE_CONTENT
+    for s in data:
+        slug = s["slug"]
+        others = "\n            ".join(
+            f'<li><a href="/services/{x}/">{SERVICES[x]}</a></li>' for x in SERVICES if x != slug)
+        loc_links = "\n            ".join(
+            f'<li><a href="/locations/{l["slug"]}/">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
+            for l in LOCATIONS[:12])
+        offering = [p for p in providers if slug in p["services"]]
+        offering.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+        providers_links = "\n            ".join(
+            f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a></li>' for p in offering)
+        options = "\n              ".join(
+            f'<option value="{SERVICES[x]}"{" selected" if x == slug else ""}>{SERVICES[x]}</option>' for x in SERVICES)
+        prices = "\n          ".join(
+            f'''<div class="price-card{" featured" if i == 1 else ""}">
+            <div class="tier">{p["tier"]}</div>
+            <div class="amount">{p["amount"]} <span>{p["sub"]}</span></div>
+            <ul>
+              {"".join(f"<li>{it}</li>" for it in p["items"])}
+            </ul>
+          </div>''' for i, p in enumerate(s["prices"]))
+        body = "\n        ".join(f"<p>{p}</p>" for p in s["body"])
+        ld = {"@context": "https://schema.org", "@type": "Service", "serviceType": s["name"],
+              "areaServed": {"@type": "City", "name": "Atlanta"},
+              "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory", "telephone": PHONE_HREF},
+              "url": f"{DOMAIN}/services/{slug}/"}
+        bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
+            {"@type": "ListItem", "position": 3, "name": s["name"], "item": f"{DOMAIN}/services/{slug}/"}]}
+        nm = s["name"]
+        nml = nm.lower()
+        lo = s["prices"][0]["amount"]
+        hi = s["prices"][-1]["amount"]
+        faqs = [
+            (f"How much do {nml} cost in Atlanta?",
+             f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
+            (f"How do I book {nml} in Atlanta?",
+             f"<p>Call <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> or submit the quote form on this page. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+            (f"Do providers deliver {nml} across metro Atlanta?",
+             f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
+            (f"How far in advance should I reserve {nml}?",
+             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+        ]
+        faq_html, faq_ld = faq_block(faqs)
+        extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}')
+
+        page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
+                    f"{DOMAIN}/services/{slug}/", extra)
+        page += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; {s["name"]}</div>
+    <h1>{s["h1"]}</h1>
+    <p>{s["intro"]}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
+      <div class="content">
+        <h2>About {s["name"]} in Atlanta</h2>
+        {body}
+
+        <div class="callout">
+          <p><strong>Serving all of metro Atlanta.</strong> Providers in our directory deliver {s["name"].lower()} to Atlanta, Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell, East Point and surrounding Georgia communities.</p>
+        </div>
+
+        <h2>{s["name"]} Price Estimates in Atlanta</h2>
+        <p>Below are typical Atlanta price ranges for {s["name"].lower()} by event size. Final pricing depends on the date, delivery distance, rental duration and add-ons. Request a free quote for an exact figure.</p>
+        <div class="price-grid">
+          {prices}
+        </div>
+
+        <h2>Atlanta Providers Offering {s["name"]}</h2>
+        <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:</p>
+        <ul class="bullet-services">
+            {providers_links}
+        </ul>
+
+        <h2>{s["name"]} by Atlanta Area</h2>
+        <p>We connect you with providers offering {s["name"].lower()} across the metro:</p>
+        <ul class="bullet-services">
+            {loc_links}
+            <li><a href="/locations/">View all service areas</a></li>
+        </ul>
+
+        <h2>Other Bounce House Rental Services in Atlanta</h2>
+        <ul>
+            {others}
+        </ul>
+      </div>
+
+      <aside>
+        <div class="quote-card" style="position:sticky; top:90px;">
+          <h2>Free Quote</h2>
+          <p class="sub">Request pricing for {s["name"].lower()} in Atlanta.</p>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! A provider will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <div class="field"><label for="q-service">Service</label>
+                <select id="q-service" name="service">
+              {options}
+                </select>
+              </div>
+              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+              <button class="btn btn-block" type="submit">Get My Free Quote</button>
+              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book {s["name"]} in Atlanta Today</h2>
+    <p>Compare available Atlanta providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "services", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- specialty service sub-pages
+def build_specialty_service_pages():
+    SPECIALTY_PAGES = [
+        {
+            "slug": "chiavari-chair-rentals",
+            "name": "Chiavari Chair Rentals Atlanta",
+            "h1": "Chiavari Chair Rentals in Atlanta Georgia",
+            "meta_desc": "Chiavari chair rentals in Atlanta, Georgia for weddings, galas and corporate events. Compare local providers, view pricing and get a free quote. Call (401) 889-0182.",
+            "intro": "Chiavari chair rentals in Atlanta, Georgia are the gold standard for elegant event seating. These lightweight, stackable resin and wood chairs are a fixture at Atlanta weddings, fundraising galas and corporate awards dinners.",
+            "body": [
+                "Chiavari chairs originated in Chiavari, Italy and have become the most requested formal chair rental in Atlanta. Available in gold, silver, white, black and mahogany finishes, they pair with almost any linen color and event theme. Their slim profile allows more seating per square foot than traditional banquet chairs, making them ideal for Atlanta ballrooms, estate gardens and tent events.",
+                "Atlanta rental providers typically include cushions in ivory, black or champagne at no extra charge with chiavari chair orders. Minimum order quantities start around 50 chairs for most providers, with delivery, setup and pickup included in the quoted price. Book 4 to 6 weeks ahead for spring wedding season when demand peaks across the metro."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Small Event", "amount": "$4&ndash;$7", "sub": "/ chair (min 50)", "items": ["Gold, silver or white finish", "Cushion included", "Delivery within Atlanta", "Setup and pickup"]},
+                {"tier": "Medium Event", "amount": "$3.50&ndash;$5.50", "sub": "/ chair (100+ chairs)", "items": ["Any finish color", "Cushion choice included", "Metro Atlanta delivery", "Full setup service"]},
+                {"tier": "Large Event", "amount": "$2.50&ndash;$4", "sub": "/ chair (200+ chairs)", "items": ["Volume discount rate", "Multiple finishes available", "Extended delivery radius", "Dedicated setup crew"]},
+            ],
+            "faqs": [
+                ("How much do chiavari chair rentals cost in Atlanta?", "In Atlanta, chiavari chairs typically rent for $3.50 to $7 per chair depending on quantity and finish. Most providers include cushions and delivery within the metro. Request a free quote for exact pricing on your order size."),
+                ("What finishes are available for chiavari chairs in Atlanta?", "Atlanta rental providers stock chiavari chairs in gold, silver, white, black and natural wood (mahogany) finishes. Gold and white are the most popular for weddings, while black suits corporate galas."),
+                ("Do chiavari chair rentals include cushions?", "Most Atlanta providers include standard cushions — ivory, black or champagne — with chiavari chair orders at no additional cost. Premium or custom cushion colors may carry a small surcharge."),
+            ],
+        },
+        {
+            "slug": "ghost-chair-rentals",
+            "name": "Ghost Chair Rentals Atlanta",
+            "h1": "Ghost Chair Rentals in Atlanta Georgia",
+            "meta_desc": "Ghost chair rentals in Atlanta, Georgia for modern weddings and corporate events. Clear acrylic Philippe Starck-style chairs. Compare providers and get a free quote.",
+            "intro": "Ghost chair rentals in Atlanta, Georgia bring a modern, transparent elegance to weddings, product launches and rooftop events. These clear acrylic Philippe Starck-inspired chairs are one of the most requested contemporary seating options in the metro.",
+            "body": [
+                "Ghost chairs are made from a single piece of injection-molded polycarbonate, making them incredibly durable yet visually weightless. Their clear profile lets floral centerpieces and table linens take center stage without visual clutter, which is why Atlanta event designers frequently specify them for minimalist and glam wedding styles. They work equally well indoors at hotel ballrooms and outdoors on patios or under frame tents.",
+                "Atlanta ghost chair rentals are available in clear, smoke gray and colored tinted versions from select providers. Because they stack efficiently, large orders are easy to transport and set up quickly. Most providers deliver, arrange and collect ghost chairs as part of a full decor rental package alongside farm tables, cocktail tables or chiavari chairs for mixed seating configurations."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Small Event", "amount": "$5&ndash;$9", "sub": "/ chair (min 25)", "items": ["Clear polycarbonate", "Delivery within Atlanta", "Setup and pickup", "Pairs with any table style"]},
+                {"tier": "Medium Event", "amount": "$4&ndash;$7", "sub": "/ chair (75+ chairs)", "items": ["Clear or tinted finish", "Metro Atlanta delivery", "Full setup service", "Available in mixed styles"]},
+                {"tier": "Large Event", "amount": "$3&ndash;$5.50", "sub": "/ chair (150+ chairs)", "items": ["Volume discount pricing", "Extended delivery radius", "Dedicated setup crew", "Coordinated with table rentals"]},
+            ],
+            "faqs": [
+                ("How much do ghost chair rentals cost in Atlanta?", "Ghost chairs in Atlanta typically rent for $3 to $9 per chair depending on quantity. Clear polycarbonate ghost chairs are the most common. Delivery and setup are usually included within the metro. Request a free quote for your event count."),
+                ("Are ghost chairs suitable for outdoor Atlanta events?", "Yes. Polycarbonate ghost chairs are weather-resistant and suitable for outdoor events under tents or on patios. They are UV-stable and will not crack in Georgia's heat. Always confirm with the provider for extreme weather conditions."),
+                ("Can ghost chairs be mixed with other chair styles?", "Absolutely. Many Atlanta event designers mix ghost chairs with chiavari chairs or farm benches for visual contrast. Providers can accommodate mixed orders across multiple chair styles in a single delivery."),
+            ],
+        },
+        {
+            "slug": "kids-table-and-chair-rentals",
+            "name": "Kids Table and Chair Rentals Atlanta",
+            "h1": "Kids Table and Chair Rentals in Atlanta Georgia",
+            "meta_desc": "Kids table and chair rentals in Atlanta, Georgia for birthday parties, school events and family gatherings. Child-sized folding tables and chairs delivered and set up.",
+            "intro": "Kids table and chair rentals in Atlanta, Georgia provide the right-sized seating for children at birthday parties, school events, family reunions and church gatherings. Child-height folding tables and chairs keep little guests comfortable and safe throughout the event.",
+            "body": [
+                "Standard kids tables measure approximately 4 feet long and 18 to 22 inches tall, paired with 12-inch to 14-inch high plastic or folding chairs designed for children up to around age 10. Atlanta providers offer round and rectangular kids tables, and sets typically come in packages of one table with four to six chairs so it is easy to order exactly the seating your guest count requires.",
+                "Kids table and chair sets are a staple add-on alongside bounce house and inflatable rentals across Atlanta. Most providers deliver them as part of a combined rental order, and setup takes just a few minutes. They are lightweight, easy to wipe clean and available in white or natural plastic finishes that work with any party theme."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Small Set", "amount": "$25&ndash;$45", "sub": "/ table + 4 chairs", "items": ["One 4ft kids table", "4 child-height chairs", "Delivery within Atlanta", "Setup included"]},
+                {"tier": "Medium Set", "amount": "$80&ndash;$140", "sub": "/ 3 tables + 18 chairs", "items": ["Three kids tables", "18 child-height chairs", "Metro Atlanta delivery", "Full setup service"]},
+                {"tier": "Large Set", "amount": "$160&ndash;$280+", "sub": "/ 6+ tables + 36+ chairs", "items": ["Six or more kids tables", "36+ child-height chairs", "Extended delivery radius", "Fast setup crew"]},
+            ],
+            "faqs": [
+                ("What size are kids rental tables and chairs in Atlanta?", "Kids rental tables are typically 4 feet long and 18 to 22 inches tall. Chairs are 12 to 14 inches high, suitable for children roughly ages 2 to 10. Ask your provider about age range recommendations for your guest mix."),
+                ("Can I add kids tables to a bounce house rental order?", "Yes. Most Atlanta providers that rent bounce houses also offer kids tables and chairs as an add-on to a single delivery. Bundling saves on delivery fees and simplifies setup."),
+                ("How many kids fit at one rental table?", "A standard 4-foot kids table comfortably seats 4 to 6 children. For a party of 20 kids, plan for 4 to 5 tables depending on spacing and the table style you choose."),
+            ],
+        },
+        {
+            "slug": "farmhouse-table-rentals",
+            "name": "Farmhouse Table Rentals Atlanta",
+            "h1": "Farmhouse Table Rentals in Atlanta Georgia",
+            "meta_desc": "Farmhouse table rentals in Atlanta, Georgia for weddings, outdoor receptions and rustic events. Compare wood farm table providers, view pricing and get a free quote.",
+            "intro": "Farmhouse table rentals in Atlanta, Georgia are the centerpiece of rustic, boho and outdoor wedding receptions. These solid wood harvest-style tables create a warm, communal dining atmosphere that is increasingly popular at Atlanta venue farms, estate gardens and park events.",
+            "body": [
+                "Farmhouse tables, also called harvest tables or farm tables, are typically made from reclaimed or stained wood planks on a sturdy trestle base. Standard sizes are 8 feet long and seat 8 to 10 guests per table. Because they have a naturally beautiful wood surface, they are often used without tablecloths, lowering linen costs while maintaining an upscale look. Ghost chairs, cross-back chairs or benches are popular companions to farmhouse tables at Atlanta events.",
+                "Atlanta farmhouse table providers deliver, arrange and collect tables as part of a full furniture rental package. Many providers offer matching benches and cross-back or chiavari chairs for a cohesive look. Book farmhouse tables early in spring wedding season, as inventory sells out quickly at Atlanta's premier wedding venues including The Farm at High Shoals, Summerour Studio and Ponce City Market event spaces."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Small Event", "amount": "$80&ndash;$130", "sub": "/ table", "items": ["One 8ft farmhouse table", "Seats 8&ndash;10 guests", "Delivery within Atlanta", "Setup and pickup"]},
+                {"tier": "Medium Event", "amount": "$65&ndash;$110", "sub": "/ table (5+ tables)", "items": ["5 or more tables", "Volume discount rate", "Metro Atlanta delivery", "Coordinated chair pairing"]},
+                {"tier": "Large Event", "amount": "$55&ndash;$90", "sub": "/ table (10+ tables)", "items": ["10+ tables", "Extended delivery radius", "Full setup crew", "Matching bench and chair options"]},
+            ],
+            "faqs": [
+                ("How much do farmhouse table rentals cost in Atlanta?", "Farmhouse tables in Atlanta rent for approximately $55 to $130 per table depending on quantity and provider. Most include delivery and setup within the metro area. Request a free quote for your event size."),
+                ("What chairs go best with farmhouse table rentals?", "Cross-back chairs, ghost chairs, chiavari chairs and matching wooden benches all pair beautifully with farmhouse tables. Many Atlanta providers offer bundled pricing when you rent chairs and tables together."),
+                ("Are tablecloths needed for farmhouse table rentals?", "Most clients choose to leave farmhouse tables bare or add simple burlap or linen runners to showcase the wood grain. Full tablecloths are optional and available from most Atlanta providers as a linen add-on."),
+            ],
+        },
+        {
+            "slug": "throne-chair-rentals",
+            "name": "Throne Chair Rentals Atlanta",
+            "h1": "Throne Chair Rentals in Atlanta Georgia",
+            "meta_desc": "Throne chair rentals in Atlanta, Georgia for weddings, sweet 16s and VIP events. Gold, white and black sweetheart throne chairs. Get a free quote today.",
+            "intro": "Throne chair rentals in Atlanta, Georgia give the guest of honor a show-stopping seat at weddings, sweet 16 parties, baby showers and quinceañeras. These large, ornate sweetheart chairs are one of the most requested accent rentals for VIP photo moments across the Atlanta metro.",
+            "body": [
+                "Throne chairs are oversized upholstered chairs with high backs, typically finished in gold-leaf, white or black lacquer with plush velvet or tufted cushioning. A single throne or a matching his-and-hers pair is set up at the sweetheart table or head of the room to create a focal point for photos and video. Atlanta providers offer gold baroque, all-white modern and blush-tufted styles to fit a wide range of wedding themes.",
+                "Throne chair rentals in Atlanta are often paired with a matching throne table, love seat backdrop or floral arch. Most providers offer same-day setup and will coordinate placement with your venue coordinator. Because inventory is limited, book throne chairs 4 to 8 weeks in advance, especially for Saturday events during Atlanta's peak wedding season from April through October."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Single Throne", "amount": "$120&ndash;$200", "sub": "/ chair", "items": ["One throne chair", "Gold, white or black finish", "Delivery within Atlanta", "Placement and pickup"]},
+                {"tier": "His & Hers Pair", "amount": "$200&ndash;$350", "sub": "/ pair", "items": ["Matching pair of thrones", "Coordinated style and finish", "Metro Atlanta delivery", "Sweetheart table setup"]},
+                {"tier": "VIP Package", "amount": "$350&ndash;$600+", "sub": "/ package", "items": ["Throne pair + backdrop", "Coordinated decor elements", "Extended delivery radius", "Full setup and styling"]},
+            ],
+            "faqs": [
+                ("How much does throne chair rental cost in Atlanta?", "Throne chairs in Atlanta rent for $120 to $200 each or $200 to $350 for a his-and-hers pair. Full VIP packages including backdrop and decor run $350 to $600+. Delivery is typically included within metro Atlanta."),
+                ("What events are throne chairs used for in Atlanta?", "Throne chairs are popular for Atlanta weddings (as sweetheart chairs), sweet 16 parties, quinceañeras, baby showers and corporate VIP seating arrangements. They create a striking focal point for photos and video."),
+                ("How far in advance should I book a throne chair rental?", "Book throne chairs 4 to 8 weeks ahead for spring and fall wedding season. Saturday dates in April, May, September and October fill fastest. Call (401) 889-0182 to check current availability."),
+            ],
+        },
+        {
+            "slug": "cocktail-table-rentals",
+            "name": "Cocktail Table Rentals Atlanta",
+            "h1": "Cocktail Table Rentals in Atlanta Georgia",
+            "meta_desc": "Cocktail table rentals in Atlanta, Georgia for receptions, corporate events and parties. High-top round tables with or without linens. Compare providers and get a free quote.",
+            "intro": "Cocktail table rentals in Atlanta, Georgia are a must-have for receptions, networking events and outdoor parties. These round high-top tables encourage guests to mingle and are easy to dress with spandex covers, full-length linens or simple table runners.",
+            "body": [
+                "Cocktail tables, also called high-top or bistro tables, measure approximately 30 inches in diameter and stand 42 inches tall. They seat 3 to 4 guests standing or with bar stools, and they are a versatile solution for cocktail hours, buffet perimeters, bar setups and outdoor reception areas. Atlanta providers stock both standard metal-frame folding cocktail tables and premium wood-top versions for a more polished look.",
+                "Spandex stretch covers in white, black, ivory and dozens of colors are available from most Atlanta rental providers to dress cocktail tables cleanly without visible hardware. Full-length overlay linens create a more formal presentation. Most providers include delivery, setup and pickup within the metro area, and cocktail tables can be bundled with chairs, tents and other furniture in a single order for easy event planning."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Small Order", "amount": "$12&ndash;$22", "sub": "/ table", "items": ["One cocktail table", "With or without linen", "Delivery within Atlanta", "Setup and pickup"]},
+                {"tier": "Medium Order", "amount": "$10&ndash;$18", "sub": "/ table (5+ tables)", "items": ["5 or more cocktail tables", "Linen options available", "Metro Atlanta delivery", "Bundled with chair orders"]},
+                {"tier": "Large Order", "amount": "$8&ndash;$15", "sub": "/ table (10+ tables)", "items": ["Volume discount rate", "Full linen dressing available", "Extended delivery radius", "Coordinated with full furniture package"]},
+            ],
+            "faqs": [
+                ("How much do cocktail table rentals cost in Atlanta?", "Cocktail tables in Atlanta rent for $8 to $22 per table depending on quantity. Spandex covers or linens add $4 to $12 per table. Delivery within metro Atlanta is typically included. Request a free quote for your event."),
+                ("Do cocktail table rentals include linens?", "Linens are usually offered as an add-on. Spandex stretch covers are the most popular choice for cocktail tables and are available in dozens of colors. Full-length round linens create a more formal look."),
+                ("How many cocktail tables do I need for my event?", "A general guide is one cocktail table per 6 to 8 standing guests for a cocktail-style reception. For a 100-person event with a mix of seated and standing areas, plan for 8 to 12 cocktail tables alongside your seated dinner tables."),
+            ],
+        },
+        {
+            "slug": "slushy-machine-rentals",
+            "name": "Slushy Machine Rentals Atlanta",
+            "h1": "Slushy Machine and Snow Cone Rentals in Atlanta Georgia",
+            "meta_desc": "Slushy machine and snow cone rentals in Atlanta, Georgia for outdoor parties, school events and corporate picnics. Frozen drink machines with supplies included. Free quote.",
+            "intro": "Slushy machine and snow cone rentals in Atlanta, Georgia are a summer party staple. Frozen drink machines keep guests cool during hot Georgia outdoor events and are a hit with guests of all ages at birthday parties, school field days, church festivals and corporate picnics.",
+            "body": [
+                "Slushy machines and snow cone makers produce frozen treats using either a rotating drum freeze system (for slushies and margaritas) or a block-ice shaving blade (for traditional snow cones). Atlanta providers supply the machine along with enough flavored syrups, cups and spoons to serve your guest count. Popular flavors include cherry, blue raspberry, watermelon, mango and lemon-lime. Non-alcoholic options are standard; providers can also supply a frozen margarita machine for adult events.",
+                "Slushy and snow cone machine rentals run on a standard 110V household outlet and require a nearby power source. Most Atlanta providers include delivery, setup and a usage walkthrough in the rental price. Machines can serve 75 to 200+ guests per event depending on capacity. Bundle a slushy machine with a bounce house or other inflatable for a complete summer party package at a discounted combined rate."
+            ],
+            "parent_slug": "concession-rentals",
+            "parent_name": "Concession Rentals",
+            "price_tiers": [
+                {"tier": "Small Event", "amount": "$75&ndash;$120", "sub": "/ machine", "items": ["One slushy or snow cone machine", "Supplies for 75 servings", "4-hour rental window", "Delivery within Atlanta"]},
+                {"tier": "Medium Event", "amount": "$130&ndash;$200", "sub": "/ event", "items": ["Large-capacity machine", "Supplies for 150 servings", "6-hour rental window", "Metro Atlanta delivery"]},
+                {"tier": "Large Event", "amount": "$220&ndash;$400+", "sub": "/ event", "items": ["Two machines or high-capacity unit", "Supplies for 300+ servings", "Full-day rental", "Extended Atlanta radius"]},
+            ],
+            "faqs": [
+                ("How much does a slushy machine rental cost in Atlanta?", "Slushy and snow cone machine rentals in Atlanta typically cost $75 to $200 per machine per event, including supplies for 75 to 150 servings. Larger capacity setups or two-machine orders run $220 to $400+. Delivery is usually included within metro Atlanta."),
+                ("What flavors come with a slushy machine rental in Atlanta?", "Most Atlanta providers include a selection of standard flavors such as cherry, blue raspberry, watermelon, lemon-lime and mango. Some providers offer premium or custom flavor options for an additional charge."),
+                ("Can I use a slushy machine for alcoholic frozen drinks?", "Yes. Some Atlanta providers offer a frozen margarita or daiquiri machine for adult events. Confirm with your provider that this option is available and legal for your venue type before booking."),
+            ],
+        },
+    ]
+
+    all_specialty_slugs = [p["slug"] for p in SPECIALTY_PAGES]
+
+    for pg in SPECIALTY_PAGES:
+        slug = pg["slug"]
+        cross_links = "\n            ".join(
+            f'<li><a href="/services/{s}/">{n}</a></li>'
+            for s, n in SPECIALTY_SLUGS if s != slug)
+
+        prices_html = "\n          ".join(
+            f'''<div class="price-card{" featured" if i == 1 else ""}">
+            <div class="tier">{pt["tier"]}</div>
+            <div class="amount">{pt["amount"]} <span>{pt["sub"]}</span></div>
+            <ul>
+              {"".join(f"<li>{item}</li>" for item in pt["items"])}
+            </ul>
+          </div>''' for i, pt in enumerate(pg["price_tiers"]))
+
+        body_html = "\n        ".join(f"<p>{p}</p>" for p in pg["body"])
+
+        faq_tuples = [(q, f"<p>{a}</p>") for q, a in pg["faqs"]]
+        faq_html, faq_ld = faq_block(faq_tuples)
+
+        bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
+            {"@type": "ListItem", "position": 3, "name": pg["parent_name"], "item": f"{DOMAIN}/services/{pg['parent_slug']}/"},
+            {"@type": "ListItem", "position": 4, "name": pg["name"], "item": f"{DOMAIN}/services/{slug}/"},
+        ]}
+        svc_ld = {"@context": "https://schema.org", "@type": "Service",
+                  "serviceType": pg["name"],
+                  "areaServed": {"@type": "City", "name": "Atlanta"},
+                  "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory", "telephone": PHONE_HREF},
+                  "url": f"{DOMAIN}/services/{slug}/"}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n{faq_ld}')
+
+        page = head(pg["name"], pg["meta_desc"], f"{DOMAIN}/services/{slug}/", extra)
+        page += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; <a href="/services/{pg["parent_slug"]}/">{pg["parent_name"]}</a> &rsaquo; {pg["name"]}</div>
+    <h1>{pg["h1"]}</h1>
+    <p>{pg["intro"]}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
+      <div class="content">
+        <h2>About {pg["name"]} in Atlanta</h2>
+        {body_html}
+
+        <div class="callout">
+          <p><strong>Serving all of metro Atlanta.</strong> Providers in our directory deliver {pg["name"].lower()} to Atlanta, Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell and surrounding Georgia communities.</p>
+        </div>
+
+        <h2>{pg["name"]} Price Estimates in Atlanta</h2>
+        <p>Below are typical Atlanta price ranges. Final pricing depends on the date, delivery distance, rental duration and add-ons. Request a free quote for an exact figure.</p>
+        <div class="price-grid">
+          {prices_html}
+        </div>
+
+        <h2>Parent Service: {pg["parent_name"]}</h2>
+        <p>For a broader selection of chairs, tables and seating, see the full <a href="/services/{pg["parent_slug"]}/">{pg["parent_name"]} in Atlanta</a> page, or browse our <a href="/locations/">Atlanta service areas</a> to find providers near you.</p>
+
+        <h2>Other Specialty Equipment Pages</h2>
+        <ul>
+            {cross_links}
+        </ul>
+      </div>
+
+      <aside>
+        <div class="quote-card" style="position:sticky; top:90px;">
+          <h2>Free Quote</h2>
+          <p class="sub">Request pricing for {pg["name"].lower()} in Atlanta.</p>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! A provider will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+              <button class="btn btn-block" type="submit">Get My Free Quote</button>
+              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
+            </div>
+          </form>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book {pg["name"]} in Atlanta Today</h2>
+    <p>Compare available Atlanta providers and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "services", slug)
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- bounce houses
+def build_bounce_houses():
+    items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
+
+    # --- index page ---
+    cards = []
+    for it in items:
+        from_price = it["pricing"][0]["price"]
+        has_img = True  # placeholder toggle; real check would test file existence
+        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
+                    if has_img else
+                    f'<div class="bh-card-img-placeholder">Image coming soon</div>')
+        cards.append(f'''    <a class="bh-card" href="/bounce-houses/{it["slug"]}/">
+      {img_html}
+      <div class="bh-card-body">
+        <div class="bh-cat">{esc(it["category"])}</div>
+        <h3>{esc(it["name"])}</h3>
+        <p class="bh-from">From <strong>${from_price}</strong> &middot; Setup &amp; teardown included</p>
+      </div>
+    </a>''')
+    cards_html = "\n".join(cards)
+
+    idx = head(
+        "Bounce Houses for Rent in Atlanta Georgia | ATL Bounce House Rentals",
+        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call (401) 889-0182 for pricing and availability.",
+        DOMAIN + "/bounce-houses/")
+    idx += header("bounce-houses") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Bounce Houses</div>
+    <h1>Bounce Houses for Rent in Atlanta, Georgia</h1>
+    <p>Browse our selection of inflatable bounce houses available for rent across Atlanta and the surrounding metro. All units include delivery, setup and teardown. Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or request a quote below for pricing and availability.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="bh-grid">
+{cards_html}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Need Help Choosing?</h2>
+    <p>Call us and we'll match you with the right bounce house for your event size and budget.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "bounce-houses")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(idx)
+
+    # --- detail pages ---
+    for it in items:
+        pricing_rows = []
+        for tier in it["pricing"]:
+            featured_cls = " featured" if tier["featured"] else ""
+            pricing_rows.append(f'''          <div class="bh-tier{featured_cls}">
+            <div class="bh-tier-label">{esc(tier["tier"])}<small>{esc(tier["label"])}</small></div>
+            <div class="bh-tier-price">${esc(tier["price"])}</div>
+          </div>''')
+        pricing_html = "\n".join(pricing_rows)
+
+        included_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["included"])
+        you_need_html = "\n".join(f"<li>{esc(i)}</li>" for i in it["you_need"])
+        policies_html = "\n".join(f"<li>{esc(p)}</li>" for p in it["policies"])
+
+        imgs = it.get("images", [])
+        gallery_html = "\n".join(
+            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in imgs
+        ) if imgs else f'<div class="bh-gallery-placeholder">Photos coming soon — call {PHONE_DISPLAY} to see more.</div>'
+
+        ld = json.dumps({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": it["name"],
+            "description": it["tagline"],
+            "image": [DOMAIN + src for src in imgs],
+            "brand": {"@type": "Brand", "name": "Atlanta Bounce House Rentals"},
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": "USD",
+                "price": it["pricing"][0]["price"],
+                "availability": "https://schema.org/InStock",
+                "seller": {"@type": "Organization", "name": "Atlanta Bounce House Rentals", "telephone": PHONE_HREF}
+            }
+        }, ensure_ascii=False)
+
+        extra = f'<script type="application/ld+json">\n{ld}\n</script>'
+
+        page = head(
+            f'{it["name"]} Rental Atlanta Georgia | ATL Bounce House Rentals',
+            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call (401) 889-0182 or request a quote.',
+            f'{DOMAIN}/bounce-houses/{it["slug"]}/',
+            extra)
+        page += header("bounce-houses") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/bounce-houses/">Bounce Houses</a> &rsaquo; {esc(it["name"])}</div>
+    <h1>{esc(it["name"])} Rental</h1>
+    <p>{esc(it["tagline"])}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="bh-detail">
+
+      <!-- Left: gallery + specs -->
+      <div>
+        <div class="bh-gallery">
+          {gallery_html}
+        </div>
+
+        <h2 style="margin-top:34px;">Product Details</h2>
+
+        <dl class="bh-specs" style="margin-bottom:28px;">
+          <div class="bh-spec"><dt>Item Dimensions</dt><dd>{esc(it["dimensions_item"])}</dd></div>
+          <div class="bh-spec"><dt>Space Needed</dt><dd>{esc(it["dimensions_space"])}</dd></div>
+          <div class="bh-spec"><dt>Circuits</dt><dd>{it["circuits"]}</dd></div>
+          <div class="bh-spec"><dt>Max Occupancy</dt><dd>{esc(it["max_occupancy"])}</dd></div>
+        </dl>
+
+        <h3>What&rsquo;s Included</h3>
+        <ul class="bh-policy-list" style="margin-bottom:24px;">
+          {included_html}
+        </ul>
+
+        <h3>What You&rsquo;ll Need</h3>
+        <ul class="bh-policy-list" style="margin-bottom:24px;">
+          {you_need_html}
+        </ul>
+
+        <h3>Policies &amp; Notes</h3>
+        <ul class="bh-policy-list">
+          {policies_html}
+        </ul>
+      </div>
+
+      <!-- Right: pricing + contact -->
+      <div class="bh-info">
+        <div class="bh-pricing-card">
+          <h3>Pricing</h3>
+{pricing_html}
+          <ul class="bh-inclusions">
+            <li>All prices include setup and teardown</li>
+            <li>Reserve with just a ${it["deposit"]} deposit</li>
+            <li>{it["extra_per_hour_pct"]}% extra per additional hour</li>
+          </ul>
+        </div>
+
+        <div class="bh-contact-card">
+          <h3>Get Pricing &amp; Reserve</h3>
+          <p class="sub">Call us or fill out the form below and we&rsquo;ll confirm availability and send you a quote.</p>
+          <a class="bh-call-btn" href="tel:{PHONE_HREF}">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.23 1.03L7.83 9.24a16.06 16.06 0 006.93 6.93l1.23-1.27a1 1 0 011.03-.23l3.3 1.1a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg>
+            {PHONE_DISPLAY}
+          </a>
+          <div class="bh-or">— or fill out the form —</div>
+          <form data-quote-form novalidate>
+            <div data-success class="form-success" style="display:none;">
+              Thanks! We received your request for the {esc(it["name"])}. We&rsquo;ll be in touch shortly. Need it sooner? Call <strong>{PHONE_DISPLAY}</strong>.
+            </div>
+            <div data-fields>
+              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
+              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
+              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
+              <input type="hidden" name="item" value="{esc(it["name"])}">
+              <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                <div><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
+                <div><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
+              </div>
+              <div class="field"><label for="q-msg">Message (optional)</label><textarea id="q-msg" name="message" rows="3" placeholder="Any questions or details about your event..."></textarea></div>
+              <button class="btn btn-block" type="submit">Request a Quote</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Ready to Book?</h2>
+    <p>Call us now to check availability and lock in your date with a $50 deposit.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+</body>
+</html>
+'''
+        slug_dir = os.path.join(ROOT, "bounce-houses", it["slug"])
+        os.makedirs(slug_dir, exist_ok=True)
+        open(os.path.join(slug_dir, "index.html"), "w").write(page)
 def build_locations(providers):
     """Service-area landing pages: /locations/ index + one page per metro city/district.
     Every page links up to the index, across to nearby areas, down to services and
@@ -1539,6 +2209,7 @@ def build_sitemap(providers):
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads.html"]
     urls += [f"/services/{s}/" for s in SERVICES]
+    urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/locations/{l['slug']}/" for l in LOCATIONS]
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
@@ -1564,6 +2235,7 @@ def main():
     build_partner_pages(providers)
     build_services_index()
     build_service_pages(providers)
+    build_specialty_service_pages()
     build_bounce_houses()
     build_locations(providers)
     build_cheap(providers)

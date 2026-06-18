@@ -133,5 +133,50 @@
       { "tier": "Medium Event", "amount": "$250&ndash;$500", "sub": "/ event", "items": ["Two staff or one entertainer", "Up to 4 hours", "Activity hosting", "Metro Atlanta coverage", "Face paint / balloon add-ons"] },
       { "tier": "Large Event", "amount": "$550&ndash;$1,500+", "sub": "/ event", "items": ["Full event staff team", "All-day coverage", "Multiple entertainers", "DJ / character options", "Extended Atlanta radius"] }
     ]
+  },
+  {
+    "slug": "silent-disco-rentals",
+    "name": "Silent Disco Rentals",
+    "h1": "Silent Disco Rentals in Atlanta Georgia",
+    "intro": "Silent disco rentals in Atlanta, Georgia let every guest tune into their own wireless headphone channel while the dance floor stays silent to onlookers. Perfect for rooftop venues, apartment courtyards, parks and noise-restricted spaces across the metro.",
+    "body": [
+      "A silent disco works by transmitting music from multiple DJ channels or playlists directly to wireless LED headphones that each guest wears. Up to three simultaneous channels let guests choose their genre in real time, switching between channels by pressing a button on the headphones. From the outside the crowd looks like they are dancing in silence, which creates a uniquely entertaining spectacle. This format is ideal for Atlanta rooftop bars, apartment courtyards, Piedmont Park events and venues with strict noise ordinances where traditional speakers are not permitted.",
+      "Silent disco equipment packages in Atlanta include a transmitter rack, a set of wireless LED headphones, charging cases, a channel mixing station and basic setup. Headphone counts range from 25 units for an intimate gathering to 100 or more for large corporate or festival events. Battery life typically covers 8 to 10 hours per charge. Providers handle delivery, equipment testing and a brief guest orientation so the dance floor is up and running from the first song."
+    ],
+    "prices": [
+      { "tier": "Small Event", "amount": "$250&ndash;$450", "sub": "/ event", "items": ["25 wireless headphones", "Up to 3 music channels", "LED light-up headphones", "Delivery within Atlanta", "Setup and orientation"] },
+      { "tier": "Medium Event", "amount": "$500&ndash;$900", "sub": "/ event", "items": ["50 wireless headphones", "Up to 3 simultaneous channels", "6-hour rental window", "Metro Atlanta delivery", "Charging cases included"] },
+      { "tier": "Large Event", "amount": "$1,000&ndash;$2,000+", "sub": "/ event", "items": ["100+ wireless headphones", "Multi-channel transmitter", "Full-day rental", "On-site tech support", "Extended Atlanta delivery radius"] }
+    ]
+  },
+  {
+    "slug": "photo-booth-rentals",
+    "name": "Photo Booth Rentals",
+    "h1": "Photo Booth Rentals in Atlanta Georgia",
+    "intro": "Photo booth rentals in Atlanta, Georgia add an instant entertainment station and keepsake for every guest. From classic enclosed booths to open-air setups, 360-degree spinning platforms and roaming camera operators, Atlanta providers cover every style and budget.",
+    "body": [
+      "Photo booth styles available from Atlanta rental providers include classic enclosed booths with a curtain and strip prints, open-air setups that accommodate larger groups, 360-degree spinning photo platforms that capture slow-motion video clips, and roaming camera operators who circulate through your event with a handheld rig. Most setups include a prop table with themed accessories, a digital touchscreen interface, instant on-site printing and a password-protected online gallery shared with all guests after the event. Custom branded overlays with your event name, logo or date are available for corporate events and weddings.",
+      "Photo booths are popular at Atlanta weddings, corporate holiday parties, quinceañeras, sweet 16 parties and school proms. They provide built-in entertainment during cocktail hour or reception lulls, and guests consistently rank them among the most enjoyed elements of any event. Rental packages typically run 2 to 4 hours, with overtime available. Book 3 to 6 weeks ahead for popular weekend dates across the Atlanta metro."
+    ],
+    "prices": [
+      { "tier": "Small Event", "amount": "$350&ndash;$550", "sub": "/ event", "items": ["2-hour open-air booth", "Unlimited digital captures", "Props table included", "Digital gallery access", "Delivery within Atlanta"] },
+      { "tier": "Medium Event", "amount": "$600&ndash;$900", "sub": "/ event", "items": ["3&ndash;4 hour premium booth", "Unlimited prints on-site", "Custom branded overlay", "Props and backdrop", "Metro Atlanta delivery"] },
+      { "tier": "Large Event", "amount": "$1,000&ndash;$1,800+", "sub": "/ event", "items": ["360 booth or roaming operator", "Full event coverage", "Slow-motion video clips", "Digital gallery + prints", "Extended Atlanta radius"] }
+    ]
+  },
+  {
+    "slug": "wedding-decor-rentals",
+    "name": "Wedding and Event Decor Rentals",
+    "h1": "Wedding and Event Decor Rentals in Atlanta Georgia",
+    "intro": "Wedding and event decor rentals in Atlanta, Georgia cover everything from chiavari chairs, farm tables and ghost chairs to drapery, linens, floral arrangements and lighting. Compare Atlanta decor rental companies and get a free quote for your full setup.",
+    "body": [
+      "Atlanta wedding and event decor rentals span a wide range of furnishings and styling elements. Chair options include gold and white chiavari chairs, clear ghost chairs, cross-back wood chairs and throne sweetheart chairs. Table selections include standard banquet tables, round tables, farmhouse harvest tables and cocktail high-tops. Linen rentals cover fitted spandex covers, full-length satin or polyester tablecloths, sashes, napkins and specialty overlays. Drapery and backdrop rentals add pipe-and-drape walls, sheer curtain panels, sequin backdrops and balloon arch frames that transform plain venues into styled spaces. Many providers also offer decorative lighting including Edison string lights, fairy light curtains and LED uplighting for tent events.",
+      "Coordinating decor rentals with your other event rentals simplifies logistics and can reduce costs. Many Atlanta providers that offer furniture rentals also carry inflatables, tents and concession equipment, making it possible to book everything through a single company with one delivery. When planning a wedding or large event, request a full decor inventory list from providers and compare packages at least 8 to 12 weeks in advance to secure popular items like chiavari chairs and farm tables, which book out quickly during Atlanta's spring and fall wedding seasons."
+    ],
+    "prices": [
+      { "tier": "Small Package", "amount": "$300&ndash;$600", "sub": "/ event", "items": ["Chair + linen package for 50 guests", "Chiavari or ghost chairs", "Tablecloths and napkins", "Delivery within Atlanta", "Setup and pickup"] },
+      { "tier": "Medium Package", "amount": "$700&ndash;$1,500", "sub": "/ event", "items": ["Tables + chairs + linens for 100 guests", "Farmhouse or banquet tables", "Chair and linen selection", "Metro Atlanta delivery", "Full setup service"] },
+      { "tier": "Large Package", "amount": "$1,600&ndash;$4,000+", "sub": "/ event", "items": ["Full venue decor package", "Drapery + lighting + furniture", "200+ guest capacity", "Extended Atlanta delivery", "Dedicated setup crew"] }
+    ]
   }
 ]
