@@ -389,7 +389,10 @@ def build_index(providers):
         "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
         DOMAIN + "/", extra)
     html_out += header("home") + f'''
-<section class="hero">
+<section class="hero hero-video">
+  <div class="hero-video-bg" aria-hidden="true">
+    <iframe src="https://www.youtube.com/embed/PThCmX_PgNg?autoplay=1&mute=1&loop=1&playlist=PThCmX_PgNg&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&disablekb=1&fs=0" title="" tabindex="-1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
   <div class="container">
     <div class="hero-copy">
       <h1>Atlanta Bounce House Rental Directory</h1>

@@ -68,6 +68,13 @@ a:hover { text-decoration: underline; }
    placeholder SVG; swap the url() to '/images/hero-bounce-house.jpg' once the
    real photo is added to /images. */
 .hero { background: linear-gradient(100deg, rgba(234,244,252,0.96) 0%, rgba(234,244,252,0.88) 36%, rgba(216,235,251,0.45) 100%), url('/images/hero-bounce-house.svg') center right / cover no-repeat, linear-gradient(165deg, var(--sky) 0%, var(--sky-2) 100%); color: var(--black); padding: 58px 0 66px; border-bottom: 1px solid var(--line); }
+/* Hero video background. The iframe is scaled to cover the hero box (16:9),
+   with a light gradient overlay so the copy stays readable. */
+.hero-video { position: relative; overflow: hidden; }
+.hero-video .container { position: relative; z-index: 2; }
+.hero-video-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.hero-video-bg::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(100deg, rgba(234,244,252,0.94) 0%, rgba(234,244,252,0.80) 38%, rgba(216,235,251,0.35) 100%); }
+.hero-video-bg iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100%; min-width: 177.78vh; transform: translate(-50%, -50%) scale(1.45); border: 0; }
 .hero .container { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: start; }
 .hero h1 { color: var(--black); font-size: 2.6rem; }
 .hero p.lead { font-size: 1.18rem; color: #2c333b; margin-bottom: 22px; }
