@@ -554,12 +554,11 @@
 
     var closeBtn = overlay.querySelector(".wizard-close");
 
-    // Open trigger — delegate so it works even if button is injected after init
+    // Open trigger — delegate so it works for any [data-wizard-open] or #wizard-open element
     document.addEventListener("click", function (e) {
       var t = e.target;
-      // Walk up the DOM a couple levels to handle clicks on child elements
       while (t && t !== document.body) {
-        if (t.id === "wizard-open") {
+        if (t.id === "wizard-open" || t.hasAttribute("data-wizard-open")) {
           e.preventDefault();
           openWizard();
           return;

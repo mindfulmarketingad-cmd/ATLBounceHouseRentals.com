@@ -179,7 +179,7 @@ def header(active=""):
         <a href="/partners.html"{cls("partners")}>Partners</a>
         <a href="/leads.html"{cls("leads")}>Leads</a>
       </nav>
-      <a class="phone-cta" href="tel:{PHONE_HREF}"><span><span class="ph-label">Call Now</span>{PHONE_DISPLAY}</span></a>
+      <a class="book-now-cta" href="#" data-wizard-open>Book Now</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
@@ -362,7 +362,7 @@ def build_index(providers):
         ("How much does it cost to rent a bounce house in Atlanta?",
          "<p>In Atlanta, a classic bounce house typically rents for about $120&ndash;$260 per day, while larger combo units, water slides and obstacle courses range from roughly $180 to $900+ depending on size. Full party packages run from around $220 to $1,800+. Final pricing depends on the date, delivery distance, rental length and add-ons. <a href=\"/#providers\">Request a free quote</a> for an exact figure.</p>"),
         ("How do I book a bounce house rental in Atlanta?",
-         "<p>Use the free quote form on this page or call <a href=\"tel:+14018890182\">(401) 889-0182</a>. Tell us your event date, ZIP code and what you need, and we'll match you with available providers from our Atlanta directory so you can compare and book.</p>"),
+         "<p>Click <a href=\"#\" data-wizard-open>Book Now</a> in the header or at the top of this page. Tell us your event type, date, ZIP code and what you need, and we'll match you with available Atlanta directory providers so you can compare and book.</p>"),
         ("What areas around Atlanta do you serve?",
          "<p>Our directory providers serve the City of Atlanta and the surrounding metro, including Midtown, Buckhead, Downtown, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more.</p>"),
         ("What types of bounce houses and party rentals are available?",
@@ -370,7 +370,7 @@ def build_index(providers):
         ("Are the rental providers verified?",
          "<p>Yes. Each provider listing shows whether the business is verified on Google along with its star rating and review count, so you can choose a trusted, well-reviewed Atlanta company with confidence.</p>"),
         ("How far in advance should I book a bounce house in Atlanta?",
-         "<p>For weekends in spring and summer&mdash;Atlanta's busiest party season&mdash;book 2 to 4 weeks ahead. Water slides and large combos sell out fastest. For last-minute needs, call <a href=\"tel:+14018890182\">(401) 889-0182</a> and we'll check live availability.</p>"),
+         "<p>For weekends in spring and summer&mdash;Atlanta's busiest party season&mdash;book 2 to 4 weeks ahead. Water slides and large combos sell out fastest. For last-minute needs, <a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
     ]
     faq_html, faq_ld = faq_block(faqs)
 
@@ -396,14 +396,14 @@ def build_index(providers):
   <div class="container">
     <div class="hero-copy">
       <h1>Atlanta Bounce House Rental Directory</h1>
-      <p class="lead">Find, compare and book bounce houses, water slides and party rentals from trusted providers across Atlanta, Georgia.</p>
+      <p class="lead">Find, compare and book bounce houses, water slides and party rentals from {len(providers)} trusted providers across Atlanta, Georgia.</p>
       <div class="wizard-cta-block">
         <p class="wizard-hero-tagline">Tell us about your event and we'll match you with the right Atlanta providers.</p>
-        <a class="btn" href="#" id="wizard-open" style="font-size:1.1rem;padding:16px 32px;">Book Now &rsaquo;</a>
+        <a class="btn" href="#" data-wizard-open style="font-size:1.1rem;padding:16px 40px;">Book Now &rsaquo;</a>
         <div class="hero-trust">
           <span>Free quotes</span>
           <span>No obligation</span>
-          <span>98 Atlanta providers</span>
+          <span>{len(providers)} Atlanta providers</span>
           <span>Fast response</span>
         </div>
       </div>
@@ -412,33 +412,6 @@ def build_index(providers):
         <li>Free, no-obligation quotes in minutes</li>
         <li>Serving Atlanta and all surrounding metro areas</li>
       </ul>
-    </div>
-
-    <div class="quote-card">
-      <h2>Get a Free Quote</h2>
-      <p class="sub">Tell us about your event and we'll connect you with available Atlanta providers.</p>
-      <form data-quote-form novalidate>
-        <div data-success class="form-success" style="display:none;">
-          Thanks! Your request was received. An Atlanta provider will contact you shortly. Need it now? Call <strong>{PHONE_DISPLAY}</strong>.
-        </div>
-        <div data-fields>
-          <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
-          <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
-          <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
-          <div class="field"><label for="q-service">Service Needed</label>
-            <select id="q-service" name="service">
-              {"".join(f'<option value="{SERVICES[s]}">{SERVICES[s]}</option>' for s in SERVICES)}
-            </select>
-          </div>
-          <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-            <div><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
-            <div><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
-          </div>
-          <div class="field"><label for="q-msg">Event Details</label><textarea id="q-msg" name="message" rows="2" placeholder="Guests, ages, venue..."></textarea></div>
-          <button class="btn btn-block" type="submit">Get My Free Quote</button>
-          <p class="form-note">No spam. Your details are only shared with matched providers.</p>
-        </div>
-      </form>
     </div>
   </div>
 </section>
@@ -487,8 +460,8 @@ def build_index(providers):
 <section class="cta-band">
   <div class="container">
     <h2>Ready to Book Your Atlanta Bounce House Rental?</h2>
-    <p>Get matched with available providers in minutes. Compare quotes, check availability and lock in your date with confidence.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with available Atlanta providers in minutes. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
@@ -514,7 +487,7 @@ def build_partners(providers):
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Partners</div>
     <h1>Atlanta Bounce House &amp; Party Rental Providers</h1>
-    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews below, then call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote and we'll match you with the right provider.</p>
+    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews, then click Book Now to tell us about your event and get matched with the right provider.</p>
   </div>
 </div>
 
@@ -522,7 +495,7 @@ def build_partners(providers):
   <div class="container">
 {provider_table(providers)}
     <div class="callout" style="margin-top:26px;">
-      <p><strong>Ready to book?</strong> Contact for every provider is handled through the directory &mdash; call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and we'll connect you with an available company for your event.</p>
+      <p><strong>Ready to book?</strong> Use the <a href="#" data-wizard-open>Book Now</a> wizard to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
     </div>
   </div>
 </section>
@@ -531,6 +504,7 @@ def build_partners(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/directory.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -627,10 +601,14 @@ def build_partner_pages(providers):
 
       <aside>
         <div class="quote-card" style="margin-bottom:22px;">
-          <h2>Request a Free Quote</h2>
-          <p class="sub">Check availability with {esc(name)} and compare Atlanta providers.</p>
-          <a class="btn btn-block" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
-          <p class="form-note" style="margin-top:14px;">Or <a href="/#providers">submit a quote request</a> and we'll match you with available providers.</p>
+          <h2>Book This Provider</h2>
+          <p class="sub">Tell us about your event and we'll get you a quote from {esc(name)} and other available Atlanta providers.</p>
+          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <div class="hero-trust" style="margin-top:14px;justify-content:center;">
+            <span>Free quotes</span>
+            <span>No obligation</span>
+            <span>Fast response</span>
+          </div>
         </div>
 
         <div class="info-box">
@@ -649,6 +627,7 @@ def build_partner_pages(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/partners.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -713,11 +692,11 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Call <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> or submit the quote form on this page. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
-             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;<a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
         ]
         faq_html, faq_ld = faq_block(faqs)
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
@@ -864,15 +843,16 @@ def build_bounce_houses():
 
 <section class="cta-band">
   <div class="container">
-    <h2>Need Help Choosing?</h2>
-    <p>Call us and we'll match you with the right bounce house for your event size and budget.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+    <h2>Need Help Choosing the Right Bounce House?</h2>
+    <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -981,11 +961,8 @@ def build_bounce_houses():
 
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
-          <p class="sub">Call us or fill out the form below and we&rsquo;ll confirm availability and send you a quote.</p>
-          <a class="bh-call-btn" href="tel:{PHONE_HREF}">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.23 1.03L7.83 9.24a16.06 16.06 0 006.93 6.93l1.23-1.27a1 1 0 011.03-.23l3.3 1.1a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg>
-            {PHONE_DISPLAY}
-          </a>
+          <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
+          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Book Now &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -1014,14 +991,15 @@ def build_bounce_houses():
 <section class="cta-band">
   <div class="container">
     <h2>Ready to Book?</h2>
-    <p>Call us now to check availability and lock in your date with a $50 deposit.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1074,7 +1052,7 @@ def build_services_index():
       {specialty_links}
     </ul>
     <div class="callout">
-      <p><strong>Not sure what you need?</strong> Call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> or <a href="/#providers">request a free quote</a> and an Atlanta provider will help you choose the right rentals for your event.</p>
+      <p><strong>Not sure what you need?</strong> Use the Book Now wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
     </div>
   </div>
 </section>
@@ -1082,14 +1060,15 @@ def build_services_index():
 <section class="cta-band">
   <div class="container">
     <h2>Get a Free Atlanta Bounce House Quote</h2>
-    <p>Compare providers and pricing across the Atlanta metro in minutes.</p>
-    <a class="btn" href="/#providers">Request a Free Quote</a>
+    <p>Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1136,11 +1115,11 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Call <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> or submit the quote form on this page. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
-             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+             f"<p>Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;<a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
         ]
         faq_html, faq_ld = faq_block(faqs)
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
@@ -1175,7 +1154,7 @@ def build_service_pages(providers):
         </div>
 
         <h2>Atlanta Providers Offering {s["name"]}</h2>
-        <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:</p>
+        <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view full details and reviews:</p>
         <ul class="bullet-services">
             {providers_links}
         </ul>
@@ -1195,27 +1174,14 @@ def build_service_pages(providers):
 
       <aside>
         <div class="quote-card" style="position:sticky; top:90px;">
-          <h2>Free Quote</h2>
-          <p class="sub">Request pricing for {s["name"].lower()} in Atlanta.</p>
-          <form data-quote-form novalidate>
-            <div data-success class="form-success" style="display:none;">
-              Thanks! A provider will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
-            </div>
-            <div data-fields>
-              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
-              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
-              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
-              <div class="field"><label for="q-service">Service</label>
-                <select id="q-service" name="service">
-              {options}
-                </select>
-              </div>
-              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
-              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
-              <button class="btn btn-block" type="submit">Get My Free Quote</button>
-              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
-            </div>
-          </form>
+          <h2>Book {s["name"]}</h2>
+          <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
+          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <div class="hero-trust" style="margin-top:14px;justify-content:center;">
+            <span>Free quotes</span>
+            <span>No obligation</span>
+            <span>Fast response</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -1226,14 +1192,15 @@ def build_service_pages(providers):
 <section class="cta-band">
   <div class="container">
     <h2>Book {s["name"]} in Atlanta Today</h2>
-    <p>Compare available Atlanta providers and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1482,22 +1449,14 @@ def build_specialty_service_pages():
 
       <aside>
         <div class="quote-card" style="position:sticky; top:90px;">
-          <h2>Free Quote</h2>
-          <p class="sub">Request pricing for {pg["name"].lower()} in Atlanta.</p>
-          <form data-quote-form novalidate>
-            <div data-success class="form-success" style="display:none;">
-              Thanks! A provider will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
-            </div>
-            <div data-fields>
-              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
-              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
-              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
-              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
-              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="30303"></div>
-              <button class="btn btn-block" type="submit">Get My Free Quote</button>
-              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
-            </div>
-          </form>
+          <h2>Book {pg["name"]}</h2>
+          <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
+          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <div class="hero-trust" style="margin-top:14px;justify-content:center;">
+            <span>Free quotes</span>
+            <span>No obligation</span>
+            <span>Fast response</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -1508,14 +1467,15 @@ def build_specialty_service_pages():
 <section class="cta-band">
   <div class="container">
     <h2>Book {pg["name"]} in Atlanta Today</h2>
-    <p>Compare available Atlanta providers and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1569,15 +1529,16 @@ def build_bounce_houses():
 
 <section class="cta-band">
   <div class="container">
-    <h2>Need Help Choosing?</h2>
-    <p>Call us and we'll match you with the right bounce house for your event size and budget.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+    <h2>Need Help Choosing the Right Bounce House?</h2>
+    <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1686,11 +1647,8 @@ def build_bounce_houses():
 
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
-          <p class="sub">Call us or fill out the form below and we&rsquo;ll confirm availability and send you a quote.</p>
-          <a class="bh-call-btn" href="tel:{PHONE_HREF}">
-            <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.1 3.3a1 1 0 01-.23 1.03L7.83 9.24a16.06 16.06 0 006.93 6.93l1.23-1.27a1 1 0 011.03-.23l3.3 1.1a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg>
-            {PHONE_DISPLAY}
-          </a>
+          <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
+          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Book Now &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -1719,14 +1677,15 @@ def build_bounce_houses():
 <section class="cta-band">
   <div class="container">
     <h2>Ready to Book?</h2>
-    <p>Call us now to check availability and lock in your date with a $50 deposit.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1773,7 +1732,7 @@ def build_locations(providers):
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Service Areas</div>
     <h1>Bounce House Rental Service Areas Across Metro Atlanta</h1>
-    <p>We connect you with bounce house and party rental providers in every corner of the Atlanta metro. Choose your city or neighborhood below to see local providers, pricing and a free quote, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>.</p>
+    <p>We connect you with bounce house and party rental providers in every corner of the Atlanta metro. Choose your city or neighborhood below to see local providers and pricing.</p>
   </div>
 </div>
 
@@ -1801,14 +1760,15 @@ def build_locations(providers):
 <section class="cta-band">
   <div class="container">
     <h2>Find Bounce House Rentals Near You</h2>
-    <p>Compare local Atlanta providers and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with local Atlanta providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -1850,7 +1810,7 @@ def build_locations(providers):
             (f"Do providers deliver bounce houses to {nl}?",
              f"<p>Yes. Directory providers deliver bounce houses, water slides, tents, tables, chairs and concessions throughout {nl}, including {esc(hoods)}, and handle setup and pickup.</p>"),
             (f"How far in advance should I book a bounce house in {nl}?",
-             f"<p>For weekend dates in {nl} during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;call {PHONE_DISPLAY} to check availability.</p>"),
+             f"<p>For weekend dates in {nl} during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;<a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
             (f"What can I rent for a party in {nl}?",
              f"<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See <a href=\"/services/\">all services</a>.</p>"),
         ]
@@ -1914,28 +1874,14 @@ def build_locations(providers):
 
       <aside>
         <div class="quote-card" style="position:sticky; top:90px;">
-          <h2>Free Quote</h2>
-          <p class="sub">Request pricing for bounce house rentals in {esc(nl)}.</p>
-          <form data-quote-form novalidate>
-            <div data-success class="form-success" style="display:none;">
-              Thanks! A provider serving {esc(nl)} will contact you shortly. Call <strong>{PHONE_DISPLAY}</strong> for immediate help.
-            </div>
-            <div data-fields>
-              <div class="field"><label for="q-name">Full Name</label><input id="q-name" name="name" type="text" required></div>
-              <div class="field"><label for="q-phone">Phone</label><input id="q-phone" name="phone" type="tel" required></div>
-              <div class="field"><label for="q-email">Email</label><input id="q-email" name="email" type="email" required></div>
-              <input type="hidden" name="area" value="{esc(nl)}">
-              <div class="field"><label for="q-service">Service</label>
-                <select id="q-service" name="service">
-              {"".join(f'<option value="{SERVICES[x]}">{SERVICES[x]}</option>' for x in SERVICES)}
-                </select>
-              </div>
-              <div class="field"><label for="q-date">Event Date</label><input id="q-date" name="event_date" type="date"></div>
-              <div class="field"><label for="q-zip">ZIP Code</label><input id="q-zip" name="zip" type="text" placeholder="{esc(loc["zips"][0])}"></div>
-              <button class="btn btn-block" type="submit">Get My Free Quote</button>
-              <p class="form-note">Or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a></p>
-            </div>
-          </form>
+          <h2>Book Rentals in {esc(nl)}</h2>
+          <p class="sub">Tell us about your event and we'll match you with available providers serving {esc(nl)} in minutes.</p>
+          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <div class="hero-trust" style="margin-top:14px;justify-content:center;">
+            <span>Free quotes</span>
+            <span>No obligation</span>
+            <span>Fast response</span>
+          </div>
         </div>
       </aside>
     </div>
@@ -1946,14 +1892,15 @@ def build_locations(providers):
 <section class="cta-band">
   <div class="container">
     <h2>Book a Bounce House in {esc(nl)} Today</h2>
-    <p>Compare available {esc(nl)} providers and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -2041,14 +1988,15 @@ def build_cheap(providers):
 <section class="cta-band">
   <div class="container">
     <h2>Get the Lowest Bounce House Price in Atlanta</h2>
-    <p>Compare budget providers and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    <p>Tell us about your event and we'll match you with the best-priced Atlanta providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
   </div>
 </section>
 
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -2117,6 +2065,7 @@ def build_leads():
 
 <script src="/js/main.js"></script>
 <script src="/js/leads.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -2145,6 +2094,7 @@ def build_legal():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
@@ -2164,6 +2114,7 @@ def build_404():
 </section>
 
 <script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
