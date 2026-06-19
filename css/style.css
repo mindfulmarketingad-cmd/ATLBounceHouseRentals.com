@@ -75,13 +75,13 @@ a:hover { text-decoration: underline; }
 .hero-video { position: relative; overflow: hidden; }
 .hero-video .container { position: relative; z-index: 2; }
 .hero-video-bg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-.hero-video-bg::after { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(100deg, rgba(234,244,252,0.94) 0%, rgba(234,244,252,0.80) 38%, rgba(216,235,251,0.35) 100%); }
+.hero-video-bg::after { content: ""; position: absolute; inset: 0; z-index: 1; background: rgba(234,244,252,0.84); }
 .hero-video-bg iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100%; min-width: 177.78vh; transform: translate(-50%, -50%) scale(1.45); border: 0; }
 .hero .container { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
 .hero-copy { max-width: 780px; }
 .hero h1 { color: var(--black); font-size: 2.6rem; }
 .hero p.lead { font-size: 1.18rem; color: #2c333b; margin-bottom: 22px; }
-.hero ul.hero-points { list-style: none; padding: 0; margin: 0 0 26px; }
+.hero ul.hero-points { list-style: none; padding: 0; margin: 0 0 26px; display: inline-block; text-align: left; }
 .hero ul.hero-points li { padding-left: 22px; position: relative; margin-bottom: 8px; color: #2c333b; }
 .hero ul.hero-points li::before { content: ""; position: absolute; left: 0; top: 11px; width: 10px; height: 10px; background: var(--accent); border-radius: 2px; }
 
@@ -542,7 +542,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .wizard-cta-block {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   margin-bottom: 24px;
 }
@@ -585,6 +585,11 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
     grid-template-columns: 1fr 1fr;
   }
   .wizard-cta-block {
-    align-items: stretch;
+    align-items: center;
+    width: 100%;
+  }
+  .wizard-cta-block .btn {
+    width: 100%;
+    text-align: center;
   }
 }
