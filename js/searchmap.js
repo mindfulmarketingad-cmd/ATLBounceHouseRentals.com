@@ -254,14 +254,17 @@
     providers.forEach(function (p, i) {
       // Marker
       var marker = L.marker([p.lat, p.lng], { icon: makeIcon(false) }).addTo(map);
-      var svc = (p.services || []).slice(0, 3).join(", ");
+      var allChips = (p.services || []).map(function (s) {
+        return '<span class="sm-chip">' + esc(s) + '</span>';
+      });
+      var popupChips = allChips.slice(0, 3).join("");
       marker.bindPopup(
         '<div class="sm-popup">' +
           '<a class="sm-popup-name" href="/partners/' + esc(p.slug) + '/">' + esc(p.name) + '</a>' +
           '<div class="sm-popup-meta">' + starHtml(p.rating) +
             (p.reviews ? ' <span class="sm-muted">(' + p.reviews + ')</span>' : "") +
             ' &middot; ' + esc(p.city) + '</div>' +
-          (svc ? '<div class="sm-popup-svc">' + esc(svc) + '</div>' : "") +
+          (popupChips ? '<div class="sm-popup-svc sm-chips">' + popupChips + '</div>' : "") +
           '<a class="sm-popup-btn" href="/partners/' + esc(p.slug) + '/">View details &rsaquo;</a>' +
         '</div>'
       );
@@ -279,7 +282,7 @@
             (p.reviews ? ' <span class="sm-muted">(' + p.reviews + ' reviews)</span>' : "") +
           '</div>' +
           '<div class="sm-card-loc">' + esc(p.category || "Party rentals") + ' &middot; ' + esc(p.city) + ', GA</div>' +
-          (svc ? '<div class="sm-card-svc">' + esc(svc) + '</div>' : "") +
+          (allChips.length ? '<div class="sm-card-svc sm-chips">' + allChips.join("") + '</div>' : "") +
           '<a class="sm-card-own" href="' + OWN_BUSINESS_URL + '" target="_blank" rel="noopener">Own this business &rsaquo;</a>' +
           '<button type="button" class="sm-card-book" data-wizard-open>Book Now &rsaquo;</button>' +
         '</div>' +

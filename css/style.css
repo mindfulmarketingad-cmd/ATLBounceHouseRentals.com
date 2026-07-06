@@ -652,13 +652,17 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .sm-card-name:hover { color: var(--accent-dark); text-decoration: underline; }
 .sm-card-meta { font-size: 0.9rem; color: var(--ink); margin-bottom: 2px; }
 .sm-card-loc { font-size: 0.82rem; color: var(--muted); }
-.sm-card-svc {
-  font-size: 0.8rem;
+.sm-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.sm-chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
   color: var(--accent-dark);
-  margin-top: 5px;
+  background: var(--sky);
+  border: 1px solid var(--sky-2);
+  border-radius: 20px;
+  padding: 3px 9px;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .sm-card-cta {
   flex: none;
