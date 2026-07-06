@@ -8,7 +8,7 @@ Theme: light blue + black. No emojis. No ad placeholders.
 Business phone/contact are never published — the site phone is shown instead.
 Run: python3 build.py
 """
-import json, os, re, html
+import json, os, re, html, shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PHONE_DISPLAY = "(401) 889-0182"
@@ -1886,7 +1886,14 @@ def build_locations(providers):
     open(os.path.join(d, "index.html"), "w").write(idx)
 
     # --- individual city pages ---
-    for loc in LOCATIONS:
+    # Cities with matched listings are now full /find/ pages (see
+    # build_find_pages); remove any stale build output and skip them here.
+    for slug in MIGRATED_LOCATION_SLUGS:
+        stale = os.path.join(ROOT, "locations", slug)
+        if os.path.isdir(stale):
+            shutil.rmtree(stale)
+
+    for loc in remaining_locs:
         name = loc["name"]
         nl = name
         matched = providers_for_location(loc, providers)
@@ -1911,7 +1918,7 @@ def build_locations(providers):
         zips = ", ".join(loc["zips"])
         nearby = [LOC_BY_SLUG[s] for s in loc.get("nearby", []) if s in LOC_BY_SLUG]
         nearby_links = "\n          ".join(
-            f'<li><a href="/locations/{x["slug"]}/">Bounce House Rentals in {esc(x["name"])}</a></li>' for x in nearby)
+            f'<li><a href="{location_href(x)}">Bounce House Rentals in {esc(x["name"])}</a></li>' for x in nearby)
 
         faqs = [
             (f"How much does it cost to rent a bounce house in {nl}?",
@@ -2039,15 +2046,26 @@ def build_locations(providers):
 # prefix. A page is generated per city ONLY when that city has at least one
 # matched provider (by ZIP) offering the service — no thin/empty pages.
 FIND_PAGE_FAMILIES = [
+    # match_mode "any": matched = every provider in the city by ZIP, regardless
+    # of service (this is the full replacement for the old /locations/ pages).
+    {"url_prefix": "bounce-house-rentals", "page_name": "Bounce House Rentals", "match_mode": "any"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "tents-table-chair-rentals"},
-    {"service_slug": "classic-bounce-house-rentals", "url_prefix": "bounce-house-rentals", "page_name": "Bounce House Rentals"},
     {"service_slug": "photo-booth-rentals", "url_prefix": "photo-booth-rentals"},
     {"service_slug": "obstacle-course-rentals", "url_prefix": "obstacle-course-rentals"},
     {"service_slug": "water-slide-rentals", "url_prefix": "water-slide-rentals"},
     {"service_slug": "silent-disco-rentals", "url_prefix": "silent-disco-rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-table-rentals", "page_name": "Event Table Rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-chair-rentals", "page_name": "Event Chair Rentals"},
+    {"service_slug": "classic-bounce-house-rentals", "url_prefix": "99-bounce-house-rentals", "page_name": "$99 Bounce House Rentals"},
 ]
+
+# Metro-wide "near me" pages: one per core service, not fanned out by city.
+# Only generated when at least one provider anywhere offers that service.
+# Value is (display name, URL prefix); prefix defaults to the service slug
+# itself when not overridden here.
+NEAR_ME_OVERRIDES = {
+    "classic-bounce-house-rentals": ("Bounce House Rentals", "bounce-house-rentals"),
+}
 
 
 def _providers_for_location_service(loc, providers, service_slug, limit=50):
@@ -2064,49 +2082,150 @@ def build_find_pages(providers):
     d = os.path.join(ROOT, "find")
     os.makedirs(d, exist_ok=True)
 
-    families = []  # per family: {slug, name, short, url_prefix, entries: [(loc, matched, url_slug)]}
+    families = []  # per family: {slug, name, short, url_prefix, entries: [(loc, matched, url_slug)], match_mode}
     for fam in FIND_PAGE_FAMILIES:
-        slug = fam["service_slug"]
-        svc_name = fam.get("page_name") or SERVICES[slug]
+        slug = fam.get("service_slug")
+        match_mode = fam.get("match_mode", "service")
+        svc_name = fam.get("page_name") or (SERVICES[slug] if slug else "Bounce House Rentals")
         entries = []
         for loc in LOCATIONS:
-            matched = _providers_for_location_service(loc, providers, slug)
+            if match_mode == "any":
+                matched = providers_for_location(loc, providers, limit=50)
+            else:
+                matched = _providers_for_location_service(loc, providers, slug)
             if not matched:
                 continue
             url_slug = f'{fam["url_prefix"]}-{loc["slug"]}-ga'
             entries.append((loc, matched, url_slug))
-        families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"], "entries": entries})
+        families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
+                          "entries": entries, "match_mode": match_mode})
+
+    near_me = []  # per service: {slug, name, matched, url_slug}
+    for slug in SERVICES:
+        matched_all = [p for p in providers if slug in p["services"]]
+        matched_all.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+        if not matched_all:
+            continue
+        override = NEAR_ME_OVERRIDES.get(slug)
+        svc_name, url_prefix = override if override else (SERVICES[slug], slug)
+        near_me.append({"slug": slug, "name": svc_name, "matched": matched_all,
+                         "url_slug": f"{url_prefix}-near-me"})
 
     # Flat list of every generated /find/ page, used to cross-link all of them
     # to each other so none are orphaned as more service families are added.
     all_find_pages = [
         {"title": f'{fam["name"]} in {loc["name"]}, GA', "url": f'/find/{url_slug}/'}
-        for fam in families for loc, matched, url_slug in fam["entries"]]
+        for fam in families for loc, matched, url_slug in fam["entries"]
+    ] + [
+        {"title": f'{nm["name"]} Near Me', "url": f'/find/{nm["url_slug"]}/'}
+        for nm in near_me
+    ]
 
     # --- per-city landing pages ---
     for fam in families:
         slug = fam["slug"]
+        match_mode = fam["match_mode"]
         svc_name = fam["name"]
-        svc_short = SERVICES_SHORT[slug]
+        svc_short = SERVICES_SHORT.get(slug, "") if slug else ""
         for loc, matched, url_slug in fam["entries"]:
             nl = loc["name"]
             title = f"{svc_name} in {nl} Georgia"
-            desc = f"Rent {svc_name.lower()} in {nl}, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
+            hoods3 = ", ".join(loc["neighborhoods"][:3])
 
-            prov_links = "\n          ".join(
-                f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
-                f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
-                for p in matched)
-            hoods = ", ".join(loc["neighborhoods"][:3])
+            if match_mode == "any":
+                # Full replacement for the old /locations/{slug}/ page: general
+                # citywide content, not narrowed to one specific service.
+                desc = f"Rent bounce houses, water slides and party rentals in {nl}, Georgia. Compare local providers, view pricing and get a free quote."
+                page_intro = esc(loc["blurb"])
+                map_heading = f"Bounce House Providers On the Map Near {esc(nl)}"
+                map_desc = f"Browse party rental providers closest to {esc(nl)}. Click a listing or map pin to see details, ratings and reviews."
+                map_service_param = ""
+                map_zoom = 11
 
-            faqs = [
-                (f"How much do {svc_name.lower()} cost in {nl}?",
-                 f"<p>In {nl}, {svc_name.lower()} typically run $90&ndash;$600+ depending on quantity, size and rental length. Final pricing depends on your date and delivery distance. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing.</p>"),
-                (f"Do providers deliver {svc_name.lower()} to {nl}?",
-                 f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down {svc_name.lower()} throughout {nl}, including {esc(hoods)}.</p>"),
-                (f"How do I book {svc_name.lower()} in {nl}?",
-                 f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
-            ]
+                prov_links = "\n          ".join(
+                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+                    f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                    for p in matched)
+                svc_links_loc = "\n          ".join(
+                    f'<li><a href="/services/{s}/">{SERVICES[s]} in {nl}</a></li>' for s in SERVICES)
+                hoods = ", ".join(loc["neighborhoods"])
+                landmarks = ", ".join(loc["landmarks"])
+                zips = ", ".join(loc["zips"])
+                nearby = [LOC_BY_SLUG[s] for s in loc.get("nearby", []) if s in LOC_BY_SLUG]
+                nearby_links = "\n          ".join(
+                    f'<li><a href="{location_href(x)}">Bounce House Rentals in {esc(x["name"])}</a></li>' for x in nearby)
+
+                content_html = f'''
+      <h2>Bounce House &amp; Party Rentals Serving {esc(nl)}</h2>
+      <p>Whether you are planning a birthday party, school field day, church festival or corporate family day in {esc(nl)}, our directory connects you with vetted local providers. Popular areas served include {esc(hoods)}, with delivery near {esc(landmarks)} and throughout ZIP codes {esc(zips)}.</p>
+
+      <div class="callout">
+        <p><strong>Serving all of {esc(nl)} and nearby Atlanta.</strong> Providers deliver bounce houses, water slides, obstacle courses, tents, tables, chairs and concessions with setup and teardown included.</p>
+      </div>
+
+      <h2>Rental Services Available in {esc(nl)}</h2>
+      <ul class="bullet-services">
+        {svc_links_loc}
+      </ul>
+
+      <h2>Bounce House Providers Near {esc(nl)}</h2>
+      <p>These directory providers are based in or around {nl} and deliver across the area. Select a provider to view details, or <a href="#" data-wizard-open>request a free quote</a>:</p>
+      <ul class="bullet-services">
+        {prov_links}
+      </ul>
+
+      <h2>Looking for Cheap Bounce House Rentals in {esc(nl)}?</h2>
+      <p>Compare budget-friendly options including $99 bounce house specials on our <a href="/cheap-bounce-house-rentals/">cheap bounce house rentals</a> page, or browse individual <a href="/bounce-houses/">bounce houses available to rent</a>.</p>
+
+      <h2>Nearby Service Areas</h2>
+      <ul>
+        {nearby_links}
+        <li><a href="/find/">View all Find pages</a></li>
+      </ul>
+'''
+                faqs = [
+                    (f"How much does it cost to rent a bounce house in {nl}?",
+                     f"<p>In {nl}, a classic bounce house typically rents for about $120&ndash;$260 per day, with combo slides, water slides and obstacle courses running roughly $180&ndash;$900+ depending on size. Final pricing depends on your date, delivery distance and rental length. <a href=\"/cheap-bounce-house-rentals/\">See current $99 specials</a> or <a href=\"#\" data-wizard-open>request a free quote</a>.</p>"),
+                    (f"Do providers deliver bounce houses to {nl}?",
+                     f"<p>Yes. Directory providers deliver bounce houses, water slides, tents, tables, chairs and concessions throughout {nl}, including {esc(hoods3)}, and handle setup and pickup.</p>"),
+                    (f"How far in advance should I book a bounce house in {nl}?",
+                     f"<p>For weekend dates in {nl} during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;<a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
+                    (f"What can I rent for a party in {nl}?",
+                     f"<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See <a href=\"/services/\">all services</a>.</p>"),
+                ]
+            else:
+                desc = f"Rent {svc_name.lower()} in {nl}, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
+                page_intro = f"Compare {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}, with free quotes and no obligation."
+                map_heading = f"{svc_name} Providers Near {esc(nl)}"
+                map_desc = f"Browse {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}. Click a listing or map pin to see details, ratings and reviews."
+                map_service_param = svc_short
+                map_zoom = 12
+
+                prov_links = "\n          ".join(
+                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+                    f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                    for p in matched)
+
+                content_html = f'''
+      <h2>{svc_name} in {esc(nl)}, Georgia</h2>
+      <p>Planning an event in {esc(nl)}? The providers below deliver, set up and tear down {svc_name.lower()} throughout {esc(nl)}, including {esc(hoods3)}. Whether you need seating for a backyard birthday or a full tent setup for a wedding reception, compare pricing and reviews before you book.</p>
+
+      <h2>{nl} Providers Offering {svc_name}</h2>
+      <ul class="bullet-services">
+          {prov_links}
+      </ul>
+
+      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/{slug}/">See {svc_name} across all of Atlanta</a> &middot; <a href="{location_href(loc)}">More rentals in {esc(nl)}</a></p>
+'''
+                faqs = [
+                    (f"How much do {svc_name.lower()} cost in {nl}?",
+                     f"<p>In {nl}, {svc_name.lower()} typically run $90&ndash;$600+ depending on quantity, size and rental length. Final pricing depends on your date and delivery distance. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing.</p>"),
+                    (f"Do providers deliver {svc_name.lower()} to {nl}?",
+                     f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down {svc_name.lower()} throughout {nl}, including {esc(hoods3)}.</p>"),
+                    (f"How do I book {svc_name.lower()} in {nl}?",
+                     f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
+                ]
+
             faq_html, faq_ld = faq_block(faqs)
 
             other_pages = [fp for fp in all_find_pages if fp["url"] != f"/find/{url_slug}/"]
@@ -2140,7 +2259,7 @@ def build_find_pages(providers):
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
     <h1>{title}</h1>
-    <p>Compare {len(matched)} {nl} provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}, with free quotes and no obligation.</p>
+    <p>{page_intro}</p>
   </div>
 </div>
 
@@ -2148,25 +2267,17 @@ def build_find_pages(providers):
   <div class="container">
     <div class="section-head">
       <div class="eyebrow">Explore the Map</div>
-      <h2>{svc_name} Providers Near {esc(nl)}</h2>
-      <p>Browse {len(matched)} {nl} provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}. Click a listing or map pin to see details, ratings and reviews.</p>
+      <h2>{map_heading}</h2>
+      <p>{map_desc}</p>
     </div>
-    {searchmap_html(area=nl, lat=clat, lng=clng, zoom=12, service=svc_short)}
+    {searchmap_html(area=nl, lat=clat, lng=clng, zoom=map_zoom, service=map_service_param)}
   </div>
 </section>
 
 <section>
   <div class="container">
     <div class="content">
-      <h2>{svc_name} in {esc(nl)}, Georgia</h2>
-      <p>Planning an event in {esc(nl)}? The providers below deliver, set up and tear down {svc_name.lower()} throughout {esc(nl)}, including {esc(hoods)}. Whether you need seating for a backyard birthday or a full tent setup for a wedding reception, compare pricing and reviews before you book.</p>
-
-      <h2>{nl} Providers Offering {svc_name}</h2>
-      <ul class="bullet-services">
-          {prov_links}
-      </ul>
-
-      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/{slug}/">See {svc_name} across all of Atlanta</a> &middot; <a href="/locations/{loc["slug"]}/">More rentals in {esc(nl)}</a></p>
+      {content_html}
       {other_find_html}
     </div>
   </div>
@@ -2195,7 +2306,141 @@ def build_find_pages(providers):
             os.makedirs(pd, exist_ok=True)
             open(os.path.join(pd, "index.html"), "w").write(page)
 
+    # --- "near me" metro-wide service pages ---
+    for nm in near_me:
+        slug = nm["slug"]
+        svc_name = nm["name"]
+        matched = nm["matched"]
+        url_slug = nm["url_slug"]
+        svc_short = SERVICES_SHORT.get(slug, "")
+        title = f"{svc_name} Near Me"
+        desc = f"Find {svc_name.lower()} near you across metro Atlanta, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
+
+        prov_links = "\n          ".join(
+            f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+            f'{" &mdash; " + esc(p["city"]) + ", GA" if p.get("city") else ""}'
+            f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+            for p in matched)
+
+        same_service_cities = [fam for fam in families if fam["slug"] == slug and fam["entries"]]
+        city_links_html = ""
+        if same_service_cities:
+            city_links = "\n          ".join(
+                f'<li><a href="/find/{url_slug2}/">{fam["name"]} in {esc(loc["name"])}, GA</a></li>'
+                for fam in same_service_cities for loc, matched2, url_slug2 in fam["entries"])
+            city_links_html = f'''
+      <h2>{svc_name} by City</h2>
+      <ul class="bullet-services">
+          {city_links}
+      </ul>'''
+
+        faqs = [
+            (f"Where can I find {svc_name.lower()} near me in Atlanta?",
+             f"<p>Our directory lists {len(matched)} Atlanta-area provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}. Use the map above to find the closest one to you, or <a href=\"#\" data-wizard-open>request a free quote</a> and we'll match you with an available provider.</p>"),
+            (f"How much do {svc_name.lower()} cost?",
+             f"<p>Pricing varies by provider, quantity and rental length. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing on your event.</p>"),
+            (f"How do I book {svc_name.lower()} near me?",
+             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
+        ]
+        faq_html, faq_ld = faq_block(faqs)
+
+        other_pages = [fp for fp in all_find_pages if fp["url"] != f"/find/{url_slug}/"]
+        other_find_html = ""
+        if other_pages:
+            other_find_links = "\n          ".join(
+                f'<li><a href="{fp["url"]}">{esc(fp["title"])}</a></li>' for fp in other_pages)
+            other_find_html = f'''
+      <h2>More Find Pages</h2>
+      <ul class="bullet-services">
+          {other_find_links}
+      </ul>'''
+
+        svc_ld = {"@context": "https://schema.org", "@type": "Service", "serviceType": svc_name,
+                  "areaServed": {"@type": "City", "name": "Atlanta"},
+                  "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory",
+                               "telephone": PHONE_HREF},
+                  "url": f"{DOMAIN}/find/{url_slug}/"}
+        bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Find", "item": DOMAIN + "/find/"},
+            {"@type": "ListItem", "position": 3, "name": title, "item": f"{DOMAIN}/find/{url_slug}/"}]}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
+
+        page = head(title, desc, f"{DOMAIN}/find/{url_slug}/", extra)
+        page += header("find") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
+    <h1>{title}</h1>
+    <p>Compare {len(matched)} Atlanta-area provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}, with free quotes and no obligation.</p>
+  </div>
+</div>
+
+<section id="map" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>{svc_name} Near You</h2>
+      <p>Browse {len(matched)} provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()} across metro Atlanta. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    {searchmap_html(area="Atlanta", zoom=10, service=svc_short)}
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="content">
+      <h2>{svc_name} Near You in Metro Atlanta</h2>
+      <p>Whichever part of metro Atlanta you're in, the providers below offer {svc_name.lower()} with delivery, setup and teardown included. Compare ratings and reviews, then request a free quote.</p>
+
+      <h2>Providers Offering {svc_name}</h2>
+      <ul class="bullet-services">
+          {prov_links}
+      </ul>
+      {city_links_html}
+
+      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/{slug}/">See {svc_name} details and pricing</a></p>
+      {other_find_html}
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book {svc_name} Today</h2>
+    <p>Tell us about your event and we'll match you with an available provider near you. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+        pd = os.path.join(d, url_slug)
+        os.makedirs(pd, exist_ok=True)
+        open(os.path.join(pd, "index.html"), "w").write(page)
+
     # --- /find/ hub index ---
+    near_me_links = "\n      ".join(
+        f'<li><a href="/find/{nm["url_slug"]}/">{nm["name"]} Near Me</a> '
+        f'<span class="muted">&mdash; {len(nm["matched"])} provider{"s" if len(nm["matched"]) != 1 else ""}</span></li>'
+        for nm in near_me)
+    near_me_html = ""
+    if near_me:
+        near_me_html = f'''    <h2>Rentals Near Me</h2>
+    <ul class="bullet-services">
+      {near_me_links}
+    </ul>'''
+
     sections_html = []
     for fam in families:
         if not fam["entries"]:
@@ -2208,15 +2453,14 @@ def build_find_pages(providers):
     <ul class="bullet-services">
       {links}
     </ul>''')
-    sections = "\n\n".join(sections_html)
+    sections = "\n\n".join(([near_me_html] if near_me_html else []) + sections_html)
 
     item_ld = {"@context": "https://schema.org", "@type": "ItemList",
                "itemListElement": [
                    {"@type": "ListItem", "position": i + 1,
-                    "name": f'{fam["name"]} in {loc["name"]}',
-                    "url": f'{DOMAIN}/find/{url_slug}/'}
-                   for fam in families
-                   for i, (loc, matched, url_slug) in enumerate(fam["entries"])]}
+                    "name": fp["title"],
+                    "url": f'{DOMAIN}{fp["url"]}'}
+                   for i, fp in enumerate(all_find_pages)]}
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
         {"@type": "ListItem", "position": 2, "name": "Find", "item": DOMAIN + "/find/"}]}
@@ -2259,7 +2503,7 @@ def build_find_pages(providers):
 '''
     open(os.path.join(d, "index.html"), "w").write(hub)
 
-    find_urls = ["/find/"] + [f'/find/{url_slug}/' for fam in families for _, _, url_slug in fam["entries"]]
+    find_urls = ["/find/"] + [fp["url"] for fp in all_find_pages]
     return find_urls
 
 
@@ -2519,7 +2763,7 @@ def build_sitemap(providers, find_urls=None):
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
-    urls += [f"/locations/{l['slug']}/" for l in LOCATIONS]
+    urls += [f"/locations/{l['slug']}/" for l in LOCATIONS if l["slug"] not in MIGRATED_LOCATION_SLUGS]
     urls += find_urls or []
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
@@ -2538,6 +2782,10 @@ def main():
     for it in providers:
         it["services"] = map_services(it)
     providers.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+
+    MIGRATED_LOCATION_SLUGS.clear()
+    MIGRATED_LOCATION_SLUGS.update(
+        loc["slug"] for loc in LOCATIONS if providers_for_location(loc, providers))
 
     build_map_data(providers)
     build_index(providers)

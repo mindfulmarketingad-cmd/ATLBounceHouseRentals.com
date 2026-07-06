@@ -1,0 +1,28 @@
+{
+  "redirects": [
+    { "source": "/locations/brookhaven", "destination": "/find/bounce-house-rentals-brookhaven-ga", "permanent": true },
+    { "source": "/locations/brookhaven/", "destination": "/find/bounce-house-rentals-brookhaven-ga/", "permanent": true },
+    { "source": "/locations/buckhead", "destination": "/find/bounce-house-rentals-buckhead-ga", "permanent": true },
+    { "source": "/locations/buckhead/", "destination": "/find/bounce-house-rentals-buckhead-ga/", "permanent": true },
+    { "source": "/locations/chamblee", "destination": "/find/bounce-house-rentals-chamblee-ga", "permanent": true },
+    { "source": "/locations/chamblee/", "destination": "/find/bounce-house-rentals-chamblee-ga/", "permanent": true },
+    { "source": "/locations/college-park", "destination": "/find/bounce-house-rentals-college-park-ga", "permanent": true },
+    { "source": "/locations/college-park/", "destination": "/find/bounce-house-rentals-college-park-ga/", "permanent": true },
+    { "source": "/locations/downtown-atlanta", "destination": "/find/bounce-house-rentals-downtown-atlanta-ga", "permanent": true },
+    { "source": "/locations/downtown-atlanta/", "destination": "/find/bounce-house-rentals-downtown-atlanta-ga/", "permanent": true },
+    { "source": "/locations/dunwoody", "destination": "/find/bounce-house-rentals-dunwoody-ga", "permanent": true },
+    { "source": "/locations/dunwoody/", "destination": "/find/bounce-house-rentals-dunwoody-ga/", "permanent": true },
+    { "source": "/locations/east-atlanta", "destination": "/find/bounce-house-rentals-east-atlanta-ga", "permanent": true },
+    { "source": "/locations/east-atlanta/", "destination": "/find/bounce-house-rentals-east-atlanta-ga/", "permanent": true },
+    { "source": "/locations/midtown", "destination": "/find/bounce-house-rentals-midtown-ga", "permanent": true },
+    { "source": "/locations/midtown/", "destination": "/find/bounce-house-rentals-midtown-ga/", "permanent": true },
+    { "source": "/locations/sandy-springs", "destination": "/find/bounce-house-rentals-sandy-springs-ga", "permanent": true },
+    { "source": "/locations/sandy-springs/", "destination": "/find/bounce-house-rentals-sandy-springs-ga/", "permanent": true },
+    { "source": "/locations/vinings", "destination": "/find/bounce-house-rentals-vinings-ga", "permanent": true },
+    { "source": "/locations/vinings/", "destination": "/find/bounce-house-rentals-vinings-ga/", "permanent": true },
+    { "source": "/locations/west-end", "destination": "/find/bounce-house-rentals-west-end-ga", "permanent": true },
+    { "source": "/locations/west-end/", "destination": "/find/bounce-house-rentals-west-end-ga/", "permanent": true },
+    { "source": "/locations/west-midtown", "destination": "/find/bounce-house-rentals-west-midtown-ga", "permanent": true },
+    { "source": "/locations/west-midtown/", "destination": "/find/bounce-house-rentals-west-midtown-ga/", "permanent": true }
+  ]
+}
