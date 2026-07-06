@@ -232,6 +232,72 @@ FOOTER = f'''<footer class="site-footer">
 
 ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2173008413459742" crossorigin="anonymous"></script>'
 
+# Leaflet CSS/JS for the interactive search map. Loaded only on pages that use it.
+LEAFLET_HEAD = ('<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" '
+                'integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">\n')
+LEAFLET_JS = ('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" '
+              'integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>')
+
+
+def searchmap_html(area="", lat=None, lng=None, zoom=11, limit=0):
+    """Return the search-map container. JS in /js/searchmap.js hydrates it from
+    window.ABHR_PROVIDERS. Optional lat/lng/zoom centers it on a city."""
+    attrs = f' data-area="{esc(area)}" data-zoom="{zoom}"'
+    if lat is not None and lng is not None:
+        attrs += f' data-lat="{lat:.5f}" data-lng="{lng:.5f}"'
+    if limit:
+        attrs += f' data-limit="{limit}"'
+    return f'<div class="searchmap" data-searchmap{attrs}></div>'
+
+
+def build_map_data(providers):
+    """Write /js/map-data.js exposing a compact provider array for the search map.
+    Loading it as a script (not fetch) keeps the map working on any static host."""
+    compact = []
+    for p in providers:
+        if not (p.get("lat") and p.get("lng")):
+            continue
+        compact.append({
+            "name": p["name"],
+            "slug": p["slug"],
+            "lat": round(float(p["lat"]), 6),
+            "lng": round(float(p["lng"]), 6),
+            "rating": p.get("rating") or 0,
+            "reviews": p.get("reviews") or 0,
+            "city": p.get("city") or "Atlanta",
+            "category": p.get("category") or "Party rentals",
+            "services": [SERVICES_SHORT[s] for s in p.get("services", []) if s in SERVICES_SHORT],
+        })
+    js = "window.ABHR_PROVIDERS = " + json.dumps(compact, ensure_ascii=False, separators=(",", ":")) + ";\n"
+    open(os.path.join(ROOT, "js", "map-data.js"), "w").write(js)
+
+
+# Geographic centers for each metro city/district, used when no directory
+# provider ZIP falls inside the area (so the map still centers correctly).
+CITY_CENTERS = {
+    "buckhead": (33.8484, -84.3781), "midtown": (33.7838, -84.3830),
+    "downtown-atlanta": (33.7550, -84.3900), "decatur": (33.7748, -84.2963),
+    "sandy-springs": (33.9304, -84.3733), "dunwoody": (33.9462, -84.3346),
+    "roswell": (34.0232, -84.3616), "alpharetta": (34.0754, -84.2941),
+    "marietta": (33.9526, -84.5499), "smyrna": (33.8840, -84.5144),
+    "kennesaw": (34.0234, -84.6155), "brookhaven": (33.8651, -84.3366),
+    "chamblee": (33.8920, -84.2988), "vinings": (33.8651, -84.4649),
+    "west-midtown": (33.7900, -84.4120), "east-atlanta": (33.7407, -84.3419),
+    "west-end": (33.7381, -84.4180), "east-point": (33.6795, -84.4394),
+    "college-park": (33.6534, -84.4494), "stone-mountain": (33.8082, -84.1702),
+    "lawrenceville": (33.9562, -83.9880), "johns-creek": (34.0289, -84.1986),
+}
+
+
+def location_center(loc, providers):
+    """City map center: mean lat/lng of matched providers, falling back to the
+    city's true geographic center, then to metro Atlanta."""
+    matched = providers_for_location(loc, providers, limit=50)
+    pts = [(float(p["lat"]), float(p["lng"])) for p in matched if p.get("lat") and p.get("lng")]
+    if pts:
+        return (sum(a for a, _ in pts) / len(pts), sum(b for _, b in pts) / len(pts))
+    return CITY_CENTERS.get(loc["slug"], (33.749, -84.388))
+
 
 def faq_block(faqs):
     """Return (visible HTML section, FAQPage JSON-LD) for a list of (q, a) pairs."""
@@ -383,7 +449,8 @@ def build_index(providers):
 <script type="application/ld+json">
 {json.dumps({"@context":"https://schema.org","@type":"LocalBusiness","name":"Atlanta Bounce House Rental Directory","telephone":PHONE_HREF,"url":DOMAIN+"/","areaServed":{"@type":"City","name":"Atlanta"},"address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"}}, ensure_ascii=False)}
 </script>
-{faq_ld}'''
+{faq_ld}
+{LEAFLET_HEAD}'''
     html_out = head(
         "Atlanta Bounce House Rental Directory | Connect With All Providers And Compare",
         "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
@@ -413,6 +480,17 @@ def build_index(providers):
         <li>Serving Atlanta and all surrounding metro areas</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<section id="map" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>Find Bounce House Rental Providers Near You</h2>
+      <p>Browse {len(providers)} bounce house and party rental providers across metro Atlanta. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    {searchmap_html(area="Atlanta", zoom=10)}
   </div>
 </section>
 
@@ -467,6 +545,9 @@ def build_index(providers):
 
 {FOOTER}
 
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/directory.js"></script>
 <script src="/js/wizard.js"></script>
@@ -1827,7 +1908,9 @@ def build_locations(providers):
             {"@type": "ListItem", "position": 2, "name": "Service Areas", "item": DOMAIN + "/locations/"},
             {"@type": "ListItem", "position": 3, "name": nl, "item": f"{DOMAIN}/locations/{loc['slug']}/"}]}
         extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
-                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}')
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
+
+        clat, clng = location_center(loc, providers)
 
         page = head(
             f"Bounce House Rentals in {nl}, GA | Atlanta Bounce House Rentals",
@@ -1841,6 +1924,17 @@ def build_locations(providers):
     <p>{esc(loc["blurb"])}</p>
   </div>
 </div>
+
+<section class="alt" id="map">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>Bounce House Providers On the Map Near {esc(nl)}</h2>
+      <p>Browse party rental providers closest to {esc(nl)}. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    {searchmap_html(area=nl, lat=clat, lng=clng, zoom=11)}
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -1899,6 +1993,9 @@ def build_locations(providers):
 
 {FOOTER}
 
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -2184,6 +2281,7 @@ def main():
         it["services"] = map_services(it)
     providers.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
 
+    build_map_data(providers)
     build_index(providers)
     build_partners(providers)
     build_partner_pages(providers)

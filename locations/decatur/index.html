@@ -35,6 +35,8 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does it cost to rent a bounce house in Decatur?", "acceptedAnswer": {"@type": "Answer", "text": "In Decatur, a classic bounce house typically rents for about $120&ndash;$260 per day, with combo slides, water slides and obstacle courses running roughly $180&ndash;$900+ depending on size. Final pricing depends on your date, delivery distance and rental length. See current $99 specials or request a free quote."}}, {"@type": "Question", "name": "Do providers deliver bounce houses to Decatur?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers deliver bounce houses, water slides, tents, tables, chairs and concessions throughout Decatur, including Oakhurst, Winnona Park, Glenwood Estates, Kirkwood, and handle setup and pickup."}}, {"@type": "Question", "name": "How far in advance should I book a bounce house in Decatur?", "acceptedAnswer": {"@type": "Answer", "text": "For weekend dates in Decatur during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;book now and we'll check live availability."}}, {"@type": "Question", "name": "What can I rent for a party in Decatur?", "acceptedAnswer": {"@type": "Answer", "text": "You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See all services."}}]}
 </script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
 <header class="site-header">
@@ -61,6 +63,17 @@
     <p>Decatur&#x27;s family-dense neighborhoods like Oakhurst and Winnona Park make it one of the strongest bounce house markets east of Atlanta. Our directory matches Decatur families with providers who deliver classic bounce houses, combo slides and obstacle courses to backyards, schools and parks throughout the 30030 and 30033 areas.</p>
   </div>
 </div>
+
+<section class="alt" id="map">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>Bounce House Providers On the Map Near Decatur</h2>
+      <p>Browse party rental providers closest to Decatur. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    <div class="searchmap" data-searchmap data-area="Decatur" data-zoom="11" data-lat="33.77480" data-lng="-84.29630"></div>
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -199,6 +212,9 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
 </body>

@@ -35,6 +35,8 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does it cost to rent a bounce house in Kennesaw?", "acceptedAnswer": {"@type": "Answer", "text": "In Kennesaw, a classic bounce house typically rents for about $120&ndash;$260 per day, with combo slides, water slides and obstacle courses running roughly $180&ndash;$900+ depending on size. Final pricing depends on your date, delivery distance and rental length. See current $99 specials or request a free quote."}}, {"@type": "Question", "name": "Do providers deliver bounce houses to Kennesaw?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers deliver bounce houses, water slides, tents, tables, chairs and concessions throughout Kennesaw, including Legacy Park, Stilesboro, Brookstone, Town Center, and handle setup and pickup."}}, {"@type": "Question", "name": "How far in advance should I book a bounce house in Kennesaw?", "acceptedAnswer": {"@type": "Answer", "text": "For weekend dates in Kennesaw during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;book now and we'll check live availability."}}, {"@type": "Question", "name": "What can I rent for a party in Kennesaw?", "acceptedAnswer": {"@type": "Answer", "text": "You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See all services."}}]}
 </script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
 <header class="site-header">
@@ -61,6 +63,17 @@
     <p>Kennesaw&#x27;s family subdivisions around Legacy Park and Brookstone keep weekend demand high for bounce houses and water slides through Cobb County&#x27;s long warm season. Directory providers serving 30144 and 30152 deliver and set up inflatables and party equipment across Kennesaw and Acworth.</p>
   </div>
 </div>
+
+<section class="alt" id="map">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>Bounce House Providers On the Map Near Kennesaw</h2>
+      <p>Browse party rental providers closest to Kennesaw. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    <div class="searchmap" data-searchmap data-area="Kennesaw" data-zoom="11" data-lat="34.02340" data-lng="-84.61550"></div>
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -197,6 +210,9 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
