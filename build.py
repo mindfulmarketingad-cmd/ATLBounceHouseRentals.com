@@ -62,6 +62,24 @@ KEYWORDS = [
     (["package", "party rental", "party equipment", "event rental", "event planner", "event management", "party planner", "party supply"], "party-package-rentals"),
 ]
 
+# Finer-grained tags shown as extra searchmap filter chips, layered on top of
+# the core SERVICES categories above. Not full service pages — just richer
+# filtering/labeling for the map, so a listing can carry both the broad
+# "Tents & Tables" tag and a specific "Chair Rentals" or "Tent Rentals" one.
+MAP_EXTRA_KEYWORDS = [
+    (["chair"], "Chair Rentals"),
+    (["tent", "canopy"], "Tent Rentals"),
+    (["table"], "Table Rentals"),
+]
+
+
+def extra_map_tags(it):
+    hay = " ".join([it["name"], it["subtypes"], it["category"]]).lower()
+    tags = [label for words, label in MAP_EXTRA_KEYWORDS if any(w in hay for w in words)]
+    if "classic-bounce-house-rentals" in it.get("services", []):
+        tags.append("$99 Bounce House Rentals")
+    return tags
+
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
 # Real Atlanta ZIP codes present in the listings, mapped to their common area names.
@@ -267,7 +285,7 @@ def build_map_data(providers):
             "reviews": p.get("reviews") or 0,
             "city": p.get("city") or "Atlanta",
             "category": p.get("category") or "Party rentals",
-            "services": [SERVICES_SHORT[s] for s in p.get("services", []) if s in SERVICES_SHORT],
+            "services": [SERVICES_SHORT[s] for s in p.get("services", []) if s in SERVICES_SHORT] + extra_map_tags(p),
         })
     js = "window.ABHR_PROVIDERS = " + json.dumps(compact, ensure_ascii=False, separators=(",", ":")) + ";\n"
     open(os.path.join(ROOT, "js", "map-data.js"), "w").write(js)
@@ -2056,7 +2074,7 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "silent-disco-rentals", "url_prefix": "silent-disco-rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-table-rentals", "page_name": "Event Table Rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-chair-rentals", "page_name": "Event Chair Rentals"},
-    {"service_slug": "classic-bounce-house-rentals", "url_prefix": "99-bounce-house-rentals", "page_name": "$99 Bounce House Rentals"},
+    {"service_slug": "classic-bounce-house-rentals", "url_prefix": "99-bounce-house-rentals", "page_name": "$99 Bounce House Rentals", "map_filter": "$99 Bounce House Rentals"},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
@@ -2098,7 +2116,8 @@ def build_find_pages(providers):
             url_slug = f'{fam["url_prefix"]}-{loc["slug"]}-ga'
             entries.append((loc, matched, url_slug))
         families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
-                          "entries": entries, "match_mode": match_mode})
+                          "entries": entries, "match_mode": match_mode,
+                          "map_filter": fam.get("map_filter")})
 
     near_me = []  # per service: {slug, name, matched, url_slug}
     for slug in SERVICES:
@@ -2126,7 +2145,7 @@ def build_find_pages(providers):
         slug = fam["slug"]
         match_mode = fam["match_mode"]
         svc_name = fam["name"]
-        svc_short = SERVICES_SHORT.get(slug, "") if slug else ""
+        svc_short = fam.get("map_filter") or (SERVICES_SHORT.get(slug, "") if slug else "")
         for loc, matched, url_slug in fam["entries"]:
             nl = loc["name"]
             title = f"{svc_name} in {nl} Georgia"
