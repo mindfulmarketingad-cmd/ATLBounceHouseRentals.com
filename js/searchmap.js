@@ -69,24 +69,76 @@
     });
     var serviceList = Object.keys(allServices).sort();
 
+    var SORT_OPTIONS = [
+      { key: "distance", label: "Closest" },
+      { key: "rating",   label: "Highest Rated" },
+      { key: "reviews",  label: "Most Reviewed" },
+      { key: "name",     label: "Name (A-Z)" }
+    ];
+
     // ── Build the shell ──────────────────────────────────────────────
     var panel = document.createElement("div");
     panel.className = "sm-panel";
 
-    // Filter chips
-    var filterContainer = document.createElement("div");
-    filterContainer.className = "sm-filters";
+    // ── Filters + Sort controls (single dropdown each) ───────────────
+    var controls = document.createElement("div");
+    controls.className = "sm-controls";
+
+    var filterDd = document.createElement("div");
+    filterDd.className = "sm-dropdown";
+    var filterBtn = document.createElement("button");
+    filterBtn.type = "button";
+    filterBtn.className = "sm-dropdown-btn";
+    filterBtn.innerHTML = 'Filters <span class="sm-dd-count"></span><span class="sm-dd-arrow">&#9662;</span>';
+    var filterPanel = document.createElement("div");
+    filterPanel.className = "sm-dropdown-panel";
     var filters = {};
-    serviceList.forEach(function (svc) {
-      var chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "sm-filter-chip";
-      chip.textContent = svc;
-      chip.setAttribute("data-service", svc);
-      filterContainer.appendChild(chip);
-      filters[svc] = { chip: chip, active: false };
+    serviceList.forEach(function (svc, si) {
+      var row = document.createElement("label");
+      row.className = "sm-dd-check";
+      var cbId = "sm-filter-" + si + "-" + Math.floor(Math.random() * 100000);
+      row.innerHTML = '<input type="checkbox" id="' + cbId + '"> <span>' + esc(svc) + '</span>';
+      var input = row.querySelector("input");
+      filterPanel.appendChild(row);
+      filters[svc] = { input: input, active: false };
     });
-    panel.appendChild(filterContainer);
+    var filterActions = document.createElement("div");
+    filterActions.className = "sm-dropdown-actions";
+    var clearBtn = document.createElement("button");
+    clearBtn.type = "button";
+    clearBtn.className = "sm-dd-clear";
+    clearBtn.textContent = "Clear filters";
+    filterActions.appendChild(clearBtn);
+    filterPanel.appendChild(filterActions);
+    filterDd.appendChild(filterBtn);
+    filterDd.appendChild(filterPanel);
+
+    var sortDd = document.createElement("div");
+    sortDd.className = "sm-dropdown";
+    var sortBtn = document.createElement("button");
+    sortBtn.type = "button";
+    sortBtn.className = "sm-dropdown-btn";
+    sortBtn.innerHTML = 'Sort: <span class="sm-dd-sortlabel">Closest</span><span class="sm-dd-arrow">&#9662;</span>';
+    var sortPanel = document.createElement("div");
+    sortPanel.className = "sm-dropdown-panel";
+    var sortInputs = {};
+    var currentSort = "distance";
+    var sortGroupName = "sm-sort-group-" + Math.floor(Math.random() * 1000000);
+    SORT_OPTIONS.forEach(function (opt, oi) {
+      var row = document.createElement("label");
+      row.className = "sm-dd-check sm-dd-radio";
+      var rid = "sm-sort-" + oi + "-" + Math.floor(Math.random() * 100000);
+      row.innerHTML = '<input type="radio" name="' + sortGroupName + '" id="' + rid + '"' + (opt.key === "distance" ? " checked" : "") + '> <span>' + esc(opt.label) + '</span>';
+      var input = row.querySelector("input");
+      sortPanel.appendChild(row);
+      sortInputs[opt.key] = input;
+    });
+    sortDd.appendChild(sortBtn);
+    sortDd.appendChild(sortPanel);
+
+    controls.appendChild(filterDd);
+    controls.appendChild(sortDd);
+    panel.appendChild(controls);
 
     var listHead = document.createElement("div");
     listHead.className = "sm-panel-head";
@@ -166,6 +218,37 @@
       var plural = visibleCount === 1 ? "" : "s";
       listHead.innerHTML = "<strong>" + visibleCount + "</strong> provider" + plural +
         (areaName ? " near " + esc(areaName) : " across metro Atlanta");
+      var countEl = filterBtn.querySelector(".sm-dd-count");
+      countEl.textContent = activeServices.length ? "(" + activeServices.length + ")" : "";
+    }
+
+    function sortIndices(mode) {
+      var idxs = providers.map(function (_, i) { return i; });
+      if (mode === "rating") {
+        idxs.sort(function (a, b) {
+          return (providers[b].rating || 0) - (providers[a].rating || 0) ||
+                 (providers[b].reviews || 0) - (providers[a].reviews || 0);
+        });
+      } else if (mode === "reviews") {
+        idxs.sort(function (a, b) { return (providers[b].reviews || 0) - (providers[a].reviews || 0); });
+      } else if (mode === "name") {
+        idxs.sort(function (a, b) { return providers[a].name.localeCompare(providers[b].name); });
+      }
+      // "distance" (default): providers are already sorted closest-first, so natural index order applies.
+      return idxs;
+    }
+
+    function applySort(mode) {
+      currentSort = mode;
+      sortIndices(mode).forEach(function (i) { list.appendChild(cards[i]); });
+      var opt = SORT_OPTIONS.filter(function (o) { return o.key === mode; })[0];
+      sortBtn.querySelector(".sm-dd-sortlabel").textContent = opt ? opt.label : "Closest";
+    }
+
+    function closeDropdowns(except) {
+      [filterDd, sortDd].forEach(function (dd) {
+        if (dd !== except) dd.classList.remove("open");
+      });
     }
 
     providers.forEach(function (p, i) {
@@ -213,14 +296,47 @@
       cards.push(card);
     });
 
-    // Attach filter chip listeners
+    // Attach filter checkbox listeners
     Object.keys(filters).forEach(function (svc) {
-      filters[svc].chip.addEventListener("click", function () {
-        filters[svc].active = !filters[svc].active;
-        filters[svc].chip.classList.toggle("active");
+      filters[svc].input.addEventListener("change", function () {
+        filters[svc].active = filters[svc].input.checked;
         updateFilter();
       });
     });
+    clearBtn.addEventListener("click", function () {
+      Object.keys(filters).forEach(function (svc) {
+        filters[svc].active = false;
+        filters[svc].input.checked = false;
+      });
+      updateFilter();
+    });
+
+    // Attach sort radio listeners
+    Object.keys(sortInputs).forEach(function (key) {
+      sortInputs[key].addEventListener("change", function () {
+        if (sortInputs[key].checked) {
+          applySort(key);
+          sortDd.classList.remove("open");
+        }
+      });
+    });
+
+    // Dropdown open/close behavior
+    filterBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var willOpen = !filterDd.classList.contains("open");
+      closeDropdowns();
+      filterDd.classList.toggle("open", willOpen);
+    });
+    sortBtn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      var willOpen = !sortDd.classList.contains("open");
+      closeDropdowns();
+      sortDd.classList.toggle("open", willOpen);
+    });
+    filterPanel.addEventListener("click", function (e) { e.stopPropagation(); });
+    sortPanel.addEventListener("click", function (e) { e.stopPropagation(); });
+    document.addEventListener("click", function () { closeDropdowns(); });
 
     function scrollCardIntoView(idx) {
       var c = cards[idx];
