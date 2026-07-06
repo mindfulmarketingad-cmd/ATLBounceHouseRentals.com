@@ -498,7 +498,15 @@
         "Prefer": "return=minimal"
       },
       body: JSON.stringify(row)
-    }).catch(function () { /* offline or blocked — lead is still saved locally */ });
+    }).then(function (res) {
+      if (!res.ok) {
+        res.text().then(function (t) {
+          console.error("Supabase lead insert failed (" + res.status + "): " + t);
+        });
+      }
+    }).catch(function (err) {
+      console.error("Supabase lead insert error:", err);
+    });
   }
 
   function submitWizard() {
