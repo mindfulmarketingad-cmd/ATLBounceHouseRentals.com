@@ -2007,6 +2007,7 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "photo-booth-rentals", "url_prefix": "photo-booth-rentals"},
     {"service_slug": "obstacle-course-rentals", "url_prefix": "obstacle-course-rentals"},
     {"service_slug": "water-slide-rentals", "url_prefix": "water-slide-rentals"},
+    {"service_slug": "silent-disco-rentals", "url_prefix": "silent-disco-rentals"},
 ]
 
 
