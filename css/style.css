@@ -211,6 +211,7 @@ table.hours tr.today td { color: var(--accent-dark); font-weight: 700; }
 table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; color: var(--accent); font-weight: 700; }
 .info-box { border: 1px solid var(--line); border-radius: 12px; padding: 22px; background: #fff; box-shadow: var(--shadow); margin-bottom: 22px; }
 .info-box h3 { margin-top: 0; font-size: 1.05rem; }
+.own-business-box { background: var(--bg-soft); border-style: dashed; }
 .svc-tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .svc-tags a { font-size: 0.82rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; background: var(--sky); color: var(--accent-dark); border: 1px solid var(--sky-2); text-decoration: none; }
 .svc-tags a:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -668,6 +669,15 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   text-decoration: none;
   padding: 4px 6px;
 }
+.sm-card-own {
+  display: inline-block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 6px;
+  text-decoration: none;
+}
+.sm-card-own:hover { color: var(--accent-dark); text-decoration: underline; }
 .sm-star { color: #f5b301; }
 .sm-noreview { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
 .sm-muted { color: var(--muted); }

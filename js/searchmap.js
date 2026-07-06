@@ -9,6 +9,7 @@
   "use strict";
 
   var ATL = [33.749, -84.388]; // metro Atlanta fallback center
+  var OWN_BUSINESS_URL = "https://buy.stripe.com/3cIfZi96i6cM7My9pIfrW09";
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -188,6 +189,7 @@
           '</div>' +
           '<div class="sm-card-loc">' + esc(p.category || "Party rentals") + ' &middot; ' + esc(p.city) + ', GA</div>' +
           (svc ? '<div class="sm-card-svc">' + esc(svc) + '</div>' : "") +
+          '<a class="sm-card-own" href="' + OWN_BUSINESS_URL + '" target="_blank" rel="noopener">Own this business &rsaquo;</a>' +
         '</div>' +
         '<a class="sm-card-cta" href="/partners/' + esc(p.slug) + '/" aria-label="View ' + esc(p.name) + '">&#8599;</a>';
       card.addEventListener("mouseenter", function () { if (visibleIndices[i]) highlight(i); });

@@ -13,6 +13,7 @@ import json, os, re, html
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PHONE_DISPLAY = "(401) 889-0182"
 PHONE_HREF = "+14018890182"
+OWN_BUSINESS_URL = "https://buy.stripe.com/3cIfZi96i6cM7My9pIfrW09"
 DOMAIN = "https://atlbouncehouserentals.com"
 
 SERVICES = {
@@ -668,6 +669,12 @@ def build_partner_pages(providers):
         {hours_rows(it)}
           </table>
           <p class="muted" style="font-size:0.8rem;margin:12px 0 0;">Hours from Google. Call to confirm holiday availability.</p>
+        </div>
+
+        <div class="info-box own-business-box">
+          <h3>Are You {esc(name)}?</h3>
+          <p class="muted" style="font-size:0.88rem;">Claim this listing to update your info, add photos and get priority placement in the directory.</p>
+          <a class="btn btn-block" href="{OWN_BUSINESS_URL}" target="_blank" rel="noopener">Own This Business &rsaquo;</a>
         </div>
       </aside>
     </div>
