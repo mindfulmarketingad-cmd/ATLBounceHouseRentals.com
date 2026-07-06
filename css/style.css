@@ -673,13 +673,21 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   text-decoration: none;
   padding: 4px 6px;
 }
+.sm-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-top: 10px;
+}
 .sm-card-own {
   display: inline-block;
   font-size: 0.76rem;
   font-weight: 600;
   color: var(--muted);
-  margin-top: 6px;
   text-decoration: none;
+  flex: none;
 }
 .sm-card-own:hover { color: var(--accent-dark); text-decoration: underline; }
 .sm-card-book {
@@ -693,7 +701,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   padding: 7px 14px;
   border-radius: 7px;
   cursor: pointer;
-  margin-top: 8px;
+  flex: none;
   transition: background 0.12s ease;
 }
 .sm-card-book:hover { background: var(--accent-dark); }
@@ -805,6 +813,27 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   text-decoration: none !important;
 }
 .sm-popup-btn:hover { background: var(--accent-dark); }
+
+/* Satellite / map type toggle (Leaflet control) */
+.sm-maptype {
+  display: flex;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.28);
+  overflow: hidden;
+}
+.sm-maptype-btn {
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: #fff;
+  border: 0;
+  padding: 7px 12px;
+  cursor: pointer;
+}
+.sm-maptype-btn:hover { background: var(--sky); }
+.sm-maptype-btn.active { background: var(--accent); color: #fff; }
 
 /* Mobile list toggle (hidden on desktop) */
 .sm-list-toggle { display: none; }

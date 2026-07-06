@@ -420,7 +420,7 @@ def build_index(providers):
         f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
     areas = coverage_areas(providers)
     area_links = "\n      ".join(
-        f'<li><a href="/locations/{l["slug"]}/">Bounce House Rentals in {esc(l["name"])}</a></li>'
+        f'<li><a href="{location_href(l)}">Bounce House Rentals in {esc(l["name"])}</a></li>'
         for l in LOCATIONS)
     chips = "\n          ".join(
         f'<button type="button" data-q="{SERVICES[s].lower()}">{SERVICES[s]}</button>' for s in SERVICES)
@@ -709,6 +709,22 @@ def providers_for_location(loc, providers, limit=12):
     return matched[:limit]
 
 
+# Cities with at least one matched provider get a full programmatic /find/
+# page instead of a /locations/ page (populated in main() before any builder
+# that links to a location runs). Cities with zero matched providers keep
+# their /locations/ page as a general, provider-list-free landing page.
+MIGRATED_LOCATION_SLUGS = set()
+
+
+def location_href(loc):
+    """Where a link to this location should point — /find/ if it has been
+    migrated to a programmatic page, otherwise the original /locations/ page."""
+    slug = loc["slug"]
+    if slug in MIGRATED_LOCATION_SLUGS:
+        return f"/find/bounce-house-rentals-{slug}-ga/"
+    return f"/locations/{slug}/"
+
+
 
 def build_service_pages(providers):
     data = SERVICE_CONTENT
@@ -717,7 +733,7 @@ def build_service_pages(providers):
         others = "\n            ".join(
             f'<li><a href="/services/{x}/">{SERVICES[x]}</a></li>' for x in SERVICES if x != slug)
         loc_links = "\n            ".join(
-            f'<li><a href="/locations/{l["slug"]}/">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
+            f'<li><a href="{location_href(l)}">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
             for l in LOCATIONS[:12])
         offering = [p for p in providers if slug in p["services"]]
         offering.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
@@ -1140,7 +1156,7 @@ def build_service_pages(providers):
         others = "\n            ".join(
             f'<li><a href="/services/{x}/">{SERVICES[x]}</a></li>' for x in SERVICES if x != slug)
         loc_links = "\n            ".join(
-            f'<li><a href="/locations/{l["slug"]}/">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
+            f'<li><a href="{location_href(l)}">{SERVICES[slug]} in {esc(l["name"])}</a></li>'
             for l in LOCATIONS[:12])
         offering = [p for p in providers if slug in p["services"]]
         offering.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
@@ -1770,8 +1786,13 @@ def build_locations(providers):
     matched providers, and out to the cheap-rentals page — so none are orphaned."""
 
     # --- index page ---
+    # Cities with actual matched listings have been migrated to full
+    # programmatic /find/ pages; only list the remaining cities here.
+    remaining_locs = [loc for loc in LOCATIONS if loc["slug"] not in MIGRATED_LOCATION_SLUGS]
+    migrated_locs = [loc for loc in LOCATIONS if loc["slug"] in MIGRATED_LOCATION_SLUGS]
+
     cards = []
-    for loc in LOCATIONS:
+    for loc in remaining_locs:
         n = providers_for_location(loc, providers)
         hoods = ", ".join(loc["neighborhoods"][:3])
         cards.append(f'''    <a class="loc-card" href="/locations/{loc["slug"]}/">
@@ -1783,11 +1804,27 @@ def build_locations(providers):
     svc_links = "\n      ".join(
         f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta</a></li>' for s in SERVICES)
 
+    migrated_links = "\n      ".join(
+        f'<li><a href="{location_href(loc)}">Bounce House Rentals in {esc(loc["name"])}</a></li>'
+        for loc in migrated_locs)
+    migrated_html = ""
+    if migrated_locs:
+        migrated_html = f'''
+<section>
+  <div class="container content" style="max-width:none;">
+    <h2>Cities With Local Listings</h2>
+    <p>These cities have dedicated pages with local providers, an interactive map and pricing on our <a href="/find/">Find hub</a>:</p>
+    <ul class="bullet-services">
+      {migrated_links}
+    </ul>
+  </div>
+</section>'''
+
     item_ld = {"@context": "https://schema.org", "@type": "ItemList",
                "itemListElement": [
                    {"@type": "ListItem", "position": i + 1,
                     "name": f'Bounce House Rentals in {l["name"]}',
-                    "url": f'{DOMAIN}/locations/{l["slug"]}/'}
+                    "url": f'{DOMAIN}{location_href(l)}'}
                    for i, l in enumerate(LOCATIONS)]}
     bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
@@ -1815,7 +1852,7 @@ def build_locations(providers):
     </div>
   </div>
 </section>
-
+{migrated_html}
 <section class="alt">
   <div class="container content" style="max-width:none;">
     <h2>Every Rental Service, Available Across Atlanta</h2>
@@ -2235,7 +2272,7 @@ def build_cheap(providers):
         f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
         f'{" &mdash; " + str(p["rating"]) + "&#9733;" if p.get("rating") else ""}</li>' for p in top)
     loc_links = "\n          ".join(
-        f'<li><a href="/locations/{l["slug"]}/">Cheap bounce house rentals in {esc(l["name"])}</a></li>'
+        f'<li><a href="{location_href(l)}">Cheap bounce house rentals in {esc(l["name"])}</a></li>'
         for l in LOCATIONS[:12])
     svc_links = "\n          ".join(
         f'<li><a href="/services/{s}/">{SERVICES[s]}</a></li>' for s in SERVICES)

@@ -169,10 +169,49 @@
       scrollWheelZoom: false,
       zoomControl: true
     });
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    var streetLayer = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+    var satLayer = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      maxZoom: 19,
+      attribution: "Tiles &copy; Esri"
+    });
+    var satLabels = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}", {
+      maxZoom: 19,
+      pane: "shadowPane"
+    });
+
+    var MapTypeControl = L.Control.extend({
+      options: { position: "topright" },
+      onAdd: function () {
+        var box = L.DomUtil.create("div", "sm-maptype");
+        box.innerHTML =
+          '<button type="button" class="sm-maptype-btn active" data-type="map">Map</button>' +
+          '<button type="button" class="sm-maptype-btn" data-type="sat">Satellite</button>';
+        L.DomEvent.disableClickPropagation(box);
+        var btns = box.querySelectorAll(".sm-maptype-btn");
+        btns.forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            if (btn.classList.contains("active")) return;
+            btns.forEach(function (b) { b.classList.remove("active"); });
+            btn.classList.add("active");
+            if (btn.getAttribute("data-type") === "sat") {
+              map.removeLayer(streetLayer);
+              satLayer.addTo(map);
+              satLabels.addTo(map);
+            } else {
+              map.removeLayer(satLayer);
+              map.removeLayer(satLabels);
+              streetLayer.addTo(map);
+            }
+          });
+        });
+        return box;
+      }
+    });
+    map.addControl(new MapTypeControl());
+
     // Let the wheel zoom only after the user clicks into the map.
     map.on("focus", function () { map.scrollWheelZoom.enable(); });
     map.on("blur", function () { map.scrollWheelZoom.disable(); });
@@ -283,8 +322,10 @@
           '</div>' +
           '<div class="sm-card-loc">' + esc(p.category || "Party rentals") + ' &middot; ' + esc(p.city) + ', GA</div>' +
           (allChips.length ? '<div class="sm-card-svc sm-chips">' + allChips.join("") + '</div>' : "") +
-          '<a class="sm-card-own" href="' + OWN_BUSINESS_URL + '" target="_blank" rel="noopener">Own this business &rsaquo;</a>' +
-          '<button type="button" class="sm-card-book" data-wizard-open>Book Now &rsaquo;</button>' +
+          '<div class="sm-card-actions">' +
+            '<a class="sm-card-own" href="' + OWN_BUSINESS_URL + '" target="_blank" rel="noopener">Own this business &rsaquo;</a>' +
+            '<button type="button" class="sm-card-book" data-wizard-open>Book Now &rsaquo;</button>' +
+          '</div>' +
         '</div>' +
         '<a class="sm-card-cta" href="/partners/' + esc(p.slug) + '/" aria-label="View ' + esc(p.name) + '">&#8599;</a>';
       card.addEventListener("mouseenter", function () { if (visibleIndices[i]) highlight(i); });
