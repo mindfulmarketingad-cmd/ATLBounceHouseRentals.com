@@ -2496,11 +2496,14 @@ def build_find_pages(providers):
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Find</div>
     <h1>Find Exactly What You Need</h1>
     <p>Every page below combines an interactive provider map with details on pricing, availability and reviews for a specific service in a specific Atlanta-area city &mdash; so you can compare and book faster.</p>
+    <div class="find-search">
+      <input id="find-search" type="search" placeholder="Search a service or city &mdash; e.g. photo booth, Buckhead, tent&hellip;" aria-label="Search find pages">
+    </div>
   </div>
 </div>
 
 <section>
-  <div class="container content" style="max-width:none;">
+  <div class="container content" style="max-width:none;" id="find-sections">
     {sections}
   </div>
 </section>
@@ -2517,6 +2520,7 @@ def build_find_pages(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
+<script src="/js/find.js"></script>
 </body>
 </html>
 '''

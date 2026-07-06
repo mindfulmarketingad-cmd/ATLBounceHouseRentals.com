@@ -185,6 +185,23 @@ section.alt { background: var(--bg-soft); }
 
 .bullet-services { columns: 1; column-gap: 40px; list-style: none; padding: 0; }
 .bullet-cols { columns: 3; }
+
+/* /find/ hub search */
+.find-search { margin-top: 20px; max-width: 560px; }
+.find-search input {
+  width: 100%;
+  padding: 13px 18px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--black);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.find-search input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(58,147,214,0.18); }
+.find-search-empty { color: var(--muted); font-size: 1rem; padding: 10px 0; }
 .bullet-services li { margin-bottom: 14px; break-inside: avoid; padding-left: 20px; position: relative; }
 .bullet-services li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; background: var(--accent); border-radius: 2px; }
 .bullet-services a { font-weight: 600; color: var(--black); }
