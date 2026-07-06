@@ -184,6 +184,7 @@ section.alt { background: var(--bg-soft); }
 .page-head p { color: #2c333b; max-width: 760px; margin-bottom: 0; }
 
 .bullet-services { columns: 1; column-gap: 40px; list-style: none; padding: 0; }
+.bullet-cols { columns: 3; }
 .bullet-services li { margin-bottom: 14px; break-inside: avoid; padding-left: 20px; position: relative; }
 .bullet-services li::before { content: ""; position: absolute; left: 0; top: 10px; width: 8px; height: 8px; background: var(--accent); border-radius: 2px; }
 .bullet-services a { font-weight: 600; color: var(--black); }
@@ -329,10 +330,21 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .hero h1 { font-size: 2.1rem; }
-  .grid-3, .price-grid { grid-template-columns: 1fr; }
+  /* !important so single-column wins over inline grid-template-columns
+     set on content+aside grids in the generated pages. */
+  .grid, .grid-2, .grid-3, .price-grid { grid-template-columns: 1fr !important; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
+  /* Sticky sidebars make no sense once stacked under the content. */
+  aside .quote-card, aside .info-box { position: static !important; }
 }
 @media (max-width: 760px) {
+  /* No multi-column layouts on mobile — everything stacks. */
+  .grid, .grid-2, .grid-3, .price-grid, .bh-specs, .bh-detail { grid-template-columns: 1fr !important; }
+  img, iframe { max-width: 100%; }
+  .content table { display: block; overflow-x: auto; }
+  .content, .content li, .content p { overflow-wrap: break-word; }
+  section { padding: 44px 0; }
+  .page-head { padding: 34px 0 26px; }
   .main-nav { display: none; position: absolute; top: 64px; left: 0; right: 0; background: #fff; flex-direction: column; gap: 0; border-bottom: 1px solid var(--line); padding: 10px 20px; box-shadow: var(--shadow); }
   .main-nav.open { display: flex; }
   .main-nav a { padding: 12px 0; border-bottom: 1px solid var(--line); }
@@ -341,7 +353,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .phone-cta { font-size: 1rem; padding: 8px 12px; }
   .phone-cta .ph-label { display: none; }
   .book-now-cta { font-size: 0.9rem; padding: 8px 14px; }
-  .bullet-services { columns: 1; }
+  .bullet-services, .bullet-cols { columns: 1 !important; }
   .footer-grid { grid-template-columns: 1fr; }
   .provider-table thead { display: none; }
   .provider-table tbody td { padding: 8px 10px; }
@@ -583,7 +595,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
     padding: 20px 16px;
   }
   .wizard-option-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
   }
   .wizard-cta-block {
     align-items: center;
@@ -712,6 +724,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 /* Filters + Sort controls */
 .sm-controls {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   padding: 12px 18px;
   border-bottom: 1px solid var(--line);

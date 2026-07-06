@@ -503,7 +503,7 @@ def build_index(providers):
       <h2>Bounce House Rentals Across Metro Atlanta</h2>
       <p>The {len(providers)} providers in our directory serve every corner of the Atlanta metro. Choose your city or neighborhood to see local providers and pricing:</p>
     </div>
-    <ul class="bullet-services" style="columns:3;margin-bottom:24px;">
+    <ul class="bullet-services bullet-cols" style="margin-bottom:24px;">
       {area_links}
     </ul>
     <p style="text-align:center;"><a class="btn btn-outline" href="/locations/">View All Service Areas</a></p>
