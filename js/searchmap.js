@@ -45,6 +45,14 @@
     var zoom = num(container.getAttribute("data-zoom"), 11);
     var limit = num(container.getAttribute("data-limit"), 0);
     var areaName = container.getAttribute("data-area") || "";
+    var serviceFilter = container.getAttribute("data-service") || "";
+
+    if (serviceFilter) {
+      providers = providers.filter(function (p) {
+        return (p.services || []).indexOf(serviceFilter) >= 0;
+      });
+      if (!providers.length) { container.style.display = "none"; return; }
+    }
 
     // Sort providers by proximity to the map center so the closest show first.
     providers = providers.slice().sort(function (a, b) {

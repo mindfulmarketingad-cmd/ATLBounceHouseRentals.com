@@ -240,14 +240,18 @@ LEAFLET_JS = ('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" '
               'integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>')
 
 
-def searchmap_html(area="", lat=None, lng=None, zoom=11, limit=0):
+def searchmap_html(area="", lat=None, lng=None, zoom=11, limit=0, service=""):
     """Return the search-map container. JS in /js/searchmap.js hydrates it from
-    window.ABHR_PROVIDERS. Optional lat/lng/zoom centers it on a city."""
+    window.ABHR_PROVIDERS. Optional lat/lng/zoom centers it on a city.
+    Optional service pre-filters providers to only those offering that service
+    (matches the SERVICES_SHORT label used in map-data.js)."""
     attrs = f' data-area="{esc(area)}" data-zoom="{zoom}"'
     if lat is not None and lng is not None:
         attrs += f' data-lat="{lat:.5f}" data-lng="{lng:.5f}"'
     if limit:
         attrs += f' data-limit="{limit}"'
+    if service:
+        attrs += f' data-service="{esc(service)}"'
     return f'<div class="searchmap" data-searchmap{attrs}></div>'
 
 
@@ -1181,7 +1185,7 @@ def build_service_pages(providers):
         ]
         faq_html, faq_ld = faq_block(faqs)
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
-                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}')
+                 f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
         page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
                     f"{DOMAIN}/services/{slug}/", extra)
@@ -1193,6 +1197,17 @@ def build_service_pages(providers):
     <p>{s["intro"]}</p>
   </div>
 </div>
+
+<section id="map" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>{s["name"]} Providers Near You</h2>
+      <p>Browse {len(offering)} Atlanta providers offering {nml}. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    {searchmap_html(area="Atlanta", zoom=10, service=SERVICES_SHORT[slug])}
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -1259,6 +1274,9 @@ def build_service_pages(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 </body>
 </html>
 '''

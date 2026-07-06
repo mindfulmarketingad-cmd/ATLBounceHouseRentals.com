@@ -35,6 +35,8 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do water slide rentals cost in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "In the Atlanta area, water slide rentals typically range from $180&ndash;$260 for a small event up to $420&ndash;$700+ for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. Request a free quote for exact pricing."}}, {"@type": "Question", "name": "How do I book water slide rentals in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Click Book Now to tell us about your event. We'll match you with available Atlanta providers that offer water slide rentals for your date."}}, {"@type": "Question", "name": "Do providers deliver water slide rentals across metro Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers deliver water slide rentals to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup."}}, {"@type": "Question", "name": "How far in advance should I reserve water slide rentals?", "acceptedAnswer": {"@type": "Answer", "text": "Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;book now and we'll check live availability."}}]}
 </script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
 <header class="site-header">
@@ -61,6 +63,17 @@
     <p>Water slide rentals in Atlanta, Georgia are the ultimate way to cool off during hot Southern summers. From single-lane slip slides to towering dual-lane splash slides, these inflatables turn any backyard into a water park across the Atlanta metro.</p>
   </div>
 </div>
+
+<section id="map" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>Water Slide Rentals Providers Near You</h2>
+      <p>Browse 0 Atlanta providers offering water slide rentals. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10" data-service="Water Slides"></div>
+  </div>
+</section>
 
 <section>
   <div class="container">
@@ -235,5 +248,8 @@
 
 <script src="/js/main.js"></script>
 <script src="/js/wizard.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
 </body>
 </html>
