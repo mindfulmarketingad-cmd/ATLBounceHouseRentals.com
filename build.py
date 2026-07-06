@@ -2003,6 +2003,10 @@ def build_locations(providers):
 # matched provider (by ZIP) offering the service — no thin/empty pages.
 FIND_PAGE_FAMILIES = [
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "tents-table-chair-rentals"},
+    {"service_slug": "classic-bounce-house-rentals", "url_prefix": "bounce-house-rentals", "page_name": "Bounce House Rentals"},
+    {"service_slug": "photo-booth-rentals", "url_prefix": "photo-booth-rentals"},
+    {"service_slug": "obstacle-course-rentals", "url_prefix": "obstacle-course-rentals"},
+    {"service_slug": "water-slide-rentals", "url_prefix": "water-slide-rentals"},
 ]
 
 
@@ -2023,7 +2027,7 @@ def build_find_pages(providers):
     families = []  # per family: {slug, name, short, url_prefix, entries: [(loc, matched, url_slug)]}
     for fam in FIND_PAGE_FAMILIES:
         slug = fam["service_slug"]
-        svc_name = SERVICES[slug]
+        svc_name = fam.get("page_name") or SERVICES[slug]
         entries = []
         for loc in LOCATIONS:
             matched = _providers_for_location_service(loc, providers, slug)

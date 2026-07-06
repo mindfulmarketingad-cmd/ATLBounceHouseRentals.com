@@ -281,11 +281,12 @@
           '<div class="sm-card-loc">' + esc(p.category || "Party rentals") + ' &middot; ' + esc(p.city) + ', GA</div>' +
           (svc ? '<div class="sm-card-svc">' + esc(svc) + '</div>' : "") +
           '<a class="sm-card-own" href="' + OWN_BUSINESS_URL + '" target="_blank" rel="noopener">Own this business &rsaquo;</a>' +
+          '<button type="button" class="sm-card-book" data-wizard-open>Book Now &rsaquo;</button>' +
         '</div>' +
         '<a class="sm-card-cta" href="/partners/' + esc(p.slug) + '/" aria-label="View ' + esc(p.name) + '">&#8599;</a>';
       card.addEventListener("mouseenter", function () { if (visibleIndices[i]) highlight(i); });
       card.addEventListener("click", function (e) {
-        if (e.target.closest("a")) return; // let real links work
+        if (e.target.closest("a, button")) return; // let real links and the Book Now button work
         if (visibleIndices[i]) {
           highlight(i);
           map.setView([p.lat, p.lng], Math.max(map.getZoom(), 13), { animate: true });

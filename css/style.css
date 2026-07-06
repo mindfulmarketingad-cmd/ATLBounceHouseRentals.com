@@ -678,6 +678,21 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   text-decoration: none;
 }
 .sm-card-own:hover { color: var(--accent-dark); text-decoration: underline; }
+.sm-card-book {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 7px 14px;
+  border-radius: 7px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.12s ease;
+}
+.sm-card-book:hover { background: var(--accent-dark); }
 .sm-star { color: #f5b301; }
 .sm-noreview { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
 .sm-muted { color: var(--muted); }
