@@ -174,11 +174,7 @@ def header(active=""):
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/"{cls("home")}>Home</a>
-        <a href="/services/"{cls("services")}>Services</a>
-        <a href="/bounce-houses/"{cls("bounce-houses")}>Bounce Houses</a>
-        <a href="/locations/"{cls("locations")}>Service Areas</a>
-        <a href="/partners.html"{cls("partners")}>Partners</a>
-        <a href="/leads.html"{cls("leads")}>Leads</a>
+        <a href="/#map"{cls("find")}>Find</a>
       </nav>
       <a class="book-now-cta" href="#" data-wizard-open>Book Now</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
