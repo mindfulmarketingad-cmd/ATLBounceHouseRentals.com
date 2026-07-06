@@ -671,6 +671,39 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .sm-star { color: #f5b301; }
 .sm-noreview { color: var(--muted); font-weight: 600; font-size: 0.82rem; }
 .sm-muted { color: var(--muted); }
+
+/* Filter chips */
+.sm-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-soft);
+}
+.sm-filter-chip {
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s ease;
+}
+.sm-filter-chip:hover {
+  background: var(--sky);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+}
+.sm-filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .sm-map { min-height: 100%; width: 100%; z-index: 1; }
 
 /* Leaflet marker pins */
