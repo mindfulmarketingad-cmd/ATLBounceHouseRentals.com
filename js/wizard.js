@@ -4,6 +4,9 @@
 (function () {
   "use strict";
 
+  var SUPABASE_URL = "https://tbqigevoksabizjogvtm.supabase.co";
+  var SUPABASE_ANON_KEY = "sb_publishable_aHlx0Tdu2rhOTBUp3lhkQw_Lv6Awz7a";
+
   // ─── Data definitions ────────────────────────────────────────────────────
 
   var EVENT_TYPES = [
@@ -466,6 +469,38 @@
 
   // ─── Submit & persist ─────────────────────────────────────────────────────
 
+  function submitToSupabase(lead) {
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+    var row = {
+      event_type:  lead.eventType,
+      services:    lead.services,
+      event_date:  lead.eventDate,
+      zip_code:    lead.zipCode,
+      guest_count: lead.guestCount,
+      chair_count: lead.chairCount,
+      chair_style: lead.chairStyle,
+      table_count: lead.tableCount,
+      needs_tent:  lead.needsTent,
+      concessions: lead.concessions,
+      name:        lead.name,
+      phone:       lead.phone,
+      email:       lead.email,
+      message:     lead.message,
+      source:      lead.source,
+      page_url:    window.location.href
+    };
+    fetch(SUPABASE_URL + "/rest/v1/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + SUPABASE_ANON_KEY,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify(row)
+    }).catch(function () { /* offline or blocked — lead is still saved locally */ });
+  }
+
   function submitWizard() {
     var lead = {
       id:          "WIZ-" + Date.now(),
@@ -493,6 +528,8 @@
       existing.unshift(lead);
       localStorage.setItem(key, JSON.stringify(existing));
     } catch (err) { /* storage unavailable */ }
+
+    submitToSupabase(lead);
 
     // Show thank-you screen
     renderThankYou(wizBody);
