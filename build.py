@@ -174,7 +174,7 @@ def header(active=""):
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/"{cls("home")}>Home</a>
-        <a href="/#map"{cls("find")}>Find</a>
+        <a href="/find/"{cls("find")}>Find</a>
       </nav>
       <a class="book-now-cta" href="#" data-wizard-open>Book Now</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
@@ -1997,6 +1997,228 @@ def build_locations(providers):
         open(os.path.join(sd, "index.html"), "w").write(page)
 
 
+# ----------------------------------------------------------------- /find/ programmatic hub
+# Each entry defines one programmatic page family: a service paired with a URL
+# prefix. A page is generated per city ONLY when that city has at least one
+# matched provider (by ZIP) offering the service — no thin/empty pages.
+FIND_PAGE_FAMILIES = [
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "tents-table-chair-rentals"},
+]
+
+
+def _providers_for_location_service(loc, providers, service_slug, limit=50):
+    zset = set(loc.get("zips", []))
+    matched = [p for p in providers if str(p.get("postal") or "").strip() in zset and service_slug in p["services"]]
+    matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+    return matched[:limit]
+
+
+def build_find_pages(providers):
+    """/find/ hub + one programmatic landing page per city per service family,
+    generated only for cities with an actual matched listing. Page layout is
+    1) the filtered search map, 2) SEO content below it."""
+    d = os.path.join(ROOT, "find")
+    os.makedirs(d, exist_ok=True)
+
+    families = []  # per family: {slug, name, short, url_prefix, entries: [(loc, matched, url_slug)]}
+    for fam in FIND_PAGE_FAMILIES:
+        slug = fam["service_slug"]
+        svc_name = SERVICES[slug]
+        entries = []
+        for loc in LOCATIONS:
+            matched = _providers_for_location_service(loc, providers, slug)
+            if not matched:
+                continue
+            url_slug = f'{fam["url_prefix"]}-{loc["slug"]}-ga'
+            entries.append((loc, matched, url_slug))
+        families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"], "entries": entries})
+
+    # Flat list of every generated /find/ page, used to cross-link all of them
+    # to each other so none are orphaned as more service families are added.
+    all_find_pages = [
+        {"title": f'{fam["name"]} in {loc["name"]}, GA', "url": f'/find/{url_slug}/'}
+        for fam in families for loc, matched, url_slug in fam["entries"]]
+
+    # --- per-city landing pages ---
+    for fam in families:
+        slug = fam["slug"]
+        svc_name = fam["name"]
+        svc_short = SERVICES_SHORT[slug]
+        for loc, matched, url_slug in fam["entries"]:
+            nl = loc["name"]
+            title = f"{svc_name} in {nl} Georgia"
+            desc = f"Rent {svc_name.lower()} in {nl}, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
+
+            prov_links = "\n          ".join(
+                f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
+                f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                for p in matched)
+            hoods = ", ".join(loc["neighborhoods"][:3])
+
+            faqs = [
+                (f"How much do {svc_name.lower()} cost in {nl}?",
+                 f"<p>In {nl}, {svc_name.lower()} typically run $90&ndash;$600+ depending on quantity, size and rental length. Final pricing depends on your date and delivery distance. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing.</p>"),
+                (f"Do providers deliver {svc_name.lower()} to {nl}?",
+                 f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down {svc_name.lower()} throughout {nl}, including {esc(hoods)}.</p>"),
+                (f"How do I book {svc_name.lower()} in {nl}?",
+                 f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
+            ]
+            faq_html, faq_ld = faq_block(faqs)
+
+            other_pages = [fp for fp in all_find_pages if fp["url"] != f"/find/{url_slug}/"]
+            other_find_html = ""
+            if other_pages:
+                other_find_links = "\n          ".join(
+                    f'<li><a href="{fp["url"]}">{esc(fp["title"])}</a></li>' for fp in other_pages)
+                other_find_html = f'''
+      <h2>More Find Pages</h2>
+      <ul class="bullet-services">
+          {other_find_links}
+      </ul>'''
+
+            svc_ld = {"@context": "https://schema.org", "@type": "Service", "serviceType": svc_name,
+                      "areaServed": {"@type": "Place", "name": f"{nl}, Georgia"},
+                      "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory",
+                                   "telephone": PHONE_HREF, "areaServed": f"{nl}, GA"},
+                      "url": f"{DOMAIN}/find/{url_slug}/"}
+            bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+                {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Find", "item": DOMAIN + "/find/"},
+                {"@type": "ListItem", "position": 3, "name": title, "item": f"{DOMAIN}/find/{url_slug}/"}]}
+            extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
+                     f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
+
+            clat, clng = location_center(loc, providers)
+
+            page = head(title, desc, f"{DOMAIN}/find/{url_slug}/", extra)
+            page += header("find") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
+    <h1>{title}</h1>
+    <p>Compare {len(matched)} {nl} provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}, with free quotes and no obligation.</p>
+  </div>
+</div>
+
+<section id="map" class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Explore the Map</div>
+      <h2>{svc_name} Providers Near {esc(nl)}</h2>
+      <p>Browse {len(matched)} {nl} provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}. Click a listing or map pin to see details, ratings and reviews.</p>
+    </div>
+    {searchmap_html(area=nl, lat=clat, lng=clng, zoom=12, service=svc_short)}
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="content">
+      <h2>{svc_name} in {esc(nl)}, Georgia</h2>
+      <p>Planning an event in {esc(nl)}? The providers below deliver, set up and tear down {svc_name.lower()} throughout {esc(nl)}, including {esc(hoods)}. Whether you need seating for a backyard birthday or a full tent setup for a wedding reception, compare pricing and reviews before you book.</p>
+
+      <h2>{nl} Providers Offering {svc_name}</h2>
+      <ul class="bullet-services">
+          {prov_links}
+      </ul>
+
+      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/{slug}/">See {svc_name} across all of Atlanta</a> &middot; <a href="/locations/{loc["slug"]}/">More rentals in {esc(nl)}</a></p>
+      {other_find_html}
+    </div>
+  </div>
+</section>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book {svc_name} in {esc(nl)} Today</h2>
+    <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+            pd = os.path.join(d, url_slug)
+            os.makedirs(pd, exist_ok=True)
+            open(os.path.join(pd, "index.html"), "w").write(page)
+
+    # --- /find/ hub index ---
+    sections_html = []
+    for fam in families:
+        if not fam["entries"]:
+            continue
+        links = "\n      ".join(
+            f'<li><a href="/find/{url_slug}/">{fam["name"]} in {esc(loc["name"])}, GA</a> '
+            f'<span class="muted">&mdash; {len(matched)} provider{"s" if len(matched) != 1 else ""}</span></li>'
+            for loc, matched, url_slug in fam["entries"])
+        sections_html.append(f'''    <h2>{fam["name"]} by City</h2>
+    <ul class="bullet-services">
+      {links}
+    </ul>''')
+    sections = "\n\n".join(sections_html)
+
+    item_ld = {"@context": "https://schema.org", "@type": "ItemList",
+               "itemListElement": [
+                   {"@type": "ListItem", "position": i + 1,
+                    "name": f'{fam["name"]} in {loc["name"]}',
+                    "url": f'{DOMAIN}/find/{url_slug}/'}
+                   for fam in families
+                   for i, (loc, matched, url_slug) in enumerate(fam["entries"])]}
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Find", "item": DOMAIN + "/find/"}]}
+    extra = (f'<script type="application/ld+json">\n{json.dumps(item_ld, ensure_ascii=False)}\n</script>\n'
+             f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n')
+
+    hub = head(
+        "Find Bounce House and Party Rentals in Atlanta, Georgia | Atlanta Bounce House Rentals",
+        "Find exactly what you need — browse Atlanta Bounce House Rentals by service and city to compare local providers, view pricing and get a free quote.",
+        DOMAIN + "/find/", extra)
+    hub += header("find") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Find</div>
+    <h1>Find Exactly What You Need</h1>
+    <p>Every page below combines an interactive provider map with details on pricing, availability and reviews for a specific service in a specific Atlanta-area city &mdash; so you can compare and book faster.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container content" style="max-width:none;">
+    {sections}
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Can't Find Your City or Service?</h2>
+    <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    open(os.path.join(d, "index.html"), "w").write(hub)
+
+    find_urls = ["/find/"] + [f'/find/{url_slug}/' for fam in families for _, _, url_slug in fam["entries"]]
+    return find_urls
+
+
 # ----------------------------------------------------------------- cheap / $99 landing
 def build_cheap(providers):
     """High-intent landing page for 'cheap bounce house rentals near me' and
@@ -2246,7 +2468,7 @@ Key facts:
     open(os.path.join(ROOT, "llms.txt"), "w").write(txt)
 
 
-def build_sitemap(providers):
+def build_sitemap(providers, find_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads.html"]
@@ -2254,6 +2476,7 @@ def build_sitemap(providers):
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/locations/{l['slug']}/" for l in LOCATIONS]
+    urls += find_urls or []
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
     items = "\n".join(
@@ -2281,11 +2504,12 @@ def main():
     build_specialty_service_pages()
     build_bounce_houses()
     build_locations(providers)
+    find_urls = build_find_pages(providers)
     build_cheap(providers)
     build_leads()
     build_legal()
     build_404()
-    build_sitemap(providers)
+    build_sitemap(providers, find_urls)
     build_llms(providers)
     print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + llms.txt")
 
