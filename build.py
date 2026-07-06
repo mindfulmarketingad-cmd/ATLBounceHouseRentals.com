@@ -2009,6 +2009,7 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "water-slide-rentals", "url_prefix": "water-slide-rentals"},
     {"service_slug": "silent-disco-rentals", "url_prefix": "silent-disco-rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-table-rentals", "page_name": "Event Table Rentals"},
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-chair-rentals", "page_name": "Event Chair Rentals"},
 ]
 
 
