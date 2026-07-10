@@ -2144,6 +2144,9 @@ FIND_PAGE_FAMILIES = [
     {"url_prefix": "gender-reveal-party-event-rentals", "page_name": "Gender Reveal Party Event Rentals", "match_mode": "theme",
      "theme_blurb": "Planning a gender reveal party or baby shower in {city}? The local providers below offer tents, tables and chairs, photo booths, balloon and decor styling, entertainment and staff, and other rentals closely tied to gender reveal events, including {hoods}.",
      "theme_note": "Providers deliver tents, tables, chairs, photo booths, balloon and decor styling, and entertainment and staff with setup and teardown included."},
+    {"url_prefix": "kids-party-rentals", "page_name": "Kids Party Rentals", "match_mode": "theme",
+     "theme_blurb": "Planning a kids' birthday party, school event or family celebration in {city}? The local providers below offer bounce houses, water slides, tables and chairs, photo booths, concessions, entertainment and staff, and other rentals closely tied to kids' parties, including {hoods}.",
+     "theme_note": "Providers deliver bounce houses, water slides, tables, chairs, concessions, photo booths, and entertainment and staff with setup and teardown included."},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
