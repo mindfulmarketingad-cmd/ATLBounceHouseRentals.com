@@ -423,7 +423,7 @@ def provider_rows(providers):
           <td class="num">{it["reviews"]}</td>
           <td class="verified">{ver}</td>
           <td class="svc">{svc_short}</td>
-          <td class="arrow"><a href="/partners/{it["slug"]}/" aria-label="View {esc(it["name"])}">&#8599;</a></td>
+          <td class="book"><button type="button" class="table-book-btn" data-wizard-open aria-label="Book {esc(it["name"])}">Book Now</button></td>
         </tr>''')
     return "\n".join(rows)
 
