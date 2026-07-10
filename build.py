@@ -2091,6 +2091,11 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "chiavari-chair-rentals", "page_name": "Chiavari Chair Rentals",
      "match_mode": "tag", "tag": "Chair Rentals",
      "desc_template": "There {is_are} {n} {provider_word} for Chiavari Chair Rentals in {city}, Georgia. Book today!"},
+    # Folding chair is also a style, not a distinct category — same reuse of
+    # the "Chair Rentals" tag match (any chair-rental provider) per instruction.
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "folding-chair-rentals", "page_name": "Folding Chair Rentals",
+     "match_mode": "tag", "tag": "Chair Rentals",
+     "desc_template": "There {is_are} {n} {provider_word} for Folding Chair Rentals in {city}, Georgia. Book today!"},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
@@ -2145,7 +2150,7 @@ def build_find_pages(providers):
                           "map_filter": fam.get("map_filter", fam.get("tag")),
                           "desc_template": fam.get("desc_template")})
 
-    near_me = []  # per service: {slug, name, matched, url_slug}
+    near_me = []  # {slug, name, matched, url_slug, url_prefix, svc_short}
     for slug in SERVICES:
         matched_all = [p for p in providers if slug in p["services"]]
         matched_all.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
@@ -2154,7 +2159,23 @@ def build_find_pages(providers):
         override = NEAR_ME_OVERRIDES.get(slug)
         svc_name, url_prefix = override if override else (SERVICES[slug], slug)
         near_me.append({"slug": slug, "name": svc_name, "matched": matched_all,
-                         "url_slug": f"{url_prefix}-near-me"})
+                         "url_slug": f"{url_prefix}-near-me", "url_prefix": url_prefix,
+                         "svc_short": SERVICES_SHORT.get(slug, "")})
+
+    # Metro-wide "near me" pages for tag-based families too (Chair/Tent/Table/
+    # Chiavari Chair Rentals) — matched the same way as their per-city pages,
+    # just without the ZIP/location filter.
+    for fam in FIND_PAGE_FAMILIES:
+        if fam.get("match_mode") != "tag":
+            continue
+        tag = fam["tag"]
+        matched_all = [p for p in providers if tag in extra_map_tags(p)]
+        matched_all.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+        if not matched_all:
+            continue
+        near_me.append({"slug": fam.get("service_slug"), "name": fam.get("page_name") or tag,
+                         "matched": matched_all, "url_slug": f'{fam["url_prefix"]}-near-me',
+                         "url_prefix": fam["url_prefix"], "svc_short": fam.get("map_filter", tag)})
 
     # Flat list of every generated /find/ page, used to cross-link all of them
     # to each other so none are orphaned as more service families are added.
@@ -2363,7 +2384,7 @@ def build_find_pages(providers):
         svc_name = nm["name"]
         matched = nm["matched"]
         url_slug = nm["url_slug"]
-        svc_short = SERVICES_SHORT.get(slug, "")
+        svc_short = nm["svc_short"]
         title = f"{svc_name} Near Me"
         desc = f"Find {svc_name.lower()} near you across metro Atlanta, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
 
@@ -2373,7 +2394,7 @@ def build_find_pages(providers):
             f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
             for p in matched)
 
-        same_service_cities = [fam for fam in families if fam["slug"] == slug and fam["entries"]]
+        same_service_cities = [fam for fam in families if fam["url_prefix"] == nm["url_prefix"] and fam["entries"]]
         city_links_html = ""
         if same_service_cities:
             city_links = "\n          ".join(
