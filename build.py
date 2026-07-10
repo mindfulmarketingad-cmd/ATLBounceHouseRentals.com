@@ -2085,6 +2085,12 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "table-rentals", "page_name": "Table Rentals",
      "match_mode": "tag", "tag": "Table Rentals",
      "desc_template": "There {is_are} {n} {provider_word} for Table Rentals in {city}, Georgia. Book today!"},
+    # Chiavari is a chair style, not a distinct category in the data — reuse
+    # the same "Chair Rentals" tag match (any chair-rental provider) per
+    # instruction, just with its own title/URL/description.
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "chiavari-chair-rentals", "page_name": "Chiavari Chair Rentals",
+     "match_mode": "tag", "tag": "Chair Rentals",
+     "desc_template": "There {is_are} {n} {provider_word} for Chiavari Chair Rentals in {city}, Georgia. Book today!"},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
