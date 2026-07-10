@@ -115,6 +115,19 @@ def stars(rating):
     return "★" * full + "☆" * (5 - full)
 
 
+def prov_meta_html(p):
+    """Star rating + review count for a provider list item, e.g.
+    ' — ★★★★☆ 4.5 (13 reviews)' or ' — 13 reviews' if unrated."""
+    if p.get("rating"):
+        stars_html = f' — <span class="li-stars">{stars(p["rating"])}</span> {p["rating"]}'
+        if p.get("reviews"):
+            stars_html += f' ({p["reviews"]} reviews)'
+        return stars_html
+    if p.get("reviews"):
+        return f' — {p["reviews"]} reviews'
+    return ""
+
+
 def parse_attrs(about_json):
     bits = []
     try:
@@ -1917,8 +1930,7 @@ def build_locations(providers):
         matched = providers_for_location(loc, providers)
         if matched:
             prov_links = "\n          ".join(
-                f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
-                f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>{prov_meta_html(p)}</li>'
                 for p in matched)
             prov_intro = (f'These directory providers are based in or around {nl} and deliver across the area. '
                           f'Select a provider to view details, or call <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> for a free quote:')
@@ -2209,8 +2221,7 @@ def build_find_pages(providers):
                 map_zoom = 11
 
                 prov_links = "\n          ".join(
-                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
-                    f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>{prov_meta_html(p)}</li>'
                     for p in matched)
                 svc_links_loc = "\n          ".join(
                     f'<li><a href="/services/{s}/">{SERVICES[s]} in {nl}</a></li>' for s in SERVICES)
@@ -2274,8 +2285,7 @@ def build_find_pages(providers):
                 map_zoom = 12
 
                 prov_links = "\n          ".join(
-                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
-                    f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>{prov_meta_html(p)}</li>'
                     for p in matched)
 
                 content_html = f'''
@@ -2391,7 +2401,7 @@ def build_find_pages(providers):
         prov_links = "\n          ".join(
             f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>'
             f'{" &mdash; " + esc(p["city"]) + ", GA" if p.get("city") else ""}'
-            f'{" &mdash; " + str(p["reviews"]) + " reviews" if p.get("reviews") else ""}</li>'
+            f'{prov_meta_html(p)}</li>'
             for p in matched)
 
         same_service_cities = [fam for fam in families if fam["url_prefix"] == nm["url_prefix"] and fam["entries"]]

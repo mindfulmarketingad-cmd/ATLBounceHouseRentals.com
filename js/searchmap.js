@@ -89,7 +89,7 @@
     var filterBtn = document.createElement("button");
     filterBtn.type = "button";
     filterBtn.className = "sm-dropdown-btn";
-    filterBtn.innerHTML = 'Filters <span class="sm-dd-count"></span><span class="sm-dd-arrow">&#9662;</span>';
+    filterBtn.innerHTML = 'Services <span class="sm-dd-count"></span><span class="sm-dd-arrow">&#9662;</span>';
     var filterPanel = document.createElement("div");
     filterPanel.className = "sm-dropdown-panel";
     var filters = {};
@@ -107,7 +107,7 @@
     var clearBtn = document.createElement("button");
     clearBtn.type = "button";
     clearBtn.className = "sm-dd-clear";
-    clearBtn.textContent = "Clear filters";
+    clearBtn.textContent = "Clear services";
     filterActions.appendChild(clearBtn);
     filterPanel.appendChild(filterActions);
     filterDd.appendChild(filterBtn);

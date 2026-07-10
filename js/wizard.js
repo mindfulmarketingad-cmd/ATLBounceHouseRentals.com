@@ -1,5 +1,5 @@
-/* Atlanta Bounce House Rentals — Multi-step Booking Wizard
-   Vanilla JS, no external dependencies. Self-contained IIFE.
+/* Atlanta Bounce House Rentals — Booking Popup
+   Single-page form, vanilla JS, no external dependencies. Self-contained IIFE.
 */
 (function () {
   "use strict";
@@ -55,7 +55,6 @@
   // ─── State ────────────────────────────────────────────────────────────────
 
   var state = {
-    currentStep: 1,
     eventType:   "",
     services:    [],
     eventDate:   "",
@@ -71,19 +70,6 @@
     email:       "",
     message:     ""
   };
-
-  // Compute which step numbers are active based on step-2 selections
-  function activeSteps() {
-    var steps = [1, 2, 3];
-    var hasTables = state.services.indexOf("Tables, Chairs & Tents") !== -1;
-    var hasConcessions = state.services.some(function (s) {
-      return s.indexOf("Concessions") === 0;
-    });
-    if (hasTables) steps.push(4);
-    if (hasConcessions) steps.push(5);
-    steps.push(6);
-    return steps;
-  }
 
   // ─── DOM helpers ──────────────────────────────────────────────────────────
 
@@ -114,21 +100,9 @@
     overlay.innerHTML = [
       '<div class="wizard-modal">',
         '<button class="wizard-close" aria-label="Close">&times;</button>',
-        '<div class="wizard-progress">',
-          '<div class="wizard-steps-bar">',
-            '<span class="wizard-step-dot active" data-step="1">1</span>',
-            '<span class="wizard-step-dot" data-step="2">2</span>',
-            '<span class="wizard-step-dot" data-step="3">3</span>',
-            '<span class="wizard-step-dot" data-step="4">4</span>',
-            '<span class="wizard-step-dot" data-step="5">5</span>',
-            '<span class="wizard-step-dot" data-step="6">6</span>',
-          '</div>',
-          '<div class="wizard-step-label">Step 1 of 6</div>',
-        '</div>',
         '<div class="wizard-body"></div>',
         '<div class="wizard-nav">',
-          '<button class="btn btn-ghost wizard-back" style="display:none">Back</button>',
-          '<button class="btn wizard-next">Next</button>',
+          '<button class="btn wizard-submit">Submit Request</button>',
         '</div>',
       '</div>'
     ].join("");
@@ -137,234 +111,149 @@
     return overlay;
   }
 
-  // ─── Step renderers ───────────────────────────────────────────────────────
+  // ─── Single-page form ───────────────────────────────────────────────────────
 
-  function renderStep1(body) {
-    body.innerHTML = "";
-    body.appendChild(el("h3", "", "What kind of event is this?"));
+  function singleSelectGrid(list, currentVal, onPick, iconKey) {
     var grid = el("div", "wizard-option-grid");
-    EVENT_TYPES.forEach(function (t) {
-      var card = el("div", "wizard-option" + (state.eventType === t.value ? " selected" : ""));
-      card.innerHTML = '<span class="opt-icon">' + t.icon + "</span>" + esc(t.value);
-      card.dataset.value = t.value;
+    list.forEach(function (item) {
+      var value = typeof item === "string" ? item : item.value;
+      var icon = typeof item === "string" ? "" : item.icon;
+      var card = el("div", "wizard-option" + (currentVal === value ? " selected" : ""));
+      card.innerHTML = (icon ? '<span class="opt-icon">' + icon + "</span>" : "") + esc(value);
+      card.dataset.value = value;
       card.addEventListener("click", function () {
-        state.eventType = t.value;
-        grid.querySelectorAll(".wizard-option").forEach(function (c) {
-          c.classList.remove("selected");
-        });
+        onPick(value);
+        grid.querySelectorAll(".wizard-option").forEach(function (c) { c.classList.remove("selected"); });
         card.classList.add("selected");
-        // Auto-advance after short delay for visual feedback
-        setTimeout(function () { advance(); }, 150);
       });
       grid.appendChild(card);
     });
-    body.appendChild(grid);
+    return grid;
   }
 
-  function renderStep2(body) {
-    body.innerHTML = "";
-    body.appendChild(el("h3", "", "What do you need?"));
-    body.appendChild(el("p", "sub", "Select all that apply."));
+  function multiSelectGrid(list, currentList, onToggle) {
     var grid = el("div", "wizard-option-grid");
-    SERVICES_LIST.forEach(function (s) {
-      var selected = state.services.indexOf(s.value) !== -1;
+    list.forEach(function (item) {
+      var selected = currentList.indexOf(item.value) !== -1;
       var card = el("div", "wizard-option" + (selected ? " selected" : ""));
-      card.innerHTML = '<span class="opt-icon">' + s.icon + "</span>" + esc(s.value);
-      card.dataset.value = s.value;
+      card.innerHTML = '<span class="opt-icon">' + item.icon + "</span>" + esc(item.value);
+      card.dataset.value = item.value;
       card.addEventListener("click", function () {
-        var idx = state.services.indexOf(s.value);
-        if (idx === -1) {
-          state.services.push(s.value);
-          card.classList.add("selected");
-        } else {
-          state.services.splice(idx, 1);
-          card.classList.remove("selected");
-        }
+        var nowSelected = onToggle(item.value);
+        card.classList.toggle("selected", nowSelected);
       });
       grid.appendChild(card);
     });
-    body.appendChild(grid);
+    return grid;
   }
 
-  function renderStep3(body) {
+  function field(labelHtml, inputHtml) {
+    var wrap = el("div", "field");
+    wrap.innerHTML = '<label>' + labelHtml + "</label>" + inputHtml;
+    return wrap;
+  }
+
+  function renderForm(body) {
     body.innerHTML = "";
-    body.appendChild(el("h3", "", "Event Details"));
 
-    // Date + ZIP row
-    var row = el("div", "");
-    row.style.cssText = "display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;";
+    body.appendChild(el("h3", "", "Tell Us About Your Event"));
+    body.appendChild(el("p", "sub", "One quick form — we'll match you with available Atlanta providers."));
 
-    var dateWrap = el("div", "field");
-    dateWrap.innerHTML =
-      '<label for="wiz-date">Event Date</label>' +
-      '<input id="wiz-date" type="date" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;" value="' +
-      esc(state.eventDate) + '">';
+    // Event type
+    body.appendChild(el("h4", "wiz-section-label", "What kind of event is this?"));
+    body.appendChild(singleSelectGrid(EVENT_TYPES, state.eventType, function (v) { state.eventType = v; }));
 
-    var zipWrap = el("div", "field");
-    zipWrap.innerHTML =
-      '<label for="wiz-zip">ZIP Code</label>' +
-      '<input id="wiz-zip" type="text" placeholder="30303" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;" value="' +
-      esc(state.zipCode) + '">';
+    // Services
+    body.appendChild(el("h4", "wiz-section-label", "What do you need?"));
+    body.appendChild(el("p", "sub-tight", "Select all that apply."));
+    body.appendChild(multiSelectGrid(SERVICES_LIST, state.services, function (v) {
+      var idx = state.services.indexOf(v);
+      if (idx === -1) { state.services.push(v); } else { state.services.splice(idx, 1); }
+      toggleConditionalSections(body);
+      return state.services.indexOf(v) !== -1;
+    }));
 
+    // Date + ZIP
+    var row = el("div", "wizard-row-2");
+    var dateWrap = field("Event Date",
+      '<input id="wiz-date" type="date" value="' + esc(state.eventDate) + '">');
+    var zipWrap = field("ZIP Code",
+      '<input id="wiz-zip" type="text" placeholder="30303" value="' + esc(state.zipCode) + '">');
     row.appendChild(dateWrap);
     row.appendChild(zipWrap);
     body.appendChild(row);
 
-    body.appendChild(el("h3", "", "Roughly how many guests?"));
-    var gGrid = el("div", "wizard-option-grid");
-    GUEST_COUNTS.forEach(function (g) {
-      var card = el("div", "wizard-option" + (state.guestCount === g ? " selected" : ""));
-      card.textContent = g;
-      card.dataset.value = g;
-      card.addEventListener("click", function () {
-        state.guestCount = g;
-        gGrid.querySelectorAll(".wizard-option").forEach(function (c) {
-          c.classList.remove("selected");
-        });
-        card.classList.add("selected");
-      });
-      gGrid.appendChild(card);
-    });
-    body.appendChild(gGrid);
+    // Guest count
+    body.appendChild(el("h4", "wiz-section-label", "Roughly how many guests?"));
+    body.appendChild(singleSelectGrid(GUEST_COUNTS, state.guestCount, function (v) { state.guestCount = v; }));
 
-    // Wire up inputs
-    body.querySelector("#wiz-date").addEventListener("change", function () {
-      state.eventDate = this.value;
-    });
-    body.querySelector("#wiz-zip").addEventListener("input", function () {
-      state.zipCode = this.value;
-    });
-  }
+    // Tables & Chairs (conditional)
+    var tablesSection = el("div", "wiz-conditional");
+    tablesSection.id = "wiz-section-tables";
+    tablesSection.appendChild(el("h4", "wiz-section-label", "Tables & Chairs"));
+    var tcRow = el("div", "wizard-row-2");
+    tcRow.appendChild(field("How many chairs?",
+      '<input id="wiz-chairs" type="number" min="0" placeholder="e.g. 50" value="' + esc(state.chairCount) + '">'));
+    tcRow.appendChild(field("How many tables?",
+      '<input id="wiz-tables" type="number" min="0" placeholder="e.g. 10" value="' + esc(state.tableCount) + '">'));
+    tablesSection.appendChild(tcRow);
+    tablesSection.appendChild(el("p", "sub-tight", "Chair style"));
+    tablesSection.appendChild(singleSelectGrid(CHAIR_STYLES, state.chairStyle, function (v) { state.chairStyle = v; }));
+    tablesSection.appendChild(el("p", "sub-tight", "Need a tent?"));
+    tablesSection.appendChild(singleSelectGrid(TENT_OPTIONS, state.needsTent, function (v) { state.needsTent = v; }));
+    body.appendChild(tablesSection);
 
-  function renderStep4(body) {
-    body.innerHTML = "";
-    body.appendChild(el("h3", "", "Tables & Chairs"));
-    body.appendChild(el("p", "sub", "Help us get an accurate quote for your setup."));
+    // Concessions (conditional)
+    var concessionsSection = el("div", "wiz-conditional");
+    concessionsSection.id = "wiz-section-concessions";
+    concessionsSection.appendChild(el("h4", "wiz-section-label", "Catering & Concessions"));
+    concessionsSection.appendChild(el("p", "sub-tight", "Which items are you interested in?"));
+    concessionsSection.appendChild(multiSelectGrid(CONCESSIONS_LIST, state.concessions, function (v) {
+      var idx = state.concessions.indexOf(v);
+      if (idx === -1) { state.concessions.push(v); } else { state.concessions.splice(idx, 1); }
+      return state.concessions.indexOf(v) !== -1;
+    }));
+    body.appendChild(concessionsSection);
 
-    // Chair count
-    var chairRow = el("div", "field");
-    chairRow.style.marginBottom = "16px";
-    chairRow.innerHTML =
-      '<label for="wiz-chairs">How many chairs?</label>' +
-      '<input id="wiz-chairs" type="number" min="0" placeholder="e.g. 50" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;" value="' +
-      esc(state.chairCount) + '">';
-    body.appendChild(chairRow);
-
-    // Chair style
-    body.appendChild(el("h3", "", "Chair style?"));
-    var styleGrid = el("div", "wizard-option-grid");
-    CHAIR_STYLES.forEach(function (cs) {
-      var card = el("div", "wizard-option" + (state.chairStyle === cs.value ? " selected" : ""));
-      card.innerHTML = '<span class="opt-icon">' + cs.icon + "</span>" + esc(cs.value);
-      card.dataset.value = cs.value;
-      card.addEventListener("click", function () {
-        state.chairStyle = cs.value;
-        styleGrid.querySelectorAll(".wizard-option").forEach(function (c) {
-          c.classList.remove("selected");
-        });
-        card.classList.add("selected");
-      });
-      styleGrid.appendChild(card);
-    });
-    body.appendChild(styleGrid);
-
-    // Table count
-    var tableRow = el("div", "field");
-    tableRow.style.cssText = "margin-top:16px;margin-bottom:16px;";
-    tableRow.innerHTML =
-      '<label for="wiz-tables">How many tables?</label>' +
-      '<input id="wiz-tables" type="number" min="0" placeholder="e.g. 10" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;" value="' +
-      esc(state.tableCount) + '">';
-    body.appendChild(tableRow);
-
-    // Tent
-    body.appendChild(el("h3", "", "Need a tent?"));
-    var tentGrid = el("div", "wizard-option-grid");
-    TENT_OPTIONS.forEach(function (t) {
-      var card = el("div", "wizard-option" + (state.needsTent === t ? " selected" : ""));
-      card.textContent = t;
-      card.dataset.value = t;
-      card.addEventListener("click", function () {
-        state.needsTent = t;
-        tentGrid.querySelectorAll(".wizard-option").forEach(function (c) {
-          c.classList.remove("selected");
-        });
-        card.classList.add("selected");
-      });
-      tentGrid.appendChild(card);
-    });
-    body.appendChild(tentGrid);
-
-    // Wire up number inputs
-    body.querySelector("#wiz-chairs").addEventListener("input", function () {
-      state.chairCount = this.value;
-    });
-    body.querySelector("#wiz-tables").addEventListener("input", function () {
-      state.tableCount = this.value;
-    });
-  }
-
-  function renderStep5(body) {
-    body.innerHTML = "";
-    body.appendChild(el("h3", "", "Catering & Concessions"));
-    body.appendChild(el("p", "sub", "Which concession items are you interested in?"));
-    var grid = el("div", "wizard-option-grid");
-    CONCESSIONS_LIST.forEach(function (c) {
-      var selected = state.concessions.indexOf(c.value) !== -1;
-      var card = el("div", "wizard-option" + (selected ? " selected" : ""));
-      card.innerHTML = '<span class="opt-icon">' + c.icon + "</span>" + esc(c.value);
-      card.dataset.value = c.value;
-      card.addEventListener("click", function () {
-        var idx = state.concessions.indexOf(c.value);
-        if (idx === -1) {
-          state.concessions.push(c.value);
-          card.classList.add("selected");
-        } else {
-          state.concessions.splice(idx, 1);
-          card.classList.remove("selected");
-        }
-      });
-      grid.appendChild(card);
-    });
-    body.appendChild(grid);
-  }
-
-  function renderStep6(body) {
-    body.innerHTML = "";
-    body.appendChild(el("h3", "", "Your Contact Info"));
-    body.appendChild(el("p", "sub", "We'll use this to connect you with Atlanta providers."));
-
-    var fields = [
+    // Contact info
+    body.appendChild(el("h4", "wiz-section-label", "Your Contact Info"));
+    var contactFields = [
       { id: "wiz-name",  label: "Full Name", type: "text",  stateKey: "name",  required: true },
       { id: "wiz-phone", label: "Phone",      type: "tel",   stateKey: "phone", required: true },
       { id: "wiz-email", label: "Email",      type: "email", stateKey: "email", required: true }
     ];
-
-    fields.forEach(function (f) {
-      var wrap = el("div", "field");
-      wrap.style.marginBottom = "12px";
-      wrap.innerHTML =
-        '<label for="' + f.id + '">' + f.label +
-        (f.required ? ' <span style="color:#e33">*</span>' : "") +
-        '</label><input id="' + f.id + '" type="' + f.type +
-        '" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;" value="' +
-        esc(state[f.stateKey]) + '"' + (f.required ? " required" : "") + ">";
-      body.appendChild(wrap);
+    contactFields.forEach(function (f) {
+      body.appendChild(field(
+        f.label + (f.required ? ' <span class="wiz-required">*</span>' : ""),
+        '<input id="' + f.id + '" type="' + f.type + '" value="' + esc(state[f.stateKey]) + '"' + (f.required ? " required" : "") + ">"
+      ));
     });
+    body.appendChild(field(
+      'Message <span class="wiz-optional">(optional)</span>',
+      '<textarea id="wiz-msg" rows="3" placeholder="Any other details about your event...">' + esc(state.message) + "</textarea>"
+    ));
 
-    var msgWrap = el("div", "field");
-    msgWrap.style.marginBottom = "12px";
-    msgWrap.innerHTML =
-      '<label for="wiz-msg">Message <span style="color:var(--muted);font-weight:400;">(optional)</span></label>' +
-      '<textarea id="wiz-msg" rows="3" placeholder="Any other details about your event..." style="width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font-size:0.95rem;resize:vertical;">' +
-      esc(state.message) + "</textarea>";
-    body.appendChild(msgWrap);
+    // Wire up all live inputs
+    body.querySelector("#wiz-date").addEventListener("change", function () { state.eventDate = this.value; });
+    body.querySelector("#wiz-zip").addEventListener("input", function () { state.zipCode = this.value; });
+    body.querySelector("#wiz-chairs").addEventListener("input", function () { state.chairCount = this.value; });
+    body.querySelector("#wiz-tables").addEventListener("input", function () { state.tableCount = this.value; });
+    body.querySelector("#wiz-name").addEventListener("input", function () { state.name = this.value; });
+    body.querySelector("#wiz-phone").addEventListener("input", function () { state.phone = this.value; });
+    body.querySelector("#wiz-email").addEventListener("input", function () { state.email = this.value; });
+    body.querySelector("#wiz-msg").addEventListener("input", function () { state.message = this.value; });
 
-    // Wire up
-    body.querySelector("#wiz-name").addEventListener("input",  function () { state.name    = this.value; });
-    body.querySelector("#wiz-phone").addEventListener("input", function () { state.phone   = this.value; });
-    body.querySelector("#wiz-email").addEventListener("input", function () { state.email   = this.value; });
-    body.querySelector("#wiz-msg").addEventListener("input",   function () { state.message = this.value; });
+    toggleConditionalSections(body);
+  }
+
+  // Show/hide the Tables & Chairs and Concessions sections based on what's selected.
+  function toggleConditionalSections(body) {
+    var hasTables = state.services.indexOf("Tables, Chairs & Tents") !== -1;
+    var hasConcessions = state.services.some(function (s) { return s.indexOf("Concessions") === 0; });
+    var tablesSection = body.querySelector("#wiz-section-tables");
+    var concessionsSection = body.querySelector("#wiz-section-concessions");
+    if (tablesSection) tablesSection.style.display = hasTables ? "" : "none";
+    if (concessionsSection) concessionsSection.style.display = hasConcessions ? "" : "none";
   }
 
   function renderThankYou(body) {
@@ -379,92 +268,16 @@
     body.appendChild(div);
   }
 
-  // ─── Navigation ───────────────────────────────────────────────────────────
+  // ─── Open / close ─────────────────────────────────────────────────────────
 
-  var overlay, wizBody, nextBtn, backBtn, stepLabel, stepDots;
+  var overlay, wizBody, submitBtn;
 
-  function renderCurrentStep() {
-    var steps = activeSteps();
-    var visualIdx = steps.indexOf(state.currentStep); // 0-based position
-
-    // Update progress dots
-    stepDots.forEach(function (dot) {
-      var n = parseInt(dot.dataset.step, 10);
-      dot.classList.remove("active", "done");
-      if (n === state.currentStep) {
-        dot.classList.add("active");
-      } else if (n < state.currentStep && steps.indexOf(n) !== -1) {
-        dot.classList.add("done");
-      } else if (n < state.currentStep) {
-        // step number less than current but not in active steps (skipped) — still show done
-        dot.classList.add("done");
-      }
-    });
-
-    stepLabel.textContent = "Step " + (visualIdx + 1) + " of " + steps.length;
-
-    // Back button
-    backBtn.style.display = (visualIdx === 0) ? "none" : "";
-
-    // Next button label
-    nextBtn.textContent = (state.currentStep === 6) ? "Submit Request" : "Next";
-    nextBtn.style.display = "";
-
-    // Render body
-    switch (state.currentStep) {
-      case 1: renderStep1(wizBody); break;
-      case 2: renderStep2(wizBody); break;
-      case 3: renderStep3(wizBody); break;
-      case 4: renderStep4(wizBody); break;
-      case 5: renderStep5(wizBody); break;
-      case 6: renderStep6(wizBody); break;
-    }
-  }
-
-  function advance() {
-    collectCurrentStepValues();
-
-    if (state.currentStep === 6) {
-      if (!state.name.trim() || !state.phone.trim() || !state.email.trim()) {
-        alert("Please fill in your name, phone, and email before submitting.");
-        return;
-      }
-      submitWizard();
+  function submitForm() {
+    if (!state.name.trim() || !state.phone.trim() || !state.email.trim()) {
+      alert("Please fill in your name, phone, and email before submitting.");
       return;
     }
-
-    var steps = activeSteps();
-    var idx = steps.indexOf(state.currentStep);
-    if (idx < steps.length - 1) {
-      state.currentStep = steps[idx + 1];
-      renderCurrentStep();
-    }
-  }
-
-  function goBack() {
-    collectCurrentStepValues();
-    var steps = activeSteps();
-    var idx = steps.indexOf(state.currentStep);
-    if (idx > 0) {
-      state.currentStep = steps[idx - 1];
-      renderCurrentStep();
-    }
-  }
-
-  // Collect values from any live inputs in the current body
-  function collectCurrentStepValues() {
-    function val(id) {
-      var e = wizBody.querySelector(id);
-      return e ? e.value : null;
-    }
-    var d = val("#wiz-date");   if (d !== null) state.eventDate  = d;
-    var z = val("#wiz-zip");    if (z !== null) state.zipCode    = z;
-    var n = val("#wiz-name");   if (n !== null) state.name       = n;
-    var p = val("#wiz-phone");  if (p !== null) state.phone      = p;
-    var em = val("#wiz-email"); if (em !== null) state.email     = em;
-    var m = val("#wiz-msg");    if (m !== null) state.message    = m;
-    var ch = val("#wiz-chairs");if (ch !== null) state.chairCount = ch;
-    var tb = val("#wiz-tables");if (tb !== null) state.tableCount = tb;
+    submitWizard();
   }
 
   // ─── Submit & persist ─────────────────────────────────────────────────────
@@ -541,23 +354,10 @@
 
     // Show thank-you screen
     renderThankYou(wizBody);
-
-    // Hide nav buttons
-    nextBtn.style.display = "none";
-    backBtn.style.display = "none";
-
-    // Mark all dots done
-    stepDots.forEach(function (dot) {
-      dot.classList.remove("active");
-      dot.classList.add("done");
-    });
-    stepLabel.textContent = "Request submitted!";
+    submitBtn.style.display = "none";
   }
 
-  // ─── Open / close ─────────────────────────────────────────────────────────
-
   function resetState() {
-    state.currentStep = 1;
     state.eventType   = "";
     state.services    = [];
     state.eventDate   = "";
@@ -578,7 +378,9 @@
     resetState();
     overlay.classList.add("open");
     document.body.style.overflow = "hidden";
-    renderCurrentStep();
+    submitBtn.style.display = "";
+    submitBtn.textContent = "Submit Request";
+    renderForm(wizBody);
   }
 
   function closeWizard() {
@@ -592,10 +394,7 @@
     overlay = buildShell();
 
     wizBody   = overlay.querySelector(".wizard-body");
-    nextBtn   = overlay.querySelector(".wizard-next");
-    backBtn   = overlay.querySelector(".wizard-back");
-    stepLabel = overlay.querySelector(".wizard-step-label");
-    stepDots  = Array.prototype.slice.call(overlay.querySelectorAll(".wizard-step-dot"));
+    submitBtn = overlay.querySelector(".wizard-submit");
 
     var closeBtn = overlay.querySelector(".wizard-close");
 
@@ -625,9 +424,8 @@
       if (e.key === "Escape" && overlay.classList.contains("open")) closeWizard();
     });
 
-    // Navigation buttons
-    nextBtn.addEventListener("click", advance);
-    backBtn.addEventListener("click", goBack);
+    // Submit
+    submitBtn.addEventListener("click", submitForm);
   }
 
   // Run after DOM is ready
