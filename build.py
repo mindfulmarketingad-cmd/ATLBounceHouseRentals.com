@@ -2075,6 +2075,16 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-table-rentals", "page_name": "Event Table Rentals"},
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "event-chair-rentals", "page_name": "Event Chair Rentals"},
     {"service_slug": "classic-bounce-house-rentals", "url_prefix": "99-bounce-house-rentals", "page_name": "$99 Bounce House Rentals", "map_filter": "$99 Bounce House Rentals"},
+    # match_mode "tag": matched by the finer-grained MAP_EXTRA_KEYWORDS tag
+    # instead of a core SERVICES slug. service_slug is kept only so the page
+    # can cross-link to the closest real /services/ page.
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "chair-rentals", "page_name": "Chair Rentals",
+     "match_mode": "tag", "tag": "Chair Rentals"},
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "tent-rentals", "page_name": "Tent Rentals",
+     "match_mode": "tag", "tag": "Tent Rentals"},
+    {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "table-rentals", "page_name": "Table Rentals",
+     "match_mode": "tag", "tag": "Table Rentals",
+     "desc_template": "There {is_are} {n} {provider_word} for Table Rentals in {city}, Georgia. Book today!"},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
@@ -2089,6 +2099,13 @@ NEAR_ME_OVERRIDES = {
 def _providers_for_location_service(loc, providers, service_slug, limit=50):
     zset = set(loc.get("zips", []))
     matched = [p for p in providers if str(p.get("postal") or "").strip() in zset and service_slug in p["services"]]
+    matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+    return matched[:limit]
+
+
+def _providers_for_location_tag(loc, providers, tag, limit=50):
+    zset = set(loc.get("zips", []))
+    matched = [p for p in providers if str(p.get("postal") or "").strip() in zset and tag in extra_map_tags(p)]
     matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
     return matched[:limit]
 
@@ -2109,6 +2126,8 @@ def build_find_pages(providers):
         for loc in LOCATIONS:
             if match_mode == "any":
                 matched = providers_for_location(loc, providers, limit=50)
+            elif match_mode == "tag":
+                matched = _providers_for_location_tag(loc, providers, fam["tag"])
             else:
                 matched = _providers_for_location_service(loc, providers, slug)
             if not matched:
@@ -2117,7 +2136,8 @@ def build_find_pages(providers):
             entries.append((loc, matched, url_slug))
         families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
                           "entries": entries, "match_mode": match_mode,
-                          "map_filter": fam.get("map_filter")})
+                          "map_filter": fam.get("map_filter", fam.get("tag")),
+                          "desc_template": fam.get("desc_template")})
 
     near_me = []  # per service: {slug, name, matched, url_slug}
     for slug in SERVICES:
@@ -2213,7 +2233,13 @@ def build_find_pages(providers):
                      f"<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See <a href=\"/services/\">all services</a>.</p>"),
                 ]
             else:
-                desc = f"Rent {svc_name.lower()} in {nl}, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
+                if fam.get("desc_template"):
+                    n = len(matched)
+                    is_are = "is" if n == 1 else "are"
+                    provider_word = "provider" if n == 1 else "providers"
+                    desc = fam["desc_template"].format(n=n, city=nl, is_are=is_are, provider_word=provider_word)
+                else:
+                    desc = f"Rent {svc_name.lower()} in {nl}, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
                 page_intro = f"Compare {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}, with free quotes and no obligation."
                 map_heading = f"{svc_name} Providers Near {esc(nl)}"
                 map_desc = f"Browse {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}. Click a listing or map pin to see details, ratings and reviews."
