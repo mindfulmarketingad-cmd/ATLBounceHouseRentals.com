@@ -629,6 +629,25 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   font-weight: 700;
 }
 
+/* Trust strip — sprinkled on /find/, provider and booking areas */
+.trust-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  align-items: center;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+.trust-strip span {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.trust-strip.center { justify-content: center; border-top: 0; padding-top: 0; margin-top: 12px; }
+.trust-strip.plain { border-top: 0; padding-top: 0; }
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .wizard-modal {

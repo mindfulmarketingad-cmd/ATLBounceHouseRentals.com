@@ -35,10 +35,10 @@
 
   function initMap(container) {
     if (!window.L) return; // Leaflet failed to load
-    var providers = (window.ABHR_PROVIDERS || []).filter(function (p) {
+    var allProviders = (window.ABHR_PROVIDERS || []).filter(function (p) {
       return p.lat && p.lng;
     });
-    if (!providers.length) { container.style.display = "none"; return; }
+    if (!allProviders.length) { container.style.display = "none"; return; }
 
     var centerLat = num(container.getAttribute("data-lat"), ATL[0]);
     var centerLng = num(container.getAttribute("data-lng"), ATL[1]);
@@ -47,6 +47,7 @@
     var areaName = container.getAttribute("data-area") || "";
     var serviceFilter = container.getAttribute("data-service") || "";
 
+    var providers = allProviders;
     if (serviceFilter) {
       providers = providers.filter(function (p) {
         return (p.services || []).indexOf(serviceFilter) >= 0;
@@ -60,9 +61,11 @@
     });
     if (limit > 0) providers = providers.slice(0, limit);
 
-    // Extract unique services from all providers
+    // Service filter checkbox list always shows every service in the whole
+    // directory (not just those among the current page's providers), so the
+    // dropdown looks consistent across every /find/ page.
     var allServices = {};
-    providers.forEach(function (p) {
+    allProviders.forEach(function (p) {
       (p.services || []).forEach(function (s) {
         allServices[s] = true;
       });

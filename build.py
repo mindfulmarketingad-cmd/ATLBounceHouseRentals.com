@@ -258,6 +258,18 @@ FOOTER = f'''<footer class="site-footer">
   </div>
 </footer>'''
 
+def trust_strip(count=None, extra_class=""):
+    """Small badge row reinforcing we're a trusted, fast-responding directory.
+    Pass the live provider count where available so the number never goes stale."""
+    provider_badge = f'<span>&#9989; {count} vetted Atlanta providers</span>' if count else '<span>&#9989; Vetted Atlanta providers</span>'
+    return f'''<div class="trust-strip{" " + extra_class if extra_class else ""}">
+      <span>&#11088; Trusted Atlanta directory</span>
+      {provider_badge}
+      <span>&#9201;&#65039; Fast, free quotes</span>
+      <span>&#128274; Your info is never sold</span>
+    </div>'''
+
+
 ADSENSE = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2173008413459742" crossorigin="anonymous"></script>'
 
 # Leaflet CSS/JS for the interactive search map. Loaded only on pages that use it.
