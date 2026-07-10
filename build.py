@@ -390,11 +390,11 @@ def head(title, desc, canonical, extra=""):
 <meta property="og:title" content="{esc(title)}">
 <meta property="og:description" content="{esc(desc)}">
 <meta property="og:url" content="{canonical}">
-<meta property="og:image" content="{DOMAIN}/images/hero-bounce-house.svg">
+<meta property="og:image" content="{DOMAIN}/images/hero-bounce-house.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
-<meta name="twitter:image" content="{DOMAIN}/images/hero-bounce-house.svg">
+<meta name="twitter:image" content="{DOMAIN}/images/hero-bounce-house.jpg">
 <link rel="stylesheet" href="/css/style.css">
 {ADSENSE}
 {extra}</head>
@@ -515,6 +515,7 @@ def build_index(providers):
       <h2>All Bounce House Rental Services In Atlanta Georgia</h2>
       <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them.</p>
     </div>
+    <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Colorful bounce house and slide combo set up in a backyard for a birthday party in Atlanta, Georgia" loading="lazy" width="1376" height="768">
     <ul class="bullet-services">
       {svc_links}
     </ul>
@@ -926,7 +927,7 @@ def build_bounce_houses():
     for it in items:
         from_price = it["pricing"][0]["price"]
         has_img = True  # placeholder toggle; real check would test file existence
-        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
+        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])} rental in Atlanta, Georgia" loading="lazy" width="600" height="450">'
                     if has_img else
                     f'<div class="bh-card-img-placeholder">Image coming soon</div>')
         cards.append(f'''    <a class="bh-card" href="/bounce-houses/{it["slug"]}/">
@@ -996,7 +997,9 @@ def build_bounce_houses():
 
         imgs = it.get("images", [])
         gallery_html = "\n".join(
-            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in imgs
+            f'<img src="{esc(src)}" alt="{esc(it["name"])} rental in Atlanta, Georgia' +
+            (' — product view' if i == 0 else ' set up for a backyard party') + '" loading="lazy">'
+            for i, src in enumerate(imgs)
         ) if imgs else f'<div class="bh-gallery-placeholder">Photos coming soon — call {PHONE_DISPLAY} to see more.</div>'
 
         ld = json.dumps({
@@ -1244,6 +1247,10 @@ def build_service_pages(providers):
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
                  f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
+        svc_photo = (f'<img class="content-photo" src="/images/bounce-houses/rainbow-castle-1.jpg" '
+                     f'alt="Classic castle bounce house set up for a birthday party in Atlanta, Georgia" '
+                     f'loading="lazy" width="1024" height="1024">') if slug == "classic-bounce-house-rentals" else ""
+
         page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
                     f"{DOMAIN}/services/{slug}/", extra)
         page += header("services") + f'''
@@ -1271,6 +1278,7 @@ def build_service_pages(providers):
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
         <h2>About {s["name"]} in Atlanta</h2>
+        {svc_photo}
         {body}
 
         <div class="callout">
@@ -1626,7 +1634,7 @@ def build_bounce_houses():
     for it in items:
         from_price = it["pricing"][0]["price"]
         has_img = True  # placeholder toggle; real check would test file existence
-        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])}" loading="lazy" width="600" height="450">'
+        img_html = (f'<img class="bh-card-img" src="{it["images"][0]}" alt="{esc(it["name"])} rental in Atlanta, Georgia" loading="lazy" width="600" height="450">'
                     if has_img else
                     f'<div class="bh-card-img-placeholder">Image coming soon</div>')
         cards.append(f'''    <a class="bh-card" href="/bounce-houses/{it["slug"]}/">
@@ -1696,7 +1704,9 @@ def build_bounce_houses():
 
         imgs = it.get("images", [])
         gallery_html = "\n".join(
-            f'<img src="{esc(src)}" alt="{esc(it["name"])}" loading="lazy">' for src in imgs
+            f'<img src="{esc(src)}" alt="{esc(it["name"])} rental in Atlanta, Georgia' +
+            (' — product view' if i == 0 else ' set up for a backyard party') + '" loading="lazy">'
+            for i, src in enumerate(imgs)
         ) if imgs else f'<div class="bh-gallery-placeholder">Photos coming soon — call {PHONE_DISPLAY} to see more.</div>'
 
         ld = json.dumps({
@@ -2020,6 +2030,7 @@ def build_locations(providers):
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
         <h2>Bounce House &amp; Party Rentals Serving {esc(nl)}</h2>
+        <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Bounce house and slide combo set up for a birthday party near {esc(nl)}, Georgia" loading="lazy" width="1376" height="768">
         <p>Whether you are planning a birthday party, school field day, church festival or corporate family day in {esc(nl)}, our directory connects you with vetted local providers. Popular areas served include {esc(hoods)}, with delivery near {esc(landmarks)} and throughout ZIP codes {esc(zips)}.</p>
 
         <div class="callout">
@@ -2273,6 +2284,7 @@ def build_find_pages(providers):
 
                 content_html = f'''
       <h2>Bounce House &amp; Party Rentals Serving {esc(nl)}</h2>
+      <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Bounce house and slide combo set up for a birthday party near {esc(nl)}, Georgia" loading="lazy" width="1376" height="768">
       <p>Whether you are planning a birthday party, school field day, church festival or corporate family day in {esc(nl)}, our directory connects you with vetted local providers. Popular areas served include {esc(hoods)}, with delivery near {esc(landmarks)} and throughout ZIP codes {esc(zips)}.</p>
 
       <div class="callout">
@@ -2539,6 +2551,10 @@ def build_find_pages(providers):
         extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
                  f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
+        nm_photo = (f'<img class="content-photo" src="/images/hero-bounce-house.jpg" '
+                    f'alt="Bounce house and slide combo set up for a birthday party in metro Atlanta, Georgia" '
+                    f'loading="lazy" width="1376" height="768">') if nm["url_prefix"] in ("bounce-house-rentals", "99-bounce-house-rentals") else ""
+
         page = head(title, desc, f"{DOMAIN}/find/{url_slug}/", extra)
         page += header("find") + f'''
 <div class="page-head">
@@ -2565,6 +2581,7 @@ def build_find_pages(providers):
   <div class="container">
     <div class="content">
       <h2>{svc_name} Near You in Metro Atlanta</h2>
+      {nm_photo}
       <p>Whichever part of metro Atlanta you're in, the providers below offer {svc_name.lower()} with delivery, setup and teardown included. Compare ratings and reviews, then request a free quote.</p>
 
       <h2>Providers Offering {svc_name}</h2>
@@ -2730,6 +2747,7 @@ def build_cheap(providers):
 
 <section>
   <div class="container content" style="max-width:none;">
+    <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Budget-friendly bounce house and slide combo set up for a birthday party in an Atlanta backyard" loading="lazy" width="1376" height="768">
     <h2>How to Get a Cheap Bounce House Rental Near You</h2>
     <p>The lowest prices in Atlanta usually come from booking a smaller classic bounce house, choosing a weekday or Sunday over a busy Saturday, and reserving early. Our directory makes it easy to compare providers side by side so you get a low price from a company you can trust&mdash;not just the cheapest listing.</p>
 
