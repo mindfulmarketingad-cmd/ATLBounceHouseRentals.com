@@ -2108,6 +2108,12 @@ FIND_PAGE_FAMILIES = [
     {"service_slug": "tents-tables-and-chair-rentals", "url_prefix": "folding-chair-rentals", "page_name": "Folding Chair Rentals",
      "match_mode": "tag", "tag": "Chair Rentals",
      "desc_template": "There {is_are} {n} {provider_word} for Folding Chair Rentals in {city}, Georgia. Book today!"},
+    # match_mode "theme": like "any" (every provider in the city by ZIP —
+    # never zero for a matched city), but with its own generic themed copy
+    # instead of the Bounce-House-specific /locations/ replacement content.
+    # Bounce houses, tents/tables/chairs, entertainment & staff, decor and
+    # party packages are all "closely tied" services for a Halloween event.
+    {"url_prefix": "halloween-event-rentals", "page_name": "Halloween Event Rentals", "match_mode": "theme"},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
@@ -2147,7 +2153,7 @@ def build_find_pages(providers):
         svc_name = fam.get("page_name") or (SERVICES[slug] if slug else "Bounce House Rentals")
         entries = []
         for loc in LOCATIONS:
-            if match_mode == "any":
+            if match_mode in ("any", "theme"):
                 matched = providers_for_location(loc, providers, limit=50)
             elif match_mode == "tag":
                 matched = _providers_for_location_tag(loc, providers, fam["tag"])
@@ -2188,6 +2194,19 @@ def build_find_pages(providers):
         near_me.append({"slug": fam.get("service_slug"), "name": fam.get("page_name") or tag,
                          "matched": matched_all, "url_slug": f'{fam["url_prefix"]}-near-me',
                          "url_prefix": fam["url_prefix"], "svc_short": fam.get("map_filter", tag)})
+
+    # Metro-wide "near me" pages for "theme" families (e.g. Halloween Event
+    # Rentals) — every provider counts as "closely tied," so this is never
+    # empty as long as the directory has at least one listing.
+    for fam in FIND_PAGE_FAMILIES:
+        if fam.get("match_mode") != "theme":
+            continue
+        matched_all = sorted(providers, key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
+        if not matched_all:
+            continue
+        near_me.append({"slug": None, "name": fam.get("page_name") or fam["url_prefix"],
+                         "matched": matched_all, "url_slug": f'{fam["url_prefix"]}-near-me',
+                         "url_prefix": fam["url_prefix"], "svc_short": ""})
 
     # Flat list of every generated /find/ page, used to cross-link all of them
     # to each other so none are orphaned as more service families are added.
@@ -2269,6 +2288,46 @@ def build_find_pages(providers):
                      f"<p>For weekend dates in {nl} during Atlanta's busy spring and summer season, book 2&ndash;4 weeks ahead. Last-minute requests are welcome too&mdash;<a href=\"#\" data-wizard-open>book now</a> and we'll check live availability.</p>"),
                     (f"What can I rent for a party in {nl}?",
                      f"<p>You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games and complete party packages. See <a href=\"/services/\">all services</a>.</p>"),
+                ]
+            elif match_mode == "theme":
+                # Broad "closely tied services" match — every provider in the
+                # city by ZIP, since bounce houses, tents/tables/chairs,
+                # entertainment & staff, decor and party packages are all
+                # relevant to a themed event like this. Guarantees a non-empty
+                # provider list for every city the family generates a page for.
+                desc = f"Find {svc_name.lower()} in {nl}, Georgia — bounce houses, tents, tables, chairs, entertainment, decor and other closely related rentals from {len(matched)} local providers. Free quotes."
+                page_intro = f"Compare {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering rentals for {svc_name.lower().replace(' near me', '')}, with free quotes and no obligation."
+                map_heading = f"{svc_name} Providers Near {esc(nl)}"
+                map_desc = f"Browse {len(matched)} {nl} provider{'s' if len(matched) != 1 else ''} offering rentals closely tied to {svc_name.lower()}. Click a listing or map pin to see details, ratings and reviews."
+                map_service_param = ""
+                map_zoom = 11
+
+                prov_links = "\n          ".join(
+                    f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>{prov_meta_html(p)}</li>'
+                    for p in matched)
+
+                content_html = f'''
+      <h2>{svc_name} in {esc(nl)}, Georgia</h2>
+      <p>Planning a Halloween party, trunk-or-treat, corporate fall event or trick-or-treat block party in {esc(nl)}? The local providers below offer bounce houses, tents, tables and chairs, entertainment and staff, decor and other rentals closely tied to Halloween events, including {esc(hoods3)}.</p>
+
+      <div class="callout">
+        <p><strong>Serving all of {esc(nl)} and nearby Atlanta.</strong> Providers deliver bounce houses (including Halloween and fall-themed inflatables where available), tents, tables, chairs, entertainment and staff, and decor with setup and teardown included.</p>
+      </div>
+
+      <h2>{nl} Providers for {svc_name}</h2>
+      <ul class="bullet-services">
+          {prov_links}
+      </ul>
+
+      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/">See all Atlanta rental services</a> &middot; <a href="{location_href(loc)}">More rentals in {esc(nl)}</a></p>
+'''
+                faqs = [
+                    (f"What can I rent for a Halloween event in {nl}?",
+                     f"<p>Providers in {nl} offer bounce houses, tents, tables and chairs, entertainment and staff (DJs, face painting, costumed characters), decor and full party packages &mdash; all closely tied to Halloween parties, trunk-or-treats and fall festivals. <a href=\"#\" data-wizard-open>Request a free quote</a> to see what's available for your date.</p>"),
+                    (f"Do providers deliver Halloween event rentals to {nl}?",
+                     f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down rentals throughout {nl}, including {esc(hoods3)}.</p>"),
+                    (f"How do I book Halloween event rentals in {nl}?",
+                     f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
                 ]
             else:
                 if fam.get("desc_template"):
@@ -2395,6 +2454,8 @@ def build_find_pages(providers):
         matched = nm["matched"]
         url_slug = nm["url_slug"]
         svc_short = nm["svc_short"]
+        services_link = (f'<a href="/services/{slug}/">See {svc_name} details and pricing</a>' if slug
+                          else f'<a href="/services/">See all Atlanta rental services</a>')
         title = f"{svc_name} Near Me"
         desc = f"Find {svc_name.lower()} near you across metro Atlanta, Georgia. Compare {len(matched)} local providers, view pricing and get a free quote."
 
@@ -2482,7 +2543,7 @@ def build_find_pages(providers):
       </ul>
       {city_links_html}
 
-      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/{slug}/">See {svc_name} details and pricing</a></p>
+      <p><a href="/find/">&larr; Back to the Find hub</a> &middot; {services_link}</p>
       {other_find_html}
     </div>
   </div>
