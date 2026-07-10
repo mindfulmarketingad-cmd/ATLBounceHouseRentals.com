@@ -128,6 +128,62 @@ def prov_meta_html(p):
     return ""
 
 
+# ----------------------------------------------------------------- featured images
+# Real photos (supplied directly, not stock/generated) used as a featured image on
+# every generated page. Each entry is (path, default alt text, width, height).
+FEATURED_IMAGES = {
+    "bounce_house": ("/images/hero-bounce-house.jpg",
+                      "Bounce house and slide combo set up for a birthday party in metro Atlanta, Georgia", 1376, 768),
+    "tent_luxury": ("/images/gallery/luxury-poolside-tent-event.jpg",
+                     "Elegant poolside event tents set up for a celebration in Atlanta, Georgia", 1600, 1069),
+    "kids_tables": ("/images/gallery/pink-kids-party-tables-chairs.jpg",
+                     "Folding tables and chairs set up for a kids' birthday party in an Atlanta backyard", 1600, 1066),
+    "boho_tent": ("/images/gallery/boho-tent-fall-event.jpg",
+                  "Rustic tent with wood folding chairs and tables set up for an outdoor Atlanta event", 435, 459),
+    "gold_ballroom": ("/images/gallery/luxury-white-gold-ballroom.jpg",
+                       "Elegant white and gold chair and table setup for a formal Atlanta event", 481, 637),
+}
+DEFAULT_FEATURED_IMAGE = "tent_luxury"
+
+# Maps a core SERVICES slug or /find/ family url_prefix to a FEATURED_IMAGES key.
+# Anything not listed here falls back to DEFAULT_FEATURED_IMAGE, so every page
+# that calls featured_image_html() still gets a real photo.
+IMAGE_KEY_BY_SLUG = {
+    "classic-bounce-house-rentals": "bounce_house",
+    "tents-tables-and-chair-rentals": "tent_luxury",
+    "wedding-decor-rentals": "gold_ballroom",
+    "chiavari-chair-rentals": "gold_ballroom",
+    "throne-chair-rentals": "gold_ballroom",
+    "ghost-chair-rentals": "gold_ballroom",
+    "cocktail-table-rentals": "tent_luxury",
+    "farmhouse-table-rentals": "boho_tent",
+    "kids-table-and-chair-rentals": "kids_tables",
+    "bounce-house-rentals": "bounce_house",
+    "99-bounce-house-rentals": "bounce_house",
+    "tents-table-chair-rentals": "tent_luxury",
+    "event-table-rentals": "tent_luxury",
+    "event-chair-rentals": "gold_ballroom",
+    "table-rentals": "kids_tables",
+    "chair-rentals": "gold_ballroom",
+    "tent-rentals": "boho_tent",
+    "folding-chair-rentals": "kids_tables",
+    "kids-party-rentals": "kids_tables",
+    "back-to-school-party-rentals": "boho_tent",
+    "gender-reveal-party-event-rentals": "kids_tables",
+}
+
+
+def featured_image_html(key=None, alt_override=None, cls="content-photo"):
+    """<img> tag for a real featured photo. key may be a FEATURED_IMAGES key,
+    a SERVICES slug, or a /find/ url_prefix — anything unrecognized falls back
+    to the default photo so every page that calls this still gets an image."""
+    if key not in FEATURED_IMAGES:
+        key = IMAGE_KEY_BY_SLUG.get(key, DEFAULT_FEATURED_IMAGE)
+    src, alt, w, h = FEATURED_IMAGES[key]
+    alt_text = alt_override or alt
+    return f'<img class="{cls}" src="{src}" alt="{esc(alt_text)}" loading="lazy" width="{w}" height="{h}">'
+
+
 def parse_attrs(about_json):
     bits = []
     try:
@@ -589,6 +645,7 @@ def build_partners(providers):
 
 <section>
   <div class="container">
+    {featured_image_html(alt_override="Atlanta party rental providers set up for a celebration")}
 {provider_table(providers)}
     <div class="callout" style="margin-top:26px;">
       <p><strong>Ready to book?</strong> Use the <a href="#" data-wizard-open>Book Now</a> wizard to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
@@ -655,6 +712,10 @@ def build_partner_pages(providers):
             ld["geo"] = {"@type": "GeoCoordinates", "latitude": it["lat"], "longitude": it["lng"]}
         extra = f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
 
+        partner_photo = featured_image_html(
+            services[0] if services else None,
+            alt_override=f"{name} — party rental services in {it['city']}, {it['state']}")
+
         page = head(esc(title), desc, f"{DOMAIN}/partners/{slug}/", extra)
         page += header("partners") + f'''
 <div class="page-head">
@@ -675,6 +736,7 @@ def build_partner_pages(providers):
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:40px; align-items:start;">
       <div class="content">
         <h2>About {esc(name)}</h2>
+        {partner_photo}
         <p>{esc(about)}</p>
 
         <h2>Services Offered</h2>
@@ -1165,6 +1227,7 @@ def build_services_index():
 <section>
   <div class="container content" style="max-width:none;">
     <h2>All Bounce House Rental Services in Atlanta</h2>
+    {featured_image_html(alt_override="Bounce house and party rental equipment set up for an Atlanta event")}
     <ul class="bullet-services">
       {links}
     </ul>
@@ -1247,9 +1310,12 @@ def build_service_pages(providers):
         extra = (f'<script type="application/ld+json">\n{json.dumps(ld, ensure_ascii=False)}\n</script>\n'
                  f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
-        svc_photo = (f'<img class="content-photo" src="/images/bounce-houses/rainbow-castle-1.jpg" '
-                     f'alt="Classic castle bounce house set up for a birthday party in Atlanta, Georgia" '
-                     f'loading="lazy" width="1024" height="1024">') if slug == "classic-bounce-house-rentals" else ""
+        svc_photo = (
+            f'<img class="content-photo" src="/images/bounce-houses/rainbow-castle-1.jpg" '
+            f'alt="Classic castle bounce house set up for a birthday party in Atlanta, Georgia" '
+            f'loading="lazy" width="1024" height="1024">'
+        ) if slug == "classic-bounce-house-rentals" else featured_image_html(
+            slug, alt_override=f"{s['name']} set up for an event in Atlanta, Georgia")
 
         page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
                     f"{DOMAIN}/services/{slug}/", extra)
@@ -1567,6 +1633,7 @@ def build_specialty_service_pages():
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
         <h2>About {pg["name"]} in Atlanta</h2>
+        {featured_image_html(slug, alt_override=f'{pg["name"]} set up for an event in Atlanta, Georgia')}
         {body_html}
 
         <div class="callout">
@@ -1902,6 +1969,7 @@ def build_locations(providers):
 
 <section>
   <div class="container">
+    {featured_image_html(alt_override="Bounce house and party rentals set up for an event across metro Atlanta")}
     <div class="loc-grid">
 {cards_html}
     </div>
@@ -2354,6 +2422,7 @@ def build_find_pages(providers):
 
                 content_html = f'''
       <h2>{svc_name} in {esc(nl)}, Georgia</h2>
+      {featured_image_html(fam["url_prefix"], alt_override=f"{svc_name} rentals set up for an event near {nl}, Georgia")}
       <p>{theme_blurb}</p>
 
       <div class="callout">
@@ -2395,6 +2464,7 @@ def build_find_pages(providers):
 
                 content_html = f'''
       <h2>{svc_name} in {esc(nl)}, Georgia</h2>
+      {featured_image_html(fam["url_prefix"], alt_override=f"{svc_name} set up for an event near {nl}, Georgia")}
       <p>Planning an event in {esc(nl)}? The providers below deliver, set up and tear down {svc_name.lower()} throughout {esc(nl)}, including {esc(hoods3)}. Whether you need seating for a backyard birthday or a full tent setup for a wedding reception, compare pricing and reviews before you book.</p>
 
       <h2>{nl} Providers Offering {svc_name}</h2>
@@ -2600,9 +2670,8 @@ def build_find_pages(providers):
         extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
                  f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
-        nm_photo = (f'<img class="content-photo" src="/images/hero-bounce-house.jpg" '
-                    f'alt="Bounce house and slide combo set up for a birthday party in metro Atlanta, Georgia" '
-                    f'loading="lazy" width="1376" height="768">') if nm["url_prefix"] in ("bounce-house-rentals", "99-bounce-house-rentals") else ""
+        nm_photo = featured_image_html(
+            nm["url_prefix"], alt_override=f"{svc_name} set up for an event in metro Atlanta, Georgia")
 
         page = head(title, desc, f"{DOMAIN}/find/{url_slug}/", extra)
         page += header("find") + f'''
@@ -2725,6 +2794,7 @@ def build_find_pages(providers):
 
 <section>
   <div class="container content" style="max-width:none;" id="find-sections">
+    {featured_image_html(alt_override="Atlanta party rentals set up for a celebration")}
     {sections}
   </div>
 </section>
@@ -2866,6 +2936,7 @@ def build_leads():
 
 <section>
   <div class="container">
+    {featured_image_html(alt_override="Atlanta party rentals set up for a celebration")}
     <div class="login-banner" id="login-banner">
       <div>
         <h3>You're viewing limited lead previews</h3>
@@ -2930,6 +3001,7 @@ def build_legal():
 
 <section>
   <div class="container content">
+    {featured_image_html(alt_override="Atlanta party rentals set up for a celebration")}
     {p["body"]}
   </div>
 </section>
@@ -2952,6 +3024,7 @@ def build_404():
   <div class="container">
     <h1>404 &mdash; Page Not Found</h1>
     <p class="muted">The page you're looking for doesn't exist or has moved.</p>
+    {featured_image_html(alt_override="Atlanta party rentals set up for a celebration")}
     <p style="margin-top:24px;"><a class="btn" href="/">Back to Home</a> &nbsp; <a class="btn btn-ghost" href="/services/">Browse Services</a></p>
   </div>
 </section>
