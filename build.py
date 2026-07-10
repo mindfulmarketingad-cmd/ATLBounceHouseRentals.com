@@ -2524,6 +2524,22 @@ def build_find_pages(providers):
           {city_links}
       </ul>'''
 
+        top_rated = [p for p in matched if p.get("rating")][:3]
+        top_rated_txt = ""
+        if top_rated:
+            names_bits = [f'{esc(p["name"])} ({p["rating"]}&#9733;, {p["reviews"] or 0} reviews)' for p in top_rated]
+            if len(names_bits) == 1:
+                top_rated_txt = names_bits[0]
+            elif len(names_bits) == 2:
+                top_rated_txt = f'{names_bits[0]} and {names_bits[1]}'
+            else:
+                top_rated_txt = f'{", ".join(names_bits[:-1])} and {names_bits[-1]}'
+
+        avg_rating = None
+        rated = [p["rating"] for p in matched if p.get("rating")]
+        if rated:
+            avg_rating = round(sum(rated) / len(rated), 1)
+
         faqs = [
             (f"Where can I find {svc_name.lower()} near me in Atlanta?",
              f"<p>Our directory lists {len(matched)} Atlanta-area provider{'s' if len(matched) != 1 else ''} offering {svc_name.lower()}. Use the map above to find the closest one to you, or <a href=\"#\" data-wizard-open>request a free quote</a> and we'll match you with an available provider.</p>"),
@@ -2531,8 +2547,35 @@ def build_find_pages(providers):
              f"<p>Pricing varies by provider, quantity and rental length. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing on your event.</p>"),
             (f"How do I book {svc_name.lower()} near me?",
              f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
+            (f"How far in advance should I reserve {svc_name.lower()}?",
+             f"<p>For weekend dates during Atlanta's busy spring and summer event season, book 2&ndash;4 weeks ahead when possible &mdash; popular providers and dates fill up fastest. Need something last minute? <a href=\"#\" data-wizard-open>Request a free quote</a> and we'll check live availability with providers near you.</p>"),
+            (f"Do {svc_name.lower()} providers deliver and set up?",
+             f"<p>Yes. Directory providers offering {svc_name.lower()} in metro Atlanta typically include delivery, setup and teardown/pickup in their standard service area. Delivery radius and fees vary by provider and distance, so confirm details when you request your quote.</p>"),
+            (f"What should I check before booking {svc_name.lower()} near me?",
+             f"<p>Compare star rating, review count and Google verification status for each provider (shown on every listing below), confirm the provider services your ZIP code, and ask about delivery windows, setup time and any minimum order requirements for your event date.</p>"),
         ]
         faq_html, faq_ld = faq_block(faqs)
+
+        seo_content_html = f'''
+      <h2>Why Book {svc_name} Near You in Atlanta?</h2>
+      <p>Booking {svc_name.lower()} from a provider near your event location in metro Atlanta keeps delivery costs down and makes setup and pickup faster and more reliable. Instead of searching one company at a time, this page puts every directory provider offering {svc_name.lower()} on one map so you can compare distance, pricing and reviews side by side before you request a quote.</p>
+
+      <h2>How to Choose a {svc_name} Provider</h2>
+      <p>Not every {svc_name.lower()} provider is the same. When comparing options near you, look at:</p>
+      <ul class="bullet-services">
+        <li><strong>Rating and review count</strong> &mdash; a high star rating backed by a large number of reviews is a stronger signal than a perfect score with only a handful of reviews.</li>
+        <li><strong>Google verification</strong> &mdash; verified listings (marked on every card below) have confirmed business details on Google.</li>
+        <li><strong>Distance and delivery radius</strong> &mdash; a closer provider usually means lower delivery fees and more flexible setup windows.</li>
+        <li><strong>What else they offer</strong> &mdash; many providers bundle {svc_name.lower()} with related rentals, which can simplify booking and save on delivery if you need more than one item for your event.</li>
+      </ul>
+      {(f'<p>Some of the highest-rated options near you right now include {top_rated_txt}.</p>' if top_rated_txt else '')}
+
+      <h2>{svc_name} Pricing in Atlanta</h2>
+      <p>Exact pricing for {svc_name.lower()} depends on the provider, the quantity you need, your event date and delivery distance. {(f'Providers on this page currently average about {avg_rating}&#9733; across {sum(p.get("reviews") or 0 for p in matched)} combined Google reviews.' if avg_rating else '')} The most reliable way to get an accurate number is to request a free quote below &mdash; you will hear back directly from an available provider with pricing for your specific event.</p>
+
+      <h2>Booking Tips for {svc_name}</h2>
+      <p>Reserve as early as you can for weekend dates in Atlanta's peak spring and summer event season, since popular providers and inventory sell out first. Have your event date, ZIP code and estimated guest count ready when you request a quote &mdash; it helps providers give you a faster, more accurate response.</p>
+'''
 
         other_pages = [fp for fp in all_find_pages if fp["url"] != f"/find/{url_slug}/"]
         other_find_html = ""
@@ -2589,7 +2632,7 @@ def build_find_pages(providers):
       <h2>{svc_name} Near You in Metro Atlanta</h2>
       {nm_photo}
       <p>Whichever part of metro Atlanta you're in, the providers below offer {svc_name.lower()} with delivery, setup and teardown included. Compare ratings and reviews, then request a free quote.</p>
-
+      {seo_content_html}
       <h2>Providers Offering {svc_name}</h2>
       <ul class="bullet-services">
           {prov_links}
