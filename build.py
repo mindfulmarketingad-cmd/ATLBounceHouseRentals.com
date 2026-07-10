@@ -665,6 +665,7 @@ def build_partner_pages(providers):
       {rating_html}
       <span class="muted">{addr}</span>
     </div>
+    {trust_strip(count=len(providers))}
   </div>
 </div>
 
@@ -697,12 +698,13 @@ def build_partner_pages(providers):
       <aside>
         <div class="quote-card" style="margin-bottom:22px;">
           <h2>Book This Provider</h2>
-          <p class="sub">Tell us about your event and we'll get you a quote from {esc(name)} and other available Atlanta providers.</p>
+          <p class="sub">Tell us about your event and we'll get you a quote from {esc(name)} and other available Atlanta providers &mdash; usually within minutes.</p>
           <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
             <span>Fast response</span>
+            <span>Info kept private</span>
           </div>
         </div>
 
@@ -2125,7 +2127,12 @@ FIND_PAGE_FAMILIES = [
     # instead of the Bounce-House-specific /locations/ replacement content.
     # Bounce houses, tents/tables/chairs, entertainment & staff, decor and
     # party packages are all "closely tied" services for a Halloween event.
-    {"url_prefix": "halloween-event-rentals", "page_name": "Halloween Event Rentals", "match_mode": "theme"},
+    {"url_prefix": "halloween-event-rentals", "page_name": "Halloween Event Rentals", "match_mode": "theme",
+     "theme_blurb": "Planning a Halloween party, trunk-or-treat, corporate fall event or trick-or-treat block party in {city}? The local providers below offer bounce houses, tents, tables and chairs, entertainment and staff, decor and other rentals closely tied to Halloween events, including {hoods}.",
+     "theme_note": "Providers deliver bounce houses (including Halloween and fall-themed inflatables where available), tents, tables, chairs, entertainment and staff, and decor with setup and teardown included."},
+    {"url_prefix": "gender-reveal-party-event-rentals", "page_name": "Gender Reveal Party Event Rentals", "match_mode": "theme",
+     "theme_blurb": "Planning a gender reveal party or baby shower in {city}? The local providers below offer tents, tables and chairs, photo booths, balloon and decor styling, entertainment and staff, and other rentals closely tied to gender reveal events, including {hoods}.",
+     "theme_note": "Providers deliver tents, tables, chairs, photo booths, balloon and decor styling, and entertainment and staff with setup and teardown included."},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
@@ -2178,7 +2185,8 @@ def build_find_pages(providers):
         families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
                           "entries": entries, "match_mode": match_mode,
                           "map_filter": fam.get("map_filter", fam.get("tag")),
-                          "desc_template": fam.get("desc_template")})
+                          "desc_template": fam.get("desc_template"),
+                          "theme_blurb": fam.get("theme_blurb"), "theme_note": fam.get("theme_note")})
 
     near_me = []  # {slug, name, matched, url_slug, url_prefix, svc_short}
     for slug in SERVICES:
@@ -2318,12 +2326,20 @@ def build_find_pages(providers):
                     f'<li><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a>{prov_meta_html(p)}</li>'
                     for p in matched)
 
+                theme_blurb_tpl = fam.get("theme_blurb") or (
+                    "Planning {svc_lower} in {city}? The local providers below offer bounce houses, tents, tables and "
+                    "chairs, entertainment and staff, decor and other rentals closely tied to this kind of event, including {hoods}.")
+                theme_note = fam.get("theme_note") or (
+                    "Providers deliver bounce houses, tents, tables, chairs, entertainment and staff, and decor with "
+                    "setup and teardown included.")
+                theme_blurb = theme_blurb_tpl.format(city=esc(nl), hoods=esc(hoods3), svc_lower=svc_name.lower())
+
                 content_html = f'''
       <h2>{svc_name} in {esc(nl)}, Georgia</h2>
-      <p>Planning a Halloween party, trunk-or-treat, corporate fall event or trick-or-treat block party in {esc(nl)}? The local providers below offer bounce houses, tents, tables and chairs, entertainment and staff, decor and other rentals closely tied to Halloween events, including {esc(hoods3)}.</p>
+      <p>{theme_blurb}</p>
 
       <div class="callout">
-        <p><strong>Serving all of {esc(nl)} and nearby Atlanta.</strong> Providers deliver bounce houses (including Halloween and fall-themed inflatables where available), tents, tables, chairs, entertainment and staff, and decor with setup and teardown included.</p>
+        <p><strong>Serving all of {esc(nl)} and nearby Atlanta.</strong> {theme_note}</p>
       </div>
 
       <h2>{nl} Providers for {svc_name}</h2>
@@ -2334,11 +2350,11 @@ def build_find_pages(providers):
       <p><a href="/find/">&larr; Back to the Find hub</a> &middot; <a href="/services/">See all Atlanta rental services</a> &middot; <a href="{location_href(loc)}">More rentals in {esc(nl)}</a></p>
 '''
                 faqs = [
-                    (f"What can I rent for a Halloween event in {nl}?",
-                     f"<p>Providers in {nl} offer bounce houses, tents, tables and chairs, entertainment and staff (DJs, face painting, costumed characters), decor and full party packages &mdash; all closely tied to Halloween parties, trunk-or-treats and fall festivals. <a href=\"#\" data-wizard-open>Request a free quote</a> to see what's available for your date.</p>"),
-                    (f"Do providers deliver Halloween event rentals to {nl}?",
+                    (f"What can I rent for {svc_name.lower()} in {nl}?",
+                     f"<p>Providers in {nl} offer bounce houses, tents, tables and chairs, entertainment and staff, decor and full party packages &mdash; all closely tied to this kind of event. <a href=\"#\" data-wizard-open>Request a free quote</a> to see what's available for your date.</p>"),
+                    (f"Do providers deliver {svc_name.lower()} to {nl}?",
                      f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down rentals throughout {nl}, including {esc(hoods3)}.</p>"),
-                    (f"How do I book Halloween event rentals in {nl}?",
+                    (f"How do I book {svc_name.lower()} in {nl}?",
                      f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
                 ]
             else:
@@ -2413,6 +2429,7 @@ def build_find_pages(providers):
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
     <h1>{title}</h1>
     <p>{page_intro}</p>
+    {trust_strip(count=len(providers))}
   </div>
 </div>
 
@@ -2529,6 +2546,7 @@ def build_find_pages(providers):
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
     <h1>{title}</h1>
     <p>Compare {len(matched)} Atlanta-area provider{"s" if len(matched) != 1 else ""} offering {svc_name.lower()}, with free quotes and no obligation.</p>
+    {trust_strip(count=len(providers))}
   </div>
 </div>
 
@@ -2635,6 +2653,7 @@ def build_find_pages(providers):
     <div class="find-search">
       <input id="find-search" type="search" placeholder="Search a service or city &mdash; e.g. photo booth, Buckhead, tent&hellip;" aria-label="Search find pages">
     </div>
+    {trust_strip(count=len(providers))}
   </div>
 </div>
 

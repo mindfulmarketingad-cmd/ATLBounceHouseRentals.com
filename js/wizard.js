@@ -158,6 +158,11 @@
 
     body.appendChild(el("h3", "", "Tell Us About Your Event"));
     body.appendChild(el("p", "sub", "One quick form — we'll match you with available Atlanta providers."));
+    body.appendChild(el("div", "trust-strip plain", [
+      "<span>&#9989; Trusted Atlanta directory</span>",
+      "<span>&#9201;&#65039; Fast response</span>",
+      "<span>&#128274; Your info is never sold</span>"
+    ].join("")));
 
     // Event type
     body.appendChild(el("h4", "wiz-section-label", "What kind of event is this?"));
