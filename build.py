@@ -2147,6 +2147,9 @@ FIND_PAGE_FAMILIES = [
     {"url_prefix": "kids-party-rentals", "page_name": "Kids Party Rentals", "match_mode": "theme",
      "theme_blurb": "Planning a kids' birthday party, school event or family celebration in {city}? The local providers below offer bounce houses, water slides, tables and chairs, photo booths, concessions, entertainment and staff, and other rentals closely tied to kids' parties, including {hoods}.",
      "theme_note": "Providers deliver bounce houses, water slides, tables, chairs, concessions, photo booths, and entertainment and staff with setup and teardown included."},
+    {"url_prefix": "back-to-school-party-rentals", "page_name": "Back To School Party Rentals", "match_mode": "theme",
+     "theme_blurb": "Planning a back-to-school bash, first-day-of-school party, teacher appreciation event or school carnival in {city}? The local providers below offer bounce houses, tents, tables and chairs, concessions, interactive games, entertainment and staff, and other rentals closely tied to back-to-school events, including {hoods}.",
+     "theme_note": "Providers deliver bounce houses, tents, tables, chairs, concessions, interactive games, and entertainment and staff with setup and teardown included."},
 ]
 
 # Metro-wide "near me" pages: one per core service, not fanned out by city.
