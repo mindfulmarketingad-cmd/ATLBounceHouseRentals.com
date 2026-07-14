@@ -622,7 +622,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   max-width: 380px;
 }
 
-/* Trust badges below the Book Now button */
+/* Trust badges below the Free Instant Quote button */
 .hero-trust {
   display: flex;
   flex-wrap: wrap;

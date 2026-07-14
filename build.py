@@ -263,7 +263,7 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/find/"{cls("find")}>Find</a>
       </nav>
-      <a class="book-now-cta" href="#" data-wizard-open>Book Now</a>
+      <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
@@ -479,7 +479,7 @@ def provider_rows(providers):
           <td class="num">{it["reviews"]}</td>
           <td class="verified">{ver}</td>
           <td class="svc">{svc_short}</td>
-          <td class="book"><button type="button" class="table-book-btn" data-wizard-open aria-label="Book {esc(it["name"])}">Book Now</button></td>
+          <td class="book"><button type="button" class="table-book-btn" data-wizard-open aria-label="Book {esc(it["name"])}">Free Instant Quote</button></td>
         </tr>''')
     return "\n".join(rows)
 
@@ -528,7 +528,7 @@ def build_index(providers):
         ("How much does it cost to rent a bounce house in Atlanta?",
          "<p>In Atlanta, a classic bounce house typically rents for about $120&ndash;$260 per day, while larger combo units, water slides and obstacle courses range from roughly $180 to $900+ depending on size. Full party packages run from around $220 to $1,800+. Final pricing depends on the date, delivery distance, rental length and add-ons. <a href=\"/#providers\">Request a free quote</a> for an exact figure.</p>"),
         ("How do I book a bounce house rental in Atlanta?",
-         "<p>Click <a href=\"#\" data-wizard-open>Book Now</a> in the header or at the top of this page. Tell us your event type, date, ZIP code and what you need, and we'll match you with available Atlanta directory providers so you can compare and book.</p>"),
+         "<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> in the header or at the top of this page. Tell us your event type, date, ZIP code and what you need, and we'll match you with available Atlanta directory providers so you can compare and book.</p>"),
         ("What areas around Atlanta do you serve?",
          "<p>Our directory providers serve the City of Atlanta and the surrounding metro, including Midtown, Buckhead, Downtown, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more.</p>"),
         ("What types of bounce houses and party rentals are available?",
@@ -610,7 +610,7 @@ def build_index(providers):
   <div class="container">
     <h2>Ready to Book Your Atlanta Bounce House Rental?</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers in minutes. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -639,7 +639,7 @@ def build_partners(providers):
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Partners</div>
     <h1>Atlanta Bounce House &amp; Party Rental Providers</h1>
-    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews, then click Book Now to tell us about your event and get matched with the right provider.</p>
+    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews, then click Free Instant Quote to tell us about your event and get matched with the right provider.</p>
   </div>
 </div>
 
@@ -648,7 +648,7 @@ def build_partners(providers):
     {featured_image_html(alt_override="Atlanta party rental providers set up for a celebration")}
 {provider_table(providers)}
     <div class="callout" style="margin-top:26px;">
-      <p><strong>Ready to book?</strong> Use the <a href="#" data-wizard-open>Book Now</a> wizard to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
+      <p><strong>Ready to book?</strong> Use the <a href="#" data-wizard-open>Free Instant Quote</a> wizard to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
     </div>
   </div>
 </section>
@@ -762,7 +762,7 @@ def build_partner_pages(providers):
         <div class="quote-card" style="margin-bottom:22px;">
           <h2>Book This Provider</h2>
           <p class="sub">Tell us about your event and we'll get you a quote from {esc(name)} and other available Atlanta providers &mdash; usually within minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -874,7 +874,7 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
@@ -1027,7 +1027,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Need Help Choosing the Right Bounce House?</h2>
     <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1146,7 +1146,7 @@ def build_bounce_houses():
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
           <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Free Instant Quote &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -1176,7 +1176,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Ready to Book?</h2>
     <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1237,7 +1237,7 @@ def build_services_index():
       {specialty_links}
     </ul>
     <div class="callout">
-      <p><strong>Not sure what you need?</strong> Use the Book Now wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
+      <p><strong>Not sure what you need?</strong> Use the Free Instant Quote wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
     </div>
   </div>
 </section>
@@ -1246,7 +1246,7 @@ def build_services_index():
   <div class="container">
     <h2>Get a Free Atlanta Bounce House Quote</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1300,7 +1300,7 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
@@ -1380,7 +1380,7 @@ def build_service_pages(providers):
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book {s["name"]}</h2>
           <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -1397,7 +1397,7 @@ def build_service_pages(providers):
   <div class="container">
     <h2>Book {s["name"]} in Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1659,7 +1659,7 @@ def build_specialty_service_pages():
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book {pg["name"]}</h2>
           <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -1676,7 +1676,7 @@ def build_specialty_service_pages():
   <div class="container">
     <h2>Book {pg["name"]} in Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1739,7 +1739,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Need Help Choosing the Right Bounce House?</h2>
     <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1858,7 +1858,7 @@ def build_bounce_houses():
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
           <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Free Instant Quote &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -1888,7 +1888,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Ready to Book?</h2>
     <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -1993,7 +1993,7 @@ def build_locations(providers):
   <div class="container">
     <h2>Find Bounce House Rentals Near You</h2>
     <p>Tell us about your event and we'll match you with local Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -2128,7 +2128,7 @@ def build_locations(providers):
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book Rentals in {esc(nl)}</h2>
           <p class="sub">Tell us about your event and we'll match you with available providers serving {esc(nl)} in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Book Now &rsaquo;</a>
+          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -2145,7 +2145,7 @@ def build_locations(providers):
   <div class="container">
     <h2>Book a Bounce House in {esc(nl)} Today</h2>
     <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -2442,7 +2442,7 @@ def build_find_pages(providers):
                     (f"Do providers deliver {svc_name.lower()} to {nl}?",
                      f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down rentals throughout {nl}, including {esc(hoods3)}.</p>"),
                     (f"How do I book {svc_name.lower()} in {nl}?",
-                     f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
+                     f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
                 ]
             else:
                 if fam.get("desc_template"):
@@ -2480,7 +2480,7 @@ def build_find_pages(providers):
                     (f"Do providers deliver {svc_name.lower()} to {nl}?",
                      f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down {svc_name.lower()} throughout {nl}, including {esc(hoods3)}.</p>"),
                     (f"How do I book {svc_name.lower()} in {nl}?",
-                     f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
+                     f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
                 ]
 
             faq_html, faq_ld = faq_block(faqs)
@@ -2546,7 +2546,7 @@ def build_find_pages(providers):
   <div class="container">
     <h2>Book {svc_name} in {esc(nl)} Today</h2>
     <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -2616,7 +2616,7 @@ def build_find_pages(providers):
             (f"How much do {svc_name.lower()} cost?",
              f"<p>Pricing varies by provider, quantity and rental length. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing on your event.</p>"),
             (f"How do I book {svc_name.lower()} near me?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Book Now</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
+             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
             (f"How far in advance should I reserve {svc_name.lower()}?",
              f"<p>For weekend dates during Atlanta's busy spring and summer event season, book 2&ndash;4 weeks ahead when possible &mdash; popular providers and dates fill up fastest. Need something last minute? <a href=\"#\" data-wizard-open>Request a free quote</a> and we'll check live availability with providers near you.</p>"),
             (f"Do {svc_name.lower()} providers deliver and set up?",
@@ -2719,7 +2719,7 @@ def build_find_pages(providers):
   <div class="container">
     <h2>Book {svc_name} Today</h2>
     <p>Tell us about your event and we'll match you with an available provider near you. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -2803,7 +2803,7 @@ def build_find_pages(providers):
   <div class="container">
     <h2>Can't Find Your City or Service?</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
@@ -2902,7 +2902,7 @@ def build_cheap(providers):
   <div class="container">
     <h2>Get the Lowest Bounce House Price in Atlanta</h2>
     <p>Tell us about your event and we'll match you with the best-priced Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Book Now &rsaquo;</a>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
   </div>
 </section>
 
