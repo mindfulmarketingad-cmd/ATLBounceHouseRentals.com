@@ -2922,15 +2922,15 @@ def build_cheap(providers):
 def build_leads():
     extra = ""
     html_out = head(
-        "Live Atlanta Bounce House Rental Leads | Provider Board",
-        "Live board of incoming bounce house and party rental leads across Atlanta, Georgia, from our quote form and phone line. Partners log in to view full contact details.",
+        "Live Atlanta Bounce House Rental Leads | Contractor Leaderboard",
+        "Live leaderboard of incoming bounce house and party rental leads across Atlanta, Georgia, captured from our website quote form. Subscribe to unlock full contact details.",
         DOMAIN + "/leads.html", extra)
     html_out += header("leads") + f'''
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Leads</div>
     <h1>Live Atlanta Rental Leads</h1>
-    <p>Real-time inquiries from customers across Atlanta, captured through our website quote form and phone line. Directory partners log in to unlock full contact details and claim the job.</p>
+    <p>Real-time inquiries from customers across Atlanta, captured through our website Free Instant Quote form. Every lead's name is public — subscribe to unlock full contact details and claim the job.</p>
   </div>
 </div>
 
@@ -2939,10 +2939,21 @@ def build_leads():
     {featured_image_html(alt_override="Atlanta party rentals set up for a celebration")}
     <div class="login-banner" id="login-banner">
       <div>
-        <h3>You're viewing limited lead previews</h3>
-        <p>Contact names, phone numbers and emails are hidden. Partners can log in to view full lead details and reach out directly.</p>
+        <h3>You're viewing the public leaderboard</h3>
+        <p>Names are shown to everyone. Phone, email and event details are reserved for subscribed contractors and the site admin.</p>
       </div>
-      <button class="btn" data-open-login>Partner Log In</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="btn" href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">Subscribe for Full Access</a>
+        <button class="btn btn-ghost" data-open-login>Log In</button>
+      </div>
+    </div>
+
+    <div class="login-banner" id="subscribe-banner" style="display:none;">
+      <div>
+        <h3>Your account isn't subscribed yet</h3>
+        <p>You're logged in, but this account doesn't have an active subscription. Complete checkout with the same email to unlock full lead details.</p>
+      </div>
+      <a class="btn" href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">Subscribe Now</a>
     </div>
 
     <div class="leads-bar" id="logged-bar" style="display:none;">
@@ -2953,7 +2964,7 @@ def build_leads():
     <div id="leads-board"></div>
 
     <div class="callout" style="margin-top:30px;">
-      <p><strong>Want these leads?</strong> Join the Atlanta provider directory to get matched with customers in your service area. <a href="/legal/contact.html">Contact us to become a partner.</a></p>
+      <p><strong>Want these leads?</strong> <a href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">Subscribe as a contractor</a> to unlock full contact details on every lead, or <a href="/legal/contact.html">contact us</a> with questions.</p>
     </div>
   </div>
 </section>
@@ -2961,22 +2972,29 @@ def build_leads():
 <div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
   <div class="modal">
     <button class="modal-close" data-close-login aria-label="Close">&times;</button>
-    <h3 id="login-title">Partner Log In</h3>
-    <p class="sub">Log in to view full lead contact details and claim jobs.</p>
-    <div id="login-error" class="form-success" style="display:none;background:#fdeaea;border-color:#f3c2c2;color:#a12626;">
-      Incorrect email or password. Please try again.
-    </div>
+    <h3 id="login-title">Contractor Account</h3>
+    <p class="sub">Log in if you already have an account, or sign up and subscribe to unlock full lead details.</p>
+    <div id="login-error" class="form-success" style="display:none;background:#fdeaea;border-color:#f3c2c2;color:#a12626;"></div>
     <form id="login-form" novalidate>
-      <div class="field"><label for="l-email">Email</label><input id="l-email" name="email" type="email" placeholder="partner@atlbouncehouserentals.com" required></div>
-      <div class="field"><label for="l-pass">Password</label><input id="l-pass" name="password" type="password" placeholder="********" required></div>
+      <div class="field"><label for="l-email">Email</label><input id="l-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="l-pass">Password</label><input id="l-pass" name="password" type="password" autocomplete="current-password" required></div>
       <button class="btn btn-block" type="submit">Log In</button>
-      <p class="form-note">Demo access &mdash; email: partner@atlbouncehouserentals.com &middot; password: atlanta2026</p>
+    </form>
+    <hr style="margin:22px 0;border:0;border-top:1px solid var(--line);">
+    <h3 style="font-size:1.05rem;">New contractor? Create an account</h3>
+    <div id="signup-message" class="form-success" style="display:none;"></div>
+    <form id="signup-form" novalidate>
+      <div class="field"><label for="s-email">Email</label><input id="s-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="s-pass">Password</label><input id="s-pass" name="password" type="password" autocomplete="new-password" minlength="6" required></div>
+      <button class="btn btn-block btn-ghost" type="submit">Create Account</button>
+      <p class="form-note">After signing up, <a href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">subscribe here</a> with the same email to unlock full lead details.</p>
     </form>
   </div>
 </div>
 
 {FOOTER}
 
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="/js/main.js"></script>
 <script src="/js/leads.js"></script>
 <script src="/js/wizard.js"></script>

@@ -267,6 +267,8 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .login-banner { background: var(--black); color: #cdd4dc; border-radius: 12px; padding: 24px 26px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; margin-bottom: 26px; }
 .login-banner p { color: #aeb6c0; margin: 4px 0 0; font-size: 0.95rem; }
 .login-banner h3 { color: #fff; margin: 0; }
+.login-banner .btn-ghost { color: #fff; border-color: #454e59; }
+.login-banner .btn-ghost:hover { background: rgba(255,255,255,0.08); color: #fff; }
 
 /* ---------- Modal ---------- */
 .modal-overlay { position: fixed; inset: 0; background: rgba(17,20,24,0.55); display: none; place-items: center; z-index: 200; padding: 20px; }
