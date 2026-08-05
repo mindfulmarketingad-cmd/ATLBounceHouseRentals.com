@@ -68,7 +68,14 @@ grant select on public.leads to authenticated;
 -- anything captured from a dev/staging/localhost copy of the wizard.
 -- Matched on the domain substring (not an exact www/non-www prefix) so
 -- it's not sensitive to which host variant Vercel actually serves.
-create or replace view public.leads_board as
+--
+-- Dropped first (not just "create or replace") because if leads_board
+-- already exists as something CREATE OR REPLACE VIEW can't overwrite
+-- (e.g. a table, or a view with different columns from an earlier
+-- partial run), you'll hit "ERROR 42P07: relation already exists".
+-- This makes the script safe to re-run from a clean or partial state.
+drop view if exists public.leads_board cascade;
+create view public.leads_board as
 select id, name, created_at
 from public.leads
 where page_url ilike '%atlbouncehouserentals.com%'
@@ -79,3 +86,10 @@ grant select on public.leads_board to anon, authenticated;
 -- ─── To activate a contractor after they pay via Stripe ────────────────
 -- insert into public.subscribers (email) values ('contractor@example.com')
 --   on conflict (email) do update set active = true;
+
+-- ─── If "drop view" above errors with something like "leads_board is  ──
+-- ─── not a view" ────────────────────────────────────────────────────
+-- That means it exists as an actual TABLE (someone created it manually
+-- in Table Editor, or a very old version of this script ran). Drop it
+-- with the line below instead, then re-run this whole file:
+-- drop table if exists public.leads_board cascade;
