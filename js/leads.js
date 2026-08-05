@@ -42,6 +42,23 @@
     var d = Math.floor(hr / 24); return d + " day" + (d > 1 ? "s" : "") + " ago";
   }
 
+  function exactTime(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return "";
+    try {
+      return d.toLocaleString("en-US", {
+        timeZone: "America/New_York", month: "short", day: "numeric",
+        year: "numeric", hour: "numeric", minute: "2-digit"
+      }) + " ET";
+    } catch (e) {
+      return d.toLocaleString();
+    }
+  }
+
+  function verifiedBadge() {
+    return '<span class="tag verified-lead">&#10003; Verified Lead</span>';
+  }
+
   function loadSession() {
     try {
       var raw = localStorage.getItem(SESSION_KEY);
@@ -137,14 +154,15 @@
 
   function renderLocked(board, rows) {
     if (!rows.length) return renderEmpty(board);
-    board.innerHTML = rows.map(function (l) {
+    board.innerHTML = rows.map(function (l, i) {
       return '' +
         '<article class="lead-row locked">' +
           '<div class="lead-main">' +
-            '<h3>' + esc(l.name || "New Inquiry") + '</h3>' +
+            '<div class="lead-tags">' + verifiedBadge() + '<span class="tag new">New</span><span class="tag">Website</span></div>' +
+            '<h3><span class="lead-num">#' + (rows.length - i) + '</span> ' + esc(l.name || "New Inquiry") + '</h3>' +
             '<div class="muted" style="font-size:0.9rem;"><span class="lead-protect">Birthday Party &middot; ZIP 30xxx</span></div>' +
             '<p style="margin:8px 0 0;font-size:0.92rem;"><span class="lead-protect">(xxx) xxx-xxxx &middot; hidden@email.com</span></p>' +
-            '<div class="lead-tags"><span class="tag new">New</span><span class="tag">Website</span></div>' +
+            '<div class="lead-received">Received ' + esc(exactTime(l.created_at)) + '</div>' +
           '</div>' +
           '<div class="lead-side">' +
             '<div class="lead-time">' + timeAgo(l.created_at) + '</div>' +
@@ -156,20 +174,21 @@
 
   function renderFull(board, rows) {
     if (!rows.length) return renderEmpty(board);
-    board.innerHTML = rows.map(function (l) {
+    board.innerHTML = rows.map(function (l, i) {
       var svc = (l.services || []).join(", ") || l.event_type || "General Inquiry";
       var phoneDigits = (l.phone || "").replace(/[^+\d]/g, "");
-      var tags = ['<span class="tag new">New</span>', '<span class="tag">' + esc(l.source || "Website Quote Form") + '</span>'];
+      var tags = [verifiedBadge(), '<span class="tag new">New</span>', '<span class="tag">' + esc(l.source || "Website Quote Form") + '</span>'];
       if (l.zip_code) tags.push('<span class="tag">ZIP ' + esc(l.zip_code) + '</span>');
       if (l.event_date) tags.push('<span class="tag">Event: ' + esc(l.event_date) + '</span>');
       if (l.guest_count) tags.push('<span class="tag">' + esc(l.guest_count) + ' guests</span>');
       return '' +
         '<article class="lead-row">' +
           '<div class="lead-main">' +
-            '<h3>' + esc(l.name || "New Inquiry") + ' &mdash; ' + esc(svc) + '</h3>' +
+            '<div class="lead-tags">' + tags.join("") + '</div>' +
+            '<h3><span class="lead-num">#' + (rows.length - i) + '</span> ' + esc(l.name || "New Inquiry") + ' &mdash; ' + esc(svc) + '</h3>' +
             '<div class="muted" style="font-size:0.9rem;">' + esc(l.phone || "") + ' &middot; ' + esc(l.email || "") + '</div>' +
             '<p style="margin:8px 0 0;font-size:0.92rem;">' + esc(l.message || "Submitted via website Free Instant Quote form.") + '</p>' +
-            '<div class="lead-tags">' + tags.join("") + '</div>' +
+            '<div class="lead-received">Received ' + esc(exactTime(l.created_at)) + '</div>' +
           '</div>' +
           '<div class="lead-side">' +
             '<div class="lead-time">' + timeAgo(l.created_at) + '</div>' +

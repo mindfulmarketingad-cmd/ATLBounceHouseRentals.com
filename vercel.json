@@ -1,5 +1,6 @@
 {
   "redirects": [
+    { "source": "/leads.html", "destination": "/leads/", "permanent": true },
     { "source": "/locations/brookhaven", "destination": "/find/bounce-house-rentals-brookhaven-ga", "permanent": true },
     { "source": "/locations/brookhaven/", "destination": "/find/bounce-house-rentals-brookhaven-ga/", "permanent": true },
     { "source": "/locations/buckhead", "destination": "/find/bounce-house-rentals-buckhead-ga", "permanent": true },

@@ -1,4 +1,4 @@
--- Atlanta Bounce House Rentals — /leads.html leaderboard access control
+-- Atlanta Bounce House Rentals — /leads/ leaderboard access control
 -- Supabase project: ATLBounceHouseRentals_Leads_Board
 -- Run this once in the Supabase SQL editor (https://supabase.com/dashboard/project/tbqigevoksabizjogvtm/sql/new)
 -- Requires supabase/schema.sql (the leads table) to already exist.
@@ -8,7 +8,7 @@
 -- (https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i) get full lead access
 -- once their row here has active = true. There is no Stripe webhook wired
 -- up yet, so after someone subscribes:
---   1. They sign up for an account on /leads.html with the SAME email
+--   1. They sign up for an account on /leads/ with the SAME email
 --      they used to check out on Stripe.
 --   2. You add/activate their email below (Table Editor > subscribers,
 --      or the SQL at the bottom of this file) once you see the Stripe

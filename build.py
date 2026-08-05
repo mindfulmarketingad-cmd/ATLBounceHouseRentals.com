@@ -296,7 +296,7 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/locations/">Service Areas</a>
         <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
         <a href="/partners.html">Partners</a>
-        <a href="/leads.html">Leads</a>
+        <a href="/leads/">Leads</a>
       </div>
       <div>
         <h4>Company</h4>
@@ -2924,7 +2924,7 @@ def build_leads():
     html_out = head(
         "Live Atlanta Bounce House Rental Leads | Contractor Leaderboard",
         "Live leaderboard of incoming bounce house and party rental leads across Atlanta, Georgia, captured from our website quote form. Subscribe to unlock full contact details.",
-        DOMAIN + "/leads.html", extra)
+        DOMAIN + "/leads/", extra)
     html_out += header("leads") + f'''
 <div class="page-head">
   <div class="container">
@@ -3000,7 +3000,9 @@ def build_leads():
 </body>
 </html>
 '''
-    open(os.path.join(ROOT, "leads.html"), "w").write(html_out)
+    d = os.path.join(ROOT, "leads")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(html_out)
 
 
 # ----------------------------------------------------------------- legal
@@ -3094,7 +3096,7 @@ Key facts:
 def build_sitemap(providers, find_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
-            "/cheap-bounce-house-rentals/", "/partners.html", "/leads.html"]
+            "/cheap-bounce-house-rentals/", "/partners.html", "/leads/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]

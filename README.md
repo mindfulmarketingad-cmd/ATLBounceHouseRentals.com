@@ -16,7 +16,7 @@ Main keyword: **Atlanta Bounce House Rental**
 | Location landing pages (per-city, providers mapped by ZIP) | `/locations/<slug>/index.html` |
 | Cheap / $99 bounce house rentals landing page | `/cheap-bounce-house-rentals/index.html` |
 | Partners directory | `/partners.html` |
-| Leads board (login-gated, blurred for guests) | `/leads.html` |
+| Leads leaderboard (Supabase-backed, name-only for guests) | `/leads/index.html` |
 | About / Contact / Privacy / Terms / Disclaimer | `/legal/*.html` |
 
 ### Services
