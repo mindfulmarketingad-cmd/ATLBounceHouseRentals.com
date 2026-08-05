@@ -1,4 +1,5 @@
 -- Atlanta Bounce House Rentals — /leads.html leaderboard access control
+-- Supabase project: ATLBounceHouseRentals_Leads_Board
 -- Run this once in the Supabase SQL editor (https://supabase.com/dashboard/project/tbqigevoksabizjogvtm/sql/new)
 -- Requires supabase/schema.sql (the leads table) to already exist.
 

@@ -2994,7 +2994,6 @@ def build_leads():
 
 {FOOTER}
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="/js/main.js"></script>
 <script src="/js/leads.js"></script>
 <script src="/js/wizard.js"></script>

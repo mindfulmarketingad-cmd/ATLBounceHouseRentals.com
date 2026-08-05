@@ -1,4 +1,8 @@
 /* Leads leaderboard — pulls real leads from Supabase.
+   No external dependencies (plain fetch against Supabase's REST + Auth
+   HTTP APIs, same pattern wizard.js already uses) — nothing to fail to
+   load from a CDN.
+
    Three tiers:
    - Not logged in / not subscribed: name only. Every other field is
      genuinely never sent by the server (public.leads_board view only
@@ -8,7 +12,8 @@
    - Logged in + active row in public.subscribers: full lead details.
    - Logged in as the site admin email: full lead details.
    Requires supabase/schema.sql and supabase/schema_leads_board.sql to
-   have been run in the Supabase project.
+   have been run in the Supabase project (named
+   ATLBounceHouseRentals_Leads_Board in the Supabase dashboard).
 */
 (function () {
   "use strict";
@@ -17,9 +22,9 @@
   var SUPABASE_ANON_KEY = "sb_publishable_aHlx0Tdu2rhOTBUp3lhkQw_Lv6Awz7a";
   var ADMIN_EMAIL = "mindfulmarketingad@gmail.com";
   var STRIPE_SUBSCRIBE_URL = "https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i";
+  var SESSION_KEY = "abhr_leads_session";
 
-  var supa = null;
-  var currentUser = null;
+  var session = null; // { access_token, refresh_token, user }
   var isEntitled = false;
 
   function esc(str) {
@@ -37,31 +42,85 @@
     var d = Math.floor(hr / 24); return d + " day" + (d > 1 ? "s" : "") + " ago";
   }
 
-  function initClient() {
-    if (!window.supabase || !window.supabase.createClient) return null;
-    return window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  function loadSession() {
+    try {
+      var raw = localStorage.getItem(SESSION_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+  function saveSession(s) {
+    session = s;
+    try {
+      if (s) localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+      else localStorage.removeItem(SESSION_KEY);
+    } catch (e) { /* ignore */ }
   }
 
-  function checkEntitlement(user) {
-    if (!user) return Promise.resolve(false);
-    var email = (user.email || "").toLowerCase();
+  function authHeaders() {
+    var token = (session && session.access_token) || SUPABASE_ANON_KEY;
+    return {
+      "apikey": SUPABASE_ANON_KEY,
+      "Authorization": "Bearer " + token
+    };
+  }
+
+  function authFetch(path, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign({ "Content-Type": "application/json" }, authHeaders(), opts.headers || {});
+    return fetch(SUPABASE_URL + path, opts);
+  }
+
+  function signUp(email, password) {
+    return fetch(SUPABASE_URL + "/auth/v1/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": SUPABASE_ANON_KEY },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function (res) {
+      return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+    });
+  }
+
+  function signIn(email, password) {
+    return fetch(SUPABASE_URL + "/auth/v1/token?grant_type=password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "apikey": SUPABASE_ANON_KEY },
+      body: JSON.stringify({ email: email, password: password })
+    }).then(function (res) {
+      return res.json().then(function (body) { return { ok: res.ok, body: body }; });
+    });
+  }
+
+  function signOut() {
+    if (!session) return Promise.resolve();
+    return fetch(SUPABASE_URL + "/auth/v1/logout", {
+      method: "POST",
+      headers: { "apikey": SUPABASE_ANON_KEY, "Authorization": "Bearer " + session.access_token }
+    }).catch(function () { /* ignore network errors on logout */ });
+  }
+
+  function checkEntitlement() {
+    if (!session || !session.user) return Promise.resolve(false);
+    var email = (session.user.email || "").toLowerCase();
     if (email === ADMIN_EMAIL) return Promise.resolve(true);
-    return supa.from("subscribers").select("active").eq("email", email).eq("active", true).maybeSingle()
-      .then(function (res) { return !!(res && res.data && !res.error); })
-      .catch(function () { return false; });
+    var url = "/rest/v1/subscribers?select=active&email=eq." + encodeURIComponent(email) + "&active=eq.true&limit=1";
+    return authFetch(url).then(function (res) {
+      if (!res.ok) return false;
+      return res.json();
+    }).then(function (rows) {
+      return Array.isArray(rows) && rows.length > 0;
+    }).catch(function () { return false; });
   }
 
   function fetchPublicBoard() {
-    return supa.from("leads_board").select("id,name,created_at").order("created_at", { ascending: false }).limit(50)
-      .then(function (res) { return (res && res.data) || []; })
+    return authFetch("/rest/v1/leads_board?select=id,name,created_at&order=created_at.desc&limit=50")
+      .then(function (res) { return res.ok ? res.json() : []; })
       .catch(function () { return []; });
   }
 
   function fetchFullBoard() {
-    return supa.from("leads").select("*")
-      .ilike("page_url", "%atlbouncehouserentals.com%")
-      .order("created_at", { ascending: false }).limit(50)
-      .then(function (res) { return (res && res.data) || []; })
+    var url = "/rest/v1/leads?select=*&page_url=ilike.*atlbouncehouserentals.com*&order=created_at.desc&limit=50";
+    return authFetch(url)
+      .then(function (res) { return res.ok ? res.json() : []; })
       .catch(function () { return []; });
   }
 
@@ -127,7 +186,7 @@
 
   function refresh() {
     var board = document.getElementById("leads-board");
-    if (!board || !supa) return Promise.resolve();
+    if (!board) return Promise.resolve();
     renderLoading(board);
 
     if (isEntitled) {
@@ -138,7 +197,7 @@
     }
 
     setDisplay("logged-bar", "none");
-    if (currentUser) {
+    if (session && session.user) {
       setDisplay("login-banner", "none");
       setDisplay("subscribe-banner", "flex");
     } else {
@@ -149,11 +208,7 @@
   }
 
   function refreshSession() {
-    return supa.auth.getSession().then(function (res) {
-      var session = res && res.data && res.data.session;
-      currentUser = session ? session.user : null;
-      return checkEntitlement(currentUser);
-    }).then(function (entitled) {
+    return checkEntitlement().then(function (entitled) {
       isEntitled = entitled;
       return refresh();
     });
@@ -177,11 +232,19 @@
         if (err) err.style.display = "none";
         var email = loginForm.email.value.trim();
         var password = loginForm.password.value;
-        supa.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
-          if (res.error) {
-            if (err) { err.textContent = res.error.message || "Incorrect email or password."; err.style.display = "block"; }
+        signIn(email, password).then(function (res) {
+          if (!res.ok || !res.body || !res.body.access_token) {
+            if (err) {
+              err.textContent = (res.body && (res.body.error_description || res.body.msg)) || "Incorrect email or password.";
+              err.style.display = "block";
+            }
             return;
           }
+          saveSession({
+            access_token: res.body.access_token,
+            refresh_token: res.body.refresh_token,
+            user: res.body.user
+          });
           loginForm.reset();
           if (modal) modal.classList.remove("open");
           return refreshSession();
@@ -197,14 +260,20 @@
         if (signupMsg) signupMsg.style.display = "none";
         var email = signupForm.email.value.trim();
         var password = signupForm.password.value;
-        supa.auth.signUp({ email: email, password: password }).then(function (res) {
+        signUp(email, password).then(function (res) {
           if (!signupMsg) return;
           signupMsg.style.display = "block";
-          if (res.error) {
-            signupMsg.textContent = res.error.message || "Something went wrong creating your account.";
+          if (!res.ok) {
+            signupMsg.textContent = (res.body && (res.body.error_description || res.body.msg)) || "Something went wrong creating your account.";
+            return;
+          }
+          signupForm.reset();
+          if (res.body && res.body.access_token) {
+            saveSession({ access_token: res.body.access_token, refresh_token: res.body.refresh_token, user: res.body.user });
+            signupMsg.textContent = "Account created! Now subscribe to unlock full lead details.";
+            refreshSession();
           } else {
             signupMsg.textContent = "Account created! Check your email to confirm it, then log in and subscribe to unlock full lead details.";
-            signupForm.reset();
           }
         });
       });
@@ -213,18 +282,19 @@
     var logoutBtn = document.getElementById("logout-btn");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", function () {
-        supa.auth.signOut().then(refreshSession);
+        signOut().then(function () {
+          saveSession(null);
+          isEntitled = false;
+          return refresh();
+        });
       });
     }
   }
 
   function init() {
-    supa = initClient();
     var board = document.getElementById("leads-board");
-    if (!supa) {
-      if (board) board.innerHTML = '<div class="info-box" style="text-align:center;"><h3>Unable to load leads</h3><p class="muted" style="margin:0;">Please refresh the page.</p></div>';
-      return;
-    }
+    if (!board) return;
+    session = loadSession();
     wireAuthForms();
     refreshSession();
   }

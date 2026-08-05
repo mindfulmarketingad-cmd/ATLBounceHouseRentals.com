@@ -1,4 +1,5 @@
 -- Atlanta Bounce House Rentals — booking wizard leads table
+-- Supabase project: ATLBounceHouseRentals_Leads_Board
 -- Run this once in the Supabase SQL editor (https://supabase.com/dashboard/project/tbqigevoksabizjogvtm/sql/new)
 
 create extension if not exists pgcrypto;
