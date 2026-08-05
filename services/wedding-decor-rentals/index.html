@@ -45,7 +45,8 @@
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/">Home</a>
-        <a href="/find/">Find</a>
+        <a href="/cities/">By City</a>
+        <a href="/services/" class="active">By Service</a>
       </nav>
       <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
@@ -55,23 +56,71 @@
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; Wedding and Event Decor Rentals</div>
-    <h1>Wedding and Event Decor Rentals in Atlanta Georgia</h1>
+    <h1>1 Wedding and Event Decor Rentals Providers in Atlanta, GA</h1>
     <p>Wedding and event decor rentals in Atlanta, Georgia cover everything from chiavari chairs, farm tables and ghost chairs to drapery, linens, floral arrangements and lighting. Compare Atlanta decor rental companies and get a free quote for your full setup.</p>
   </div>
 </div>
 
-<section id="map" class="alt">
+<section>
   <div class="container">
-    <div class="section-head">
-      <div class="eyebrow">Explore the Map</div>
-      <h2>Wedding and Event Decor Rentals Providers Near You</h2>
-      <p>Browse 1 Atlanta providers offering wedding and event decor rentals. Click a listing or map pin to see details, ratings and reviews.</p>
-    </div>
-    <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10" data-service="Wedding Decor"></div>
+    
+<div class="lc-toolbar">
+  <div class="lc-count">1 provider on this page</div>
+  <div class="lc-view-toggle" role="group" aria-label="View toggle">
+    <button type="button" class="lc-view-btn active" data-lc-view="list">List</button>
+    <button type="button" class="lc-view-btn" data-lc-view="map">Map</button>
+  </div>
+</div>
+<div class="lc-controls" id="lc-svc-wedding-decor-rentals-controls">
+  <input type="search" class="lc-search" placeholder="Search by name or city&hellip;" aria-label="Search listings">
+  <div class="lc-controls-row">
+    <label class="lc-select-wrap">City
+      <select class="lc-filter">
+        <option value="">All</option>
+        <option value="Atlanta">Atlanta</option>
+      </select>
+    </label>
+    <label class="lc-select-wrap">Sort
+      <select class="lc-sort">
+        <option value="rating">Top rated</option>
+        <option value="reviews">Most reviews</option>
+        <option value="name">Name A-Z</option>
+        <option value="distance">Distance</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost lc-reset">Reset</button>
+    <button type="button" class="btn btn-ghost lc-distance">Show distance from me</button>
+  </div>
+  <div class="lc-count-live muted">1 provider</div>
+</div>
+<div class="lc-list" id="lc-svc-wedding-decor-rentals-list" data-lc-list>
+    <article class="lc-card" data-lc-name="event drapery" data-lc-city="atlanta"
+      data-lc-services="wedding-decor-rentals,party-package-rentals" data-lc-rating="4.5" data-lc-reviews="2"
+      data-lc-lat="33.8051678" data-lc-lng="-84.4317343" data-hours='{&quot;Monday&quot;: &quot;9AM-5PM&quot;, &quot;Tuesday&quot;: &quot;9AM-5PM&quot;, &quot;Wednesday&quot;: &quot;9AM-5PM&quot;, &quot;Thursday&quot;: &quot;9AM-5PM&quot;, &quot;Friday&quot;: &quot;9AM-5PM&quot;, &quot;Saturday&quot;: &quot;Closed&quot;, &quot;Sunday&quot;: &quot;Closed&quot;}'>
+      <span class="lc-rank">1</span>
+      <div class="lc-avatar" style="background:#c78a1e;" aria-hidden="true">E</div>
+      <div class="lc-body">
+        <h3><a href="/partners/event-drapery/">Event Drapery</a></h3>
+        <div class="lc-meta"><span class="stars">★★★★☆</span> 4.5 <span class="muted">(2 reviews)</span> &middot; Atlanta, Georgia <span class="lc-distance-badge" hidden></span></div>
+        <div class="lc-addr">1346 Logan Cir NW, Atlanta, GA 30318</div>
+        <div class="lc-hours" data-hours-text>Call to confirm today's hours</div>
+        <p class="lc-blurb">Event Drapery in Atlanta takes the top spot, rated 4.5 out of 5 from 2 reviews.</p>
+      </div>
+      <div class="lc-actions">
+        <a class="btn" href="/partners/event-drapery/">View Details</a>
+        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+      </div>
+    </article>
+</div>
+<p class="lc-no-results muted" data-lc-empty hidden>No listings match your search or filter.</p>
+
+<div class="lc-map-view" id="lc-svc-wedding-decor-rentals-map" data-lc-map hidden>
+  <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10" data-service="Wedding Decor"></div>
+</div>
   </div>
 </section>
 
-<section>
+<section class="alt">
   <div class="container">
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
@@ -109,12 +158,6 @@
             </ul>
           </div>
         </div>
-
-        <h2>Atlanta Providers Offering Wedding and Event Decor Rentals</h2>
-        <p>The following directory providers handle wedding and event decor rentals in the Atlanta area. Select a provider to view full details and reviews:</p>
-        <ul class="bullet-services">
-            <li><a href="/partners/event-drapery/">Event Drapery</a></li>
-        </ul>
 
         <h2>Wedding and Event Decor Rentals by Atlanta Area</h2>
         <p>We connect you with providers offering wedding and event decor rentals across the metro:</p>
@@ -248,5 +291,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
+<script src="/js/listicle.js"></script>
 </body>
 </html>

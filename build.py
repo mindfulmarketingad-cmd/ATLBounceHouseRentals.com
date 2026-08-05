@@ -261,7 +261,8 @@ def header(active=""):
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/"{cls("home")}>Home</a>
-        <a href="/find/"{cls("find")}>Find</a>
+        <a href="/cities/"{cls("cities")}>By City</a>
+        <a href="/services/"{cls("services")}>By Service</a>
       </nav>
       <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
@@ -817,6 +818,113 @@ def providers_for_location(loc, providers, limit=12):
     return matched[:limit]
 
 
+# ----------------------------------------------------------------- listicle format
+# Shared "numbered directory list" card/controls used by /cities/ and /services/
+# listicle pages (search + filter + sort + list/map toggle, no spotlight card).
+AVATAR_COLORS = ["#3a93d6", "#e0793c", "#2f9e6b", "#a25fd1", "#d64550", "#1f8fa3", "#c78a1e"]
+
+
+def listicle_blurb(p, rank):
+    name, city = esc(p["name"]), esc(p["city"])
+    if p["rating"] and p["reviews"]:
+        rating_txt = f'rated {p["rating"]} out of 5 from {p["reviews"]} reviews'
+    elif p["reviews"]:
+        rating_txt = f'with {p["reviews"]} Google reviews'
+    else:
+        rating_txt = "newly listed"
+    if rank == 1:
+        return f"{name} in {city} takes the top spot, {rating_txt}."
+    if rank == 2:
+        return f"{name}, out in {city}, is next up, {rating_txt}."
+    return f"{name} in {city} is {rating_txt}."
+
+
+def listicle_card_html(p, rank):
+    initial = esc((p["name"][:1] or "?").upper())
+    color = AVATAR_COLORS[sum(ord(c) for c in p["slug"]) % len(AVATAR_COLORS)]
+    if p["rating"]:
+        rating_html = (f'<span class="stars">{stars(p["rating"])}</span> {p["rating"]} '
+                        f'<span class="muted">({p["reviews"] or 0} reviews)</span>')
+    elif p["reviews"]:
+        rating_html = f'<span class="muted">{p["reviews"]} reviews</span>'
+    else:
+        rating_html = '<span class="muted">New listing</span>'
+    addr = esc(p["address"]) or esc(f'{p["city"]}, {p["state"]}')
+    hours_json = esc(json.dumps(hours_map(p)))
+    svc_attr = esc(",".join(p.get("services", [])))
+    return f'''    <article class="lc-card" data-lc-name="{esc(p["name"].lower())}" data-lc-city="{esc(p["city"].lower())}"
+      data-lc-services="{svc_attr}" data-lc-rating="{p["rating"] or 0}" data-lc-reviews="{p["reviews"] or 0}"
+      data-lc-lat="{p["lat"] or ""}" data-lc-lng="{p["lng"] or ""}" data-hours='{hours_json}'>
+      <span class="lc-rank">{rank}</span>
+      <div class="lc-avatar" style="background:{color};" aria-hidden="true">{initial}</div>
+      <div class="lc-body">
+        <h3><a href="/partners/{p["slug"]}/">{esc(p["name"])}</a></h3>
+        <div class="lc-meta">{rating_html} &middot; {esc(p["city"])}, {esc(p["state"])} <span class="lc-distance-badge" hidden></span></div>
+        <div class="lc-addr">{addr}</div>
+        <div class="lc-hours" data-hours-text>Call to confirm today's hours</div>
+        <p class="lc-blurb">{listicle_blurb(p, rank)}</p>
+      </div>
+      <div class="lc-actions">
+        <a class="btn" href="/partners/{p["slug"]}/">View Details</a>
+        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+      </div>
+    </article>'''
+
+
+def listicle_controls_html(items, kind_singular, kind_plural, area_word,
+                            filter_label, filter_options_html, container_id):
+    count = len(items)
+    return f'''
+<div class="lc-toolbar">
+  <div class="lc-count">{count} {kind_plural if count != 1 else kind_singular} on this page</div>
+  <div class="lc-view-toggle" role="group" aria-label="View toggle">
+    <button type="button" class="lc-view-btn active" data-lc-view="list">List</button>
+    <button type="button" class="lc-view-btn" data-lc-view="map">Map</button>
+  </div>
+</div>
+<div class="lc-controls" id="{container_id}-controls">
+  <input type="search" class="lc-search" placeholder="Search by name or {area_word}&hellip;" aria-label="Search listings">
+  <div class="lc-controls-row">
+    <label class="lc-select-wrap">{filter_label}
+      <select class="lc-filter">
+        <option value="">All</option>
+        {filter_options_html}
+      </select>
+    </label>
+    <label class="lc-select-wrap">Sort
+      <select class="lc-sort">
+        <option value="rating">Top rated</option>
+        <option value="reviews">Most reviews</option>
+        <option value="name">Name A-Z</option>
+        <option value="distance">Distance</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost lc-reset">Reset</button>
+    <button type="button" class="btn btn-ghost lc-distance">Show distance from me</button>
+  </div>
+  <div class="lc-count-live muted">{count} {kind_plural if count != 1 else kind_singular}</div>
+</div>'''
+
+
+def listicle_section_html(items, kind_singular, kind_plural, area_word,
+                           filter_label, filter_options_html, map_html, container_id):
+    """Full listicle: toolbar + controls + numbered card list + hidden map view.
+    No spotlight/featured card — every listing appears once, in rank order."""
+    cards_html = "\n".join(listicle_card_html(p, i + 1) for i, p in enumerate(items))
+    empty_html = (f'<div class="info-box" style="text-align:center;"><h3>No {kind_plural} yet</h3>'
+                  f'<p class="muted" style="margin:0;">Check back soon or <a href="#" data-wizard-open>request a free quote</a> '
+                  f'and we will match you with an available provider.</p></div>') if not items else ""
+    return f'''{listicle_controls_html(items, kind_singular, kind_plural, area_word, filter_label, filter_options_html, container_id)}
+<div class="lc-list" id="{container_id}-list" data-lc-list>
+{cards_html}
+</div>
+<p class="lc-no-results muted" data-lc-empty hidden>No listings match your search or filter.</p>
+{empty_html}
+<div class="lc-map-view" id="{container_id}-map" data-lc-map hidden>
+  {map_html}
+</div>'''
+
+
 # Cities with at least one matched provider get a full programmatic /find/
 # page instead of a /locations/ page (populated in main() before any builder
 # that links to a location runs). Cities with zero matched providers keep
@@ -1206,9 +1314,12 @@ SPECIALTY_SLUGS = [
 ]
 
 
-def build_services_index():
+def build_services_index(providers):
+    counts = {s: sum(1 for p in providers if s in p["services"]) for s in SERVICES}
     links = "\n      ".join(
-        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a> '
+        f'<span class="muted">&mdash; {counts[s]} provider{"s" if counts[s] != 1 else ""}</span></li>'
+        for s in SERVICES if counts[s] > 0)
     specialty_links = "\n      ".join(
         f'<li><a href="/services/{slug}/">{name}</a></li>' for slug, name in SPECIALTY_SLUGS)
     html_out = head(
@@ -1317,29 +1428,32 @@ def build_service_pages(providers):
         ) if slug == "classic-bounce-house-rentals" else featured_image_html(
             slug, alt_override=f"{s['name']} set up for an event in Atlanta, Georgia")
 
+        city_filter_options = "\n        ".join(
+            f'<option value="{esc(c)}">{esc(c)}</option>'
+            for c in sorted(set(p["city"] for p in offering)))
+        listicle = listicle_section_html(
+            offering, "provider", "providers", "city",
+            "City", city_filter_options,
+            searchmap_html(area="Atlanta", zoom=10, service=SERVICES_SHORT[slug]), f"lc-svc-{slug}")
+
         page = head(f'{s["name"]} In Atlanta Georgia', s["intro"][:155].replace('"', "'"),
                     f"{DOMAIN}/services/{slug}/", extra)
         page += header("services") + f'''
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; {s["name"]}</div>
-    <h1>{s["h1"]}</h1>
+    <h1>{len(offering)} {s["name"]} Providers in Atlanta, GA</h1>
     <p>{s["intro"]}</p>
   </div>
 </div>
 
-<section id="map" class="alt">
+<section>
   <div class="container">
-    <div class="section-head">
-      <div class="eyebrow">Explore the Map</div>
-      <h2>{s["name"]} Providers Near You</h2>
-      <p>Browse {len(offering)} Atlanta providers offering {nml}. Click a listing or map pin to see details, ratings and reviews.</p>
-    </div>
-    {searchmap_html(area="Atlanta", zoom=10, service=SERVICES_SHORT[slug])}
+    {listicle}
   </div>
 </section>
 
-<section>
+<section class="alt">
   <div class="container">
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
@@ -1356,12 +1470,6 @@ def build_service_pages(providers):
         <div class="price-grid">
           {prices}
         </div>
-
-        <h2>Atlanta Providers Offering {s["name"]}</h2>
-        <p>The following directory providers handle {s["name"].lower()} in the Atlanta area. Select a provider to view full details and reviews:</p>
-        <ul class="bullet-services">
-            {providers_links}
-        </ul>
 
         <h2>{s["name"]} by Atlanta Area</h2>
         <p>We connect you with providers offering {s["name"].lower()} across the metro:</p>
@@ -1408,6 +1516,7 @@ def build_service_pages(providers):
 {LEAFLET_JS}
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
+<script src="/js/listicle.js"></script>
 </body>
 </html>
 '''
@@ -2241,6 +2350,142 @@ def _providers_for_location_tag(loc, providers, tag, limit=50):
     matched = [p for p in providers if str(p.get("postal") or "").strip() in zset and tag in extra_map_tags(p)]
     matched.sort(key=lambda x: (-(x["rating"] or 0), -(x["reviews"] or 0), x["name"].lower()))
     return matched[:limit]
+
+
+# ----------------------------------------------------------------- /cities/ listicle hub
+def build_cities(providers):
+    """/cities/ hub + one listicle page per city with an actual matched
+    listing (by ZIP) — same never-show-0 rule as the rest of the site."""
+    entries = []
+    for loc in LOCATIONS:
+        matched = providers_for_location(loc, providers, limit=200)
+        if matched:
+            entries.append((loc, matched))
+    entries.sort(key=lambda e: e[0]["name"])
+
+    cards_html = "\n".join(
+        f'''    <a class="loc-card" href="/cities/{loc["slug"]}/">
+      <h3>{esc(loc["name"])}</h3>
+      <p class="loc-card-meta">{len(matched)} listing{"s" if len(matched) != 1 else ""}</p>
+    </a>''' for loc, matched in entries)
+
+    item_ld = {"@context": "https://schema.org", "@type": "ItemList",
+               "itemListElement": [
+                   {"@type": "ListItem", "position": i + 1, "name": loc["name"],
+                    "url": f'{DOMAIN}/cities/{loc["slug"]}/'}
+                   for i, (loc, matched) in enumerate(entries)]}
+    bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Cities", "item": DOMAIN + "/cities/"}]}
+    extra = (f'<script type="application/ld+json">\n{json.dumps(item_ld, ensure_ascii=False)}\n</script>\n'
+             f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n')
+
+    hub = head(
+        "Bounce House & Party Rental Providers by City in Atlanta, Georgia",
+        f"Browse {len(entries)} Atlanta-area cities with bounce house and party rental providers. See how many listings we track in each city.",
+        DOMAIN + "/cities/", extra)
+    hub += header("cities") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Cities</div>
+    <h1>Bounce House &amp; Party Rental Providers by City</h1>
+    <p>Every city we track providers in across metro Atlanta, Georgia. Pick your city to see every business listed there, ranked by rating and review volume.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="loc-grid">
+{cards_html}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Don't See Your City?</h2>
+    <p>Tell us about your event and we'll match you with an available Atlanta-area provider. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "cities")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(hub)
+
+    for loc, matched in entries:
+        nl = loc["name"]
+        clat, clng = location_center(loc, providers)
+        filter_options = "\n        ".join(
+            f'<option value="{s}">{SERVICES[s]}</option>' for s in SERVICES)
+        listicle = listicle_section_html(
+            matched, "listing", "listings", "business",
+            "Service", filter_options,
+            searchmap_html(area=nl, lat=clat, lng=clng, zoom=12), "lc-city")
+
+        bc2 = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Cities", "item": DOMAIN + "/cities/"},
+            {"@type": "ListItem", "position": 3, "name": nl, "item": f"{DOMAIN}/cities/{loc['slug']}/"}]}
+        svc_ld = {"@context": "https://schema.org", "@type": "ItemList",
+                  "itemListElement": [
+                      {"@type": "ListItem", "position": i + 1,
+                       "item": {"@type": "LocalBusiness", "name": p["name"], "url": f'{DOMAIN}/partners/{p["slug"]}/'}}
+                      for i, p in enumerate(matched)]}
+        extra2 = (f'<script type="application/ld+json">\n{json.dumps(bc2, ensure_ascii=False)}\n</script>\n'
+                  f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n{LEAFLET_HEAD}')
+
+        title = f"{len(matched)} Party Rental Providers in {nl}, GA"
+        desc = f"Every party rental provider we track in {nl}, Georgia, ranked by rating and review volume. Search by name or filter by service."
+
+        page = head(title, desc, f"{DOMAIN}/cities/{loc['slug']}/", extra2)
+        page += header("cities") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; {esc(nl)}</div>
+    <h1>{title}</h1>
+    <p>Every party rental provider we track in {esc(nl)}, ranked by rating and review volume. Search by name, or filter by service. Always confirm hours before you head out.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    {listicle}
+    <p style="margin-top:26px;"><a href="/cities/">&larr; All cities</a> &middot; <a href="/find/bounce-house-rentals-{loc["slug"]}-ga/">More about {esc(nl)} rentals</a></p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Book a Provider in {esc(nl)} Today</h2>
+    <p>Tell us about your event and we'll match you with an available {esc(nl)} provider. Free quotes, no obligation.</p>
+    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+{LEAFLET_JS}
+<script src="/js/map-data.js"></script>
+<script src="/js/searchmap.js"></script>
+<script src="/js/listicle.js"></script>
+<script src="/js/main.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+        cd = os.path.join(ROOT, "cities", loc["slug"])
+        os.makedirs(cd, exist_ok=True)
+        open(os.path.join(cd, "index.html"), "w").write(page)
+
+    return ["/cities/"] + [f"/cities/{loc['slug']}/" for loc, _ in entries]
 
 
 def build_find_pages(providers):
@@ -3093,7 +3338,7 @@ Key facts:
     open(os.path.join(ROOT, "llms.txt"), "w").write(txt)
 
 
-def build_sitemap(providers, find_urls=None):
+def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/"]
@@ -3102,6 +3347,7 @@ def build_sitemap(providers, find_urls=None):
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/locations/{l['slug']}/" for l in LOCATIONS if l["slug"] not in MIGRATED_LOCATION_SLUGS]
     urls += find_urls or []
+    urls += city_urls or []
     urls += [f"/legal/{s}.html" for s in ["about", "contact", "privacy-policy", "terms", "disclaimer"]]
     urls += [f"/partners/{it['slug']}/" for it in providers]
     items = "\n".join(
@@ -3128,17 +3374,18 @@ def main():
     build_index(providers)
     build_partners(providers)
     build_partner_pages(providers)
-    build_services_index()
+    build_services_index(providers)
     build_service_pages(providers)
     build_specialty_service_pages()
     build_bounce_houses()
     build_locations(providers)
+    city_urls = build_cities(providers)
     find_urls = build_find_pages(providers)
     build_cheap(providers)
     build_leads()
     build_legal()
     build_404()
-    build_sitemap(providers, find_urls)
+    build_sitemap(providers, find_urls, city_urls)
     build_llms(providers)
     print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + llms.txt")
 

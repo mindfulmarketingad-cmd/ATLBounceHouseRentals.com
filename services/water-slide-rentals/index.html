@@ -45,7 +45,8 @@
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
         <a href="/">Home</a>
-        <a href="/find/">Find</a>
+        <a href="/cities/">By City</a>
+        <a href="/services/" class="active">By Service</a>
       </nav>
       <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
@@ -55,23 +56,55 @@
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; Water Slide Rentals</div>
-    <h1>Water Slide Rentals in Atlanta Georgia</h1>
+    <h1>0 Water Slide Rentals Providers in Atlanta, GA</h1>
     <p>Water slide rentals in Atlanta, Georgia are the ultimate way to cool off during hot Southern summers. From single-lane slip slides to towering dual-lane splash slides, these inflatables turn any backyard into a water park across the Atlanta metro.</p>
   </div>
 </div>
 
-<section id="map" class="alt">
+<section>
   <div class="container">
-    <div class="section-head">
-      <div class="eyebrow">Explore the Map</div>
-      <h2>Water Slide Rentals Providers Near You</h2>
-      <p>Browse 0 Atlanta providers offering water slide rentals. Click a listing or map pin to see details, ratings and reviews.</p>
-    </div>
-    <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10" data-service="Water Slides"></div>
+    
+<div class="lc-toolbar">
+  <div class="lc-count">0 providers on this page</div>
+  <div class="lc-view-toggle" role="group" aria-label="View toggle">
+    <button type="button" class="lc-view-btn active" data-lc-view="list">List</button>
+    <button type="button" class="lc-view-btn" data-lc-view="map">Map</button>
+  </div>
+</div>
+<div class="lc-controls" id="lc-svc-water-slide-rentals-controls">
+  <input type="search" class="lc-search" placeholder="Search by name or city&hellip;" aria-label="Search listings">
+  <div class="lc-controls-row">
+    <label class="lc-select-wrap">City
+      <select class="lc-filter">
+        <option value="">All</option>
+        
+      </select>
+    </label>
+    <label class="lc-select-wrap">Sort
+      <select class="lc-sort">
+        <option value="rating">Top rated</option>
+        <option value="reviews">Most reviews</option>
+        <option value="name">Name A-Z</option>
+        <option value="distance">Distance</option>
+      </select>
+    </label>
+    <button type="button" class="btn btn-ghost lc-reset">Reset</button>
+    <button type="button" class="btn btn-ghost lc-distance">Show distance from me</button>
+  </div>
+  <div class="lc-count-live muted">0 providers</div>
+</div>
+<div class="lc-list" id="lc-svc-water-slide-rentals-list" data-lc-list>
+
+</div>
+<p class="lc-no-results muted" data-lc-empty hidden>No listings match your search or filter.</p>
+<div class="info-box" style="text-align:center;"><h3>No providers yet</h3><p class="muted" style="margin:0;">Check back soon or <a href="#" data-wizard-open>request a free quote</a> and we will match you with an available provider.</p></div>
+<div class="lc-map-view" id="lc-svc-water-slide-rentals-map" data-lc-map hidden>
+  <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10" data-service="Water Slides"></div>
+</div>
   </div>
 </section>
 
-<section>
+<section class="alt">
   <div class="container">
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
@@ -109,12 +142,6 @@
             </ul>
           </div>
         </div>
-
-        <h2>Atlanta Providers Offering Water Slide Rentals</h2>
-        <p>The following directory providers handle water slide rentals in the Atlanta area. Select a provider to view full details and reviews:</p>
-        <ul class="bullet-services">
-            
-        </ul>
 
         <h2>Water Slide Rentals by Atlanta Area</h2>
         <p>We connect you with providers offering water slide rentals across the metro:</p>
@@ -248,5 +275,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
+<script src="/js/listicle.js"></script>
 </body>
 </html>
