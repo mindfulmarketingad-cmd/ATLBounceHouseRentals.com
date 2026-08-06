@@ -11,8 +11,8 @@ Run: python3 build.py
 import json, os, re, html, shutil
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
-PHONE_DISPLAY = "(401) 889-0182"
-PHONE_HREF = "+14018890182"
+PHONE_DISPLAY = "404-737-1843"
+PHONE_HREF = "+14047371843"
 OWN_BUSINESS_URL = "https://buy.stripe.com/3cIfZi96i6cM7My9pIfrW09"
 DOMAIN = "https://atlbouncehouserentals.com"
 
@@ -264,7 +264,13 @@ def header(active=""):
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
       </nav>
-      <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+      <div class="header-ctas">
+        <a class="header-call-cta" href="tel:{PHONE_HREF}">
+          <span class="header-call-number">{PHONE_DISPLAY}</span>
+          <span class="header-call-label">Call now for free quote</span>
+        </a>
+        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+      </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
@@ -1112,7 +1118,7 @@ def build_bounce_houses():
 
     idx = head(
         "Bounce Houses for Rent in Atlanta Georgia | ATL Bounce House Rentals",
-        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call (401) 889-0182 for pricing and availability.",
+        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call 404-737-1843 for pricing and availability.",
         DOMAIN + "/bounce-houses/")
     idx += header("bounce-houses") + f'''
 <div class="page-head">
@@ -1192,7 +1198,7 @@ def build_bounce_houses():
 
         page = head(
             f'{it["name"]} Rental Atlanta Georgia | ATL Bounce House Rentals',
-            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call (401) 889-0182 or request a quote.',
+            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call 404-737-1843 or request a quote.',
             f'{DOMAIN}/bounce-houses/{it["slug"]}/',
             extra)
         page += header("bounce-houses") + f'''
@@ -1532,7 +1538,7 @@ def build_specialty_service_pages():
             "slug": "chiavari-chair-rentals",
             "name": "Chiavari Chair Rentals Atlanta",
             "h1": "Chiavari Chair Rentals in Atlanta Georgia",
-            "meta_desc": "Chiavari chair rentals in Atlanta, Georgia for weddings, galas and corporate events. Compare local providers, view pricing and get a free quote. Call (401) 889-0182.",
+            "meta_desc": "Chiavari chair rentals in Atlanta, Georgia for weddings, galas and corporate events. Compare local providers, view pricing and get a free quote. Call 404-737-1843.",
             "intro": "Chiavari chair rentals in Atlanta, Georgia are the gold standard for elegant event seating. These lightweight, stackable resin and wood chairs are a fixture at Atlanta weddings, fundraising galas and corporate awards dinners.",
             "body": [
                 "Chiavari chairs originated in Chiavari, Italy and have become the most requested formal chair rental in Atlanta. Available in gold, silver, white, black and mahogany finishes, they pair with almost any linen color and event theme. Their slim profile allows more seating per square foot than traditional banquet chairs, making them ideal for Atlanta ballrooms, estate gardens and tent events.",
@@ -1640,7 +1646,7 @@ def build_specialty_service_pages():
             "faqs": [
                 ("How much does throne chair rental cost in Atlanta?", "Throne chairs in Atlanta rent for $120 to $200 each or $200 to $350 for a his-and-hers pair. Full VIP packages including backdrop and decor run $350 to $600+. Delivery is typically included within metro Atlanta."),
                 ("What events are throne chairs used for in Atlanta?", "Throne chairs are popular for Atlanta weddings (as sweetheart chairs), sweet 16 parties, quinceañeras, baby showers and corporate VIP seating arrangements. They create a striking focal point for photos and video."),
-                ("How far in advance should I book a throne chair rental?", "Book throne chairs 4 to 8 weeks ahead for spring and fall wedding season. Saturday dates in April, May, September and October fill fastest. Call (401) 889-0182 to check current availability."),
+                ("How far in advance should I book a throne chair rental?", "Book throne chairs 4 to 8 weeks ahead for spring and fall wedding season. Saturday dates in April, May, September and October fill fastest. Call 404-737-1843 to check current availability."),
             ],
         },
         {
@@ -1825,7 +1831,7 @@ def build_bounce_houses():
 
     idx = head(
         "Bounce Houses for Rent in Atlanta Georgia | ATL Bounce House Rentals",
-        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call (401) 889-0182 for pricing and availability.",
+        "Browse bounce houses available for rent across Atlanta, Georgia. Classic castles, rainbow combos and more — setup and teardown included. Call 404-737-1843 for pricing and availability.",
         DOMAIN + "/bounce-houses/")
     idx += header("bounce-houses") + f'''
 <div class="page-head">
@@ -1905,7 +1911,7 @@ def build_bounce_houses():
 
         page = head(
             f'{it["name"]} Rental Atlanta Georgia | ATL Bounce House Rentals',
-            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call (401) 889-0182 or request a quote.',
+            f'Rent the {it["name"]} in Atlanta, Georgia. {it["tagline"]} Starting at ${it["pricing"][0]["price"]}. Call 404-737-1843 or request a quote.',
             f'{DOMAIN}/bounce-houses/{it["slug"]}/',
             extra)
         page += header("bounce-houses") + f'''
@@ -3098,7 +3104,7 @@ def build_cheap(providers):
 
     page = head(
         "Cheap Bounce House Rentals in Atlanta, GA | $99 Specials & Budget Inflatables",
-        "Find cheap bounce house rentals near you in Atlanta, including $99 specials. Compare budget-friendly, well-reviewed local providers and get a free quote. Call (401) 889-0182.",
+        "Find cheap bounce house rentals near you in Atlanta, including $99 specials. Compare budget-friendly, well-reviewed local providers and get a free quote. Call 404-737-1843.",
         DOMAIN + "/cheap-bounce-house-rentals/", extra)
     page += header("") + f'''
 <div class="page-head">
@@ -3314,11 +3320,11 @@ def build_llms(providers):
         for p in top)
     txt = f"""# Atlanta Bounce House Rentals
 
-> Atlanta Bounce House Rentals (atlbouncehouserentals.com) is an independent directory that connects customers in Atlanta, Georgia with {len(providers)} local bounce house and party rental providers. Visitors compare providers by rating, reviews and verification, see typical price ranges, and request free quotes. Booking and quotes: call (401) 889-0182.
+> Atlanta Bounce House Rentals (atlbouncehouserentals.com) is an independent directory that connects customers in Atlanta, Georgia with {len(providers)} local bounce house and party rental providers. Visitors compare providers by rating, reviews and verification, see typical price ranges, and request free quotes. Booking and quotes: call 404-737-1843.
 
 Key facts:
 - Location served: Atlanta, Georgia and surrounding metro (Midtown, Buckhead, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more).
-- Phone for quotes and booking: (401) 889-0182
+- Phone for quotes and booking: 404-737-1843
 - Number of listed providers: {len(providers)}
 - Typical price ranges: classic bounce houses ~$120-$260/day; combos, water slides and obstacle courses ~$180-$900+/day; full party packages ~$220-$1,800+.
 - The site is a directory; it does not own equipment. Quotes are free and no-obligation.
