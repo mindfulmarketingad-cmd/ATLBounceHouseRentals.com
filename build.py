@@ -9,6 +9,7 @@ Business phone/contact are never published — the site phone is shown instead.
 Run: python3 build.py
 """
 import json, os, re, html, shutil
+from urllib.parse import quote as urlquote
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 PHONE_DISPLAY = "404-737-1843"
@@ -98,6 +99,16 @@ ZIP_AREAS = {
 
 def esc(s):
     return html.escape(str(s)) if s is not None else ""
+
+
+def directions_url(it):
+    addr = it.get("address") or f'{it.get("city", "")}, {it.get("state", "")}'
+    return "https://www.google.com/maps/dir/?api=1&destination=" + urlquote(addr)
+
+
+def reviews_url(it):
+    q = f'{it.get("name", "")} {it.get("city", "")} {it.get("state", "")} reviews'
+    return "https://www.google.com/search?q=" + urlquote(q)
 
 
 def map_services(it):
@@ -304,6 +315,7 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
         <a href="/partners.html">Partners</a>
         <a href="/leads/">Leads</a>
+        <a href="/dashboard/">Site Analytics</a>
       </div>
       <div>
         <h4>Company</h4>
@@ -627,6 +639,7 @@ def build_index(providers):
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/directory.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -663,6 +676,7 @@ def build_partners(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/directory.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -757,6 +771,14 @@ def build_partner_pages(providers):
         <div class="map-wrap">
           <iframe title="Map showing {esc(name)} in {esc(it["city"])}, {esc(it["state"])}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="{map_embed(it)}"></iframe>
         </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+          <a class="btn btn-ghost" href="{directions_url(it)}" target="_blank" rel="noopener"
+            data-analytics-event="directions_click" data-analytics-listing="{esc(slug)}"
+            data-analytics-name="{esc(name)}" data-analytics-city="{esc(it["city"])}">Get Directions</a>
+          <a class="btn btn-ghost" href="{reviews_url(it)}" target="_blank" rel="noopener"
+            data-analytics-event="review_click" data-analytics-listing="{esc(slug)}"
+            data-analytics-name="{esc(name)}" data-analytics-city="{esc(it["city"])}">Read Reviews</a>
+        </div>
 
         <h2 style="margin-top:36px;">Similar Providers in Atlanta</h2>
         <ul>
@@ -798,7 +820,9 @@ def build_partner_pages(providers):
 
 {FOOTER}
 
+<script src="/js/map-data.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/partners.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -873,6 +897,12 @@ def listicle_card_html(p, rank):
       <div class="lc-actions">
         <a class="btn" href="/partners/{p["slug"]}/">View Details</a>
         <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="lc-link" href="{directions_url(p)}" target="_blank" rel="noopener"
+          data-analytics-event="directions_click" data-analytics-listing="{esc(p["slug"])}"
+          data-analytics-name="{esc(p["name"])}" data-analytics-city="{esc(p["city"])}">Directions</a>
+        <a class="lc-link" href="{reviews_url(p)}" target="_blank" rel="noopener"
+          data-analytics-event="review_click" data-analytics-listing="{esc(p["slug"])}"
+          data-analytics-name="{esc(p["name"])}" data-analytics-city="{esc(p["city"])}">Reviews</a>
       </div>
     </article>'''
 
@@ -1086,6 +1116,7 @@ def build_service_pages(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 </body>
 </html>
 '''
@@ -1148,6 +1179,7 @@ def build_bounce_houses():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1297,6 +1329,7 @@ def build_bounce_houses():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1370,6 +1403,7 @@ def build_services_index(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1518,6 +1552,7 @@ def build_service_pages(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 {LEAFLET_JS}
 <script src="/js/map-data.js"></script>
@@ -1798,6 +1833,7 @@ def build_specialty_service_pages():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1861,6 +1897,7 @@ def build_bounce_houses():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2010,6 +2047,7 @@ def build_bounce_houses():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2115,6 +2153,7 @@ def build_locations(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2270,6 +2309,7 @@ def build_locations(providers):
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2418,6 +2458,7 @@ def build_cities(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2483,6 +2524,7 @@ def build_cities(providers):
 <script src="/js/searchmap.js"></script>
 <script src="/js/listicle.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2807,6 +2849,7 @@ def build_find_pages(providers):
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2980,6 +3023,7 @@ def build_find_pages(providers):
 <script src="/js/map-data.js"></script>
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3061,6 +3105,7 @@ def build_find_pages(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 <script src="/js/find.js"></script>
 </body>
@@ -3160,6 +3205,7 @@ def build_cheap(providers):
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3216,6 +3262,7 @@ def build_leads():
 
     <div class="callout" style="margin-top:30px;">
       <p><strong>Want these leads?</strong> <a href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">Subscribe as a contractor</a> to unlock full contact details on every lead, or <a href="/legal/contact.html">contact us</a> with questions.</p>
+      <p style="margin:10px 0 0;"><a href="/dashboard/">View Site Analytics &rsaquo;</a> &mdash; see how much traffic and lead activity the directory is driving in real time.</p>
     </div>
   </div>
 </section>
@@ -3246,12 +3293,88 @@ def build_leads():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/leads.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
     d = os.path.join(ROOT, "leads")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(html_out)
+
+
+# ----------------------------------------------------------------- dashboard
+def build_dashboard():
+    """Public, no-login real-time analytics dashboard at /dashboard.
+    Data comes straight from Supabase (public.analytics_events + the
+    existing public.leads_board view) via js/dashboard.js — this is a
+    static site with no server, so there's no build-time data here."""
+    extra = ""
+    html_out = head(
+        "Live Site Analytics | Atlanta Bounce House Rentals",
+        "Real-time traffic and lead-activity dashboard for the Atlanta Bounce House Rentals directory — sessions, visitors, searches, lead actions and a live event feed.",
+        DOMAIN + "/dashboard/", extra)
+    html_out += header("dashboard") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Site Analytics</div>
+    <h1>Live Site Analytics</h1>
+    <p>Real-time traffic and lead activity across the directory &mdash; updated live as visitors browse. No login required; nothing here is personally identifiable.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="dash-range-bar">
+      <div class="dash-range-toggle" role="group" aria-label="Date range">
+        <button type="button" class="dash-range-btn" data-dash-range="7">7 days</button>
+        <button type="button" class="dash-range-btn active" data-dash-range="30">30 days</button>
+        <button type="button" class="dash-range-btn" data-dash-range="90">90 days</button>
+      </div>
+    </div>
+
+    <div class="dash-stats" id="dash-stats"></div>
+
+    <div class="dash-grid">
+      <div class="dash-panel">
+        <h2>Action Breakdown</h2>
+        <div id="dash-bar-chart" class="dash-bar-chart"></div>
+      </div>
+      <div class="dash-panel">
+        <h2>Daily Activity Trend</h2>
+        <div id="dash-line-chart" class="dash-line-chart"></div>
+      </div>
+    </div>
+
+    <div class="dash-panel" style="margin-top:22px;">
+      <div class="dash-live-head">
+        <h2>Live Activity</h2>
+        <span class="dash-live-status-wrap"><span class="dot"></span> <span id="dash-live-status">Connecting&hellip;</span></span>
+      </div>
+      <div class="muted" id="dash-live-count" style="margin-bottom:10px;">0 events since you opened this page</div>
+      <div id="dash-live-feed" class="dash-live-feed">
+        <div class="muted" data-live-empty>Waiting for activity&hellip;</div>
+      </div>
+    </div>
+
+    <div class="dash-panel" style="margin-top:22px;">
+      <h2>Per-Business Breakdown</h2>
+      <div id="dash-business-table" class="dash-table-wrap"></div>
+    </div>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "dashboard")
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "index.html"), "w").write(html_out)
 
@@ -3279,6 +3402,7 @@ def build_legal():
 {FOOTER}
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3300,6 +3424,7 @@ def build_404():
 </section>
 
 <script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3347,7 +3472,7 @@ Key facts:
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
-            "/cheap-bounce-house-rentals/", "/partners.html", "/leads/"]
+            "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
@@ -3389,11 +3514,12 @@ def main():
     find_urls = build_find_pages(providers)
     build_cheap(providers)
     build_leads()
+    build_dashboard()
     build_legal()
     build_404()
     build_sitemap(providers, find_urls, city_urls)
     build_llms(providers)
-    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + llms.txt")
+    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + dashboard + llms.txt")
 
 
 if __name__ == "__main__":
