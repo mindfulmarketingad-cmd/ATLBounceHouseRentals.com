@@ -73,7 +73,7 @@
       if (extra) {
         for (var k in extra) { if (extra.hasOwnProperty(k)) body[k] = extra[k]; }
       }
-      fetch(SUPABASE_URL + "/rest/v1/analytics_events", {
+      fetch(SUPABASE_URL + "/rest/v1/atlbounchouserentals_dashboard", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
