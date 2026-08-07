@@ -3307,7 +3307,7 @@ def build_leads():
 # ----------------------------------------------------------------- dashboard
 def build_dashboard():
     """Public, no-login real-time analytics dashboard at /dashboard.
-    Data comes straight from Supabase (public.atlbounchouserentals_dashboard + the
+    Data comes straight from Supabase (public.ATLbounchouserentals_dashboard + the
     existing public.leads_board view) via js/dashboard.js — this is a
     static site with no server, so there's no build-time data here."""
     extra = ""

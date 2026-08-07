@@ -1,6 +1,11 @@
 -- Atlanta Bounce House Rentals — public real-time analytics (/dashboard)
 -- Supabase project: ATLBounceHouseRentals_Leads_Board
 -- Run this once in the Supabase SQL editor (https://supabase.com/dashboard/project/tbqigevoksabizjogvtm/sql/new)
+--
+-- Table name is quoted throughout ("ATLbounchouserentals_dashboard") to
+-- preserve the exact mixed-case name — Postgres folds unquoted identifiers
+-- to lowercase, so every reference below (and the REST/Realtime calls in
+-- js/analytics.js and js/dashboard.js) must use the same quoted casing.
 
 create extension if not exists pgcrypto;
 
@@ -13,7 +18,7 @@ create extension if not exists pgcrypto;
 -- Realtime changes straight from the browser with the anon key, INSERT so
 -- the site's plain client-side tracker (no server, this is a static site)
 -- can log events the same way js/wizard.js already logs leads.
-create table if not exists public.atlbounchouserentals_dashboard (
+create table if not exists public."ATLbounchouserentals_dashboard" (
   id            uuid primary key default gen_random_uuid(),
   created_at    timestamptz not null default now(),
   event_type    text not null check (event_type in (
@@ -30,30 +35,30 @@ create table if not exists public.atlbounchouserentals_dashboard (
   query         text
 );
 
-alter table public.atlbounchouserentals_dashboard enable row level security;
+alter table public."ATLbounchouserentals_dashboard" enable row level security;
 
-drop policy if exists "Public can log analytics events" on public.atlbounchouserentals_dashboard;
+drop policy if exists "Public can log analytics events" on public."ATLbounchouserentals_dashboard";
 create policy "Public can log analytics events"
-  on public.atlbounchouserentals_dashboard
+  on public."ATLbounchouserentals_dashboard"
   for insert
   to anon, authenticated
   with check (true);
 
-drop policy if exists "Public can read analytics events" on public.atlbounchouserentals_dashboard;
+drop policy if exists "Public can read analytics events" on public."ATLbounchouserentals_dashboard";
 create policy "Public can read analytics events"
-  on public.atlbounchouserentals_dashboard
+  on public."ATLbounchouserentals_dashboard"
   for select
   to anon, authenticated
   using (true);
 
-grant select, insert on public.atlbounchouserentals_dashboard to anon, authenticated;
+grant select, insert on public."ATLbounchouserentals_dashboard" to anon, authenticated;
 
 -- ─── 2. Indexes ──────────────────────────────────────────────────────────
-create index if not exists atlbounchouserentals_dashboard_created_at_idx on public.atlbounchouserentals_dashboard (created_at desc);
-create index if not exists atlbounchouserentals_dashboard_event_type_idx on public.atlbounchouserentals_dashboard (event_type);
-create index if not exists atlbounchouserentals_dashboard_listing_slug_idx on public.atlbounchouserentals_dashboard (listing_slug);
-create index if not exists atlbounchouserentals_dashboard_path_idx on public.atlbounchouserentals_dashboard (path);
-create index if not exists atlbounchouserentals_dashboard_session_id_idx on public.atlbounchouserentals_dashboard (session_id);
+create index if not exists atlbounchouserentals_dashboard_created_at_idx on public."ATLbounchouserentals_dashboard" (created_at desc);
+create index if not exists atlbounchouserentals_dashboard_event_type_idx on public."ATLbounchouserentals_dashboard" (event_type);
+create index if not exists atlbounchouserentals_dashboard_listing_slug_idx on public."ATLbounchouserentals_dashboard" (listing_slug);
+create index if not exists atlbounchouserentals_dashboard_path_idx on public."ATLbounchouserentals_dashboard" (path);
+create index if not exists atlbounchouserentals_dashboard_session_id_idx on public."ATLbounchouserentals_dashboard" (session_id);
 
 -- ─── 3. Realtime ─────────────────────────────────────────────────────────
 -- Add the table to the supabase_realtime publication so the /dashboard
@@ -66,16 +71,15 @@ begin
     select 1 from pg_publication_tables
     where pubname = 'supabase_realtime'
       and schemaname = 'public'
-      and tablename = 'atlbounchouserentals_dashboard'
+      and tablename = 'ATLbounchouserentals_dashboard'
   ) then
-    alter publication supabase_realtime add table public.atlbounchouserentals_dashboard;
+    alter publication supabase_realtime add table public."ATLbounchouserentals_dashboard";
   end if;
 end $$;
 
--- ─── If you already ran the old version of this script ─────────────────
--- ─── (table named analytics_events) ─────────────────────────────────────
--- That table is safe to drop once the new one above exists and the site
--- has been redeployed to point at the new name (js/analytics.js and
--- js/dashboard.js were updated to match) — any events logged under the
--- old name won't carry over automatically:
+-- ─── If you already ran an earlier version of this script ──────────────
+-- ─── (table named analytics_events or atlbounchouserentals_dashboard) ──
+-- Those are safe to drop once the new table above exists and the site has
+-- been redeployed to point at the new quoted name:
 -- drop table if exists public.analytics_events cascade;
+-- drop table if exists public.atlbounchouserentals_dashboard cascade;

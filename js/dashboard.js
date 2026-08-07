@@ -34,7 +34,7 @@
   }
 
   function fetchEvents(days) {
-    var url = SUPABASE_URL + "/rest/v1/atlbounchouserentals_dashboard?select=event_type,created_at,session_id,visitor_id,listing_slug,listing_name,city,query,path"
+    var url = SUPABASE_URL + "/rest/v1/ATLbounchouserentals_dashboard?select=event_type,created_at,session_id,visitor_id,listing_slug,listing_name,city,query,path"
       + "&created_at=gte." + encodeURIComponent(sinceISO(days))
       + "&order=created_at.asc&limit=20000";
     return fetch(url, { headers: restHeaders() })
@@ -257,7 +257,7 @@
     setLiveStatus("Live (polling)");
     var lastSeen = pageOpenedAt.toISOString();
     setInterval(function () {
-      var url = SUPABASE_URL + "/rest/v1/atlbounchouserentals_dashboard?select=event_type,created_at,listing_name,path&created_at=gt." + encodeURIComponent(lastSeen) + "&order=created_at.asc&limit=50";
+      var url = SUPABASE_URL + "/rest/v1/ATLbounchouserentals_dashboard?select=event_type,created_at,listing_name,path&created_at=gt." + encodeURIComponent(lastSeen) + "&order=created_at.asc&limit=50";
       fetch(url, { headers: restHeaders() }).then(function (res) { return res.ok ? res.json() : []; })
         .then(function (rows) {
           if (!rows.length) return;
@@ -272,7 +272,7 @@
     try {
       var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       var channel = client.channel("analytics-live")
-        .on("postgres_changes", { event: "INSERT", schema: "public", table: "atlbounchouserentals_dashboard" }, function (payload) {
+        .on("postgres_changes", { event: "INSERT", schema: "public", table: "ATLbounchouserentals_dashboard" }, function (payload) {
           prependLiveEvent(payload.new);
         })
         .subscribe(function (status) {
