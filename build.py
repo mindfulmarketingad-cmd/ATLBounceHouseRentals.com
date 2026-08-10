@@ -278,7 +278,7 @@ def header(active=""):
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:{PHONE_HREF}">
           <span class="header-call-number">{PHONE_DISPLAY}</span>
-          <span class="header-call-label">Call now for free quote</span>
+          <span class="header-call-label">Call or text for quote</span>
         </a>
         <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
       </div>
