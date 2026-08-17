@@ -3326,7 +3326,17 @@ def build_dashboard():
 
 <section>
   <div class="container">
-    <div class="dash-range-bar">
+    <div class="dash-panel calls-panel">
+      <div class="calls-panel-head">
+        <h2>Lead Calls We Received</h2>
+        <a class="btn" href="https://buy.stripe.com/00wdRa5U644Ed6S6dwfrW0i" target="_blank" rel="noopener">Subscribe To Receive All Leads</a>
+      </div>
+      <div id="calls-stats" class="dash-stats"></div>
+      <div id="calls-line-chart" class="dash-line-chart"></div>
+      <div id="calls-list" class="calls-list"></div>
+    </div>
+
+    <div class="dash-range-bar" style="margin-top:30px;">
       <div class="dash-range-toggle" role="group" aria-label="Date range">
         <button type="button" class="dash-range-btn" data-dash-range="7">7 days</button>
         <button type="button" class="dash-range-btn active" data-dash-range="30">30 days</button>
@@ -3370,6 +3380,7 @@ def build_dashboard():
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
 <script src="/js/dashboard.js"></script>
+<script src="/js/calls.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>

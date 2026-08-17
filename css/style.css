@@ -1115,3 +1115,32 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .dash-bar-row { grid-template-columns: 90px 1fr 40px; }
   .dash-bar-label { font-size: 0.75rem; }
 }
+
+/* =========================================================
+   /dashboard — "Lead Calls We Received" (calls.js)
+   ========================================================= */
+.calls-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 16px; }
+.calls-panel-head h2 { margin: 0; }
+
+.calls-list { display: flex; flex-direction: column; gap: 12px; margin-top: 18px; }
+.call-row { border: 1px solid var(--line); border-left: 3px solid var(--green); border-radius: 10px; background: #fff; box-shadow: var(--shadow); }
+.call-row summary { list-style: none; cursor: pointer; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.call-row summary::-webkit-details-marker { display: none; }
+.call-row-main { display: flex; flex-direction: column; gap: 4px; }
+.call-row-badges { display: flex; gap: 6px; margin-bottom: 2px; }
+.call-row-name { font-weight: 700; }
+.call-row-time { font-weight: 800; font-size: 1.02rem; color: var(--black); }
+.call-row-side { display: flex; align-items: center; gap: 10px; white-space: nowrap; }
+.call-status { font-size: 0.74rem; font-weight: 700; padding: 3px 9px; border-radius: 20px; border: 1px solid var(--line); }
+.call-status.answered { background: #e7f6ec; color: var(--green); border-color: #bce5cb; }
+.call-status.missed { background: #fdeaea; color: #a12626; border-color: #f3c2c2; }
+.call-status.voicemail { background: #fff6e0; color: #8a6300; border-color: #f0dfa3; }
+.call-row-detail { padding: 0 20px 18px; border-top: 1px solid var(--line); margin-top: 2px; padding-top: 14px; }
+.call-detail-grid { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; font-size: 0.9rem; margin: 0; }
+.call-detail-grid dt { color: var(--muted); font-weight: 700; }
+.call-detail-grid dd { margin: 0; }
+
+@media (max-width: 600px) {
+  .call-detail-grid { grid-template-columns: 1fr; }
+  .call-detail-grid dt { margin-top: 6px; }
+}
