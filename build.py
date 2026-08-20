@@ -1535,10 +1535,7 @@ PRODUCTS = [
         "image": "/images/products/gold-chiavari-chair-white-pad.jpg",
         "image_alt": "Gold Chiavari chair with a white Velcro hard-back cushion, available to rent in Atlanta, Georgia",
         "image_w": 500, "image_h": 500,
-        "options": [
-            {"key": "cushion_color", "label": "Cushion Color", "required": True,
-             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
-        ],
+        "options": [],
         "specs": [
             ("Seat Height", '17.75"H'),
             ("Overall Width", '15.75"W'),
@@ -1638,10 +1635,7 @@ PRODUCTS = [
         "image": "/images/products/chiavari-chair-with-pad-white.jpg",
         "image_alt": "White Chiavari chairs with cushions set at a table with a burlap and lace runner for an outdoor wedding reception in Atlanta, Georgia",
         "image_w": 640, "image_h": 480,
-        "options": [
-            {"key": "cushion_color", "label": "Cushion Color", "required": True,
-             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
-        ],
+        "options": [],
         "specs": [
             ("Seat Height", '17.75"H'),
             ("Overall Width", '15.75"W'),
@@ -1674,10 +1668,7 @@ PRODUCTS = [
         "image": "/images/products/chiavari-chair-with-pad-silver.jpg",
         "image_alt": "Silver Chiavari chair with cushion, available to rent in Atlanta, Georgia",
         "image_w": 441, "image_h": 776,
-        "options": [
-            {"key": "cushion_color", "label": "Cushion Color", "required": True,
-             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
-        ],
+        "options": [],
         "specs": [
             ("Seat Height", '17.75"H'),
             ("Overall Width", '15.75"W'),
@@ -1710,10 +1701,7 @@ PRODUCTS = [
         "image": "/images/products/chiavari-chair-with-pad-mahogany.jpg",
         "image_alt": "Mahogany Chiavari chairs with ivory cushions set at farm tables for an outdoor wedding reception in Atlanta, Georgia",
         "image_w": 640, "image_h": 426,
-        "options": [
-            {"key": "cushion_color", "label": "Cushion Color", "required": True,
-             "choices": ["Ivory", "White", "Black", "Chocolate", "Gold", "Silver"]},
-        ],
+        "options": [],
         "specs": [
             ("Seat Height", '17.75"H'),
             ("Overall Width", '15.75"W'),
