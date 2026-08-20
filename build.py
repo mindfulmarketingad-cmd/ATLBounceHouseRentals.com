@@ -1493,6 +1493,7 @@ SPECIALTY_SLUGS = [
     ("slushy-machine-rentals", "Slushy Machine and Snow Cone Rentals Atlanta"),
     ("bar-beverage-equipment-rentals", "Bar & Beverage Equipment Rentals Atlanta"),
     ("chair-rentals", "Chair Rentals Atlanta"),
+    ("table-rentals", "Table Rentals Atlanta"),
 ]
 
 
@@ -1776,6 +1777,37 @@ PRODUCTS = [
             "parties, or upscale gatherings, its comfortable seat and adjustable height ensure both "
             "style and functionality. Elevate your event's ambiance and impress your guests with our "
             "Black Leather Contemporary Barstool, where comfort meets chic in every seat."
+        ),
+    },
+    {
+        "slug": "30-inch-round-highboy-table",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": '30" Round Highboy Table',
+        "short_name": "30\" Round Highboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Seats 4 to 5 people standing",
+        "image": "/images/products/30-inch-round-highboy-table.jpg",
+        "image_alt": "30-inch round highboy cocktail table with chrome base, available to rent in Atlanta, Georgia",
+        "image_w": 620, "image_h": 620,
+        "options": [],
+        "specs": [
+            ("Diameter", '30"'),
+            ("Seats", "4 to 5 people"),
+        ],
+        "description": (
+            "Introducing our 30\" Round High Boy Table: the versatile and practical addition to your "
+            "event's seating arrangements. Designed with durability and convenience in mind, this high "
+            "boy table provides a sturdy surface for guests to gather around. Perfect for cocktail "
+            "parties, receptions, or networking events, its compact size makes it easy to fit into any "
+            "venue. Elevate your event's ambiance and create stylish gathering spaces with our 30\" "
+            "Round High Boy Table, where every moment is supported with reliability and functionality."
         ),
     },
     {
@@ -2345,6 +2377,29 @@ def build_specialty_service_pages():
                 ("How much do chair rentals cost in Atlanta?", "It depends on the style. Folding chairs run about $2 to $5 each, child-size stacking chairs about $4 to $7 each, and chiavari chairs about $8 to $12 each. Delivery is typically included within metro Atlanta. Items we stock ourselves show their exact per-chair rate on this page."),
                 ("What size chairs do you have for children?", "Our child stacking chairs have a 13.5-inch seat height and are recommended for grades K through 2. They stack for easy transport and setup, making them a good fit for school events, daycare functions and children's birthday parties."),
                 ("How many chairs should I rent for my event?", "Plan for one chair per confirmed guest, plus about 5 percent extra for last-minute additions. If you're running separate ceremony and reception areas, confirm whether chairs will be moved between them or whether you need two full sets."),
+            ],
+        },
+        {
+            "slug": "table-rentals",
+            "name": "Table Rentals Atlanta",
+            "h1": "Table Rentals in Atlanta Georgia",
+            "meta_desc": "Table rentals in Atlanta, Georgia for weddings, parties, corporate events and school functions. Round, banquet, farmhouse and cocktail tables delivered and set up. Free quote.",
+            "intro": "Table rentals in Atlanta, Georgia cover every shape and size an event needs — round tables for a seated dinner, long banquet tables for a buffet line, rustic farmhouse tables for a wedding reception and cocktail tables for a standing reception.",
+            "body": [
+                "Round tables (typically 60&quot; or 72&quot; across) are the standard for seated dinners and seat 8 to 10 guests each. Rectangular banquet tables (6&#39; or 8&#39; long) work well for buffet lines, registration areas and casual gatherings, and stack easily for delivery. Rustic wood farmhouse tables have become the centerpiece choice for outdoor and barn-style wedding receptions, often left bare to show the wood grain rather than fully linened. Round cocktail tables (30&quot; high-top) anchor a standing reception or bar area and pair naturally with barstools.",
+                "Plan on one round table per 8 to 10 seated guests, or roughly 6 linear feet of banquet table per 8 guests along a buffet line. Most Atlanta providers deliver, set up and collect tables as part of the rental price, and tables bundle easily with chairs, linens and tents in a single order. Some items on this page we stock and deliver ourselves at a flat per-table rate — pick your exact quantity and request delivery directly, no back-and-forth quoting."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Cocktail Tables", "amount": "$8&ndash;$22", "sub": "/ table", "items": ["30&quot; high-top round", "With or without linen", "Delivery within Atlanta", "Setup and pickup"]},
+                {"tier": "Round &amp; Banquet", "amount": "$10&ndash;$20", "sub": "/ table", "items": ["60&quot;/72&quot; round or 6&#39;/8&#39; banquet", "Seats 8&ndash;10 guests", "Metro Atlanta delivery", "Volume pricing available"]},
+                {"tier": "Farmhouse Tables", "amount": "$55&ndash;$130", "sub": "/ table", "items": ["Rustic wood harvest-style", "Seats 8&ndash;10 guests", "Full setup service", "Wedding &amp; reception ready"]},
+            ],
+            "faqs": [
+                ("How much do table rentals cost in Atlanta?", "It depends on the style. Round and banquet tables run about $10 to $20 each, cocktail tables about $8 to $22 each, and rustic farmhouse tables about $55 to $130 each. Delivery is typically included within metro Atlanta. Items we stock ourselves show their exact per-table rate on this page."),
+                ("How many guests fit at each table size?", "A 60&quot; round table seats 8 guests comfortably, a 72&quot; round seats 10. An 8&#39; banquet table seats 8 to 10 depending on chair spacing. Cocktail tables are typically used standing, for 3 to 4 guests per table."),
+                ("How many tables should I rent for my event?", "Plan for one round table per 8 to 10 seated guests, or about 6 linear feet of banquet table per 8 guests for a buffet setup. Add a few cocktail tables near the bar or entrance for a mixed seated-and-standing layout."),
             ],
         },
     ]
