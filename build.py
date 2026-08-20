@@ -537,9 +537,31 @@ def coverage_areas(providers):
     return [a for a, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))]
 
 
-def build_index(providers):
-    svc_links = "\n      ".join(
-        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a></li>' for s in SERVICES)
+def build_index(providers, families):
+    groups = service_family_groups(families)
+    counts = {s: sum(1 for p in providers if s in p["services"]) for s in SERVICES}
+
+    def home_service_block(slug):
+        # Only the primary family's cities are shown here (the homepage stays
+        # scannable); the full breakdown with every tag/variant family lives
+        # on /services/.
+        fams = [f for f in groups.get(slug, []) if f["match_mode"] != "tag"]
+        cities_html = ""
+        if fams:
+            fam = fams[0]
+            cities_html = "\n      ".join(
+                f'<li><h3><a href="{city_service_href(fam["url_prefix"], loc["slug"])}">{esc(SERVICES[slug])} in {esc(loc["name"])}</a></h3></li>'
+                for loc, matched, _ in fam["entries"])
+            cities_html = f'<ul class="home-service-cities">\n      {cities_html}\n    </ul>'
+        count_html = (f'<p class="home-service-count">{counts[slug]} provider{"s" if counts[slug] != 1 else ""}</p>'
+                      if counts[slug] else "")
+        return f'''<div class="home-service-block">
+      <h2><a href="/services/{slug}/">{esc(SERVICES[slug])} in Atlanta Georgia</a></h2>
+      {count_html}
+      {cities_html}
+    </div>'''
+
+    svc_blocks = "\n    ".join(home_service_block(s) for s in SERVICES)
     areas = coverage_areas(providers)
     area_links = "\n      ".join(
         f'<li><a href="{location_href(l)}">Bounce House Rentals in {esc(l["name"])}</a></li>'
@@ -572,18 +594,54 @@ def build_index(providers):
 <script type="application/ld+json">
 {json.dumps({"@context":"https://schema.org","@type":"LocalBusiness","name":"Atlanta Bounce House Rental Directory","telephone":PHONE_HREF,"url":DOMAIN+"/","areaServed":{"@type":"City","name":"Atlanta"},"address":{"@type":"PostalAddress","addressLocality":"Atlanta","addressRegion":"GA","addressCountry":"US"}}, ensure_ascii=False)}
 </script>
-{faq_ld}
-{LEAFLET_HEAD}'''
+{faq_ld}'''
     html_out = head(
         "Atlanta Bounce House Rental Directory | Connect With All Providers And Compare",
         "Atlanta Bounce House Rental directory connecting you with all local providers. Search by service, compare bounce houses, water slides, obstacle courses and party rentals across Atlanta, Georgia. Free quotes.",
         DOMAIN + "/", extra)
     html_out += header("home") + f'''
-<section id="map">
+<section class="hero">
   <div class="container">
-    <h1 style="text-align: center; margin-bottom: 0.4em; font-size: 2.1rem;">Atlanta Bounce House Rental Directory</h1>
-    <p style="text-align: center; max-width: 800px; margin: 0 auto 26px; font-size: 1.1rem;">Find and book bounce houses, water slides and party rentals from {len(providers)} trusted providers across Atlanta, Georgia.</p>
-    {searchmap_html(area="Atlanta", zoom=10)}
+    <div class="hero-copy">
+      <h1>Atlanta's Most Complete Party Rental Directory</h1>
+      <p class="lead">The best resource for finding bounce house, water slide, chiavari chair and every other party rental service in the Atlanta area &mdash; compare {len(providers)} trusted local providers and get a free quote in minutes.</p>
+      <ul class="hero-points">
+        <li>{len(providers)} verified Atlanta-area providers, all in one place</li>
+        <li>Compare pricing, ratings and reviews before you call</li>
+        <li>One request connects you with multiple free quotes</li>
+      </ul>
+      <div class="hero-ctas">
+        <a class="header-call-cta hero-call-cta" href="tel:{PHONE_HREF}">
+          <span class="header-call-number">{PHONE_DISPLAY}</span>
+          <span class="header-call-label">Call or text for a free quote</span>
+        </a>
+        <a class="btn hero-quote-btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="how-we-help">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Why Atlanta Chooses Us</div>
+      <h2>How We Help Atlanta Families Find the Right Rental</h2>
+      <p>Every week we connect Atlanta hosts and planners with the right local provider for their event &mdash; here's a look at how it plays out across our most-requested categories.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Bounce Houses</h3>
+        <p>A Buckhead parent needed a bounce house for a Saturday birthday party with only a few days' notice. One Free Instant Quote request connected her with several available Atlanta providers the same afternoon, and she had a classic bounce house booked within the hour.</p>
+      </div>
+      <div class="card">
+        <h3>Chiavari Chairs</h3>
+        <p>An East Atlanta wedding planner was comparing chiavari chair rentals for a 150-guest reception. Instead of calling around individually, our directory let her compare pricing and reviews from multiple providers side by side and pick the best fit.</p>
+      </div>
+      <div class="card">
+        <h3>Water Slides</h3>
+        <p>A Sandy Springs summer camp needed a water slide rental durable enough for back-to-back groups all day. We matched them with a highly-rated provider experienced in commercial-scale bookings, delivered and set up before camp started.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -592,12 +650,12 @@ def build_index(providers):
     <div class="section-head">
       <div class="eyebrow">What You Can Rent</div>
       <h2>All Bounce House Rental Services In Atlanta Georgia</h2>
-      <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them.</p>
+      <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them. See the <a href="/services/">full breakdown by city</a> for even more options.</p>
     </div>
     <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Colorful bounce house and slide combo set up in a backyard for a birthday party in Atlanta, Georgia" loading="lazy" width="1376" height="768">
-    <ul class="bullet-services">
-      {svc_links}
-    </ul>
+    <div class="home-services-list">
+    {svc_blocks}
+    </div>
   </div>
 </section>
 
@@ -639,9 +697,6 @@ def build_index(providers):
 
 {FOOTER}
 
-{LEAFLET_JS}
-<script src="/js/map-data.js"></script>
-<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
 <script src="/js/search-index.js"></script>
@@ -1439,23 +1494,47 @@ SPECIALTY_SLUGS = [
 ]
 
 
-def build_services_index(providers, families):
-    """/services/ hub — every core + specialty service page (regardless of
-    current provider count, so a page never silently disappears from the hub
-    just because it has zero live listings right now), each with its city/
-    service pages nested underneath as a "by city" sub-list."""
-    counts = {s: sum(1 for p in providers if s in p["services"]) for s in SERVICES}
-
+def service_family_groups(families):
+    """{slug: [fam, ...]} — every family (core service page, specialty page,
+    or tag/variant family like Chair/Tent/Table Rentals) grouped under the
+    core SERVICES slug it belongs to, plus 'specialty' and 'seasonal' keys
+    for families that attach to a specialty page or neither. Shared by
+    build_services_index() and build_index() (homepage) so both agree on
+    exactly which city/service pages exist and where they nest."""
     active = {fam["url_prefix"]: fam for fam in families
               if fam["url_prefix"] != CITY_HUB_FAMILY_PREFIX and fam["entries"]}
-    used_prefixes = set()
+    core_prefixes = set(SERVICES)
+    specialty_prefixes = {slug for slug, _ in SPECIALTY_SLUGS}
 
-    def city_links_block(fam, heading=None):
-        links = "\n            ".join(
-            f'<li><a href="{city_service_href(fam["url_prefix"], loc["slug"])}">{esc(loc["name"])}</a> '
-            f'<span class="muted">({len(matched)})</span></li>'
-            for loc, matched, _ in fam["entries"])
-        return f'''
+    groups = {"specialty": {}, "seasonal": []}
+    for prefix, fam in active.items():
+        if prefix in core_prefixes:
+            groups.setdefault(prefix, []).insert(0, fam)
+        elif prefix in specialty_prefixes:
+            groups["specialty"].setdefault(prefix, []).insert(0, fam)
+
+    for prefix, fam in active.items():
+        if prefix in core_prefixes or prefix in specialty_prefixes:
+            continue
+        if fam["match_mode"] == "theme" or not fam["slug"]:
+            groups["seasonal"].append(fam)
+        else:
+            groups.setdefault(fam["slug"], []).append(fam)
+
+    for key in list(groups):
+        if key in ("specialty", "seasonal"):
+            continue
+        groups[key].sort(key=lambda f: (f["match_mode"] == "tag", f["name"]))
+    groups["seasonal"].sort(key=lambda f: f["name"])
+    return groups
+
+
+def city_links_html(fam, heading=None):
+    links = "\n            ".join(
+        f'<li><a href="{city_service_href(fam["url_prefix"], loc["slug"])}">{esc(loc["name"])}</a> '
+        f'<span class="muted">({len(matched)})</span></li>'
+        for loc, matched, _ in fam["entries"])
+    return f'''
         <div class="svc-city-links">
           <p class="svc-city-links-label">{esc(heading or fam["name"])} by city:</p>
           <ul class="bullet-services svc-city-cols">
@@ -1463,55 +1542,57 @@ def build_services_index(providers, families):
           </ul>
         </div>'''
 
-    # Pass 1: mark every family whose url_prefix exactly matches a core
-    # service slug or a specialty slug — those attach directly to that page.
-    core_prefixes = set(SERVICES)
-    specialty_prefixes = {slug for slug, _ in SPECIALTY_SLUGS}
-    for prefix in active:
-        if prefix in core_prefixes or prefix in specialty_prefixes:
-            used_prefixes.add(prefix)
 
-    def direct_match(url_prefix):
-        fam = active.get(url_prefix)
-        return city_links_block(fam) if fam and url_prefix in used_prefixes else ""
+def build_services_index(providers, families):
+    """/services/ hub — every core + specialty service page (regardless of
+    current provider count, so a page never silently disappears from the hub
+    just because it has zero live listings right now), each collapsible with
+    its city/service pages nested underneath."""
+    counts = {s: sum(1 for p in providers if s in p["services"]) for s in SERVICES}
+    groups = service_family_groups(families)
 
-    # Pass 2: every remaining family (Chair/Tent/Table Rentals tag pages, $99
-    # Bounce Houses, Event Table/Chair Rentals, etc.) nests under its closest
-    # core service so no city/service page is orphaned from the hub.
-    remaining_by_slug = {}
-    seasonal = []
-    for prefix, fam in active.items():
-        if prefix in used_prefixes:
-            continue
-        if fam["match_mode"] == "theme" or not fam["slug"]:
-            seasonal.append(fam)
-        else:
-            remaining_by_slug.setdefault(fam["slug"], []).append(fam)
+    def blocks_for(fams, skip_heading_slug=None):
+        return "".join(
+            city_links_html(fam, None if fam["url_prefix"] == skip_heading_slug else fam["name"])
+            for fam in fams)
 
-    def extra_blocks(slug):
-        fams = sorted(remaining_by_slug.get(slug, []), key=lambda f: f["name"])
-        return "".join(city_links_block(fam) for fam in fams)
-
-    links = "\n      ".join(
-        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a>'
-        + (f' <span class="muted">&mdash; {counts[s]} provider{"s" if counts[s] != 1 else ""}</span>' if counts[s] else "")
-        + direct_match(s) + extra_blocks(s) + '</li>'
+    items = "\n      ".join(
+        f'''<details class="svc-collapsible">
+        <summary><span>{SERVICES[s]} in Atlanta Georgia</span>'''
+        + (f'<span class="muted">{counts[s]} provider{"s" if counts[s] != 1 else ""}</span>' if counts[s] else "")
+        + f'''</summary>
+        <div class="svc-collapsible-body">
+          {blocks_for(groups.get(s, []), skip_heading_slug=s)}
+          <p><a href="/services/{s}/">View {SERVICES[s]} details &rsaquo;</a></p>
+        </div>
+      </details>'''
         for s in SERVICES)
-    specialty_links = "\n      ".join(
-        f'<li><a href="/services/{slug}/">{name}</a>{direct_match(slug)}</li>'
+    specialty_items = "\n      ".join(
+        f'''<details class="svc-collapsible">
+        <summary><span>{name}</span></summary>
+        <div class="svc-collapsible-body">
+          {blocks_for(groups["specialty"].get(slug, []), skip_heading_slug=slug)}
+          <p><a href="/services/{slug}/">View {esc(name)} details &rsaquo;</a></p>
+        </div>
+      </details>'''
         for slug, name in SPECIALTY_SLUGS)
 
     seasonal_html = ""
-    if seasonal:
-        seasonal.sort(key=lambda f: f["name"])
+    if groups["seasonal"]:
         seasonal_items = "\n      ".join(
-            f'<li><a href="/find/{fam["url_prefix"]}-near-me/">{esc(fam["name"])}</a>{city_links_block(fam)}</li>'
-            for fam in seasonal)
+            f'''<details class="svc-collapsible">
+        <summary><span>{esc(fam["name"])}</span></summary>
+        <div class="svc-collapsible-body">
+          {city_links_html(fam)}
+          <p><a href="/find/{fam["url_prefix"]}-near-me/">View {esc(fam["name"])} near me &rsaquo;</a></p>
+        </div>
+      </details>'''
+            for fam in groups["seasonal"])
         seasonal_html = f'''
     <h2>Seasonal &amp; Themed Party Rentals</h2>
-    <ul class="bullet-services">
+    <div class="svc-collapsible-list">
       {seasonal_items}
-    </ul>'''
+    </div>'''
     html_out = head(
         "Bounce House Rental In Atlanta Georgia",
         "Browse every Bounce House Rental service in Atlanta, Georgia. Classic bounce houses, water slides, obstacle courses, concessions, tents, party packages and more with free quotes.",
@@ -1529,14 +1610,14 @@ def build_services_index(providers, families):
   <div class="container content" style="max-width:none;">
     <h2>All Bounce House Rental Services in Atlanta</h2>
     {featured_image_html(alt_override="Bounce house and party rental equipment set up for an Atlanta event")}
-    <ul class="bullet-services">
-      {links}
-    </ul>
+    <div class="svc-collapsible-list">
+      {items}
+    </div>
     <h2>Specialty Rental Equipment</h2>
     <p>Deep-dive pages for specific event equipment popular at Atlanta weddings, corporate events and parties:</p>
-    <ul class="bullet-services">
-      {specialty_links}
-    </ul>
+    <div class="svc-collapsible-list">
+      {specialty_items}
+    </div>
     {seasonal_html}
     <div class="callout">
       <p><strong>Not sure what you need?</strong> Use the Free Instant Quote wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
@@ -3795,7 +3876,7 @@ def main():
     CITY_SERVICE_INDEX.update(city_service_index(families))
 
     build_map_data(providers)
-    build_index(providers)
+    build_index(providers, families)
     build_partners(providers)
     build_partner_pages(providers)
     build_services_index(providers, families)

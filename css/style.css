@@ -1179,3 +1179,41 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .header-search input[type="search"]:focus { width: 100%; }
   .header-search-results { position: static; width: 100%; box-shadow: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; margin-top: 8px; padding: 6px 0 0; }
 }
+
+/* =========================================================
+   /services hub — collapsible service list
+   ========================================================= */
+.svc-collapsible-list { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 30px; }
+.svc-collapsible { border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.svc-collapsible summary { list-style: none; cursor: pointer; padding: 14px 18px; display: flex; align-items: center; gap: 10px; font-weight: 700; color: var(--black); }
+.svc-collapsible summary::-webkit-details-marker { display: none; }
+.svc-collapsible summary > span:first-child { flex: 1; }
+.svc-collapsible summary::after { content: "+"; font-size: 1.3rem; font-weight: 400; color: var(--accent); flex: none; }
+.svc-collapsible[open] summary::after { content: "\2212"; }
+.svc-collapsible summary .muted { font-weight: 600; font-size: 0.85rem; flex: none; }
+.svc-collapsible-body { padding: 0 18px 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+.svc-collapsible-body > p:last-child { margin: 10px 0 0; font-weight: 700; }
+
+/* =========================================================
+   Homepage — static hero CTAs + H2/H3 service organization
+   ========================================================= */
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; align-items: stretch; }
+.hero-call-cta { padding: 12px 28px; }
+.hero-call-cta .header-call-number { font-size: 1.5rem; }
+.hero-call-cta .header-call-label { font-size: 0.8rem; }
+.hero-quote-btn { display: inline-flex; align-items: center; }
+
+.home-services-list { display: flex; flex-direction: column; gap: 26px; margin-top: 22px; }
+.home-service-block h2 { margin-bottom: 4px; }
+.home-service-block h2 a { color: var(--black); }
+.home-service-block h2 a:hover { color: var(--accent-dark); }
+.home-service-count { color: var(--muted); font-size: 0.88rem; font-weight: 600; margin: 0 0 10px; }
+.home-service-cities { list-style: none; padding: 0; margin: 0; columns: 3; column-gap: 24px; }
+.home-service-cities li { break-inside: avoid; margin-bottom: 4px; }
+.home-service-cities h3 { margin: 0; font-size: 0.95rem; font-weight: 600; }
+.home-service-cities h3 a { color: var(--accent-dark); }
+
+@media (max-width: 760px) {
+  .home-service-cities { columns: 1; }
+  .hero-call-cta .header-call-number { font-size: 1.25rem; }
+}

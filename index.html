@@ -38,8 +38,6 @@
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much does it cost to rent a bounce house in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "In Atlanta, a classic bounce house typically rents for about $120&ndash;$260 per day, while larger combo units, water slides and obstacle courses range from roughly $180 to $900+ depending on size. Full party packages run from around $220 to $1,800+. Final pricing depends on the date, delivery distance, rental length and add-ons. Request a free quote for an exact figure."}}, {"@type": "Question", "name": "How do I book a bounce house rental in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Click Free Instant Quote in the header or at the top of this page. Tell us your event type, date, ZIP code and what you need, and we'll match you with available Atlanta directory providers so you can compare and book."}}, {"@type": "Question", "name": "What areas around Atlanta do you serve?", "acceptedAnswer": {"@type": "Answer", "text": "Our directory providers serve the City of Atlanta and the surrounding metro, including Midtown, Buckhead, Downtown, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more."}}, {"@type": "Question", "name": "What types of bounce houses and party rentals are available?", "acceptedAnswer": {"@type": "Answer", "text": "You can rent classic bounce houses, bounce-and-slide combos, water slides, obstacle courses, concession machines, tents, tables and chairs, interactive games, complete party packages and event staff. See the full list of services."}}, {"@type": "Question", "name": "Are the rental providers verified?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each provider listing shows whether the business is verified on Google along with its star rating and review count, so you can choose a trusted, well-reviewed Atlanta company with confidence."}}, {"@type": "Question", "name": "How far in advance should I book a bounce house in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "For weekends in spring and summer&mdash;Atlanta's busiest party season&mdash;book 2 to 4 weeks ahead. Water slides and large combos sell out fastest. For last-minute needs, book now and we'll check live availability."}}]}
 </script>
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
 <body>
 <header class="site-header">
@@ -66,11 +64,48 @@
     </div>
   </div>
 </header>
-<section id="map">
+<section class="hero">
   <div class="container">
-    <h1 style="text-align: center; margin-bottom: 0.4em; font-size: 2.1rem;">Atlanta Bounce House Rental Directory</h1>
-    <p style="text-align: center; max-width: 800px; margin: 0 auto 26px; font-size: 1.1rem;">Find and book bounce houses, water slides and party rentals from 98 trusted providers across Atlanta, Georgia.</p>
-    <div class="searchmap" data-searchmap data-area="Atlanta" data-zoom="10"></div>
+    <div class="hero-copy">
+      <h1>Atlanta's Most Complete Party Rental Directory</h1>
+      <p class="lead">The best resource for finding bounce house, water slide, chiavari chair and every other party rental service in the Atlanta area &mdash; compare 98 trusted local providers and get a free quote in minutes.</p>
+      <ul class="hero-points">
+        <li>98 verified Atlanta-area providers, all in one place</li>
+        <li>Compare pricing, ratings and reviews before you call</li>
+        <li>One request connects you with multiple free quotes</li>
+      </ul>
+      <div class="hero-ctas">
+        <a class="header-call-cta hero-call-cta" href="tel:+14047371843">
+          <span class="header-call-number">404-737-1843</span>
+          <span class="header-call-label">Call or text for a free quote</span>
+        </a>
+        <a class="btn hero-quote-btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="how-we-help">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Why Atlanta Chooses Us</div>
+      <h2>How We Help Atlanta Families Find the Right Rental</h2>
+      <p>Every week we connect Atlanta hosts and planners with the right local provider for their event &mdash; here's a look at how it plays out across our most-requested categories.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Bounce Houses</h3>
+        <p>A Buckhead parent needed a bounce house for a Saturday birthday party with only a few days' notice. One Free Instant Quote request connected her with several available Atlanta providers the same afternoon, and she had a classic bounce house booked within the hour.</p>
+      </div>
+      <div class="card">
+        <h3>Chiavari Chairs</h3>
+        <p>An East Atlanta wedding planner was comparing chiavari chair rentals for a 150-guest reception. Instead of calling around individually, our directory let her compare pricing and reviews from multiple providers side by side and pick the best fit.</p>
+      </div>
+      <div class="card">
+        <h3>Water Slides</h3>
+        <p>A Sandy Springs summer camp needed a water slide rental durable enough for back-to-back groups all day. We matched them with a highly-rated provider experienced in commercial-scale bookings, delivered and set up before camp started.</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -79,23 +114,97 @@
     <div class="section-head">
       <div class="eyebrow">What You Can Rent</div>
       <h2>All Bounce House Rental Services In Atlanta Georgia</h2>
-      <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them.</p>
+      <p>Explore every rental category available across the Atlanta metro and request a free quote on any of them. See the <a href="/services/">full breakdown by city</a> for even more options.</p>
     </div>
     <img class="content-photo" src="/images/hero-bounce-house.jpg" alt="Colorful bounce house and slide combo set up in a backyard for a birthday party in Atlanta, Georgia" loading="lazy" width="1376" height="768">
-    <ul class="bullet-services">
-      <li><a href="/services/classic-bounce-house-rentals/">Classic Bounce House Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/bounce-and-slide-combo-rentals/">Bounce and Slide Combo Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/water-slide-rentals/">Water Slide Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/obstacle-course-rentals/">Obstacle Course Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/concession-rentals/">Concession Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/tents-tables-and-chair-rentals/">Tents, Tables and Chair Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/interactive-rentals/">Interactive Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/silent-disco-rentals/">Silent Disco Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/photo-booth-rentals/">Photo Booth Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/wedding-decor-rentals/">Wedding and Event Decor Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/party-package-rentals/">Party Package Rentals in Atlanta Georgia</a></li>
-      <li><a href="/services/party-entertainment-and-staff-rentals/">Party Entertainment and Staff Rentals in Atlanta Georgia</a></li>
+    <div class="home-services-list">
+    <div class="home-service-block">
+      <h2><a href="/services/classic-bounce-house-rentals/">Classic Bounce House Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">5 providers</p>
+      <ul class="home-service-cities">
+      <li><h3><a href="/cities/dunwoody/99-bounce-house-rentals/">Classic Bounce House Rentals in Dunwoody</a></h3></li>
+      <li><h3><a href="/cities/chamblee/99-bounce-house-rentals/">Classic Bounce House Rentals in Chamblee</a></h3></li>
+      <li><h3><a href="/cities/vinings/99-bounce-house-rentals/">Classic Bounce House Rentals in Vinings</a></h3></li>
+      <li><h3><a href="/cities/east-atlanta/99-bounce-house-rentals/">Classic Bounce House Rentals in East Atlanta</a></h3></li>
+      <li><h3><a href="/cities/college-park/99-bounce-house-rentals/">Classic Bounce House Rentals in College Park</a></h3></li>
     </ul>
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/bounce-and-slide-combo-rentals/">Bounce and Slide Combo Rentals in Atlanta Georgia</a></h2>
+      
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/water-slide-rentals/">Water Slide Rentals in Atlanta Georgia</a></h2>
+      
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/obstacle-course-rentals/">Obstacle Course Rentals in Atlanta Georgia</a></h2>
+      
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/concession-rentals/">Concession Rentals in Atlanta Georgia</a></h2>
+      
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/tents-tables-and-chair-rentals/">Tents, Tables and Chair Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">12 providers</p>
+      <ul class="home-service-cities">
+      <li><h3><a href="/cities/buckhead/event-chair-rentals/">Tents, Tables and Chair Rentals in Buckhead</a></h3></li>
+      <li><h3><a href="/cities/downtown-atlanta/event-chair-rentals/">Tents, Tables and Chair Rentals in Downtown Atlanta</a></h3></li>
+      <li><h3><a href="/cities/dunwoody/event-chair-rentals/">Tents, Tables and Chair Rentals in Dunwoody</a></h3></li>
+      <li><h3><a href="/cities/chamblee/event-chair-rentals/">Tents, Tables and Chair Rentals in Chamblee</a></h3></li>
+      <li><h3><a href="/cities/west-midtown/event-chair-rentals/">Tents, Tables and Chair Rentals in West Midtown</a></h3></li>
+      <li><h3><a href="/cities/college-park/event-chair-rentals/">Tents, Tables and Chair Rentals in College Park</a></h3></li>
+    </ul>
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/interactive-rentals/">Interactive Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">4 providers</p>
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/silent-disco-rentals/">Silent Disco Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">2 providers</p>
+      <ul class="home-service-cities">
+      <li><h3><a href="/cities/downtown-atlanta/silent-disco-rentals/">Silent Disco Rentals in Downtown Atlanta</a></h3></li>
+      <li><h3><a href="/cities/west-midtown/silent-disco-rentals/">Silent Disco Rentals in West Midtown</a></h3></li>
+    </ul>
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/photo-booth-rentals/">Photo Booth Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">20 providers</p>
+      <ul class="home-service-cities">
+      <li><h3><a href="/cities/buckhead/photo-booth-rentals/">Photo Booth Rentals in Buckhead</a></h3></li>
+      <li><h3><a href="/cities/midtown/photo-booth-rentals/">Photo Booth Rentals in Midtown</a></h3></li>
+      <li><h3><a href="/cities/downtown-atlanta/photo-booth-rentals/">Photo Booth Rentals in Downtown Atlanta</a></h3></li>
+      <li><h3><a href="/cities/sandy-springs/photo-booth-rentals/">Photo Booth Rentals in Sandy Springs</a></h3></li>
+      <li><h3><a href="/cities/dunwoody/photo-booth-rentals/">Photo Booth Rentals in Dunwoody</a></h3></li>
+      <li><h3><a href="/cities/chamblee/photo-booth-rentals/">Photo Booth Rentals in Chamblee</a></h3></li>
+      <li><h3><a href="/cities/vinings/photo-booth-rentals/">Photo Booth Rentals in Vinings</a></h3></li>
+      <li><h3><a href="/cities/west-midtown/photo-booth-rentals/">Photo Booth Rentals in West Midtown</a></h3></li>
+      <li><h3><a href="/cities/west-end/photo-booth-rentals/">Photo Booth Rentals in West End</a></h3></li>
+    </ul>
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/wedding-decor-rentals/">Wedding and Event Decor Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">1 provider</p>
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/party-package-rentals/">Party Package Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">98 providers</p>
+      
+    </div>
+    <div class="home-service-block">
+      <h2><a href="/services/party-entertainment-and-staff-rentals/">Party Entertainment and Staff Rentals in Atlanta Georgia</a></h2>
+      <p class="home-service-count">15 providers</p>
+      
+    </div>
+    </div>
   </div>
 </section>
 
@@ -1030,9 +1139,6 @@
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="/js/map-data.js"></script>
-<script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
 <script src="/js/search-index.js"></script>
