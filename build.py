@@ -1491,6 +1491,7 @@ SPECIALTY_SLUGS = [
     ("throne-chair-rentals", "Throne Chair Rentals Atlanta"),
     ("cocktail-table-rentals", "Cocktail Table Rentals Atlanta"),
     ("slushy-machine-rentals", "Slushy Machine and Snow Cone Rentals Atlanta"),
+    ("bar-beverage-equipment-rentals", "Bar & Beverage Equipment Rentals Atlanta"),
     ("chair-rentals", "Chair Rentals Atlanta"),
 ]
 
@@ -1726,6 +1727,36 @@ PRODUCTS = [
             "adds elegance to any setting. Ideal for weddings, banquets, or upscale gatherings, its "
             "timeless appeal complements a variety of decor styles. Elevate your event's ambiance and "
             "impress your guests with our Mahogany Chiavari Chair, where comfort meets style in every seat."
+        ),
+    },
+    {
+        "slug": "5-foot-stainless-steel-mobile-bar",
+        "parent_slug": "bar-beverage-equipment-rentals",
+        "parent_name": "Bar & Beverage Equipment Rentals Atlanta",
+        "name": "Bar, 5' Stainless Steel Mobile",
+        "short_name": "5' Stainless Steel Mobile Bar",
+        "category": "Bar & Beverage Equipment",
+        "price": 179.99,
+        "unit": "bar",
+        "unit_plural": "bars",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes ice bin, bottle rail and storage shelving",
+        "image": "/images/products/5-foot-stainless-steel-mobile-bar.jpg",
+        "image_alt": "5-foot stainless steel mobile bar with ice bin, bottle rail and storage shelving, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Length", "5'"),
+            ("Material", "Stainless steel"),
+        ],
+        "description": (
+            "Introducing our 5' Stainless Steel Mobile Bar: the pinnacle of versatility and sophistication "
+            "for your event. Crafted with sleek stainless steel, this mobile bar is designed to impress "
+            "and serve with style. Its compact yet spacious design makes it perfect for weddings, parties, "
+            "or corporate functions, while its mobility ensures seamless setup and service anywhere in "
+            "your venue."
         ),
     },
     {
@@ -2280,6 +2311,29 @@ def build_specialty_service_pages():
                 ("How much does a slushy machine rental cost in Atlanta?", "Slushy and snow cone machine rentals in Atlanta typically cost $75 to $200 per machine per event, including supplies for 75 to 150 servings. Larger capacity setups or two-machine orders run $220 to $400+. Delivery is usually included within metro Atlanta."),
                 ("What flavors come with a slushy machine rental in Atlanta?", "Most Atlanta providers include a selection of standard flavors such as cherry, blue raspberry, watermelon, lemon-lime and mango. Some providers offer premium or custom flavor options for an additional charge."),
                 ("Can I use a slushy machine for alcoholic frozen drinks?", "Yes. Some Atlanta providers offer a frozen margarita or daiquiri machine for adult events. Confirm with your provider that this option is available and legal for your venue type before booking."),
+            ],
+        },
+        {
+            "slug": "bar-beverage-equipment-rentals",
+            "name": "Bar & Beverage Equipment Rentals Atlanta",
+            "h1": "Bar & Beverage Equipment Rentals in Atlanta Georgia",
+            "meta_desc": "Bar and beverage equipment rentals in Atlanta, Georgia — portable bars, beverage dispensers, ice tubs and glassware for weddings, corporate events and parties. Free quote.",
+            "intro": "Bar and beverage equipment rentals in Atlanta, Georgia turn any backyard, tent or venue into a fully stocked bar. From a single portable bar station to a full setup with dispensers, ice tubs and glassware, Atlanta providers can outfit an event of any size.",
+            "body": [
+                "A rental bar setup typically starts with a portable bar unit — a freestanding wood, resin or acrylic bar front that a bartender works behind. Around it, most Atlanta providers offer beverage dispensers for iced tea, lemonade and infused water, insulated ice tubs and coolers for bottled and canned drinks, and glassware or disposable drinkware sized to your guest count. Beer and wine tubs, cocktail shaker kits and portable draft/kegerator units are common add-ons for weddings and corporate happy hours.",
+                "Most bar and beverage equipment rents by the piece or as a bundled package, and pairs naturally with a cocktail table order for a complete bar area. Atlanta providers typically deliver, set up and break down the equipment; ice, beverages and bartending staff are usually arranged separately unless you book a full-service package. Reserve bar equipment 2 to 4 weeks ahead for weekend weddings and corporate events during peak spring and fall season."
+            ],
+            "parent_slug": "concession-rentals",
+            "parent_name": "Concession Rentals",
+            "price_tiers": [
+                {"tier": "Basic Setup", "amount": "$60&ndash;$120", "sub": "/ bar unit", "items": ["One portable bar front", "Delivery within Atlanta", "Setup and pickup", "Pairs with cocktail tables"]},
+                {"tier": "Standard Package", "amount": "$150&ndash;$300", "sub": "/ event", "items": ["Bar unit + dispensers", "Ice tubs and coolers", "Metro Atlanta delivery", "Glassware add-on available"]},
+                {"tier": "Full Bar Package", "amount": "$350&ndash;$700+", "sub": "/ event", "items": ["Multiple bar stations", "Dispensers, tubs and glassware", "Extended delivery radius", "Coordinated with staffing add-on"]},
+            ],
+            "faqs": [
+                ("How much does bar equipment rental cost in Atlanta?", "A single portable bar unit runs about $60 to $120. A standard package with dispensers and ice tubs is $150 to $300, and a full multi-station bar package with glassware runs $350 to $700+. Delivery is typically included within metro Atlanta."),
+                ("Does bar equipment rental include a bartender?", "Not by default. Most Atlanta providers rent the physical equipment only; bartending and serving staff are booked separately through our Party Entertainment and Staff Rentals page or as an add-on with select providers."),
+                ("Can I rent just a beverage dispenser without a full bar?", "Yes. Beverage dispensers, ice tubs and glassware can all be rented individually without a portable bar unit — a good fit for casual parties, school events or offices that just need a self-serve drink station."),
             ],
         },
         {
