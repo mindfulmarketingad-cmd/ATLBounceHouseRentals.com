@@ -1602,7 +1602,7 @@ PRODUCTS = [
         "includes": 'Use for 42" high-top tables and bars',
         "image": "/images/products/chiavari-barstool-chair-fruitwood.jpg",
         "image_alt": "Fruitwood Chiavari barstools lined up at a 42-inch high-top table for a cocktail-style event in Atlanta, Georgia",
-        "image_w": 640, "image_h": 960,
+        "image_w": 640, "image_h": 963,
         "options": [],
         "specs": [
             ("Use For", '42" high-top tables and bars'),
