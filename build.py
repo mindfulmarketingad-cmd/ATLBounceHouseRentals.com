@@ -1672,7 +1672,7 @@ PRODUCTS = [
         "includes": "Includes Velcro Hard-Back Cushion",
         "image": "/images/products/chiavari-chair-with-pad-silver.jpg",
         "image_alt": "Silver Chiavari chair with cushion, available to rent in Atlanta, Georgia",
-        "image_w": 424, "image_h": 640,
+        "image_w": 441, "image_h": 776,
         "options": [
             {"key": "cushion_color", "label": "Cushion Color", "required": True,
              "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
