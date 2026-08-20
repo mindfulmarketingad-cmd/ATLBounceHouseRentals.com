@@ -1491,7 +1491,132 @@ SPECIALTY_SLUGS = [
     ("throne-chair-rentals", "Throne Chair Rentals Atlanta"),
     ("cocktail-table-rentals", "Cocktail Table Rentals Atlanta"),
     ("slushy-machine-rentals", "Slushy Machine and Snow Cone Rentals Atlanta"),
+    ("chair-rentals", "Chair Rentals Atlanta"),
 ]
+
+
+# ----------------------------------------------------------------- products
+# Individual rentable items with a real per-unit rate that we fulfil
+# ourselves (rather than matching out to a directory provider). Each one gets
+# a product-request page at /services/{parent_slug}/{slug}/ with a quantity
+# picker, live running total and an order form that writes straight to the
+# Supabase leads table with everything needed to raise an invoice and
+# drop-service the order — see supabase/migrate_product_orders.sql.
+PRODUCTS = [
+    {
+        "slug": "gold-chiavari-chair-white-pad",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": "Gold Chiavari Chair with White Pad",
+        "short_name": "Gold Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 10.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes Velcro Hard-Back Cushion",
+        "image": "/images/products/gold-chiavari-chair-white-pad.jpg",
+        "image_alt": "Gold Chiavari chair with a white Velcro hard-back cushion, available to rent in Atlanta, Georgia",
+        "image_w": 500, "image_h": 500,
+        "options": [
+            {"key": "cushion_color", "label": "Cushion Color", "required": True,
+             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
+        ],
+        "specs": [
+            ("Seat Height", '17.75"H'),
+            ("Overall Width", '15.75"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '36.25"H'),
+            ("Weight Capacity", "500 lbs."),
+        ],
+        "description": (
+            "Introducing our Gold Chiavari Chair: the epitome of elegance for your event's seating. "
+            "With its luxurious gold color and classic Chiavari design, this chair adds a touch of "
+            "opulence to any setting. Ideal for weddings, galas, or upscale gatherings, its timeless "
+            "appeal elevates the ambiance of any event. Impress your guests with our Gold Chiavari "
+            "Chair, where style meets sophistication in every seat."
+        ),
+    },
+    {
+        "slug": "chiavari-chair-with-pad-mahogany",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": "Chiavari Chair with Pad - Mahogany",
+        "short_name": "Mahogany Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 10.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes Velcro Hard-Back Cushion",
+        "image": "/images/products/chiavari-chair-with-pad-mahogany.jpg",
+        "image_alt": "Mahogany Chiavari chairs with ivory cushions set at farm tables for an outdoor wedding reception in Atlanta, Georgia",
+        "image_w": 640, "image_h": 426,
+        "options": [
+            {"key": "cushion_color", "label": "Cushion Color", "required": True,
+             "choices": ["Ivory", "White", "Black", "Chocolate", "Gold", "Silver"]},
+        ],
+        "specs": [
+            ("Seat Height", '17.75"H'),
+            ("Overall Width", '15.75"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '36.25"H'),
+            ("Weight Capacity", "500 lbs."),
+        ],
+        "description": (
+            "Introducing our Mahogany Chiavari Chair: the perfect blend of sophistication and warmth for "
+            "your event's seating. With its rich mahogany color and classic Chiavari design, this chair "
+            "adds elegance to any setting. Ideal for weddings, banquets, or upscale gatherings, its "
+            "timeless appeal complements a variety of decor styles. Elevate your event's ambiance and "
+            "impress your guests with our Mahogany Chiavari Chair, where comfort meets style in every seat."
+        ),
+    },
+    {
+        "slug": "child-stacking-chair-14-inch-black",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": 'Child Stacking Chair (14" Seat) - Black',
+        "short_name": "Child Stacking Chair",
+        "category": "Chairs & Benches",
+        "price": 4.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "default_qty": 20,
+        "delivery_only": True,
+        "includes": "Recommended for Grades K–2",
+        "image": "/images/products/child-stacking-chair-14-inch-black.jpg",
+        "image_alt": "Black children's stacking chair with chrome legs, available to rent in Atlanta, Georgia",
+        "image_w": 500, "image_h": 500,
+        "options": [],
+        "specs": [
+            ("Recommended For", "Grades K–2"),
+            ("Seat Height", '13.5"H'),
+            ("Overall Width", '15.25"W'),
+            ("Overall Depth", '19.25"D'),
+            ("Overall Height", '24.5"H'),
+            ("Weight Capacity", "440 lbs."),
+        ],
+        "description": (
+            "Introducing our Children's Black Stacking Chair: the versatile seating solution for young "
+            "guests at your event. With its sleek black design and stackable feature, this chair offers "
+            "both style and convenience. Ideal for birthday parties, playdates, or any gathering, its "
+            "lightweight construction allows for easy arrangement and storage. Elevate your event's "
+            "ambiance and provide comfortable seating for the little ones with our Children's Black "
+            "Stacking Chair, where practicality meets modern design in every seat."
+        ),
+    },
+]
+
+PRODUCTS_BY_PARENT = {}
+for _p in PRODUCTS:
+    PRODUCTS_BY_PARENT.setdefault(_p["parent_slug"], []).append(_p)
+
+
+def product_href(p):
+    return f'/services/{p["parent_slug"]}/{p["slug"]}/'
 
 
 def service_family_groups(families):
@@ -1967,6 +2092,29 @@ def build_specialty_service_pages():
                 ("Can I use a slushy machine for alcoholic frozen drinks?", "Yes. Some Atlanta providers offer a frozen margarita or daiquiri machine for adult events. Confirm with your provider that this option is available and legal for your venue type before booking."),
             ],
         },
+        {
+            "slug": "chair-rentals",
+            "name": "Chair Rentals Atlanta",
+            "h1": "Chair Rentals in Atlanta Georgia",
+            "meta_desc": "Chair rentals in Atlanta, Georgia for weddings, parties, schools and corporate events. Chiavari, folding, child-size and stacking chairs delivered and set up. Free quote.",
+            "intro": "Chair rentals in Atlanta, Georgia cover everything from elegant chiavari seating for weddings to child-size stacking chairs for school events and birthday parties. Whatever the guest count and whatever the age group, there's a chair that fits the event.",
+            "body": [
+                "Seating is usually the single largest line item in an event rental order, so getting the chair style and count right matters. Standard white or black folding chairs are the workhorse choice for backyard parties, graduations and church events. Chiavari chairs — available in gold, mahogany, clear ghost and other finishes — are the go-to for weddings and upscale receptions where the seating is part of the decor. For children's events, school programs and daycare functions, child-size stacking chairs sized to grades K–2 keep young guests comfortable and safe.",
+                "Plan roughly one chair per confirmed guest, plus a small buffer for last-minute additions. Most Atlanta providers deliver, set up and collect chairs as part of the rental price, and chairs bundle easily with tables, linens and tents in a single order. Some items on this page we stock and deliver ourselves at a flat per-chair rate — pick your exact quantity and request delivery directly, no back-and-forth quoting."
+            ],
+            "parent_slug": "tents-tables-and-chair-rentals",
+            "parent_name": "Tents, Tables and Chair Rentals",
+            "price_tiers": [
+                {"tier": "Child / Stacking", "amount": "$4&ndash;$7", "sub": "/ chair", "items": ["Child-size stacking chairs", "Sized for grades K&ndash;2", "Delivery within Atlanta", "Setup and pickup"]},
+                {"tier": "Folding Chairs", "amount": "$2&ndash;$5", "sub": "/ chair", "items": ["White, black or resin folding", "Indoor or outdoor rated", "Metro Atlanta delivery", "Volume pricing available"]},
+                {"tier": "Chiavari Chairs", "amount": "$8&ndash;$12", "sub": "/ chair", "items": ["Gold, mahogany or clear ghost", "Cushion included", "Full setup service", "Wedding &amp; gala ready"]},
+            ],
+            "faqs": [
+                ("How much do chair rentals cost in Atlanta?", "It depends on the style. Folding chairs run about $2 to $5 each, child-size stacking chairs about $4 to $7 each, and chiavari chairs about $8 to $12 each. Delivery is typically included within metro Atlanta. Items we stock ourselves show their exact per-chair rate on this page."),
+                ("What size chairs do you have for children?", "Our child stacking chairs have a 13.5-inch seat height and are recommended for grades K through 2. They stack for easy transport and setup, making them a good fit for school events, daycare functions and children's birthday parties."),
+                ("How many chairs should I rent for my event?", "Plan for one chair per confirmed guest, plus about 5 percent extra for last-minute additions. If you're running separate ceremony and reception areas, confirm whether chairs will be moved between them or whether you need two full sets."),
+            ],
+        },
     ]
 
     all_specialty_slugs = [p["slug"] for p in SPECIALTY_PAGES]
@@ -1987,6 +2135,38 @@ def build_specialty_service_pages():
           </div>''' for i, pt in enumerate(pg["price_tiers"]))
 
         body_html = "\n        ".join(f"<p>{p}</p>" for p in pg["body"])
+
+        # Items we stock and fulfil ourselves at a fixed per-unit rate get a
+        # product-request page; surface them prominently above the directory
+        # content since they're the one thing on this page you can order
+        # directly rather than being matched out to a provider.
+        own_products = PRODUCTS_BY_PARENT.get(slug, [])
+        products_html = ""
+        if own_products:
+            def card_media(prod):
+                if prod.get("image") and os.path.exists(os.path.join(ROOT, prod["image"].lstrip("/"))):
+                    return (f'<img src="{prod["image"]}" alt="{esc(prod["image_alt"])}" '
+                            f'width="{prod["image_w"]}" height="{prod["image_h"]}" loading="lazy">')
+                return (f'<div class="prod-card-placeholder" role="img" '
+                        f'aria-label="{esc(prod["name"])} photo coming soon">{esc(prod["short_name"])}</div>')
+
+            cards = "\n          ".join(
+                f'''<a class="prod-card" href="{product_href(prod)}">
+            {card_media(prod)}
+            <div class="prod-card-body">
+              <h3>{esc(prod["name"])}</h3>
+              <p class="prod-card-price"><strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
+              <p class="muted">{esc(prod["includes"])}</p>
+              <span class="prod-card-cta">Pick your quantity &rsaquo;</span>
+            </div>
+          </a>''' for prod in own_products)
+            products_html = f'''
+        <h2>Rent Direct From Us</h2>
+        <p>We stock and deliver these {pg["parent_name"].lower()} ourselves at a flat per-unit rate &mdash; choose your exact quantity and request delivery in under a minute.</p>
+        <div class="prod-card-grid">
+          {cards}
+        </div>
+'''
 
         faq_tuples = [(q, f"<p>{a}</p>") for q, a in pg["faqs"]]
         faq_html, faq_ld = faq_block(faq_tuples)
@@ -2019,6 +2199,7 @@ def build_specialty_service_pages():
   <div class="container">
     <div class="grid" style="grid-template-columns:1.6fr 1fr; gap:48px; align-items:start;">
       <div class="content">
+        {products_html}
         <h2>About {pg["name"]} in Atlanta</h2>
         {featured_image_html(slug, alt_override=f'{pg["name"]} set up for an event in Atlanta, Georgia')}
         {body_html}
@@ -2080,6 +2261,215 @@ def build_specialty_service_pages():
         d = os.path.join(ROOT, "services", slug)
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- product pages
+def build_product_pages():
+    """One product-request page per PRODUCTS entry, at
+    /services/{parent_slug}/{slug}/. Quantity picker + live running total +
+    an order form that posts straight into the Supabase leads table
+    (js/product.js) with everything needed to invoice and fulfil the order."""
+    urls = []
+    for p in PRODUCTS:
+        price = p["price"]
+        default_qty = p.get("default_qty", max(p["min_qty"], 50))
+        opts_html = "\n        ".join(
+            f'''<div class="pr-option">
+          <label for="opt-{o["key"]}">{esc(o["label"])}</label>
+          <select id="opt-{o["key"]}" name="{o["key"]}" data-product-option>
+            {"".join(f'<option value="{esc(c)}">{esc(c)}</option>' for c in o["choices"])}
+          </select>
+        </div>''' for o in p["options"])
+
+        specs_html = "\n          ".join(
+            f'<tr><th>{esc(k)}</th><td>{esc(v)}</td></tr>' for k, v in p["specs"])
+
+        # Render the real photo when the file is actually on disk; otherwise a
+        # neutral placeholder, so a product page is never broken by a missing
+        # image and starts showing the photo automatically once it's added.
+        if p.get("image") and os.path.exists(os.path.join(ROOT, p["image"].lstrip("/"))):
+            media_html = (f'<img src="{p["image"]}" alt="{esc(p["image_alt"])}" '
+                          f'width="{p["image_w"]}" height="{p["image_h"]}">')
+        else:
+            media_html = (f'<div class="pr-media-placeholder" role="img" '
+                          f'aria-label="{esc(p["name"])} photo coming soon">'
+                          f'<span>{esc(p["short_name"])}</span><small>Photo coming soon</small></div>')
+
+        badge = '<span class="pr-badge">Delivery<br>Item Only</span>' if p["delivery_only"] else ""
+        delivery_note = ("<li>This is a <strong>delivery only</strong> item &mdash; we deliver, set up and collect.</li>"
+                         if p["delivery_only"] else "")
+
+        prod_ld = {
+            "@context": "https://schema.org", "@type": "Product",
+            "name": p["name"], "category": p["category"],
+            "image": DOMAIN + p["image"], "description": p["description"],
+            "sku": p["slug"],
+            "offers": {"@type": "Offer", "priceCurrency": "USD", "price": f"{price:.2f}",
+                       "availability": "https://schema.org/InStock",
+                       "url": DOMAIN + product_href(p),
+                       "seller": {"@type": "Organization", "name": "Atlanta Bounce House Rentals"}},
+        }
+        bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
+            {"@type": "ListItem", "position": 3, "name": p["parent_name"],
+             "item": f'{DOMAIN}/services/{p["parent_slug"]}/'},
+            {"@type": "ListItem", "position": 4, "name": p["name"], "item": DOMAIN + product_href(p)}]}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(prod_ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n')
+
+        title = f'{p["name"]} Rental Atlanta | ${price:.2f} per {p["unit"]}'
+        desc = (f'Rent {p["name"]} in Atlanta, Georgia for ${price:.2f} per {p["unit"]}. '
+                f'Pick your exact quantity and request delivery — free quote, fast response.')
+
+        page = head(esc(title), desc, DOMAIN + product_href(p), extra)
+        page += header("services") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; <a href="/services/{p["parent_slug"]}/">{esc(p["parent_name"])}</a> &rsaquo; {esc(p["name"])}</div>
+    <h1>{esc(p["name"])}</h1>
+    <p class="muted">Category: {esc(p["category"])}</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="pr-layout"
+      data-product
+      data-product-name="{esc(p["name"])}"
+      data-product-slug="{esc(p["slug"])}"
+      data-product-price="{price}"
+      data-product-unit="{esc(p["unit"])}"
+      data-product-unit-plural="{esc(p["unit_plural"])}"
+      data-product-min="{p["min_qty"]}">
+
+      <div class="pr-media">
+        {media_html}
+        {badge}
+      </div>
+
+      <div class="pr-buy">
+        <p class="pr-includes">{esc(p["includes"])}</p>
+        <div class="pr-price"><strong>${price:.2f}</strong> <span class="muted">per {esc(p["unit"])}</span></div>
+
+        {opts_html}
+
+        <div class="pr-option">
+          <label for="pr-qty">Number of {esc(p["unit_plural"])}</label>
+          <div class="pr-qty-row">
+            <button type="button" class="pr-qty-btn" data-qty-step="-1" aria-label="Decrease quantity">&minus;</button>
+            <input id="pr-qty" type="number" min="{p["min_qty"]}" step="1" value="{default_qty}" inputmode="numeric" data-qty>
+            <button type="button" class="pr-qty-btn" data-qty-step="1" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+
+        <div class="pr-total">
+          <span>Estimated total</span>
+          <strong data-total></strong>
+        </div>
+        <p class="pr-total-note muted" data-total-note></p>
+
+        <a class="btn btn-block" href="#request">Request These {esc(p["unit_plural"].title())} &rsaquo;</a>
+        <p class="muted" style="font-size:0.84rem;margin-top:10px;">This isn't a charge &mdash; it sends us your request, and we confirm availability and the final invoice before anything is due.</p>
+      </div>
+    </div>
+
+    <div class="content" style="margin-top:40px;">
+      <h2>About the {esc(p["short_name"])}</h2>
+      <p>{esc(p["description"])}</p>
+
+      <h2>Specifications</h2>
+      <table class="pr-specs">
+        <tbody>
+          {specs_html}
+        </tbody>
+      </table>
+      <ul>
+        {delivery_note}
+        <li>{esc(p["includes"])}.</li>
+        <li>Rental rate is <strong>${price:.2f} per {esc(p["unit"])}</strong>. Delivery is quoted separately based on your address and order size.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="request">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Request This Item</div>
+      <h2>Request Your {esc(p["short_name"])}s</h2>
+      <p>Tell us where and when you need them. We'll confirm availability and send an invoice &mdash; nothing is charged from this form.</p>
+    </div>
+
+    <form class="pr-form" data-product-form novalidate>
+      <div data-pr-success class="form-success" style="display:none;">
+        <strong>Request received.</strong> We'll confirm availability and send your invoice shortly. For anything urgent, call or text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>.
+      </div>
+      <div data-pr-error class="form-success" style="display:none;background:#fdeaea;border-color:#f3c2c2;color:#a12626;"></div>
+
+      <div data-pr-fields>
+        <div class="pr-summary-bar">
+          <span data-form-summary></span>
+          <strong data-form-total></strong>
+        </div>
+
+        <h3>Your details</h3>
+        <div class="pr-grid">
+          <div class="field"><label for="pr-name">Full name <span class="req">*</span></label><input id="pr-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="pr-company">Company / organization</label><input id="pr-company" name="company" type="text" autocomplete="organization"></div>
+          <div class="field"><label for="pr-phone">Phone <span class="req">*</span></label><input id="pr-phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="field"><label for="pr-email">Email <span class="req">*</span></label><input id="pr-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+
+        <h3>Delivery details</h3>
+        <div class="pr-grid">
+          <div class="field pr-span2"><label for="pr-venue">Venue name</label><input id="pr-venue" name="venue_name" type="text" placeholder="e.g. Summerour Studio"></div>
+          <div class="field pr-span2"><label for="pr-address">Delivery street address <span class="req">*</span></label><input id="pr-address" name="delivery_address" type="text" autocomplete="street-address" required></div>
+          <div class="field"><label for="pr-city">City <span class="req">*</span></label><input id="pr-city" name="delivery_city" type="text" autocomplete="address-level2" required></div>
+          <div class="field"><label for="pr-state">State</label><input id="pr-state" name="delivery_state" type="text" value="GA" autocomplete="address-level1"></div>
+          <div class="field"><label for="pr-zip">ZIP code <span class="req">*</span></label><input id="pr-zip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" required></div>
+        </div>
+
+        <h3>Dates</h3>
+        <div class="pr-grid">
+          <div class="field"><label for="pr-delivery-date">Delivery date <span class="req">*</span></label><input id="pr-delivery-date" name="delivery_date" type="date" required></div>
+          <div class="field"><label for="pr-delivery-time">Preferred delivery time</label><input id="pr-delivery-time" name="delivery_time" type="time"></div>
+          <div class="field"><label for="pr-pickup-date">Pickup date</label><input id="pr-pickup-date" name="pickup_date" type="date"></div>
+        </div>
+
+        <div class="field"><label for="pr-message">Anything else we should know?</label><textarea id="pr-message" name="message" rows="4" placeholder="Setup location, stairs/elevator access, gate codes, timing constraints&hellip;"></textarea></div>
+
+        <button class="btn btn-block" type="submit" data-pr-submit>Send My Request</button>
+        <p class="form-note">Or call/text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>. We reply fast &mdash; usually within the hour during business hours.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Questions About {esc(p["short_name"])} Rentals?</h2>
+    <p>Call or text and we'll walk you through quantities, delivery windows and pricing for your event.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/product.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "services", p["parent_slug"], p["slug"])
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+        urls.append(product_href(p))
+    return urls
 
 
 # ----------------------------------------------------------------- bounce houses
@@ -3812,6 +4202,7 @@ def build_sitemap(providers, find_urls=None, city_urls=None):
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
+    urls += [product_href(p) for p in PRODUCTS]
     urls += [f"/bounce-houses/{it['slug']}/" for it in bh_items]
     urls += [f"/locations/{l['slug']}/" for l in LOCATIONS if l["slug"] not in MIGRATED_LOCATION_SLUGS]
     urls += find_urls or []
@@ -3882,6 +4273,7 @@ def main():
     build_services_index(providers, families)
     build_service_pages(providers)
     build_specialty_service_pages()
+    build_product_pages()
     build_bounce_houses()
     build_locations(providers)
     city_urls = build_cities(providers)
