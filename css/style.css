@@ -54,8 +54,8 @@ a:hover { text-decoration: underline; }
 .brand .brand-accent { color: var(--accent); }
 .header-right { display: flex; align-items: center; gap: 22px; }
 .header-ctas { display: flex; align-items: center; gap: 10px; }
-.main-nav { display: flex; gap: 22px; }
-.main-nav a { color: var(--ink); font-weight: 600; font-size: 0.95rem; text-decoration: none; padding: 4px 0; }
+.main-nav { display: flex; align-items: center; gap: 18px; }
+.main-nav a { color: var(--ink); font-weight: 600; font-size: 0.95rem; text-decoration: none; padding: 4px 0; white-space: nowrap; flex: none; }
 .main-nav a:hover, .main-nav a.active { color: var(--accent); }
 
 .phone-cta { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff !important; font-weight: 800; font-size: 1.15rem; padding: 10px 18px; border-radius: var(--radius); text-decoration: none !important; white-space: nowrap; }
@@ -382,6 +382,16 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   /* Sticky sidebars make no sense once stacked under the content. */
   aside .quote-card, aside .info-box { position: static !important; }
 }
+/* The nav (now carrying the search box too) needs to collapse into the
+   hamburger earlier than the rest of the mobile layout — otherwise there's
+   a cramped zone around 760-900px where it wraps/overflows. */
+@media (max-width: 900px) {
+  .main-nav { display: none; position: absolute; top: 64px; left: 0; right: 0; background: #fff; flex-direction: column; align-items: stretch; gap: 0; border-bottom: 1px solid var(--line); padding: 10px 20px; box-shadow: var(--shadow); }
+  .main-nav.open { display: flex; }
+  .main-nav a { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .nav-toggle { display: block; }
+  .header-inner { position: relative; }
+}
 @media (max-width: 760px) {
   /* No multi-column layouts on mobile — everything stacks. */
   .grid, .grid-2, .grid-3, .price-grid, .bh-specs, .bh-detail { grid-template-columns: 1fr !important; }
@@ -390,11 +400,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .content, .content li, .content p { overflow-wrap: break-word; }
   section { padding: 44px 0; }
   .page-head { padding: 34px 0 26px; }
-  .main-nav { display: none; position: absolute; top: 64px; left: 0; right: 0; background: #fff; flex-direction: column; gap: 0; border-bottom: 1px solid var(--line); padding: 10px 20px; box-shadow: var(--shadow); }
-  .main-nav.open { display: flex; }
-  .main-nav a { padding: 12px 0; border-bottom: 1px solid var(--line); }
-  .nav-toggle { display: block; }
-  .header-inner { position: relative; padding: 12px; gap: 8px; }
+  .header-inner { padding: 12px; gap: 8px; }
   .phone-cta { font-size: 1rem; padding: 8px 12px; }
   .phone-cta .ph-label { display: none; }
   .brand { font-size: 0.85rem; gap: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 108px; }
@@ -1154,4 +1160,22 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .svc-city-cols li { font-size: 0.88rem; margin-bottom: 6px; }
 @media (max-width: 600px) {
   .svc-city-cols { columns: 1; }
+}
+
+/* =========================================================
+   Header search bar
+   ========================================================= */
+.header-search { position: relative; display: flex; align-items: center; }
+.header-search input[type="search"] { width: 140px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 20px; font-size: 0.86rem; font-family: inherit; background: var(--bg-soft); transition: width 0.15s ease; }
+.header-search input[type="search"]:focus { outline: none; border-color: var(--accent); background: #fff; width: 220px; box-shadow: 0 0 0 3px rgba(58,147,214,0.14); }
+.header-search-results { position: absolute; top: calc(100% + 8px); left: 0; width: 300px; max-height: 380px; overflow-y: auto; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); z-index: 200; padding: 6px; }
+.header-search-results a { display: block; padding: 9px 10px; border-radius: 6px; color: var(--ink); font-size: 0.87rem; font-weight: 600; text-decoration: none; }
+.header-search-results a:hover { background: var(--sky); color: var(--accent-dark); }
+.header-search-empty { padding: 10px; color: var(--muted); font-size: 0.85rem; }
+
+@media (max-width: 900px) {
+  .header-search { order: -1; width: 100%; padding: 4px 0 14px; }
+  .header-search input[type="search"] { width: 100%; }
+  .header-search input[type="search"]:focus { width: 100%; }
+  .header-search-results { position: static; width: 100%; box-shadow: none; border: 0; border-top: 1px solid var(--line); border-radius: 0; margin-top: 8px; padding: 6px 0 0; }
 }

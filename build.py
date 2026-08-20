@@ -271,6 +271,10 @@ def header(active=""):
     <a class="brand" href="/"><img class="brand-logo" src="/images/favicon.svg" alt="" width="40" height="40"><span><span class="brand-accent">Atlanta</span> Bounce House Rentals</span></a>
     <div class="header-right">
       <nav class="main-nav" aria-label="Primary">
+        <div class="header-search" id="header-search">
+          <input type="search" id="site-search-input" placeholder="Search the site&hellip;" aria-label="Search the site" autocomplete="off">
+          <div class="header-search-results" id="site-search-results" hidden></div>
+        </div>
         <a href="/"{cls("home")}>Home</a>
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
@@ -640,6 +644,8 @@ def build_index(providers):
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/directory.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -677,6 +683,8 @@ def build_partners(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/directory.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -823,6 +831,8 @@ def build_partner_pages(providers):
 <script src="/js/map-data.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/partners.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -1187,6 +1197,8 @@ def build_service_pages(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 </body>
 </html>
 '''
@@ -1250,6 +1262,8 @@ def build_bounce_houses():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1400,6 +1414,8 @@ def build_bounce_houses():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1540,6 +1556,8 @@ def build_services_index(providers, families):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -1689,6 +1707,8 @@ def build_service_pages(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 {LEAFLET_JS}
 <script src="/js/map-data.js"></script>
@@ -1970,6 +1990,8 @@ def build_specialty_service_pages():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2034,6 +2056,8 @@ def build_bounce_houses():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2184,6 +2208,8 @@ def build_bounce_houses():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2290,6 +2316,8 @@ def build_locations(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2446,6 +2474,8 @@ def build_locations(providers):
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2595,6 +2625,8 @@ def build_cities(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -2682,6 +2714,8 @@ def build_cities(providers):
 <script src="/js/listicle.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3006,6 +3040,8 @@ def build_find_pages(providers, families):
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3180,6 +3216,8 @@ def build_find_pages(providers, families):
 <script src="/js/searchmap.js"></script>
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3262,6 +3300,8 @@ def build_find_pages(providers, families):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 <script src="/js/find.js"></script>
 </body>
@@ -3362,6 +3402,8 @@ def build_cheap(providers):
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3450,6 +3492,8 @@ def build_leads():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/leads.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -3535,6 +3579,8 @@ def build_dashboard():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/dashboard.js"></script>
 <script src="/js/calls.js"></script>
 <script src="/js/wizard.js"></script>
@@ -3570,6 +3616,8 @@ def build_legal():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3592,6 +3640,8 @@ def build_404():
 
 <script src="/js/main.js"></script>
 <script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
@@ -3697,6 +3747,39 @@ def build_sitemap(providers, find_urls=None, city_urls=None):
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(sm)
 
 
+def build_search_index():
+    """Header search bar's data source (js/search.js). Scans every generated
+    page's <title> after everything else has been built, so the index can
+    never drift from what's actually live on the site — no separate list of
+    URLs to keep in sync by hand."""
+    skip_dirs = {".git", ".claude", "images", "css", "js", "data", "supabase", "scripts", "api", ".vercel"}
+    entries = []
+
+    def add_page(path, url):
+        content = open(path, encoding="utf-8").read()
+        m = re.search(r"<title>(.*?)</title>", content, re.S)
+        title = html.unescape(m.group(1).strip()) if m else url
+        entries.append({"t": title, "u": url})
+
+    for dirpath, dirnames, filenames in os.walk(ROOT):
+        dirnames[:] = [d for d in dirnames if d not in skip_dirs and not d.startswith(".")]
+        rel = os.path.relpath(dirpath, ROOT)
+        if "index.html" in filenames:
+            url = "/" if rel == "." else "/" + rel.replace(os.sep, "/") + "/"
+            add_page(os.path.join(dirpath, "index.html"), url)
+        # Flat .html files (legal/about.html, partners.html, ...) — 404.html
+        # is intentionally excluded, it's not a real navigable page.
+        for fn in filenames:
+            if fn.endswith(".html") and fn not in ("index.html", "404.html"):
+                url_path = fn if rel == "." else f"{rel}/{fn}"
+                add_page(os.path.join(dirpath, fn), "/" + url_path.replace(os.sep, "/"))
+
+    entries.sort(key=lambda e: e["u"])
+    js = "window.ABHR_SEARCH_INDEX = " + json.dumps(entries, ensure_ascii=False) + ";\n"
+    open(os.path.join(ROOT, "js", "search-index.js"), "w").write(js)
+    return len(entries)
+
+
 def main():
     providers = json.load(open(os.path.join(ROOT, "data", "providers.json")))
     for it in providers:
@@ -3730,7 +3813,8 @@ def main():
     build_vercel_redirects(families)
     build_sitemap(providers, find_urls, city_urls)
     build_llms(providers)
-    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + dashboard + llms.txt")
+    n_indexed = build_search_index()
+    print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + dashboard + llms.txt + search index ({n_indexed} pages)")
 
 
 if __name__ == "__main__":
