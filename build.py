@@ -1657,6 +1657,37 @@ PRODUCTS = [
         ),
     },
     {
+        "slug": "contemporary-black-leather-barstool",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Contemporary Black Leather Barstool",
+        "short_name": "Black Leather Barstool",
+        "category": "Chairs & Benches",
+        "price": 25.00,
+        "unit": "barstool",
+        "unit_plural": "barstools",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Adjustable height, chrome base",
+        "image": "/images/products/contemporary-black-leather-barstool.jpg",
+        "image_alt": "Contemporary black leather barstool with a chrome adjustable base, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 1078,
+        "options": [],
+        "specs": [
+            ("Seat Height", '31"'),
+            ("Seat Depth", '16"'),
+            ("Overall Height", '43.5"'),
+        ],
+        "description": (
+            "Introducing our Black Leather Contemporary Barstool: the epitome of modern sophistication "
+            "for your event's bar area. With its sleek black leather upholstery and contemporary design, "
+            "this barstool adds a touch of elegance to any setting. Perfect for weddings, cocktail "
+            "parties, or upscale gatherings, its comfortable seat and adjustable height ensure both "
+            "style and functionality. Elevate your event's ambiance and impress your guests with our "
+            "Black Leather Contemporary Barstool, where comfort meets chic in every seat."
+        ),
+    },
+    {
         "slug": "child-stacking-chair-14-inch-black",
         "parent_slug": "chair-rentals",
         "parent_name": "Chair Rentals Atlanta",
