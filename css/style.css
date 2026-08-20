@@ -1144,3 +1144,14 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .call-detail-grid { grid-template-columns: 1fr; }
   .call-detail-grid dt { margin-top: 6px; }
 }
+
+/* =========================================================
+   /services hub — nested city/service links + /cities/{city}/{service}/
+   ========================================================= */
+.svc-city-links { margin: 8px 0 4px 4px; padding-left: 12px; border-left: 2px solid var(--line); }
+.svc-city-links-label { margin: 0 0 4px; font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.svc-city-cols { columns: 2; column-gap: 24px; }
+.svc-city-cols li { font-size: 0.88rem; margin-bottom: 6px; }
+@media (max-width: 600px) {
+  .svc-city-cols { columns: 1; }
+}

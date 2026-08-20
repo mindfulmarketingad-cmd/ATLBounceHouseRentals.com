@@ -967,14 +967,84 @@ def listicle_section_html(items, kind_singular, kind_plural, area_word,
 # their /locations/ page as a general, provider-list-free landing page.
 MIGRATED_LOCATION_SLUGS = set()
 
+# {city_slug: [(url_prefix, page_name, provider_count), ...]} — every
+# /cities/{city}/{service}/ page that exists. Populated in main() before any
+# builder that links to one runs.
+CITY_SERVICE_INDEX = {}
+
 
 def location_href(loc):
-    """Where a link to this location should point — /find/ if it has been
-    migrated to a programmatic page, otherwise the original /locations/ page."""
+    """Where a link to this location should point — the /cities/ listicle page
+    if the city has been migrated, otherwise the original /locations/ page."""
     slug = loc["slug"]
     if slug in MIGRATED_LOCATION_SLUGS:
-        return f"/find/bounce-house-rentals-{slug}-ga/"
+        return f"/cities/{slug}/"
     return f"/locations/{slug}/"
+
+
+# The "bounce-house-rentals" family matches EVERY provider in a city
+# regardless of service, which is exactly what /cities/{city}/ already lists.
+# Rather than ship two near-identical pages, that family's per-city URLs fold
+# into the city page itself (301 from the old /find/ URL); every other family
+# gets its own /cities/{city}/{service}/ page.
+CITY_HUB_FAMILY_PREFIX = "bounce-house-rentals"
+
+
+def city_service_href(url_prefix, loc_slug):
+    """Canonical path for a city+service page. The old flat
+    /find/{service}-{city}-ga/ URLs 301 here (see build_vercel_config)."""
+    if url_prefix == CITY_HUB_FAMILY_PREFIX:
+        return f"/cities/{loc_slug}/"
+    return f"/cities/{loc_slug}/{url_prefix}/"
+
+
+def legacy_find_path(url_prefix, loc_slug):
+    """The pre-migration /find/ URL for a city+service page, kept only so the
+    redirect map can be generated from the same data that builds the pages."""
+    return f"/find/{url_prefix}-{loc_slug}-ga/"
+
+
+def compute_find_families(providers):
+    """Per-family list of the cities that have at least one matched provider.
+    Shared by build_cities(), build_services_index() and build_find_pages() so
+    all three agree on exactly which city+service pages exist."""
+    families = []
+    for fam in FIND_PAGE_FAMILIES:
+        slug = fam.get("service_slug")
+        match_mode = fam.get("match_mode", "service")
+        svc_name = fam.get("page_name") or (SERVICES[slug] if slug else "Bounce House Rentals")
+        entries = []
+        for loc in LOCATIONS:
+            if match_mode in ("any", "theme"):
+                matched = providers_for_location(loc, providers, limit=50)
+            elif match_mode == "tag":
+                matched = _providers_for_location_tag(loc, providers, fam["tag"])
+            else:
+                matched = _providers_for_location_service(loc, providers, slug)
+            if not matched:
+                continue
+            entries.append((loc, matched, f'{fam["url_prefix"]}-{loc["slug"]}-ga'))
+        families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
+                          "entries": entries, "match_mode": match_mode,
+                          "map_filter": fam.get("map_filter", fam.get("tag")),
+                          "desc_template": fam.get("desc_template"),
+                          "theme_blurb": fam.get("theme_blurb"), "theme_note": fam.get("theme_note")})
+    return families
+
+
+def city_service_index(families):
+    """{city_slug: [(url_prefix, page_name, provider_count), ...]} for every
+    city+service page that gets its own URL (i.e. excluding the city-hub
+    family), so city pages and the services hub can link to them."""
+    by_city = {}
+    for fam in families:
+        if fam["url_prefix"] == CITY_HUB_FAMILY_PREFIX:
+            continue
+        for loc, matched, _ in fam["entries"]:
+            by_city.setdefault(loc["slug"], []).append((fam["url_prefix"], fam["name"], len(matched)))
+    for slug in by_city:
+        by_city[slug].sort(key=lambda t: t[1].lower())
+    return by_city
 
 
 
@@ -1353,14 +1423,79 @@ SPECIALTY_SLUGS = [
 ]
 
 
-def build_services_index(providers):
+def build_services_index(providers, families):
+    """/services/ hub — every core + specialty service page (regardless of
+    current provider count, so a page never silently disappears from the hub
+    just because it has zero live listings right now), each with its city/
+    service pages nested underneath as a "by city" sub-list."""
     counts = {s: sum(1 for p in providers if s in p["services"]) for s in SERVICES}
+
+    active = {fam["url_prefix"]: fam for fam in families
+              if fam["url_prefix"] != CITY_HUB_FAMILY_PREFIX and fam["entries"]}
+    used_prefixes = set()
+
+    def city_links_block(fam, heading=None):
+        links = "\n            ".join(
+            f'<li><a href="{city_service_href(fam["url_prefix"], loc["slug"])}">{esc(loc["name"])}</a> '
+            f'<span class="muted">({len(matched)})</span></li>'
+            for loc, matched, _ in fam["entries"])
+        return f'''
+        <div class="svc-city-links">
+          <p class="svc-city-links-label">{esc(heading or fam["name"])} by city:</p>
+          <ul class="bullet-services svc-city-cols">
+            {links}
+          </ul>
+        </div>'''
+
+    # Pass 1: mark every family whose url_prefix exactly matches a core
+    # service slug or a specialty slug — those attach directly to that page.
+    core_prefixes = set(SERVICES)
+    specialty_prefixes = {slug for slug, _ in SPECIALTY_SLUGS}
+    for prefix in active:
+        if prefix in core_prefixes or prefix in specialty_prefixes:
+            used_prefixes.add(prefix)
+
+    def direct_match(url_prefix):
+        fam = active.get(url_prefix)
+        return city_links_block(fam) if fam and url_prefix in used_prefixes else ""
+
+    # Pass 2: every remaining family (Chair/Tent/Table Rentals tag pages, $99
+    # Bounce Houses, Event Table/Chair Rentals, etc.) nests under its closest
+    # core service so no city/service page is orphaned from the hub.
+    remaining_by_slug = {}
+    seasonal = []
+    for prefix, fam in active.items():
+        if prefix in used_prefixes:
+            continue
+        if fam["match_mode"] == "theme" or not fam["slug"]:
+            seasonal.append(fam)
+        else:
+            remaining_by_slug.setdefault(fam["slug"], []).append(fam)
+
+    def extra_blocks(slug):
+        fams = sorted(remaining_by_slug.get(slug, []), key=lambda f: f["name"])
+        return "".join(city_links_block(fam) for fam in fams)
+
     links = "\n      ".join(
-        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a> '
-        f'<span class="muted">&mdash; {counts[s]} provider{"s" if counts[s] != 1 else ""}</span></li>'
-        for s in SERVICES if counts[s] > 0)
+        f'<li><a href="/services/{s}/">{SERVICES[s]} in Atlanta Georgia</a>'
+        + (f' <span class="muted">&mdash; {counts[s]} provider{"s" if counts[s] != 1 else ""}</span>' if counts[s] else "")
+        + direct_match(s) + extra_blocks(s) + '</li>'
+        for s in SERVICES)
     specialty_links = "\n      ".join(
-        f'<li><a href="/services/{slug}/">{name}</a></li>' for slug, name in SPECIALTY_SLUGS)
+        f'<li><a href="/services/{slug}/">{name}</a>{direct_match(slug)}</li>'
+        for slug, name in SPECIALTY_SLUGS)
+
+    seasonal_html = ""
+    if seasonal:
+        seasonal.sort(key=lambda f: f["name"])
+        seasonal_items = "\n      ".join(
+            f'<li><a href="/find/{fam["url_prefix"]}-near-me/">{esc(fam["name"])}</a>{city_links_block(fam)}</li>'
+            for fam in seasonal)
+        seasonal_html = f'''
+    <h2>Seasonal &amp; Themed Party Rentals</h2>
+    <ul class="bullet-services">
+      {seasonal_items}
+    </ul>'''
     html_out = head(
         "Bounce House Rental In Atlanta Georgia",
         "Browse every Bounce House Rental service in Atlanta, Georgia. Classic bounce houses, water slides, obstacle courses, concessions, tents, party packages and more with free quotes.",
@@ -1386,6 +1521,7 @@ def build_services_index(providers):
     <ul class="bullet-services">
       {specialty_links}
     </ul>
+    {seasonal_html}
     <div class="callout">
       <p><strong>Not sure what you need?</strong> Use the Free Instant Quote wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
     </div>
@@ -2492,6 +2628,26 @@ def build_cities(providers):
         title = f"{len(matched)} Party Rental Providers in {nl}, GA"
         desc = f"Every party rental provider we track in {nl}, Georgia, ranked by rating and review volume. Search by name or filter by service."
 
+        svc_pages = CITY_SERVICE_INDEX.get(loc["slug"], [])
+        svc_pages_html = ""
+        if svc_pages:
+            svc_links = "\n          ".join(
+                f'<li><a href="{city_service_href(up, loc["slug"])}">{esc(nm)}</a> '
+                f'<span class="muted">({n} provider{"s" if n != 1 else ""})</span></li>'
+                for up, nm, n in svc_pages)
+            svc_pages_html = f'''
+<section class="alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>{esc(nl)} Rentals by Service</h2>
+      <p>Narrow the list above to one specific service in {esc(nl)}.</p>
+    </div>
+    <ul class="bullet-services">
+          {svc_links}
+    </ul>
+  </div>
+</section>'''
+
         page = head(title, desc, f"{DOMAIN}/cities/{loc['slug']}/", extra2)
         page += header("cities") + f'''
 <div class="page-head">
@@ -2505,9 +2661,10 @@ def build_cities(providers):
 <section>
   <div class="container">
     {listicle}
-    <p style="margin-top:26px;"><a href="/cities/">&larr; All cities</a> &middot; <a href="/find/bounce-house-rentals-{loc["slug"]}-ga/">More about {esc(nl)} rentals</a></p>
+    <p style="margin-top:26px;"><a href="/cities/">&larr; All cities</a></p>
   </div>
 </section>
+{svc_pages_html}
 
 <section class="cta-band">
   <div class="container">
@@ -2536,35 +2693,13 @@ def build_cities(providers):
     return ["/cities/"] + [f"/cities/{loc['slug']}/" for loc, _ in entries]
 
 
-def build_find_pages(providers):
-    """/find/ hub + one programmatic landing page per city per service family,
-    generated only for cities with an actual matched listing. Page layout is
-    1) the filtered search map, 2) SEO content below it."""
+def build_find_pages(providers, families):
+    """City+service pages at /cities/{city}/{service}/ plus the metro-wide
+    "near me" pages and hub that still live under /find/. Generated only for
+    cities with an actual matched listing. Page layout is 1) the filtered
+    search map, 2) SEO content below it."""
     d = os.path.join(ROOT, "find")
     os.makedirs(d, exist_ok=True)
-
-    families = []  # per family: {slug, name, short, url_prefix, entries: [(loc, matched, url_slug)], match_mode}
-    for fam in FIND_PAGE_FAMILIES:
-        slug = fam.get("service_slug")
-        match_mode = fam.get("match_mode", "service")
-        svc_name = fam.get("page_name") or (SERVICES[slug] if slug else "Bounce House Rentals")
-        entries = []
-        for loc in LOCATIONS:
-            if match_mode in ("any", "theme"):
-                matched = providers_for_location(loc, providers, limit=50)
-            elif match_mode == "tag":
-                matched = _providers_for_location_tag(loc, providers, fam["tag"])
-            else:
-                matched = _providers_for_location_service(loc, providers, slug)
-            if not matched:
-                continue
-            url_slug = f'{fam["url_prefix"]}-{loc["slug"]}-ga'
-            entries.append((loc, matched, url_slug))
-        families.append({"slug": slug, "name": svc_name, "url_prefix": fam["url_prefix"],
-                          "entries": entries, "match_mode": match_mode,
-                          "map_filter": fam.get("map_filter", fam.get("tag")),
-                          "desc_template": fam.get("desc_template"),
-                          "theme_blurb": fam.get("theme_blurb"), "theme_note": fam.get("theme_note")})
 
     near_me = []  # {slug, name, matched, url_slug, url_prefix, svc_short}
     for slug in SERVICES:
@@ -2609,20 +2744,25 @@ def build_find_pages(providers):
     # Flat list of every generated /find/ page, used to cross-link all of them
     # to each other so none are orphaned as more service families are added.
     all_find_pages = [
-        {"title": f'{fam["name"]} in {loc["name"]}, GA', "url": f'/find/{url_slug}/'}
+        {"title": f'{fam["name"]} in {loc["name"]}, GA', "url": city_service_href(fam["url_prefix"], loc["slug"])}
         for fam in families for loc, matched, url_slug in fam["entries"]
     ] + [
         {"title": f'{nm["name"]} Near Me', "url": f'/find/{nm["url_slug"]}/'}
         for nm in near_me
     ]
 
-    # --- per-city landing pages ---
+    # --- per-city landing pages (/cities/{city}/{service}/) ---
     for fam in families:
+        # The city-hub family's content is the /cities/{city}/ page itself,
+        # built by build_cities() — nothing to generate here.
+        if fam["url_prefix"] == CITY_HUB_FAMILY_PREFIX:
+            continue
         slug = fam["slug"]
         match_mode = fam["match_mode"]
         svc_name = fam["name"]
         svc_short = fam.get("map_filter") or (SERVICES_SHORT.get(slug, "") if slug else "")
         for loc, matched, url_slug in fam["entries"]:
+            page_url = city_service_href(fam["url_prefix"], loc["slug"])
             nl = loc["name"]
             title = f"{svc_name} in {nl} Georgia"
             hoods3 = ", ".join(loc["neighborhoods"][:3])
@@ -2778,36 +2918,50 @@ def build_find_pages(providers):
 
             faq_html, faq_ld = faq_block(faqs)
 
-            other_pages = [fp for fp in all_find_pages if fp["url"] != f"/find/{url_slug}/"]
+            other_pages = [fp for fp in all_find_pages if fp["url"] != page_url]
             other_find_html = ""
             if other_pages:
                 other_find_links = "\n          ".join(
                     f'<li><a href="{fp["url"]}">{esc(fp["title"])}</a></li>' for fp in other_pages)
                 other_find_html = f'''
-      <h2>More Find Pages</h2>
+      <h2>More Rental Pages</h2>
       <ul class="bullet-services">
           {other_find_links}
       </ul>'''
+
+            # Sibling services in this same city — the tightest internal link
+            # cluster on the page, so /cities/{city}/{service}/ pages all
+            # reinforce each other and the city hub above them.
+            sibling_links = "\n          ".join(
+                f'<li><a href="{city_service_href(up, loc["slug"])}">{esc(nm2)} in {esc(nl)}</a> '
+                f'<span class="muted">({n2} provider{"s" if n2 != 1 else ""})</span></li>'
+                for up, nm2, n2 in CITY_SERVICE_INDEX.get(loc["slug"], []) if up != fam["url_prefix"])
+            sibling_html = f'''
+      <h2>Other Rental Services in {esc(nl)}</h2>
+      <ul class="bullet-services">
+          {sibling_links}
+      </ul>''' if sibling_links else ""
 
             svc_ld = {"@context": "https://schema.org", "@type": "Service", "serviceType": svc_name,
                       "areaServed": {"@type": "Place", "name": f"{nl}, Georgia"},
                       "provider": {"@type": "LocalBusiness", "name": "Atlanta Bounce House Rental Directory",
                                    "telephone": PHONE_HREF, "areaServed": f"{nl}, GA"},
-                      "url": f"{DOMAIN}/find/{url_slug}/"}
+                      "url": f"{DOMAIN}{page_url}"}
             bc = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
-                {"@type": "ListItem", "position": 2, "name": "Find", "item": DOMAIN + "/find/"},
-                {"@type": "ListItem", "position": 3, "name": title, "item": f"{DOMAIN}/find/{url_slug}/"}]}
+                {"@type": "ListItem", "position": 2, "name": "Cities", "item": DOMAIN + "/cities/"},
+                {"@type": "ListItem", "position": 3, "name": nl, "item": f'{DOMAIN}/cities/{loc["slug"]}/'},
+                {"@type": "ListItem", "position": 4, "name": svc_name, "item": f"{DOMAIN}{page_url}"}]}
             extra = (f'<script type="application/ld+json">\n{json.dumps(svc_ld, ensure_ascii=False)}\n</script>\n'
                      f'<script type="application/ld+json">\n{json.dumps(bc, ensure_ascii=False)}\n</script>\n{faq_ld}\n{LEAFLET_HEAD}')
 
             clat, clng = location_center(loc, providers)
 
-            page = head(title, desc, f"{DOMAIN}/find/{url_slug}/", extra)
-            page += header("find") + f'''
+            page = head(title, desc, f"{DOMAIN}{page_url}", extra)
+            page += header("cities") + f'''
 <div class="page-head">
   <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; {esc(title)}</div>
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; <a href="/cities/{loc["slug"]}/">{esc(nl)}</a> &rsaquo; {esc(svc_name)}</div>
     <h1>{title}</h1>
     <p>{page_intro}</p>
     {trust_strip(count=len(providers))}
@@ -2829,6 +2983,8 @@ def build_find_pages(providers):
   <div class="container">
     <div class="content">
       {content_html}
+      <p><a href="/cities/{loc["slug"]}/">&larr; All {esc(nl)} providers</a> &middot; <a href="/services/">All rental services</a></p>
+      {sibling_html}
       {other_find_html}
     </div>
   </div>
@@ -2854,7 +3010,7 @@ def build_find_pages(providers):
 </body>
 </html>
 '''
-            pd = os.path.join(d, url_slug)
+            pd = os.path.join(ROOT, "cities", loc["slug"], fam["url_prefix"])
             os.makedirs(pd, exist_ok=True)
             open(os.path.join(pd, "index.html"), "w").write(page)
 
@@ -2880,7 +3036,7 @@ def build_find_pages(providers):
         city_links_html = ""
         if same_service_cities:
             city_links = "\n          ".join(
-                f'<li><a href="/find/{url_slug2}/">{fam["name"]} in {esc(loc["name"])}, GA</a></li>'
+                f'<li><a href="{city_service_href(fam["url_prefix"], loc["slug"])}">{fam["name"]} in {esc(loc["name"])}, GA</a></li>'
                 for fam in same_service_cities for loc, matched2, url_slug2 in fam["entries"])
             city_links_html = f'''
       <h2>{svc_name} by City</h2>
@@ -3480,6 +3636,45 @@ Key facts:
     open(os.path.join(ROOT, "llms.txt"), "w").write(txt)
 
 
+def build_vercel_redirects(families):
+    """Regenerates vercel.json's redirect list: legacy /locations/{city}/ URLs
+    (unmigrated cities keep their real page; migrated cities now point at
+    /cities/{city}/), plus a permanent redirect from every old
+    /find/{service}-{city}-ga/ URL to its new /cities/{city}/{service}/ home
+    now that city+service pages live there instead."""
+    redirects = [{"source": "/leads.html", "destination": "/leads/", "permanent": True}]
+
+    for loc in LOCATIONS:
+        slug = loc["slug"]
+        dest = location_href(loc)  # /cities/{slug}/ if migrated, else /locations/{slug}/
+        if dest == f"/locations/{slug}/":
+            continue  # nothing to redirect — this is still the real page
+        redirects.append({"source": f"/locations/{slug}", "destination": dest, "permanent": True})
+        redirects.append({"source": f"/locations/{slug}/", "destination": dest, "permanent": True})
+
+    for fam in families:
+        if fam["url_prefix"] == CITY_HUB_FAMILY_PREFIX:
+            # This family's old per-city URL is what used to live at
+            # /find/bounce-house-rentals-{city}-ga/ — now folded into the
+            # city hub page itself.
+            for loc, matched, url_slug in fam["entries"]:
+                old = f"/find/{url_slug}"
+                new = city_service_href(fam["url_prefix"], loc["slug"])
+                redirects.append({"source": old, "destination": new, "permanent": True})
+                redirects.append({"source": old + "/", "destination": new, "permanent": True})
+            continue
+        for loc, matched, url_slug in fam["entries"]:
+            old = f"/find/{url_slug}"
+            new = city_service_href(fam["url_prefix"], loc["slug"])
+            redirects.append({"source": old, "destination": new, "permanent": True})
+            redirects.append({"source": old + "/", "destination": new, "permanent": True})
+
+    cfg = {"redirects": redirects}
+    with open(os.path.join(ROOT, "vercel.json"), "w") as f:
+        json.dump(cfg, f, indent=2)
+        f.write("\n")
+
+
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/bounce-houses/", "/locations/",
@@ -3512,22 +3707,27 @@ def main():
     MIGRATED_LOCATION_SLUGS.update(
         loc["slug"] for loc in LOCATIONS if providers_for_location(loc, providers))
 
+    families = compute_find_families(providers)
+    CITY_SERVICE_INDEX.clear()
+    CITY_SERVICE_INDEX.update(city_service_index(families))
+
     build_map_data(providers)
     build_index(providers)
     build_partners(providers)
     build_partner_pages(providers)
-    build_services_index(providers)
+    build_services_index(providers, families)
     build_service_pages(providers)
     build_specialty_service_pages()
     build_bounce_houses()
     build_locations(providers)
     city_urls = build_cities(providers)
-    find_urls = build_find_pages(providers)
+    find_urls = build_find_pages(providers, families)
     build_cheap(providers)
     build_leads()
     build_dashboard()
     build_legal()
     build_404()
+    build_vercel_redirects(families)
     build_sitemap(providers, find_urls, city_urls)
     build_llms(providers)
     print(f"Built site: {len(providers)} providers + services + bounce houses + legal + leads + dashboard + llms.txt")
