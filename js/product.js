@@ -22,7 +22,8 @@
     price: parseFloat(root.getAttribute("data-product-price")) || 0,
     unit: root.getAttribute("data-product-unit") || "item",
     unitPlural: root.getAttribute("data-product-unit-plural") || "items",
-    min: parseInt(root.getAttribute("data-product-min"), 10) || 1
+    min: parseInt(root.getAttribute("data-product-min"), 10) || 1,
+    deliveryFee: parseFloat(root.getAttribute("data-product-delivery-fee")) || 0
   };
 
   var qtyInput = root.querySelector("[data-qty]");
@@ -52,13 +53,14 @@
 
   function render() {
     var qty = currentQty();
-    var total = qty * PRODUCT.price;
+    var itemsTotal = qty * PRODUCT.price;
+    var grandTotal = itemsTotal + PRODUCT.deliveryFee;
     var word = qty === 1 ? PRODUCT.unit : PRODUCT.unitPlural;
-    var summary = qty + " " + word + " × " + money(PRODUCT.price);
-    if (totalEl) totalEl.textContent = money(total);
-    if (noteEl) noteEl.textContent = summary;
+    var summary = qty + " " + word + " × " + money(PRODUCT.price) + " + " + money(PRODUCT.deliveryFee) + " delivery";
+    if (totalEl) totalEl.textContent = money(grandTotal);
+    if (noteEl) noteEl.textContent = qty + " " + word + " × " + money(PRODUCT.price) + " = " + money(itemsTotal);
     if (formSummary) formSummary.textContent = summary;
-    if (formTotal) formTotal.textContent = money(total);
+    if (formTotal) formTotal.textContent = money(grandTotal);
   }
 
   if (qtyInput) {
@@ -121,13 +123,16 @@
     var qty = currentQty();
     var opts = selectedOptions();
     var variant = opts.cushion_color || Object.keys(opts).map(function (k) { return opts[k]; }).join(", ");
-    var total = qty * PRODUCT.price;
+    var itemsTotal = qty * PRODUCT.price;
+    var grandTotal = itemsTotal + PRODUCT.deliveryFee;
 
     // Human-readable recap folded into `message` too, so the order is fully
     // legible straight from the leads table without joining any other data.
     var recap = [
       PRODUCT.name,
-      qty + " " + (qty === 1 ? PRODUCT.unit : PRODUCT.unitPlural) + " @ " + money(PRODUCT.price) + " = " + money(total)
+      qty + " " + (qty === 1 ? PRODUCT.unit : PRODUCT.unitPlural) + " @ " + money(PRODUCT.price) + " = " + money(itemsTotal),
+      "Standard delivery fee: " + money(PRODUCT.deliveryFee) + " (drop-off/pickup only, no setup)",
+      "Estimated total: " + money(grandTotal)
     ];
     if (variant) recap.push("Cushion/variant: " + variant);
     if (val("venue_name")) recap.push("Venue: " + val("venue_name"));
@@ -143,7 +148,8 @@
       product_variant: variant,
       quantity: qty,
       unit_price: PRODUCT.price,
-      estimated_total: total,
+      delivery_fee: PRODUCT.deliveryFee,
+      estimated_total: grandTotal,
 
       name: val("name"),
       phone: val("phone"),

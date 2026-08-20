@@ -1241,10 +1241,11 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .pr-qty-btn:hover { background: var(--sky); border-color: var(--accent); color: var(--accent-dark); }
 .pr-qty-row input { flex: 1; text-align: center; padding: 11px 8px; border: 1px solid var(--line); border-radius: 6px; font-size: 1.05rem; font-weight: 700; font-family: inherit; background: #fff; }
 
-.pr-total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 16px; border-top: 2px solid var(--line); }
+.pr-total-note { font-size: 0.86rem; margin: 4px 0 8px; }
+.pr-total-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; font-size: 0.92rem; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); }
+.pr-total { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-top: 10px; padding-top: 12px; border-top: 2px solid var(--line); margin-bottom: 18px; }
 .pr-total span { font-weight: 700; }
 .pr-total strong { font-size: 1.8rem; color: var(--accent-dark); }
-.pr-total-note { font-size: 0.86rem; margin: 4px 0 18px; }
 
 .pr-specs { width: 100%; border-collapse: collapse; margin-bottom: 18px; }
 .pr-specs th { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); width: 45%; color: var(--muted); font-size: 0.88rem; }

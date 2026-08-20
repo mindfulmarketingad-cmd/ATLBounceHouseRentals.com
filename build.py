@@ -1502,6 +1502,21 @@ SPECIALTY_SLUGS = [
 # picker, live running total and an order form that writes straight to the
 # Supabase leads table with everything needed to raise an invoice and
 # drop-service the order — see supabase/migrate_product_orders.sql.
+#
+# Standard delivery: flat fee, drop-off/pickup only (no setup), same policy
+# for every product on this list.
+PRODUCT_DELIVERY_FEE = 200.00
+PRODUCT_DELIVERY_POLICY = {
+    "hours": [
+        ("Off-season", "Monday&ndash;Friday, 8am&ndash;5pm"),
+        ("Peak season", "Monday&ndash;Saturday, 8am&ndash;5pm"),
+    ],
+    "included": [
+        "Drop-off and pickup only &mdash; this is not a setup service.",
+        "Delivery and pickup are made within 50ft of the truck, on a flat, hard, ground-level surface with no steps or obstructions.",
+        "You're responsible for rinsing, repacking and stacking equipment the same way it was delivered.",
+    ],
+}
 PRODUCTS = [
     {
         "slug": "gold-chiavari-chair-white-pad",
@@ -1536,6 +1551,74 @@ PRODUCTS = [
             "opulence to any setting. Ideal for weddings, galas, or upscale gatherings, its timeless "
             "appeal elevates the ambiance of any event. Impress your guests with our Gold Chiavari "
             "Chair, where style meets sophistication in every seat."
+        ),
+    },
+    {
+        "slug": "ghost-chair-clear",
+        "parent_slug": "ghost-chair-rentals",
+        "parent_name": "Ghost Chair Rentals Atlanta",
+        "name": "Ghost Chair - Clear",
+        "short_name": "Clear Ghost Chair",
+        "category": "Chairs & Benches",
+        "price": 17.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Clear round-back acrylic chair",
+        "image": "/images/products/ghost-chair-clear.jpg",
+        "image_alt": "Clear round-back acrylic Ghost chair, available to rent in Atlanta, Georgia",
+        "image_w": 620, "image_h": 620,
+        "options": [],
+        "specs": [
+            ("Seat Height", '17.75"H'),
+            ("Overall Width", '15.75"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '36.25"H'),
+            ("Weight Capacity", "1,100 lbs."),
+        ],
+        "description": (
+            "Introducing our Clear Round Back Ghost Chair: the epitome of modern elegance for your "
+            "event's seating. With its transparent design and sleek round back, this chair adds a "
+            "contemporary touch to any setting. Perfect for weddings, upscale parties, or modern "
+            "gatherings, its unique appearance complements various decor styles. Elevate your event's "
+            "ambiance and impress your guests with our Clear Round Back Ghost Chair, where style meets "
+            "transparency in every seat."
+        ),
+    },
+    {
+        "slug": "chiavari-barstool-chair-fruitwood",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": "Chiavari Barstool Chair - Fruitwood",
+        "short_name": "Fruitwood Chiavari Barstool",
+        "category": "Chairs & Benches",
+        "price": 30.00,
+        "unit": "barstool",
+        "unit_plural": "barstools",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": 'Use for 42" high-top tables and bars',
+        "image": "/images/products/chiavari-barstool-chair-fruitwood.jpg",
+        "image_alt": "Fruitwood Chiavari barstools lined up at a 42-inch high-top table for a cocktail-style event in Atlanta, Georgia",
+        "image_w": 640, "image_h": 960,
+        "options": [],
+        "specs": [
+            ("Use For", '42" high-top tables and bars'),
+            ("Overall Width", '15-3/4"'),
+            ("Overall Depth", '17"'),
+            ("Overall Height", '45"'),
+            ("Seat Width", '15-3/4"'),
+            ("Seat Depth", '15-1/2"'),
+            ("Seat Height", '28-3/4"'),
+        ],
+        "description": (
+            "Introducing our Fruitwood Chiavari Barstool: a touch of rustic charm for your event's "
+            "seating. With its warm fruitwood color and classic Chiavari design, this barstool adds "
+            "elegance to any bar or high-top table. Ideal for weddings, cocktail parties, or upscale "
+            "events, its timeless appeal complements any decor. Elevate your event's ambiance and "
+            "provide stylish seating with our Fruitwood Chiavari Barstool, where comfort meets "
+            "sophistication at every perch."
         ),
     },
     {
@@ -1943,6 +2026,10 @@ def build_specialty_service_pages():
             ],
             "parent_slug": "tents-tables-and-chair-rentals",
             "parent_name": "Tents, Tables and Chair Rentals",
+            # Real per-chair pricing now lives on the product-request pages
+            # linked above (Rent Direct From Us), so the old estimate ranges
+            # would just be confusing/redundant on this page.
+            "hide_price_tiers": True,
             "price_tiers": [
                 {"tier": "Small Event", "amount": "$4&ndash;$7", "sub": "/ chair (min 50)", "items": ["Gold, silver or white finish", "Cushion included", "Delivery within Atlanta", "Setup and pickup"]},
                 {"tier": "Medium Event", "amount": "$3.50&ndash;$5.50", "sub": "/ chair (100+ chairs)", "items": ["Any finish color", "Cushion choice included", "Metro Atlanta delivery", "Full setup service"]},
@@ -2134,6 +2221,12 @@ def build_specialty_service_pages():
             </ul>
           </div>''' for i, pt in enumerate(pg["price_tiers"]))
 
+        price_section_html = "" if pg.get("hide_price_tiers") else (
+            f'<h2>{pg["name"]} Price Estimates in Atlanta</h2>\n'
+            f'        <p>Below are typical Atlanta price ranges. Final pricing depends on the date, delivery distance, rental duration and add-ons. Request a free quote for an exact figure.</p>\n'
+            f'        <div class="price-grid">\n          {prices_html}\n        </div>'
+        )
+
         body_html = "\n        ".join(f"<p>{p}</p>" for p in pg["body"])
 
         # Items we stock and fulfil ourselves at a fixed per-unit rate get a
@@ -2208,11 +2301,7 @@ def build_specialty_service_pages():
           <p><strong>Serving all of metro Atlanta.</strong> Providers in our directory deliver {pg["name"].lower()} to Atlanta, Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell and surrounding Georgia communities.</p>
         </div>
 
-        <h2>{pg["name"]} Price Estimates in Atlanta</h2>
-        <p>Below are typical Atlanta price ranges. Final pricing depends on the date, delivery distance, rental duration and add-ons. Request a free quote for an exact figure.</p>
-        <div class="price-grid">
-          {prices_html}
-        </div>
+        {price_section_html}
 
         <h2>Parent Service: {pg["parent_name"]}</h2>
         <p>For a broader selection of chairs, tables and seating, see the full <a href="/services/{pg["parent_slug"]}/">{pg["parent_name"]} in Atlanta</a> page, or browse our <a href="/locations/">Atlanta service areas</a> to find providers near you.</p>
@@ -2296,7 +2385,7 @@ def build_product_pages():
                           f'<span>{esc(p["short_name"])}</span><small>Photo coming soon</small></div>')
 
         badge = '<span class="pr-badge">Delivery<br>Item Only</span>' if p["delivery_only"] else ""
-        delivery_note = ("<li>This is a <strong>delivery only</strong> item &mdash; we deliver, set up and collect.</li>"
+        delivery_note = ("<li>This is a <strong>delivery only</strong> item &mdash; we drop off and pick up, no setup included.</li>"
                          if p["delivery_only"] else "")
 
         prod_ld = {
@@ -2341,7 +2430,8 @@ def build_product_pages():
       data-product-price="{price}"
       data-product-unit="{esc(p["unit"])}"
       data-product-unit-plural="{esc(p["unit_plural"])}"
-      data-product-min="{p["min_qty"]}">
+      data-product-min="{p["min_qty"]}"
+      data-product-delivery-fee="{PRODUCT_DELIVERY_FEE}">
 
       <div class="pr-media">
         {media_html}
@@ -2363,11 +2453,15 @@ def build_product_pages():
           </div>
         </div>
 
+        <p class="pr-total-note muted" data-total-note></p>
+        <div class="pr-total-row">
+          <span>+ Standard delivery fee</span>
+          <span>${PRODUCT_DELIVERY_FEE:,.2f}</span>
+        </div>
         <div class="pr-total">
           <span>Estimated total</span>
           <strong data-total></strong>
         </div>
-        <p class="pr-total-note muted" data-total-note></p>
 
         <a class="btn btn-block" href="#request">Request These {esc(p["unit_plural"].title())} &rsaquo;</a>
         <p class="muted" style="font-size:0.84rem;margin-top:10px;">This isn't a charge &mdash; it sends us your request, and we confirm availability and the final invoice before anything is due.</p>
@@ -2387,7 +2481,18 @@ def build_product_pages():
       <ul>
         {delivery_note}
         <li>{esc(p["includes"])}.</li>
-        <li>Rental rate is <strong>${price:.2f} per {esc(p["unit"])}</strong>. Delivery is quoted separately based on your address and order size.</li>
+        <li>Rental rate is <strong>${price:.2f} per {esc(p["unit"])}</strong>, plus a flat <strong>${PRODUCT_DELIVERY_FEE:,.2f} standard delivery fee</strong> per order.</li>
+      </ul>
+
+      <h2>Delivery &amp; Pickup</h2>
+      <p>Delivery is <strong>drop-off and pickup only</strong> &mdash; we don't set anything up. A flat ${PRODUCT_DELIVERY_FEE:,.2f} covers standard delivery and pickup for your order.</p>
+      <table class="pr-specs">
+        <tbody>
+          {"".join(f'<tr><th>{esc(label)}</th><td>{window_txt}</td></tr>' for label, window_txt in PRODUCT_DELIVERY_POLICY["hours"])}
+        </tbody>
+      </table>
+      <ul>
+        {"".join(f'<li>{item}</li>' for item in PRODUCT_DELIVERY_POLICY["included"])}
       </ul>
     </div>
   </div>

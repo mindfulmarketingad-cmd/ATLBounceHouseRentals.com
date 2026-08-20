@@ -17,7 +17,8 @@ alter table public.leads add column if not exists product_slug      text;   -- "
 alter table public.leads add column if not exists product_variant   text;   -- cushion colour chosen
 alter table public.leads add column if not exists quantity          integer;
 alter table public.leads add column if not exists unit_price        numeric(10,2);
-alter table public.leads add column if not exists estimated_total   numeric(10,2);
+alter table public.leads add column if not exists delivery_fee      numeric(10,2);  -- flat standard delivery fee (drop-off/pickup only, no setup)
+alter table public.leads add column if not exists estimated_total   numeric(10,2);  -- unit_price * quantity + delivery_fee
 
 -- ─── Where it's going (invoice + delivery) ──────────────────────────────
 -- zip_code already exists from the wizard schema and is reused here.
