@@ -1622,6 +1622,78 @@ PRODUCTS = [
         ),
     },
     {
+        "slug": "chiavari-chair-with-pad-white",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": "Chiavari Chair with Pad - White",
+        "short_name": "White Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 10.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes Velcro Hard-Back Cushion",
+        "image": "/images/products/chiavari-chair-with-pad-white.jpg",
+        "image_alt": "White Chiavari chairs with cushions set at a table with a burlap and lace runner for an outdoor wedding reception in Atlanta, Georgia",
+        "image_w": 640, "image_h": 480,
+        "options": [
+            {"key": "cushion_color", "label": "Cushion Color", "required": True,
+             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
+        ],
+        "specs": [
+            ("Seat Height", '17.75"H'),
+            ("Overall Width", '15.75"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '36.25"H'),
+            ("Weight Capacity", "500 lbs."),
+        ],
+        "description": (
+            "Introducing our White Chiavari Chair: the perfect fusion of elegance and versatility for "
+            "your event's seating. With its crisp white color and classic Chiavari design, this chair "
+            "adds a touch of sophistication to any setting. Ideal for weddings, banquets, or upscale "
+            "gatherings, its timeless appeal complements a variety of decor styles. Elevate your event's "
+            "ambiance and impress your guests with our White Chiavari Chair, where comfort meets style "
+            "in every seat."
+        ),
+    },
+    {
+        "slug": "chiavari-chair-with-pad-silver",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": "Chiavari Chair with Pad - Silver",
+        "short_name": "Silver Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 10.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes Velcro Hard-Back Cushion",
+        "image": "/images/products/chiavari-chair-with-pad-silver.jpg",
+        "image_alt": "Silver Chiavari chair with cushion, available to rent in Atlanta, Georgia",
+        "image_w": 424, "image_h": 640,
+        "options": [
+            {"key": "cushion_color", "label": "Cushion Color", "required": True,
+             "choices": ["White", "Ivory", "Black", "Chocolate", "Gold", "Silver"]},
+        ],
+        "specs": [
+            ("Seat Height", '17.75"H'),
+            ("Overall Width", '15.75"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '36.25"H'),
+            ("Weight Capacity", "500 lbs."),
+        ],
+        "description": (
+            "Introducing our Silver Chiavari Chair: the perfect fusion of elegance and versatility for "
+            "your event's seating. With its cool silver finish and classic Chiavari design, this chair "
+            "adds a touch of sophistication to any setting. Ideal for weddings, banquets, or upscale "
+            "gatherings, its timeless appeal complements a variety of decor styles. Elevate your event's "
+            "ambiance and impress your guests with our Silver Chiavari Chair, where comfort meets style "
+            "in every seat."
+        ),
+    },
+    {
         "slug": "chiavari-chair-with-pad-mahogany",
         "parent_slug": "chiavari-chair-rentals",
         "parent_name": "Chiavari Chair Rentals Atlanta",
