@@ -2447,6 +2447,607 @@ PRODUCTS = [
             "over a cable."
         ),
     },
+    {
+        "slug": "30-inch-round-clear-acrylic-highboy-table",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "30\" Round Clear Acrylic Highboy Table",
+        "short_name": "30\" Clear Acrylic Highboy Table",
+        "category": "Tables",
+        "price": 108.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Clear acrylic, cocktail height",
+        "image": "/images/products/30-inch-round-clear-acrylic-highboy-table.jpg",
+        "image_alt": "30\" Clear Acrylic Highboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 30\" Round Clear Acrylic Highboy Table brings a modern, see-through look to a "
+            "cocktail-height table, letting florals, uplighting and linens show through the base "
+            "instead of being hidden behind it. It seats 4 to 5 guests standing and is a popular pick "
+            "for modern weddings, product launches and upscale lounge areas."
+        ),
+    },
+    {
+        "slug": "30-inch-round-highboy-table-pkg-n",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "30\" Round Highboy Table - PKG (N)",
+        "short_name": "30\" Round Highboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Chrome base, cocktail height",
+        "image": "/images/products/30-inch-round-highboy-table-pkg-n.jpg",
+        "image_alt": "30\" Round Highboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 30\" Round Highboy Table is a standard cocktail-height round top on a chrome base, "
+            "built for standing receptions, cocktail hours and bar-area mingling. It seats 4 to 5 "
+            "guests standing and pairs easily with spandex or full-length linens."
+        ),
+    },
+    {
+        "slug": "30-inch-round-lowboy-table-pkg-n",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "30\" Round Lowboy Table - PKG (N)",
+        "short_name": "30\" Round Lowboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Chrome base, seated height",
+        "image": "/images/products/30-inch-round-lowboy-table-pkg-n.jpg",
+        "image_alt": "30\" Round Lowboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 30\" Round Lowboy Table matches our round highboy in size and finish but sits at "
+            "standard seated dining height, a good fit for small seated groupings, side tables and "
+            "intimate lounge seating areas at receptions."
+        ),
+    },
+    {
+        "slug": "30-inch-square-highboy-table-pkg-o",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "30\" Square Highboy Table - PKG (O)",
+        "short_name": "30\" Square Highboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, cocktail height",
+        "image": "/images/products/30-inch-square-highboy-table-pkg-o.jpg",
+        "image_alt": "30\" Square Highboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 30\" Square Highboy Table offers a clean-edged wood-top cocktail table on a sturdy "
+            "metal base, a versatile standing-height option for cocktail hours, registration tables "
+            "and modern reception layouts."
+        ),
+    },
+    {
+        "slug": "30-inch-triangle-highboy-table-pkg-o",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "30\" Triangle Highboy Table - PKG (O)",
+        "short_name": "30\" Triangle Highboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, cocktail height",
+        "image": "/images/products/30-inch-triangle-highboy-table-pkg-o.jpg",
+        "image_alt": "30\" Triangle Highboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 30\" Triangle Highboy Table brings an unexpected geometric shape to a standing- "
+            "height cocktail table, a distinctive accent piece for corner spaces, lounge vignettes "
+            "and modern event layouts that want to break from the usual round or square top."
+        ),
+    },
+    {
+        "slug": "32-inch-square-highboy-lowboy-table-pkg",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "32\" Square Highboy/Lowboy Table - PKG",
+        "short_name": "32\" Square Highboy/Lowboy Table",
+        "category": "Tables",
+        "price": 25.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Adjustable to highboy or lowboy height",
+        "image": "/images/products/32-inch-square-highboy-lowboy-table-pkg.jpg",
+        "image_alt": "32\" Square Highboy/Lowboy Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 32\" Square Highboy/Lowboy Table adjusts between standing cocktail height and "
+            "standard seated height, giving you one table that can serve double duty across a "
+            "cocktail hour and a seated portion of the same event."
+        ),
+    },
+    {
+        "slug": "banquet-table-4x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Banquet Table - 4x30",
+        "short_name": "Banquet Table - 4' x 30\"",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Folding, seats 4 to 6",
+        "image": "/images/products/banquet-table-4x30.jpg",
+        "image_alt": "Banquet Table - 4' x 30\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 4' x 30\" Banquet Table is a compact rectangular folding table that seats 4 to 6 "
+            "guests, a practical size for smaller seating groups, registration desks and buffet "
+            "accents where a full 8-foot table isn't needed."
+        ),
+    },
+    {
+        "slug": "banquet-table-6x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Banquet Table - 6x30",
+        "short_name": "Banquet Table - 6' x 30\"",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Folding, seats 6 to 8",
+        "image": "/images/products/banquet-table-6x30.jpg",
+        "image_alt": "Banquet Table - 6' x 30\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' x 30\" Banquet Table is the standard mid-size rectangular folding table, seating "
+            "6 to 8 guests. It's a workhorse for seated dinners, buffet lines and registration setups "
+            "across weddings, corporate events and school functions."
+        ),
+    },
+    {
+        "slug": "banquet-table-8x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Banquet Table - 8x30",
+        "short_name": "Banquet Table - 8' x 30\"",
+        "category": "Tables",
+        "price": 16.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Folding, seats 8 to 10",
+        "image": "/images/products/banquet-table-8x30.jpg",
+        "image_alt": "Banquet Table - 8' x 30\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 8' x 30\" Banquet Table is the full-length rectangular folding table, seating 8 to "
+            "10 guests. It's the go-to choice for buffet lines, head tables and long seated rows at "
+            "weddings, galas and corporate banquets."
+        ),
+    },
+    {
+        "slug": "banquet-table-king-estate-4x8",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Banquet Table (King Estate) - 4x8",
+        "short_name": "King Estate Banquet Table - 4' x 8'",
+        "category": "Tables",
+        "price": 35.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Premium wood-finish banquet table",
+        "image": "/images/products/banquet-table-king-estate-4x8.jpg",
+        "image_alt": "King Estate Banquet Table - 4' x 8', available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our King Estate Banquet Table is a premium 4' x 8' banquet table with a more refined "
+            "wood-look finish than a standard folding table, a good fit for head tables, sweetheart "
+            "tables and any spot where the table itself is part of the presentation."
+        ),
+    },
+    {
+        "slug": "brown-folding-picnic-table-6-foot",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Brown Folding Picnic Table - 6'",
+        "short_name": "6' Brown Folding Picnic Table",
+        "category": "Tables",
+        "price": 82.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Attached bench seating, folds for storage",
+        "image": "/images/products/brown-folding-picnic-table-6-foot.jpg",
+        "image_alt": "6' Brown Folding Picnic Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' Brown Folding Picnic Table combines a tabletop with attached bench seating on "
+            "both sides in one folding unit, a durable outdoor-ready pick for backyard parties, "
+            "church picnics, food truck seating and casual outdoor gatherings."
+        ),
+    },
+    {
+        "slug": "card-table-plastic-32x32",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Card Table Plastic - 32x32",
+        "short_name": "Plastic Card Table - 32\" x 32\"",
+        "category": "Tables",
+        "price": 19.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Lightweight, folds flat",
+        "image": "/images/products/card-table-plastic-32x32.jpg",
+        "image_alt": "Plastic Card Table - 32\" x 32\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 32\" x 32\" Plastic Card Table is a lightweight square folding table sized for card "
+            "games, small side seating or extra buffet surface area. It folds flat for easy transport "
+            "and setup wherever you need a quick, compact table."
+        ),
+    },
+    {
+        "slug": "card-table-wood-36x36",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Card Table Wood - 36x36",
+        "short_name": "Wood Card Table - 36\" x 36\"",
+        "category": "Tables",
+        "price": 19.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, folds flat",
+        "image": "/images/products/card-table-wood-36x36.jpg",
+        "image_alt": "Wood Card Table - 36\" x 36\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 36\" x 36\" Wood Card Table steps up to a wood-finish top on the same folding square "
+            "frame, a slightly larger and more polished option than our plastic card table for game "
+            "tables, gift tables or extra buffet surface."
+        ),
+    },
+    {
+        "slug": "child-plastic-table-6x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Child Plastic Table - 6x30",
+        "short_name": "Child Plastic Table - 6' x 30\"",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Child height, lightweight plastic",
+        "image": "/images/products/child-plastic-table-6x30.jpg",
+        "image_alt": "Child Plastic Table - 6' x 30\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' x 30\" Child Plastic Table is sized down to a child-friendly height, pairing "
+            "naturally with our child stacking chairs for birthday parties, school events and daycare "
+            "functions where little guests need their own properly sized table."
+        ),
+    },
+    {
+        "slug": "child-red-formica-table-6x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Child Red Formica Table - 6x30",
+        "short_name": "Child Red Formica Table - 6' x 30\"",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Child height, wipeable red top",
+        "image": "/images/products/child-red-formica-table-6x30.jpg",
+        "image_alt": "Child Red Formica Table - 6' x 30\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' x 30\" Child Red Formica Table offers the same child-friendly height as our "
+            "plastic version with a bright red, easy-to-wipe Formica top, a colorful and durable "
+            "choice for kids' birthday parties and craft-table setups."
+        ),
+    },
+    {
+        "slug": "childrens-birthday-party-kit",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Children's Birthday Party Kit",
+        "short_name": "Children's Birthday Party Kit",
+        "category": "Tables",
+        "price": 122.00,
+        "unit": "kit",
+        "unit_plural": "kits",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Table, chairs and linen bundled together",
+        "image": "/images/products/childrens-birthday-party-kit.jpg",
+        "image_alt": "Children's Birthday Party Kit, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Children's Birthday Party Kit bundles a child-height table, a set of matching child "
+            "chairs and coordinating linen into one order, taking the guesswork out of putting "
+            "together a kids' seating area for a birthday party or family event."
+        ),
+    },
+    {
+        "slug": "conference-plastic-table-6x18",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Conference Plastic Table - 6x18",
+        "short_name": "Plastic Conference Table - 6' x 18\"",
+        "category": "Tables",
+        "price": 21.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Narrow profile, lightweight plastic",
+        "image": "/images/products/conference-plastic-table-6x18.jpg",
+        "image_alt": "Plastic Conference Table - 6' x 18\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' x 18\" Plastic Conference Table has a narrower profile built for meeting rooms, "
+            "registration counters and presentation setups where a full-depth banquet table would "
+            "take up more room than needed."
+        ),
+    },
+    {
+        "slug": "conference-wood-table-6x18",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Conference Wood Table - 6x18 (O)",
+        "short_name": "Wood Conference Table - 6' x 18\"",
+        "category": "Tables",
+        "price": 16.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Narrow profile, wood-finish top",
+        "image": "/images/products/conference-wood-table-6x18.jpg",
+        "image_alt": "Wood Conference Table - 6' x 18\", available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6' x 18\" Wood Conference Table matches our plastic conference table's narrow "
+            "footprint with a more polished wood-finish top, a good fit for corporate meetings, panel "
+            "setups and registration areas that want a cleaner look."
+        ),
+    },
+    {
+        "slug": "farm-table-8-foot-x40-inch",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Farm Table - 8'x40\"",
+        "short_name": "8' x 40\" Farm Table",
+        "category": "Tables",
+        "price": 184.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Solid wood, rustic harvest style",
+        "image": "/images/products/farm-table-8-foot-x40-inch.jpg",
+        "image_alt": "8' x 40\" Farm Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 8' x 40\" Farm Table is a solid wood harvest-style table with rustic trestle-leg "
+            "construction, a centerpiece choice for outdoor and barn-style wedding receptions that's "
+            "often left bare to show off the natural wood grain."
+        ),
+    },
+    {
+        "slug": "farm-table-8-foot-x42-inch",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Farm Table - 8'x42\"",
+        "short_name": "8' x 42\" Farm Table",
+        "category": "Tables",
+        "price": 184.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Solid wood, rustic harvest style",
+        "image": "/images/products/farm-table-8-foot-x42-inch.jpg",
+        "image_alt": "8' x 42\" Farm Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 8' x 42\" Farm Table offers a slightly wider surface than our 40\" farm table on the "
+            "same solid-wood, rustic trestle-leg build, giving you a bit more elbow room per seat for "
+            "a rustic outdoor or barn-style reception."
+        ),
+    },
+    {
+        "slug": "half-round-table-60-inch",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Half-Round Table - 60\"",
+        "short_name": "60\" Half-Round Table",
+        "category": "Tables",
+        "price": 19.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, seats along the curved edge",
+        "image": "/images/products/half-round-table-60-inch.jpg",
+        "image_alt": "60\" Half-Round Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 60\" Half-Round Table is a half-circle wood-top table that pushes flush against a "
+            "wall, backdrop or straight-edge table, a useful shape for buffet lines, dessert displays "
+            "and gift table setups that need to hug a room's edge."
+        ),
+    },
+    {
+        "slug": "prep-table-stainless-steel-5x30",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Prep Table Stainless Steel - 5'x30\"",
+        "short_name": "5' x 30\" Stainless Steel Prep Table",
+        "category": "Tables",
+        "price": 174.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Stainless steel, lower storage shelf",
+        "image": "/images/products/prep-table-stainless-steel-5x30.jpg",
+        "image_alt": "5' x 30\" Stainless Steel Prep Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 5' x 30\" Stainless Steel Prep Table is a food-service-grade work surface with a "
+            "lower storage shelf, built for catering staging, buffet backup and any event kitchen or "
+            "concession setup that needs a durable, wipeable prep station."
+        ),
+    },
+    {
+        "slug": "round-table-36-inch",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Round Table - 36\"",
+        "short_name": "36\" Round Table",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, seats 4",
+        "image": "/images/products/round-table-36-inch.jpg",
+        "image_alt": "36\" Round Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 36\" Round Table is a compact seated-height round table for small groupings of 4, "
+            "useful for sweetheart tables, cake tables, side seating or any spot that needs a small "
+            "round surface rather than a full 60\" dinner round."
+        ),
+    },
+    {
+        "slug": "round-table-48-inch",
+        "parent_slug": "table-rentals",
+        "parent_name": "Table Rentals Atlanta",
+        "name": "Round Table - 48\"",
+        "short_name": "48\" Round Table",
+        "category": "Tables",
+        "price": 15.00,
+        "unit": "table",
+        "unit_plural": "tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Wood top, seats 6",
+        "image": "/images/products/round-table-48-inch.jpg",
+        "image_alt": "48\" Round Table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 48\" Round Table steps up to seat 6 guests at standard dining height, a mid-size "
+            "round option for smaller seated groupings that don't need the full capacity of a 60\" or "
+            "72\" round dinner table."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
