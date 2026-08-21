@@ -1494,6 +1494,7 @@ SPECIALTY_SLUGS = [
     ("bar-beverage-equipment-rentals", "Bar & Beverage Equipment Rentals Atlanta"),
     ("chair-rentals", "Chair Rentals Atlanta"),
     ("table-rentals", "Table Rentals Atlanta"),
+    ("audio-visual-equipment-rentals", "Audio and Visual Equipment Rentals Atlanta"),
 ]
 
 
@@ -2129,6 +2130,323 @@ PRODUCTS = [
             "setups."
         ),
     },
+    {
+        "slug": "av-portable-pa-speaker-system-fender",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "A/V, Portable PA Speaker System (Fender)",
+        "short_name": "Portable PA Speaker System",
+        "category": "Audio & Visual Equipment",
+        "price": 259.00,
+        "unit": "system",
+        "unit_plural": "systems",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes speakers, stands and cables",
+        "image": "/images/products/av-portable-pa-speaker-system-fender.jpg",
+        "image_alt": "Portable Fender PA speaker system with tripod stands, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Portable PA Speaker System gives any event clean, reliable sound without hiring a full "
+            "production crew. The compact Fender setup comes with a pair of speakers, matching tripod "
+            "stands and the cables needed to connect a microphone or music source, making it a solid fit "
+            "for toasts, ceremonies, small live sets and outdoor gatherings where you need your voice or "
+            "playlist to reach the back row."
+        ),
+    },
+    {
+        "slug": "aluminum-display-easel",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Aluminum Display Easel",
+        "short_name": "Aluminum Display Easel",
+        "category": "Audio & Visual Equipment",
+        "price": 39.00,
+        "unit": "easel",
+        "unit_plural": "easels",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Lightweight, adjustable height",
+        "image": "/images/products/aluminum-display-easel.jpg",
+        "image_alt": "Aluminum tripod display easel, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Aluminum Display Easel is a lightweight, adjustable-height tripod stand built to hold a "
+            "welcome sign, seating chart, foam board or framed photo upright without tipping. Its brushed "
+            "aluminum finish blends into almost any decor style, and the folding legs make it quick to "
+            "set out and break down at the entrance of a wedding, corporate event or gallery-style display."
+        ),
+    },
+    {
+        "slug": "black-display-easel",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Black Display Easel",
+        "short_name": "Black Display Easel",
+        "category": "Audio & Visual Equipment",
+        "price": 39.00,
+        "unit": "easel",
+        "unit_plural": "easels",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Lightweight, adjustable height",
+        "image": "/images/products/black-display-easel.jpg",
+        "image_alt": "Black tripod display easel, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Black Display Easel offers the same lightweight, adjustable-height tripod design as our "
+            "aluminum and gold options in a matte black finish that pairs naturally with black-and-white "
+            "or modern minimalist event decor. It holds a welcome sign, seating chart or framed photo "
+            "securely upright and folds flat for easy transport."
+        ),
+    },
+    {
+        "slug": "clear-acrylic-podium",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Clear Acrylic Podium",
+        "short_name": "Clear Acrylic Podium",
+        "category": "Audio & Visual Equipment",
+        "price": 259.00,
+        "unit": "podium",
+        "unit_plural": "podiums",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Clear acrylic construction",
+        "image": "/images/products/clear-acrylic-podium.jpg",
+        "image_alt": "Clear acrylic podium, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Clear Acrylic Podium brings a modern, understated presence to ceremony speeches, awards "
+            "presentations and keynote moments. Its transparent construction keeps the focus on the "
+            "speaker rather than the fixture, making it a favorite for weddings, product launches and "
+            "corporate events with a contemporary look."
+        ),
+    },
+    {
+        "slug": "gold-display-easel",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Gold Display Easel",
+        "short_name": "Gold Display Easel",
+        "category": "Audio & Visual Equipment",
+        "price": 39.00,
+        "unit": "easel",
+        "unit_plural": "easels",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Lightweight, adjustable height",
+        "image": "/images/products/gold-display-easel.jpg",
+        "image_alt": "Gold tripod display easel, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Gold Display Easel brings a warm, elegant finish to the same lightweight, adjustable-"
+            "height tripod design as our other easel options, a natural match for gold-accented wedding "
+            "and gala decor. It securely holds a welcome sign, seating chart or framed photo and folds "
+            "flat for easy transport."
+        ),
+    },
+    {
+        "slug": "lectern-portable-battery-operated",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Lectern, Portable (Battery Operated)",
+        "short_name": "Portable Battery-Operated Lectern",
+        "category": "Audio & Visual Equipment",
+        "price": 174.00,
+        "unit": "lectern",
+        "unit_plural": "lecterns",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Built-in battery-powered speaker",
+        "image": "/images/products/lectern-portable-battery-operated.jpg",
+        "image_alt": "Portable black lectern with built-in battery-operated speaker, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Portable Battery-Operated Lectern combines a traditional speaker's stand with a "
+            "self-contained, battery-powered speaker built right in, so there is no separate PA system or "
+            "outlet needed. It is a straightforward, cordless solution for outdoor ceremonies, graduations "
+            "and remote venues where running power to a podium isn't practical."
+        ),
+    },
+    {
+        "slug": "megaphone-with-carrying-case",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Megaphone w/ Carrying Case",
+        "short_name": "Megaphone w/ Carrying Case",
+        "category": "Audio & Visual Equipment",
+        "price": 37.00,
+        "unit": "megaphone",
+        "unit_plural": "megaphones",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes carrying case",
+        "image": "/images/products/megaphone-with-carrying-case.jpg",
+        "image_alt": "Handheld megaphone with carrying case, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Megaphone with Carrying Case is a handheld, battery-powered solution for projecting "
+            "announcements over a crowd without a fixed PA setup. It comes with its own carrying case for "
+            "easy transport and is a practical choice for outdoor festivals, race days, school events and "
+            "any occasion where someone needs to direct a large group on the move."
+        ),
+    },
+    {
+        "slug": "microphone-stand",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Microphone Stand",
+        "short_name": "Microphone Stand",
+        "category": "Audio & Visual Equipment",
+        "price": 59.00,
+        "unit": "stand",
+        "unit_plural": "stands",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Adjustable height, weighted base",
+        "image": "/images/products/microphone-stand.jpg",
+        "image_alt": "Adjustable-height microphone stand with weighted base, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Microphone Stand is an adjustable-height, weighted-base stand built to hold a handheld "
+            "or clip-on microphone steady at a podium, altar or stage area. It pairs naturally with our "
+            "PA speaker system, wireless lapel microphone or portable lectern for events with multiple "
+            "speakers or a live performance."
+        ),
+    },
+    {
+        "slug": "mirror-ball-with-motor-and-two-pin-spot-12-inch",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": 'Mirror Ball w/ Motor & Two Pin Spot 12"',
+        "short_name": "12\" Mirror Ball w/ Motor & Pin Spots",
+        "category": "Audio & Visual Equipment",
+        "price": 64.00,
+        "unit": "set",
+        "unit_plural": "sets",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes motor and two pin spot lights",
+        "image": "/images/products/mirror-ball-with-motor-and-two-pin-spot-12-inch.jpg",
+        "image_alt": "12-inch rotating mirror ball with motor and two pin spot lights, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 12\" Mirror Ball with Motor and Two Pin Spot Lights brings a classic disco-glam touch to "
+            "any dance floor. The motorized ball spins continuously while the paired pin spot lights throw "
+            "scattered reflections across the room, a favorite finishing touch for wedding receptions, "
+            "retro-themed parties and milestone birthday celebrations."
+        ),
+    },
+    {
+        "slug": "projector-screen-60-inch-with-case",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": 'Projector Screen 60" w/ Case',
+        "short_name": '60" Projector Screen',
+        "category": "Audio & Visual Equipment",
+        "price": 64.00,
+        "unit": "screen",
+        "unit_plural": "screens",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Tripod mount, includes carrying case",
+        "image": "/images/products/projector-screen-60-inch-with-case.jpg",
+        "image_alt": "60-inch tripod projector screen with carrying case, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Screen Size", '60"'),
+        ],
+        "description": (
+            "Our 60\" Projector Screen sets up on its own tripod stand in seconds and comes with a "
+            "carrying case for easy transport. It is sized right for small conference rooms, classroom "
+            "presentations, backyard movie nights and any gathering where you need a clean, portable "
+            "surface for slides or video."
+        ),
+    },
+    {
+        "slug": "projector-screen-96x96-with-carpeted-case",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": 'Projector Screen 96"x96" w/ Carpeted Case',
+        "short_name": '96"x96" Projector Screen',
+        "category": "Audio & Visual Equipment",
+        "price": 149.00,
+        "unit": "screen",
+        "unit_plural": "screens",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes carpeted road case",
+        "image": "/images/products/projector-screen-96x96-with-carpeted-case.jpg",
+        "image_alt": "96 inch by 96 inch projector screen with carpeted road case, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Screen Size", '96" x 96"'),
+        ],
+        "description": (
+            "Our 96\"x96\" Projector Screen steps up to a large-format square format built for bigger "
+            "rooms and bigger audiences, travelling in its own carpeted road case for safe transport and "
+            "storage. It is a strong fit for corporate conferences, banquet-hall presentations and any "
+            "event where a small tripod screen won't be visible from the back of the room."
+        ),
+    },
+    {
+        "slug": "wireless-lapel-microphone",
+        "parent_slug": "audio-visual-equipment-rentals",
+        "parent_name": "Audio and Visual Equipment Rentals Atlanta",
+        "name": "Wireless Lapel Microphone",
+        "short_name": "Wireless Lapel Microphone",
+        "category": "Audio & Visual Equipment",
+        "price": 144.00,
+        "unit": "microphone",
+        "unit_plural": "microphones",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes bodypack transmitter and receiver",
+        "image": "/images/products/wireless-lapel-microphone.jpg",
+        "image_alt": "Wireless lapel microphone with bodypack transmitter and receiver, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Wireless Lapel Microphone gives a speaker hands-free, cordless sound with a clip-on mic, "
+            "bodypack transmitter and matching receiver. It is a natural fit for officiants, keynote "
+            "speakers and presenters who need to move freely without holding a handheld mic or tripping "
+            "over a cable."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
@@ -2684,6 +3002,30 @@ def build_specialty_service_pages():
                 ("How much do table rentals cost in Atlanta?", "It depends on the style. Round and banquet tables run about $10 to $20 each, cocktail tables about $8 to $22 each, and rustic farmhouse tables about $55 to $130 each. Delivery is typically included within metro Atlanta. Items we stock ourselves show their exact per-table rate on this page."),
                 ("How many guests fit at each table size?", "A 60&quot; round table seats 8 guests comfortably, a 72&quot; round seats 10. An 8&#39; banquet table seats 8 to 10 depending on chair spacing. Cocktail tables are typically used standing, for 3 to 4 guests per table."),
                 ("How many tables should I rent for my event?", "Plan for one round table per 8 to 10 seated guests, or about 6 linear feet of banquet table per 8 guests for a buffet setup. Add a few cocktail tables near the bar or entrance for a mixed seated-and-standing layout."),
+            ],
+        },
+        {
+            "slug": "audio-visual-equipment-rentals",
+            "name": "Audio and Visual Equipment Rentals Atlanta",
+            "h1": "Audio and Visual Equipment Rentals in Atlanta Georgia",
+            "meta_desc": "Audio and visual equipment rentals in Atlanta, Georgia — PA speaker systems, podiums, microphones, projector screens, display easels and more. Pick your quantity and request delivery.",
+            "intro": "Audio and visual equipment rentals in Atlanta, Georgia cover the presentation and sound gear that keeps a wedding, corporate meeting or awards ceremony running smoothly — from a portable PA system and wireless microphone to projector screens, podiums and display easels.",
+            "body": [
+                "A/V needs vary widely by event type. Corporate meetings and conferences typically call for a portable lectern, a wireless lapel or handheld microphone and a projector screen for slides. Weddings and galas lean on a compact PA speaker system for toasts and music, a display easel for the seating chart or welcome sign, and sometimes a mirror ball for the dance floor. Outdoor festivals and school events often need a megaphone for announcements and a sturdy microphone stand for a program with multiple speakers.",
+                "Every item on this page is something we stock and deliver ourselves at a fixed rate — pick the exact quantity you need and request delivery directly, with no back-and-forth quoting. Equipment is delivered and picked up only; no on-site technician or setup crew is included, so plan to have someone on your team ready to power on and position each piece."
+            ],
+            "parent_slug": "party-entertainment-and-staff-rentals",
+            "parent_name": "Party Entertainment and Staff Rentals",
+            "hide_price_tiers": True,
+            "price_tiers": [
+                {"tier": "Signage & Staging", "amount": "$28&ndash;$39", "sub": "/ item", "items": ["Display easels", "Podiums and lecterns", "Delivery within Atlanta", "Drop-off and pickup"]},
+                {"tier": "Sound & Presentation", "amount": "$37&ndash;$174", "sub": "/ item", "items": ["Microphones and stands", "PA speaker systems", "Projector screens", "Metro Atlanta delivery"]},
+                {"tier": "Event Accents", "amount": "$64&ndash;$259", "sub": "/ item", "items": ["Mirror ball with motor", "Clear acrylic podium", "Extended delivery radius", "Exact per-item rate shown below"]},
+            ],
+            "faqs": [
+                ("Does audio and visual equipment rental include setup or a technician?", "No. These are drop-off and pickup only items — we deliver the equipment ready to use, but powering it on, running cables and positioning it is on your team. If you need a technician or DJ to run sound for your event, see our Party Entertainment and Staff Rentals page."),
+                ("Can I rent a microphone without a full PA system?", "Yes. The wireless lapel microphone, microphone stand and PA speaker system are all available individually, so you can order just the pieces you need rather than a bundled package."),
+                ("How far in advance should I book A/V equipment in Atlanta?", "Book at least a few days ahead for weekday corporate events, and 1 to 2 weeks ahead for weekend weddings and galas during peak season. Call or text 404-737-1843 to confirm same-week availability."),
             ],
         },
     ]
