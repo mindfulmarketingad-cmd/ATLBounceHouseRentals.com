@@ -562,6 +562,9 @@ def build_index(providers, families):
     </div>'''
 
     svc_blocks = "\n    ".join(home_service_block(s) for s in SERVICES)
+    specialty_links = "\n      ".join(
+        f'<li><a href="/services/{slug}/">{esc(name)}</a></li>'
+        for slug, name in SPECIALTY_SLUGS)
     areas = coverage_areas(providers)
     area_links = "\n      ".join(
         f'<li><a href="{location_href(l)}">Bounce House Rentals in {esc(l["name"])}</a></li>'
@@ -656,6 +659,19 @@ def build_index(providers, families):
     <div class="home-services-list">
     {svc_blocks}
     </div>
+  </div>
+</section>
+
+<section id="specialty-services">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">More To Rent</div>
+      <h2>Specialty Rental Pages In Atlanta Georgia</h2>
+      <p>Chiavari chairs, ghost chairs, tables, bar equipment and more &mdash; browse every specialty rental page, including the items we stock and deliver ourselves at a flat rate.</p>
+    </div>
+    <ul class="bullet-services bullet-cols">
+      {specialty_links}
+    </ul>
   </div>
 </section>
 
