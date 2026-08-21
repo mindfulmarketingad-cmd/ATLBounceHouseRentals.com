@@ -1845,6 +1845,290 @@ PRODUCTS = [
             "Stacking Chair, where practicality meets modern design in every seat."
         ),
     },
+    {
+        "slug": "ghost-oval-back-chair",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Ghost Oval Back Chair",
+        "short_name": "Ghost Oval Back Chair",
+        "category": "Chairs & Benches",
+        "price": 17.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Clear acrylic with an oval cutout back",
+        "image": "/images/products/ghost-oval-back-chair.jpg",
+        "image_alt": "Clear acrylic ghost chair with an oval cutout back, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Introducing our Ghost Oval Back Chair: a clear acrylic chair with a sleek oval cutout back "
+            "that adds contemporary polish to any tablescape. Its transparent design blends into any "
+            "color scheme, making it a versatile pick for weddings, galas or modern receptions."
+        ),
+    },
+    {
+        "slug": "o-back-chair-black",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "O-Back Chair - Black",
+        "short_name": "Black O-Back Chair",
+        "category": "Chairs & Benches",
+        "price": 14.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Black metal frame with a round cutout back",
+        "image": "/images/products/o-back-chair-black.jpg",
+        "image_alt": "Black metal chair with a round cutout back, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Black O-Back Chair pairs a slim metal frame with a distinctive round cutout in the "
+            "seat back for a clean, modern silhouette. A popular choice for cocktail receptions, lounge "
+            "seating and contemporary weddings."
+        ),
+    },
+    {
+        "slug": "o-back-chair-gold",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "O-Back Chair - Gold",
+        "short_name": "Gold O-Back Chair",
+        "category": "Chairs & Benches",
+        "price": 14.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Gold metal frame with a round cutout back",
+        "image": "/images/products/o-back-chair-gold.jpg",
+        "image_alt": "Gold metal chair with a round cutout back, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Gold O-Back Chair brings warm metallic shine to a slim frame with a round cutout back, "
+            "adding a touch of glamour to receptions, galas and upscale celebrations."
+        ),
+    },
+    {
+        "slug": "plastic-folding-chair-black",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Plastic Folding Chair - Black",
+        "short_name": "Black Plastic Folding Chair",
+        "category": "Chairs & Benches",
+        "price": 3.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Lightweight, folds flat for easy delivery",
+        "image": "/images/products/plastic-folding-chair-black.jpg",
+        "image_alt": "Black plastic folding chair, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Black Plastic Folding Chair is the practical, budget-friendly choice for casual "
+            "gatherings, backyard parties and community events. Lightweight and easy to set up, it "
+            "folds flat for fast delivery and pickup."
+        ),
+    },
+    {
+        "slug": "resin-folding-chair-with-pad-black",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Resin Folding Chair w/Pad - Black",
+        "short_name": "Black Resin Folding Chair w/Pad",
+        "category": "Chairs & Benches",
+        "price": 6.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes a cushioned seat pad",
+        "image": "/images/products/resin-folding-chair-with-pad-black.jpg",
+        "image_alt": "Black resin folding chair with a cushioned seat pad, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Black Resin Folding Chair with Pad combines a durable resin frame with a cushioned "
+            "seat for extra comfort during longer events, from ceremonies to banquet-style dinners."
+        ),
+    },
+    {
+        "slug": "resin-folding-chair-with-pad-natural-wood",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Resin Folding Chair w/Pad - Natural Wood",
+        "short_name": "Natural Wood Resin Folding Chair w/Pad",
+        "category": "Chairs & Benches",
+        "price": 6.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes a cushioned seat pad",
+        "image": "/images/products/resin-folding-chair-with-pad-natural-wood.jpg",
+        "image_alt": "Natural wood-finish resin folding chair with a cushioned seat pad, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Natural Wood Resin Folding Chair with Pad gives the warm look of wood grain with the "
+            "durability of resin, plus a cushioned seat for comfortable extended seating at ceremonies "
+            "and receptions."
+        ),
+    },
+    {
+        "slug": "resin-folding-chair-with-pad-white",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Resin Folding Chair w/Pad - White",
+        "short_name": "White Resin Folding Chair w/Pad",
+        "category": "Chairs & Benches",
+        "price": 6.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Includes a cushioned seat pad",
+        "image": "/images/products/resin-folding-chair-with-pad-white.jpg",
+        "image_alt": "White resin folding chair with a cushioned seat pad, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our White Resin Folding Chair with Pad offers a clean, classic look with the comfort of a "
+            "cushioned seat, a dependable choice for weddings, ceremonies and formal events."
+        ),
+    },
+    {
+        "slug": "veronique-chair-white",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Veronique Chair - White",
+        "short_name": "White Veronique Chair",
+        "category": "Chairs & Benches",
+        "price": 14.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Ornate cut-out back, garden-style look",
+        "image": "/images/products/veronique-chair-white.jpg",
+        "image_alt": "White Veronique chair with an ornate cut-out back, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our White Veronique Chair features an ornate cut-out back for a romantic, vintage-inspired "
+            "look, a popular pairing with farmhouse tables and garden-style wedding decor."
+        ),
+    },
+    {
+        "slug": "wishbone-dining-chair-natural-wood",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Wishbone Dining Chair - Natural Wood",
+        "short_name": "Natural Wood Wishbone Dining Chair",
+        "category": "Chairs & Benches",
+        "price": 27.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Woven seat, curved wood back",
+        "image": "/images/products/wishbone-dining-chair-natural-wood.jpg",
+        "image_alt": "Natural wood wishbone dining chair with a woven seat, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Natural Wood Wishbone Dining Chair brings a mid-century-inspired silhouette with a "
+            "woven seat and curved wood back, ideal for intimate dinners, styled shoots and modern "
+            "receptions."
+        ),
+    },
+    {
+        "slug": "directors-chair-24-inch-counter-height",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": 'Director\'s Chair - 24" Counter Height',
+        "short_name": "24\" Counter Height Director's Chair",
+        "category": "Chairs & Benches",
+        "price": 30.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Folding wood frame with black canvas seat",
+        "image": "/images/products/directors-chair-24-inch-counter-height.jpg",
+        "image_alt": "Wood-frame director's chair with black canvas seat at counter height, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 24\" Counter Height Director's Chair pairs a natural wood frame with a black canvas "
+            "seat and back for classic, portable seating. Its folding design makes it easy to set up "
+            "for film-style photo moments, lounge areas or casual bar-height seating."
+        ),
+    },
+    {
+        "slug": "directors-chair-black-24-inch-counter-height",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": 'Director\'s Chair Black - 24" Counter Ht.',
+        "short_name": "Black 24\" Counter Height Director's Chair",
+        "category": "Chairs & Benches",
+        "price": 30.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Folding black frame with black canvas seat",
+        "image": "/images/products/directors-chair-black-24-inch-counter-height.jpg",
+        "image_alt": "All-black director's chair at counter height, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Black 24\" Counter Height Director's Chair offers the same classic folding silhouette "
+            "in an all-black finish, a versatile pick for photo booths, greenroom seating or bar-height "
+            "lounge areas."
+        ),
+    },
+    {
+        "slug": "ghost-clear-barstool",
+        "parent_slug": "chair-rentals",
+        "parent_name": "Chair Rentals Atlanta",
+        "name": "Ghost Clear Barstool",
+        "short_name": "Ghost Clear Barstool",
+        "category": "Chairs & Benches",
+        "price": 28.00,
+        "unit": "barstool",
+        "unit_plural": "barstools",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Clear acrylic, bar height",
+        "image": "/images/products/ghost-clear-barstool.jpg",
+        "image_alt": "Clear acrylic ghost barstool, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Ghost Clear Barstool brings the same transparent, modern look as our ghost chairs to "
+            "bar-height seating, a sleek pick for cocktail receptions, high-top tables and modern bar "
+            "setups."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
@@ -2572,6 +2856,9 @@ def build_product_pages():
 
         specs_html = "\n          ".join(
             f'<tr><th>{esc(k)}</th><td>{esc(v)}</td></tr>' for k, v in p["specs"])
+        specs_section_html = (
+            f'<h2>Specifications</h2>\n      <table class="pr-specs">\n        <tbody>\n          {specs_html}\n        </tbody>\n      </table>'
+            if p["specs"] else "")
 
         # Render the real photo when the file is actually on disk; otherwise a
         # neutral placeholder, so a product page is never broken by a missing
@@ -2672,12 +2959,7 @@ def build_product_pages():
       <h2>About the {esc(p["short_name"])}</h2>
       <p>{esc(p["description"])}</p>
 
-      <h2>Specifications</h2>
-      <table class="pr-specs">
-        <tbody>
-          {specs_html}
-        </tbody>
-      </table>
+      {specs_section_html}
       <ul>
         {delivery_note}
         <li>{esc(p["includes"])}.</li>
