@@ -573,6 +573,19 @@ def build_index(providers, families):
     specialty_links = "\n      ".join(
         f'<li><a href="/services/{slug}/">{esc(name)}</a></li>'
         for slug, name in SPECIALTY_SLUGS)
+    HOME_COLLECTION_BLOCKS = [
+        ("chiavari-chair-rentals", "Chiavari Chair Rentals", "/images/products/gold-chiavari-chair-white-pad.jpg", 500, 500),
+        ("audio-visual-equipment-rentals", "Audio Equipment Rentals", "/images/products/wireless-lapel-microphone.jpg", 640, 427),
+        ("ghost-chair-rentals", "Ghost Chair Rentals", "/images/products/ghost-chair-clear.jpg", 620, 620),
+        ("table-rentals", "Table Rentals", "/images/products/30-inch-round-clear-acrylic-highboy-table.jpg", 640, 975),
+        ("portable-bar-rentals", "Portable Bar Rentals", "/images/products/portable-folding-bar-table-black-marble.jpg", 640, 655),
+        ("wedding-equipment-rentals", "Wedding Equipment Rentals", "/images/products/brass-arch.jpg", 640, 640),
+    ]
+    collection_blocks_html = "\n      ".join(
+        f'''<a class="collection-block" href="/products/{slug}/">
+        <img src="{img}" alt="{esc(name)}, available to rent in Atlanta, Georgia" width="{w}" height="{h}" loading="lazy">
+        <span class="collection-block-label">{esc(name)}</span>
+      </a>''' for slug, name, img, w, h in HOME_COLLECTION_BLOCKS)
     areas = coverage_areas(providers)
     area_links = "\n      ".join(
         f'<li><a href="{location_href(l)}">Bounce House Rentals in {esc(l["name"])}</a></li>'
@@ -680,6 +693,19 @@ def build_index(providers, families):
     <ul class="bullet-services bullet-cols">
       {specialty_links}
     </ul>
+  </div>
+</section>
+
+<section id="home-collections">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Shop Direct</div>
+      <h2>Rent Party Supplies Direct From Us</h2>
+      <p>Pick your exact quantity and request delivery in under a minute &mdash; no back-and-forth quoting. Browse everything on the <a href="/products/">full Rent Party Supplies catalog</a>.</p>
+    </div>
+    <div class="collection-blocks">
+      {collection_blocks_html}
+    </div>
   </div>
 </section>
 
