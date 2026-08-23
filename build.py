@@ -1740,6 +1740,39 @@ PRODUCTS = [
         ),
     },
     {
+        "slug": "child-chiavari-chair-13-inch-seat-pink",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": 'Child Chiavari Chair (13" Seat) - Pink',
+        "short_name": "Child Pink Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 6.00,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Child-size, sized for grades K-2",
+        "image": "/images/products/child-chiavari-chair-13-inch-seat-pink.jpg",
+        "image_alt": "Pink child-size Chiavari chair, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 799,
+        "options": [],
+        "specs": [
+            ("Overall Height", '24.50"H'),
+            ("Overall Width", '12.25"W'),
+            ("Overall Depth", '13.25"D'),
+            ("Seat Height", '12.75"H'),
+            ("Seat Width", '12"W'),
+            ("Seat Depth", '11.50"D'),
+            ("Weight", "5.00 lbs."),
+        ],
+        "description": (
+            "Our Child Pink Chiavari Chair brings the classic Chiavari silhouette down to a "
+            "child-friendly size in a soft pink finish, a playful touch for a children's corner or "
+            "party setting. Sturdy construction keeps it safe and stable for birthday parties, tea "
+            "parties and any special occasion with young guests."
+        ),
+    },
+    {
         "slug": "chiavari-chair-with-pad-mahogany",
         "parent_slug": "chiavari-chair-rentals",
         "parent_name": "Chiavari Chair Rentals Atlanta",
