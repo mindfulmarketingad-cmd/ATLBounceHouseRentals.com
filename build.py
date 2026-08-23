@@ -1710,6 +1710,36 @@ PRODUCTS = [
         ),
     },
     {
+        "slug": "child-chiavari-chair-13-inch-seat-white",
+        "parent_slug": "chiavari-chair-rentals",
+        "parent_name": "Chiavari Chair Rentals Atlanta",
+        "name": 'Child Chiavari Chair (13" Seat) - White',
+        "short_name": "Child White Chiavari Chair",
+        "category": "Chairs & Benches",
+        "price": 6.50,
+        "unit": "chair",
+        "unit_plural": "chairs",
+        "min_qty": 1,
+        "delivery_only": True,
+        "includes": "Child-size, sized for grades K-2",
+        "image": "/images/products/child-chiavari-chair-13-inch-seat-white.jpg",
+        "image_alt": "White child-size Chiavari chair, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Seat Height", '12.5"H'),
+            ("Overall Width", '12"W'),
+            ("Overall Depth", '12"D'),
+            ("Overall Height", '24.75"H'),
+        ],
+        "description": (
+            "Our Child White Chiavari Chair brings the same classic Chiavari silhouette down to a "
+            "child-friendly size, giving young guests a seat that matches the rest of the room. The "
+            "crisp white finish and sturdy build make it a natural fit for weddings, galas and any "
+            "event with a children's area to dress up."
+        ),
+    },
+    {
         "slug": "chiavari-chair-with-pad-mahogany",
         "parent_slug": "chiavari-chair-rentals",
         "parent_name": "Chiavari Chair Rentals Atlanta",
