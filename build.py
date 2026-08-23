@@ -5449,7 +5449,7 @@ def build_cities(providers):
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Cities</div>
-    <h1>Bounce House &amp; Party Rental Providers by City</h1>
+    <h1>Party Rental Providers By City</h1>
     <p>Every city we track providers in across metro Atlanta, Georgia. Pick your city to see every business listed there, ranked by rating and review volume.</p>
   </div>
 </div>
