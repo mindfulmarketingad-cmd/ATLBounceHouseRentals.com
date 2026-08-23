@@ -3075,6 +3075,38 @@ PRODUCTS = [
             "72\" round dinner table."
         ),
     },
+    {
+        "slug": "brass-arch",
+        "parent_slug": "wedding-equipment-rentals",
+        "parent_name": "Wedding Equipment Rentals Atlanta",
+        "products_only": True,
+        "name": "Wedding Brass Arch",
+        "short_name": "Wedding Brass Arch",
+        "category": "Wedding Equipment",
+        "price": 65.00,
+        "unit": "arch",
+        "unit_plural": "arches",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Disassembles for easy transport",
+        "image": "/images/products/brass-arch.jpg",
+        "image_alt": "Gold scrollwork brass wedding arch, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Overall Width", '74"W'),
+            ("Overall Depth", '18"D'),
+            ("Overall Height", '92"H'),
+            ("Walk-Through Width", '50"'),
+        ],
+        "description": (
+            "This is one of our most popular and timeless wedding arches. The elegant brass scrollwork "
+            "frame makes a striking backdrop for a ceremony altar, sweetheart table or photo moment. "
+            "The arch quickly disassembles for easy transportation and can be picked up with the proper "
+            "vehicle."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
@@ -3083,7 +3115,13 @@ for _p in PRODUCTS:
 
 
 def product_href(p):
-    return f'/services/{p["parent_slug"]}/{p["slug"]}/'
+    # Most products belong to a parent_slug that also has a /services/ specialty
+    # page (chiavari-chair-rentals, table-rentals, ...), so their canonical page
+    # lives there. A product whose only home is a /products/ collection (no
+    # matching /services/ page) sets products_only=True and lives directly
+    # under /products/{parent_slug}/{slug}/ instead.
+    root = "products" if p.get("products_only") else "services"
+    return f'/{root}/{p["parent_slug"]}/{p["slug"]}/'
 
 
 def service_family_groups(families):
@@ -3871,11 +3909,22 @@ def build_product_pages():
                        "url": DOMAIN + product_href(p),
                        "seller": {"@type": "Organization", "name": "Atlanta Bounce House Rentals"}},
         }
+        # Most products' parent_slug has a matching /services/ specialty page.
+        # A products_only product (no /services/ page for its family) instead
+        # breadcrumbs back through its /products/{parent_slug}/ collection.
+        if p.get("products_only"):
+            crumb_root_name, crumb_root_href = "Rent Party Supplies", "/products/"
+            crumb_nav = "products"
+        else:
+            crumb_root_name, crumb_root_href = "Services", "/services/"
+            crumb_nav = "services"
+        crumb_parent_href = f'/{"products" if p.get("products_only") else "services"}/{p["parent_slug"]}/'
+
         bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
-            {"@type": "ListItem", "position": 2, "name": "Services", "item": DOMAIN + "/services/"},
+            {"@type": "ListItem", "position": 2, "name": crumb_root_name, "item": DOMAIN + crumb_root_href},
             {"@type": "ListItem", "position": 3, "name": p["parent_name"],
-             "item": f'{DOMAIN}/services/{p["parent_slug"]}/'},
+             "item": DOMAIN + crumb_parent_href},
             {"@type": "ListItem", "position": 4, "name": p["name"], "item": DOMAIN + product_href(p)}]}
         extra = (f'<script type="application/ld+json">\n{json.dumps(prod_ld, ensure_ascii=False)}\n</script>\n'
                  f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n')
@@ -3885,10 +3934,10 @@ def build_product_pages():
                 f'Pick your exact quantity and request delivery — free quote, fast response.')
 
         page = head(esc(title), desc, DOMAIN + product_href(p), extra)
-        page += header("services") + f'''
+        page += header(crumb_nav) + f'''
 <div class="page-head">
   <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; <a href="/services/{p["parent_slug"]}/">{esc(p["parent_name"])}</a> &rsaquo; {esc(p["name"])}</div>
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="{crumb_root_href}">{esc(crumb_root_name)}</a> &rsaquo; <a href="{crumb_parent_href}">{esc(p["parent_name"])}</a> &rsaquo; {esc(p["name"])}</div>
     <h1>{esc(p["name"])}</h1>
     <p class="muted">Category: {esc(p["category"])}</p>
   </div>
@@ -4041,7 +4090,8 @@ def build_product_pages():
 </body>
 </html>
 '''
-        d = os.path.join(ROOT, "services", p["parent_slug"], p["slug"])
+        root_dir = "products" if p.get("products_only") else "services"
+        d = os.path.join(ROOT, root_dir, p["parent_slug"], p["slug"])
         os.makedirs(d, exist_ok=True)
         open(os.path.join(d, "index.html"), "w").write(page)
         urls.append(product_href(p))
@@ -4056,6 +4106,7 @@ COLLECTION_META = {
     "table-rentals": ("Table Rentals", "Highboy, banquet, farm, cocktail and specialty tables, stocked and delivered by us."),
     "bar-beverage-equipment-rentals": ("Bar & Beverage Equipment Rentals", "Portable bar and beverage equipment, stocked and delivered by us."),
     "audio-visual-equipment-rentals": ("Audio and Visual Equipment Rentals", "PA systems, microphones, podiums and A/V gear, stocked and delivered by us."),
+    "wedding-equipment-rentals": ("Wedding Equipment Rentals", "Wedding arches and ceremony equipment, stocked and delivered by us."),
 }
 
 # Category label -> the one collection page it maps to cleanly. "Chairs &
@@ -4144,6 +4195,7 @@ def render_products_collection(products, url_path, page_name, intro):
     {breadcrumb_html}
     <h1>{h1}</h1>
     <p>{intro} Pick your exact quantity and request delivery directly, no back-and-forth quoting. For provider-matched categories, see <a href="/services/">Services</a> instead.</p>
+    {featured_image_html(current_slug or None, alt_override=f"{page_name} available to rent in Atlanta, Georgia", cls="content-photo")}
   </div>
 </div>
 
