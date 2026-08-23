@@ -4115,6 +4115,63 @@ def build_product_pages():
     for p in PRODUCTS:
         price = p["price"]
         default_qty = p.get("default_qty", max(p["min_qty"], 50))
+
+        # Related products: prefer other items in the same family
+        # (parent_slug), and top up with same-category items from
+        # elsewhere in the catalog if the family is small, so every
+        # product page can point a browser toward something else to add.
+        related = [rp for rp in PRODUCTS_BY_PARENT.get(p["parent_slug"], []) if rp["slug"] != p["slug"]]
+        if len(related) < 4:
+            seen = {rp["slug"] for rp in related} | {p["slug"]}
+            for rp in PRODUCTS:
+                if len(related) >= 4:
+                    break
+                if rp["slug"] not in seen and rp["category"] == p["category"]:
+                    related.append(rp)
+                    seen.add(rp["slug"])
+        related = related[:4]
+
+        def related_card(prod):
+            if prod.get("image") and os.path.exists(os.path.join(ROOT, prod["image"].lstrip("/"))):
+                media = (f'<img src="{prod["image"]}" alt="{esc(prod["image_alt"])}" '
+                         f'width="{prod["image_w"]}" height="{prod["image_h"]}" loading="lazy">')
+            else:
+                media = (f'<div class="prod-card-placeholder" role="img" '
+                         f'aria-label="{esc(prod["name"])} photo coming soon">{esc(prod["short_name"])}</div>')
+            return f'''<div class="prod-card" data-product-item
+         data-name="{esc(prod["name"].lower())}" data-category="{esc(prod["category"])}"
+         data-parent="{esc(prod["parent_name"].lower())}" data-price="{prod["price"]:.2f}"
+         data-slug="{esc(prod["slug"])}" data-href="{product_href(prod)}"
+         data-unit="{esc(prod["unit"])}" data-min-qty="{prod["min_qty"]}">
+        <a class="prod-card-media-link" href="{product_href(prod)}">{media}</a>
+        <div class="prod-card-body">
+          <p class="prod-card-category muted">{esc(prod["category"])}</p>
+          <h3><a href="{product_href(prod)}">{esc(prod["name"])}</a></h3>
+          <p class="prod-card-price"><span class="prod-was-price">${prod["price"] * 2:.2f}</span> <strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
+          <div class="prod-card-actions">
+            <a class="prod-card-cta" href="{product_href(prod)}">Pick your quantity &rsaquo;</a>
+            <button type="button" class="btn btn-outline btn-sm" data-add-to-cart>Add to Cart</button>
+          </div>
+        </div>
+      </div>'''
+
+        related_html = ""
+        if related:
+            related_cards = "\n      ".join(related_card(rp) for rp in related)
+            related_html = f'''
+<section class="alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>You May Also Like</h2>
+      <p>More items we stock and deliver ourselves &mdash; add them to the same order.</p>
+    </div>
+    <div class="prod-card-grid">
+      {related_cards}
+    </div>
+    <p style="text-align:center;"><a class="btn btn-outline" href="/products/{p["parent_slug"]}/">Browse All {esc(p["parent_name"])} &rsaquo;</a></p>
+  </div>
+</section>
+'''
         opts_html = "\n        ".join(
             f'''<div class="pr-option">
           <label for="opt-{o["key"]}">{esc(o["label"])}</label>
@@ -4330,7 +4387,7 @@ def build_product_pages():
     </form>
   </div>
 </section>
-
+{related_html}
 <section class="cta-band">
   <div class="container">
     <h2>Questions About {esc(p["short_name"])} Rentals?</h2>
