@@ -79,7 +79,7 @@
         <h2 class="products-sidebar-title">Category</h2>
         <ul class="products-category-list" role="group" aria-label="Filter by category">
           <li><button type="button" class="products-cat-link active" data-category-filter="">All Categories</button></li>
-          
+          <li><button type="button" class="products-cat-link" data-category-filter="Portable Bar Equipment">Portable Bar Equipment</button></li>
         </ul>
         <h2 class="products-sidebar-title">Shop by Collection</h2>
         <ul class="products-collection-list">
@@ -95,7 +95,71 @@
         </ul>
       </aside>
       <div class="products-main">
-        <p class="products-coming-soon">No items in this collection yet &mdash; check back soon, or call/text <a href="tel:+14047371843">404-737-1843</a> to ask about it directly.</p>
+        <div class="products-toolbar-row">
+          <p class="products-count-heading" id="products-count"></p>
+          <div class="products-sort">
+            <label for="products-sort-select">Sort By</label>
+            <select id="products-sort-select">
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="prod-card-grid prod-card-grid-3col" id="products-grid">
+          <div class="prod-card" data-product-item
+         data-name="bar back, geometric - metal/wood" data-category="Portable Bar Equipment"
+         data-parent="portable bar rentals atlanta" data-price="100.00"
+         data-slug="bar-back-geometric-metal-wood" data-href="/products/portable-bar-rentals/bar-back-geometric-metal-wood/"
+         data-unit="bar back" data-min-qty="1">
+        <a class="prod-card-media-link" href="/products/portable-bar-rentals/bar-back-geometric-metal-wood/"><img src="/images/products/bar-back-geometric-metal-wood.jpg" alt="Geometric bar back shelving unit with a black metal frame and wood shelves, available to rent in Atlanta, Georgia" width="640" height="1818" loading="lazy"></a>
+        <div class="prod-card-body">
+          <p class="prod-card-category muted">Portable Bar Equipment</p>
+          <h3><a href="/products/portable-bar-rentals/bar-back-geometric-metal-wood/">Bar Back, Geometric - Metal/Wood</a></h3>
+          <p class="prod-card-price"><span class="prod-was-price">$200.00</span> <strong>$100.00</strong> <span class="muted">per bar back</span></p>
+          <p class="muted">Bold metal frame with rustic wood shelves</p>
+          <div class="prod-card-actions">
+            <a class="prod-card-cta" href="/products/portable-bar-rentals/bar-back-geometric-metal-wood/">Pick your quantity &rsaquo;</a>
+            <button type="button" class="btn btn-outline btn-sm" data-add-to-cart>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card" data-product-item
+         data-name="bar back, modern - 6-shelf gold/marble" data-category="Portable Bar Equipment"
+         data-parent="portable bar rentals atlanta" data-price="100.00"
+         data-slug="bar-back-modern-6-shelf-gold-marble" data-href="/products/portable-bar-rentals/bar-back-modern-6-shelf-gold-marble/"
+         data-unit="bar back" data-min-qty="1">
+        <a class="prod-card-media-link" href="/products/portable-bar-rentals/bar-back-modern-6-shelf-gold-marble/"><img src="/images/products/bar-back-modern-6-shelf-gold-marble.jpg" alt="Modern 6-shelf gold frame bar back with marble-look shelves, available to rent in Atlanta, Georgia" width="640" height="1209" loading="lazy"></a>
+        <div class="prod-card-body">
+          <p class="prod-card-category muted">Portable Bar Equipment</p>
+          <h3><a href="/products/portable-bar-rentals/bar-back-modern-6-shelf-gold-marble/">Bar Back, Modern - 6-Shelf Gold/Marble</a></h3>
+          <p class="prod-card-price"><span class="prod-was-price">$200.00</span> <strong>$100.00</strong> <span class="muted">per bar back</span></p>
+          <p class="muted">Gold frame with 6 marble-look shelves</p>
+          <div class="prod-card-actions">
+            <a class="prod-card-cta" href="/products/portable-bar-rentals/bar-back-modern-6-shelf-gold-marble/">Pick your quantity &rsaquo;</a>
+            <button type="button" class="btn btn-outline btn-sm" data-add-to-cart>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card" data-product-item
+         data-name="bar back, modern - gold/marble" data-category="Portable Bar Equipment"
+         data-parent="portable bar rentals atlanta" data-price="100.00"
+         data-slug="bar-back-modern-gold-marble" data-href="/products/portable-bar-rentals/bar-back-modern-gold-marble/"
+         data-unit="bar back" data-min-qty="1">
+        <a class="prod-card-media-link" href="/products/portable-bar-rentals/bar-back-modern-gold-marble/"><img src="/images/products/bar-back-modern-gold-marble.jpg" alt="Modern gold frame bar back with asymmetric marble-look shelves, available to rent in Atlanta, Georgia" width="640" height="1354" loading="lazy"></a>
+        <div class="prod-card-body">
+          <p class="prod-card-category muted">Portable Bar Equipment</p>
+          <h3><a href="/products/portable-bar-rentals/bar-back-modern-gold-marble/">Bar Back, Modern - Gold/Marble</a></h3>
+          <p class="prod-card-price"><span class="prod-was-price">$200.00</span> <strong>$100.00</strong> <span class="muted">per bar back</span></p>
+          <p class="muted">Gold frame with marble-look shelves</p>
+          <div class="prod-card-actions">
+            <a class="prod-card-cta" href="/products/portable-bar-rentals/bar-back-modern-gold-marble/">Pick your quantity &rsaquo;</a>
+            <button type="button" class="btn btn-outline btn-sm" data-add-to-cart>Add to Cart</button>
+          </div>
+        </div>
+      </div>
+        </div>
+        <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>
       </div>
     </div>
   </div>

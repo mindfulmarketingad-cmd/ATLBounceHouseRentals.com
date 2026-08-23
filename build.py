@@ -3107,6 +3107,92 @@ PRODUCTS = [
             "vehicle."
         ),
     },
+    {
+        "slug": "bar-back-geometric-metal-wood",
+        "parent_slug": "portable-bar-rentals",
+        "parent_name": "Portable Bar Rentals Atlanta",
+        "products_only": True,
+        "name": "Bar Back, Geometric - Metal/Wood",
+        "short_name": "Geometric Bar Back",
+        "category": "Portable Bar Equipment",
+        "price": 100.00,
+        "unit": "bar back",
+        "unit_plural": "bar backs",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Bold metal frame with rustic wood shelves",
+        "image": "/images/products/bar-back-geometric-metal-wood.jpg",
+        "image_alt": "Geometric bar back shelving unit with a black metal frame and wood shelves, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 1818,
+        "options": [],
+        "specs": [
+            ("Overall Depth", '11.8"D'),
+            ("Overall Width", '23.6"W'),
+            ("Overall Height", '70.8"H'),
+        ],
+        "description": (
+            "Our Geometric Bar Back pairs a bold black metal frame with rustic wood shelves for "
+            "displaying bottles, glassware and decor behind any bar setup. Its striking angular "
+            "silhouette makes it a standout backdrop for weddings, parties and corporate events."
+        ),
+    },
+    {
+        "slug": "bar-back-modern-6-shelf-gold-marble",
+        "parent_slug": "portable-bar-rentals",
+        "parent_name": "Portable Bar Rentals Atlanta",
+        "products_only": True,
+        "name": "Bar Back, Modern - 6-Shelf Gold/Marble",
+        "short_name": "6-Shelf Gold/Marble Bar Back",
+        "category": "Portable Bar Equipment",
+        "price": 100.00,
+        "unit": "bar back",
+        "unit_plural": "bar backs",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Gold frame with 6 marble-look shelves",
+        "image": "/images/products/bar-back-modern-6-shelf-gold-marble.jpg",
+        "image_alt": "Modern 6-shelf gold frame bar back with marble-look shelves, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 1209,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our 6-Shelf Gold/Marble Bar Back brings a polished, upscale look to any bar setup with a "
+            "slim gold frame and six marble-look display shelves. A clean, modern backdrop for showcasing "
+            "bottles and glassware at weddings, parties and corporate events."
+        ),
+    },
+    {
+        "slug": "bar-back-modern-gold-marble",
+        "parent_slug": "portable-bar-rentals",
+        "parent_name": "Portable Bar Rentals Atlanta",
+        "products_only": True,
+        "name": "Bar Back, Modern - Gold/Marble",
+        "short_name": "Gold/Marble Bar Back",
+        "category": "Portable Bar Equipment",
+        "price": 100.00,
+        "unit": "bar back",
+        "unit_plural": "bar backs",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Gold frame with marble-look shelves",
+        "image": "/images/products/bar-back-modern-gold-marble.jpg",
+        "image_alt": "Modern gold frame bar back with asymmetric marble-look shelves, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 1354,
+        "options": [],
+        "specs": [
+            ("Overall Depth", '11.8"D'),
+            ("Overall Width", '31.8"W'),
+            ("Overall Height", '72.4"H'),
+        ],
+        "description": (
+            "Our Gold/Marble Bar Back features a sleek gold frame with an asymmetric arrangement of "
+            "marble-look shelves for showcasing drinks and decor. A stylish, eye-catching backdrop for "
+            "weddings, parties and corporate events."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
