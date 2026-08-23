@@ -2888,7 +2888,7 @@ PRODUCTS = [
         "min_qty": 1,
         "default_qty": 1,
         "delivery_only": True,
-        "includes": "Table, chairs and linen bundled together",
+        "includes": "2 tables, 16 chairs and 2 linens bundled together",
         "image": "/images/products/childrens-birthday-party-kit.jpg",
         "image_alt": "Kids party table with white linen and white chiavari chairs set up outdoors in Atlanta, Georgia",
         "image_w": 640, "image_h": 417,
@@ -2898,11 +2898,17 @@ PRODUCTS = [
              "w": 640, "h": 478},
         ],
         "options": [],
-        "specs": [],
+        "specs": [
+            ("Tables", '(2) 6\' x 30" plastic child tables'),
+            ("Chairs", "(16) Chiavari child chairs, white or pink"),
+            ("Linens", '(2) 60" x 120" linens'),
+        ],
         "description": (
-            "Our Children's Birthday Party Kit bundles a child-height table, a set of matching child "
-            "chairs and coordinating linen into one order, taking the guesswork out of putting "
-            "together a kids' seating area for a birthday party or family event."
+            "Our Children's Birthday Party Kit is a complete backyard party bundle sized for kids: "
+            "two 6' x 30\" plastic child tables, sixteen Chiavari child chairs in your choice of white "
+            "or pink, and two 60\" x 120\" linens to dress the tables. It's built to take the guesswork "
+            "out of putting together a kids' seating area for a birthday party, playdate or family "
+            "gathering &mdash; everything arrives ready to set up so you can focus on the celebration."
         ),
     },
     {
