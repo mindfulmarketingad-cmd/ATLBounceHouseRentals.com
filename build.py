@@ -2866,7 +2866,7 @@ PRODUCTS = [
         "includes": "Child height, wipeable red top",
         "image": "/images/products/child-red-formica-table-6x30.jpg",
         "image_alt": "Child Red Formica Table - 6' x 30\", available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_w": 354, "image_h": 217,
         "options": [],
         "specs": [],
         "description": (
