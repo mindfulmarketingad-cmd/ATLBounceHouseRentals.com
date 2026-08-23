@@ -4049,13 +4049,23 @@ def build_product_pages():
 
 
 # ----------------------------------------------------------------- products index
-def build_products_page():
-    """/products/ — every item we stock and fulfil ourselves (see PRODUCTS),
-    sorted alphabetically with a client-side category filter and search box
-    (js/products.js). Distinct from /services/, which is the directory of
-    matched-out provider categories."""
-    categories = sorted({p["category"] for p in PRODUCTS})
-    sorted_products = sorted(PRODUCTS, key=lambda p: p["name"].lower())
+COLLECTION_META = {
+    "chiavari-chair-rentals": ("Chiavari Chair Rentals", "Chiavari chairs in gold, mahogany, silver and white finishes, stocked and delivered by us."),
+    "ghost-chair-rentals": ("Ghost Chair Rentals", "Clear acrylic ghost chairs, stocked and delivered by us."),
+    "chair-rentals": ("Chair Rentals", "Folding, resin, barstool and specialty chairs, stocked and delivered by us."),
+    "table-rentals": ("Table Rentals", "Highboy, banquet, farm, cocktail and specialty tables, stocked and delivered by us."),
+    "bar-beverage-equipment-rentals": ("Bar & Beverage Equipment Rentals", "Portable bar and beverage equipment, stocked and delivered by us."),
+    "audio-visual-equipment-rentals": ("Audio and Visual Equipment Rentals", "PA systems, microphones, podiums and A/V gear, stocked and delivered by us."),
+}
+
+
+def render_products_collection(products, url_path, page_name, intro):
+    """Shared renderer for /products/ and every /products/{parent_slug}/
+    sub-collection (see build_products_page / build_product_collection_pages)
+    — same sidebar filter + search + sort + 3-column grid layout
+    (js/products.js), just scoped to a different subset of PRODUCTS."""
+    categories = sorted({p["category"] for p in products})
+    sorted_products = sorted(products, key=lambda p: p["name"].lower())
 
     def card_media(prod):
         if prod.get("image") and os.path.exists(os.path.join(ROOT, prod["image"].lstrip("/"))):
@@ -4087,22 +4097,37 @@ def build_products_page():
         f'<li><button type="button" class="products-cat-link" data-category-filter="{esc(cat)}">{esc(cat)}</button></li>'
         for cat in categories)
 
-    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
-        {"@type": "ListItem", "position": 2, "name": "Rent Party Supplies", "item": DOMAIN + "/products/"},
-    ]}
+    is_root = url_path == "/products/"
+    bc_items = [{"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+                {"@type": "ListItem", "position": 2, "name": "Rent Party Supplies", "item": DOMAIN + "/products/"}]
+    if not is_root:
+        bc_items.append({"@type": "ListItem", "position": 3, "name": page_name, "item": DOMAIN + url_path})
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": bc_items}
     extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
 
-    page = head(
-        "Rent Party Supplies in Atlanta Georgia | Atlanta Bounce House Rentals",
-        f"Browse all {len(PRODUCTS)} items we stock and deliver ourselves in Atlanta, Georgia &mdash; chairs, tables, bar equipment and A/V gear. Pick your quantity, filter by category or search by name.",
-        DOMAIN + "/products/", extra)
+    h1 = "Rent Party Supplies in Atlanta Georgia" if is_root else f"{page_name} in Atlanta Georgia"
+    title = ("Rent Party Supplies in Atlanta Georgia | Atlanta Bounce House Rentals" if is_root
+             else f"{page_name} in Atlanta Georgia | Atlanta Bounce House Rentals")
+    breadcrumb_html = ('<div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Rent Party Supplies</div>' if is_root
+                        else f'<div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/products/">Rent Party Supplies</a> &rsaquo; {esc(page_name)}</div>')
+
+    current_slug = "" if is_root else url_path.strip("/").rsplit("/", 1)[-1]
+    collection_links = [('', 'All Products', '/products/')]
+    collection_links += [(s, n, f'/products/{s}/') for s, (n, _) in COLLECTION_META.items()]
+    _cls_active = ' class="active"'
+    collection_links_html = "\n          ".join(
+        f'<li><a href="{href}"{_cls_active if s == current_slug else ""}>{esc(n)}</a></li>'
+        for s, n, href in collection_links)
+
+    page = head(title,
+        f"{intro} Pick your quantity, filter by category or search by name.",
+        DOMAIN + url_path, extra)
     page += header("products") + f'''
 <div class="page-head">
   <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Rent Party Supplies</div>
-    <h1>Rent Party Supplies in Atlanta Georgia</h1>
-    <p>Every item we stock and deliver ourselves in Atlanta, Georgia &mdash; pick your exact quantity and request delivery directly, no back-and-forth quoting. For provider-matched categories, see <a href="/services/">Services</a> instead.</p>
+    {breadcrumb_html}
+    <h1>{h1}</h1>
+    <p>{intro} Pick your exact quantity and request delivery directly, no back-and-forth quoting. For provider-matched categories, see <a href="/services/">Services</a> instead.</p>
   </div>
 </div>
 
@@ -4117,6 +4142,10 @@ def build_products_page():
         <ul class="products-category-list" role="group" aria-label="Filter by category">
           <li><button type="button" class="products-cat-link active" data-category-filter="">All Categories</button></li>
           {sidebar_categories}
+        </ul>
+        <h2 class="products-sidebar-title">Shop by Collection</h2>
+        <ul class="products-collection-list">
+          {collection_links_html}
         </ul>
       </aside>
       <div class="products-main">
@@ -4160,9 +4189,32 @@ def build_products_page():
 </body>
 </html>
 '''
-    d = os.path.join(ROOT, "products")
+    d = os.path.join(ROOT, url_path.strip("/"))
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "index.html"), "w").write(page)
+
+
+def build_products_page():
+    """/products/ — every item we stock and fulfil ourselves (see PRODUCTS),
+    sorted alphabetically with a client-side category filter and search box
+    (js/products.js). Distinct from /services/, which is the directory of
+    matched-out provider categories."""
+    render_products_collection(
+        PRODUCTS, "/products/", "Rent Party Supplies",
+        f"Browse all {len(PRODUCTS)} items we stock and deliver ourselves in Atlanta, Georgia &mdash; chairs, tables, bar equipment and A/V gear.")
+
+
+def build_product_collection_pages():
+    """/products/{parent_slug}/ — same collection-page layout as /products/,
+    scoped to one product family (e.g. /products/chiavari-chair-rentals/,
+    /products/table-rentals/). One page per PRODUCTS_BY_PARENT group that
+    has a COLLECTION_META entry."""
+    for slug, items in PRODUCTS_BY_PARENT.items():
+        meta = COLLECTION_META.get(slug)
+        if not meta:
+            continue
+        name, intro = meta
+        render_products_collection(items, f"/products/{slug}/", name, intro)
 
 
 # ----------------------------------------------------------------- cart
@@ -6010,6 +6062,7 @@ def build_vercel_redirects(families):
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
     urls = ["/", "/services/", "/products/", "/cart/", "/bounce-houses/", "/locations/",
+            *[f"/products/{s}/" for s in COLLECTION_META],
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
@@ -6086,6 +6139,7 @@ def main():
     build_specialty_service_pages()
     build_product_pages()
     build_products_page()
+    build_product_collection_pages()
     build_cart_page()
     build_bounce_houses()
     build_locations(providers)

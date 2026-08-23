@@ -1301,6 +1301,11 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .products-sidebar-title { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin: 0 0 10px; }
 .products-category-list { list-style: none; margin: 0 0 24px; padding: 0; border-top: 1px solid var(--line); }
 .products-category-list li { border-bottom: 1px solid var(--line); }
+.products-collection-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.products-collection-list li { border-bottom: 1px solid var(--line); }
+.products-collection-list a { display: block; color: var(--ink); text-decoration: none; font-size: 0.92rem; padding: 10px 2px; }
+.products-collection-list a:hover { color: var(--accent-dark); }
+.products-collection-list a.active { color: var(--accent-dark); font-weight: 700; }
 .products-cat-link { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font-size: 0.92rem; font-family: inherit; padding: 10px 2px; cursor: pointer; }
 .products-cat-link:hover { color: var(--accent-dark); }
 .products-cat-link.active { color: var(--accent-dark); font-weight: 700; }
