@@ -3074,16 +3074,19 @@ PRODUCTS = [
         "min_qty": 1,
         "default_qty": 1,
         "delivery_only": True,
-        "includes": "Wood top, seats 4",
+        "includes": "Wood top, seats 2 to 4",
         "image": "/images/products/round-table-36-inch.jpg",
         "image_alt": "36\" Round Table, available to rent in Atlanta, Georgia",
         "image_w": 500, "image_h": 500,
         "options": [],
-        "specs": [],
+        "specs": [
+            ("Seats", "2 to 4 people"),
+        ],
         "description": (
-            "Our 36\" Round Table is a compact seated-height round table for small groupings of 4, "
-            "useful for sweetheart tables, cake tables, side seating or any spot that needs a small "
-            "round surface rather than a full 60\" dinner round."
+            "Our 36\" Round Table is a compact, versatile pick for seating or display, with a wood "
+            "top sized for 2 to 4 guests. It works well as a sweetheart table, cake table, side "
+            "seating or a display surface for decor, and its sturdy folding-leg construction sets up "
+            "quickly for weddings, banquets or corporate events."
         ),
     },
     {
