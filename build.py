@@ -3300,6 +3300,41 @@ PRODUCTS = [
             "outdoor events."
         ),
     },
+    {
+        "slug": "portable-folding-bar-table-white",
+        "parent_slug": "portable-bar-rentals",
+        "parent_name": "Portable Bar Rentals Atlanta",
+        "products_only": True,
+        "name": "Portable Folding Bar Table - White",
+        "short_name": "White Portable Bar",
+        "category": "Portable Bar Equipment",
+        "price": 95.00,
+        "unit": "bar table",
+        "unit_plural": "bar tables",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Folds flat for storage and transport",
+        "image": "/images/products/portable-folding-bar-table-white.jpg",
+        "image_alt": "White laminate portable folding bar table, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 656,
+        "options": [],
+        "specs": [
+            ("Height", '42"H (3\' 6")'),
+            ("Width", '48"W (4\')'),
+            ("Depth", '20"D'),
+            ("Net Weight", "80 lbs."),
+            ("Top Shelf", '16" x 48"'),
+            ("Middle Shelf", '18" x 44" (holds up to 50 lbs.)'),
+        ],
+        "description": (
+            "Our Portable Folding Bar Table brings a clean white finish and a fully collapsible "
+            "frame, ready to set up anywhere in minutes and fold flat for compact storage when it's "
+            "not in use. Two work surfaces give a bartender room for both prep and presentation, "
+            "making it a natural fit for hotels, conventions, conferences, weddings and outdoor "
+            "events."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
