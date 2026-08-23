@@ -4058,6 +4058,16 @@ COLLECTION_META = {
     "audio-visual-equipment-rentals": ("Audio and Visual Equipment Rentals", "PA systems, microphones, podiums and A/V gear, stocked and delivered by us."),
 }
 
+# Category label -> the one collection page it maps to cleanly. "Chairs &
+# Benches" spans three collections (chair-rentals, chiavari-chair-rentals,
+# ghost-chair-rentals) so it has no single match and stays a client-side
+# filter instead of a link.
+CATEGORY_COLLECTION_SLUG = {
+    "Audio & Visual Equipment": "audio-visual-equipment-rentals",
+    "Bar & Beverage Equipment": "bar-beverage-equipment-rentals",
+    "Tables": "table-rentals",
+}
+
 
 def render_products_collection(products, url_path, page_name, intro):
     """Shared renderer for /products/ and every /products/{parent_slug}/
@@ -4093,11 +4103,18 @@ def render_products_collection(products, url_path, page_name, intro):
         </div>
       </div>''' for prod in sorted_products)
 
-    sidebar_categories = "\n          ".join(
-        f'<li><button type="button" class="products-cat-link" data-category-filter="{esc(cat)}">{esc(cat)}</button></li>'
-        for cat in categories)
-
     is_root = url_path == "/products/"
+    current_slug = "" if is_root else url_path.strip("/").rsplit("/", 1)[-1]
+
+    def category_item(cat):
+        target_slug = CATEGORY_COLLECTION_SLUG.get(cat)
+        if target_slug:
+            cls = ' class="products-cat-link active"' if target_slug == current_slug else ' class="products-cat-link"'
+            return f'<li><a href="/products/{target_slug}/"{cls}>{esc(cat)}</a></li>'
+        return f'<li><button type="button" class="products-cat-link" data-category-filter="{esc(cat)}">{esc(cat)}</button></li>'
+
+    sidebar_categories = "\n          ".join(category_item(cat) for cat in categories)
+
     bc_items = [{"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
                 {"@type": "ListItem", "position": 2, "name": "Rent Party Supplies", "item": DOMAIN + "/products/"}]
     if not is_root:
@@ -4111,7 +4128,6 @@ def render_products_collection(products, url_path, page_name, intro):
     breadcrumb_html = ('<div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Rent Party Supplies</div>' if is_root
                         else f'<div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/products/">Rent Party Supplies</a> &rsaquo; {esc(page_name)}</div>')
 
-    current_slug = "" if is_root else url_path.strip("/").rsplit("/", 1)[-1]
     collection_links = [('', 'All Products', '/products/')]
     collection_links += [(s, n, f'/products/{s}/') for s, (n, _) in COLLECTION_META.items()]
     _cls_active = ' class="active"'

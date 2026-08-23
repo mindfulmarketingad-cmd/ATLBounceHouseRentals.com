@@ -3,7 +3,7 @@
   if (!grid) return;
 
   const searchInput = document.getElementById("products-search-input");
-  const catLinks = Array.from(document.querySelectorAll(".products-cat-link"));
+  const catLinks = Array.from(document.querySelectorAll("button.products-cat-link"));
   const sortSelect = document.getElementById("products-sort-select");
   const cards = Array.from(grid.querySelectorAll("[data-product-item]"));
   const countEl = document.getElementById("products-count");

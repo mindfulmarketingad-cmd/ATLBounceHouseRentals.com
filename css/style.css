@@ -1306,7 +1306,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .products-collection-list a { display: block; color: var(--ink); text-decoration: none; font-size: 0.92rem; padding: 10px 2px; }
 .products-collection-list a:hover { color: var(--accent-dark); }
 .products-collection-list a.active { color: var(--accent-dark); font-weight: 700; }
-.products-cat-link { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font-size: 0.92rem; font-family: inherit; padding: 10px 2px; cursor: pointer; }
+.products-cat-link { display: block; width: 100%; text-align: left; background: none; border: 0; color: var(--ink); font-size: 0.92rem; font-family: inherit; padding: 10px 2px; cursor: pointer; text-decoration: none; }
 .products-cat-link:hover { color: var(--accent-dark); }
 .products-cat-link.active { color: var(--accent-dark); font-weight: 700; }
 .products-toolbar-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
