@@ -278,6 +278,7 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
+        <a href="/products/"{cls("products")}>Products</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:{PHONE_HREF}">
@@ -314,6 +315,7 @@ FOOTER = f'''<footer class="site-footer">
         <h4>Directory</h4>
         <a href="/">Home</a>
         <a href="/services/">Services</a>
+        <a href="/products/">All Rental Products</a>
         <a href="/bounce-houses/">Bounce Houses for Rent</a>
         <a href="/locations/">Service Areas</a>
         <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
@@ -4018,6 +4020,102 @@ def build_product_pages():
     return urls
 
 
+# ----------------------------------------------------------------- products index
+def build_products_page():
+    """/products/ — every item we stock and fulfil ourselves (see PRODUCTS),
+    sorted alphabetically with a client-side category filter and search box
+    (js/products.js). Distinct from /services/, which is the directory of
+    matched-out provider categories."""
+    categories = sorted({p["category"] for p in PRODUCTS})
+    sorted_products = sorted(PRODUCTS, key=lambda p: p["name"].lower())
+
+    def card_media(prod):
+        if prod.get("image") and os.path.exists(os.path.join(ROOT, prod["image"].lstrip("/"))):
+            return (f'<img src="{prod["image"]}" alt="{esc(prod["image_alt"])}" '
+                    f'width="{prod["image_w"]}" height="{prod["image_h"]}" loading="lazy">')
+        return (f'<div class="prod-card-placeholder" role="img" '
+                f'aria-label="{esc(prod["name"])} photo coming soon">{esc(prod["short_name"])}</div>')
+
+    cards = "\n      ".join(
+        f'''<a class="prod-card" href="{product_href(prod)}" data-product-item
+         data-name="{esc(prod["name"].lower())}" data-category="{esc(prod["category"])}"
+         data-parent="{esc(prod["parent_name"].lower())}">
+        {card_media(prod)}
+        <div class="prod-card-body">
+          <p class="prod-card-category muted">{esc(prod["category"])}</p>
+          <h3>{esc(prod["name"])}</h3>
+          <p class="prod-card-price"><strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
+          <p class="muted">{esc(prod["includes"])}</p>
+          <span class="prod-card-cta">Pick your quantity &rsaquo;</span>
+        </div>
+      </a>''' for prod in sorted_products)
+
+    filter_chips = "\n          ".join(
+        f'<button type="button" class="products-filter-chip" data-category-filter="{esc(cat)}">{esc(cat)}</button>'
+        for cat in categories)
+
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Products", "item": DOMAIN + "/products/"},
+    ]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+
+    page = head(
+        "All Rental Products | Atlanta Bounce House Rentals",
+        f"Browse all {len(PRODUCTS)} items we stock and deliver ourselves in Atlanta, Georgia &mdash; chairs, tables, bar equipment and A/V gear. Pick your quantity, filter by category or search by name.",
+        DOMAIN + "/products/", extra)
+    page += header("products") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Products</div>
+    <h1>All Rental Products</h1>
+    <p>Every item we stock and deliver ourselves in Atlanta, Georgia &mdash; pick your exact quantity and request delivery directly, no back-and-forth quoting. For provider-matched categories, see <a href="/services/">Services</a> instead.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="products-toolbar">
+      <div class="products-search">
+        <input type="search" id="products-search-input" placeholder="Search products&hellip;" aria-label="Search products" autocomplete="off">
+      </div>
+      <div class="products-filters" role="group" aria-label="Filter by category">
+        <button type="button" class="products-filter-chip active" data-category-filter="">All Categories</button>
+        {filter_chips}
+      </div>
+    </div>
+    <p class="muted" id="products-count"></p>
+    <div class="prod-card-grid" id="products-grid">
+      {cards}
+    </div>
+    <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Don't See What You Need?</h2>
+    <p>Our directory also matches you with local providers for bounce houses, tents, entertainment and more.</p>
+    <a class="btn" href="/services/">Browse All Services &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/products.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "products")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(page)
+
+
 # ----------------------------------------------------------------- bounce houses
 def build_bounce_houses():
     items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
@@ -5744,7 +5842,7 @@ def build_vercel_redirects(families):
 
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/bounce-houses/", "/locations/",
+    urls = ["/", "/services/", "/products/", "/bounce-houses/", "/locations/",
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
@@ -5820,6 +5918,7 @@ def main():
     build_service_pages(providers)
     build_specialty_service_pages()
     build_product_pages()
+    build_products_page()
     build_bounce_houses()
     build_locations(providers)
     city_urls = build_cities(providers)

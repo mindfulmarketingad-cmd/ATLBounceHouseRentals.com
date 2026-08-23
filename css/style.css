@@ -1272,6 +1272,19 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .prod-card-price strong { color: var(--accent-dark); font-size: 1.25rem; }
 .prod-card-body .muted { font-size: 0.84rem; margin: 0; }
 .prod-card-cta { display: inline-block; margin-top: 10px; font-weight: 700; color: var(--accent-dark); font-size: 0.88rem; }
+.prod-card-category { text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.72rem !important; font-weight: 700; margin: 0 0 4px !important; }
+
+.products-toolbar { display: flex; flex-direction: column; gap: 14px; margin-bottom: 10px; }
+.products-search input { width: 100%; max-width: 420px; padding: 11px 14px; border: 1px solid var(--line); border-radius: 8px; font-size: 0.95rem; font-family: inherit; }
+.products-search input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.products-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.products-filter-chip { background: #fff; border: 1px solid var(--line); color: var(--ink); font-size: 0.82rem; font-weight: 600; padding: 7px 14px; border-radius: 20px; cursor: pointer; font-family: inherit; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+.products-filter-chip:hover { border-color: var(--accent); }
+.products-filter-chip.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+#products-count { margin: 4px 0 0; font-size: 0.85rem; }
+#products-empty { padding: 40px 0; text-align: center; font-size: 0.95rem; }
+.link-btn { background: none; border: none; color: var(--accent-dark); font-weight: 700; font-size: inherit; font-family: inherit; cursor: pointer; padding: 0; text-decoration: underline; }
+.prod-card[hidden] { display: none; }
 
 @media (max-width: 860px) {
   .pr-layout { grid-template-columns: 1fr; gap: 24px; }
