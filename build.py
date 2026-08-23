@@ -3459,6 +3459,34 @@ PRODUCTS = [
             "together a tent, tables, chairs and linens as separate orders."
         ),
     },
+    {
+        "slug": "tent-french-door-white",
+        "parent_slug": "tent-rentals",
+        "parent_name": "Tent Rentals Atlanta",
+        "products_only": True,
+        "name": "Tent, French Door (White)",
+        "short_name": "White French Door Tent Panel",
+        "category": "Tents",
+        "price": 220.00,
+        "unit": "door",
+        "unit_plural": "doors",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Aluminum-framed glass double door tent panel",
+        "image": "/images/products/tent-french-door-white.jpg",
+        "image_alt": "White aluminum-framed glass French double door wall panel for a frame tent, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 480,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our French Door tent panel swaps a plain tent wall for a set of aluminum-framed glass "
+            "double doors, giving guests a real entrance instead of a flap or zippered opening. The "
+            "white frame matches standard frame tent hardware, and the paned glass lets in natural "
+            "light while keeping the tent enclosed &mdash; a clean upgrade for a wedding, corporate "
+            "event or upscale backyard party."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
