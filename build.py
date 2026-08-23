@@ -2008,7 +2008,7 @@ PRODUCTS = [
         "includes": "Includes a cushioned seat pad",
         "image": "/images/products/resin-folding-chair-with-pad-black.jpg",
         "image_alt": "Black resin folding chair with a cushioned seat pad, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_w": 400, "image_h": 400,
         "options": [],
         "specs": [],
         "description": (
