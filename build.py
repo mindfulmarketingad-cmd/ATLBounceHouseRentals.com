@@ -2459,7 +2459,7 @@ PRODUCTS = [
         "includes": "Includes bodypack transmitter and receiver",
         "image": "/images/products/wireless-lapel-microphone.jpg",
         "image_alt": "Wireless lapel microphone with bodypack transmitter and receiver, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_w": 640, "image_h": 427,
         "options": [],
         "specs": [],
         "description": (
