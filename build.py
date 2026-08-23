@@ -1879,7 +1879,7 @@ PRODUCTS = [
         "includes": "Recommended for Grades K–2",
         "image": "/images/products/child-stacking-chair-14-inch-black.jpg",
         "image_alt": "Black children's stacking chair with chrome legs, available to rent in Atlanta, Georgia",
-        "image_w": 500, "image_h": 500,
+        "image_w": 163, "image_h": 220,
         "options": [],
         "specs": [
             ("Recommended For", "Grades K–2"),
