@@ -3426,6 +3426,39 @@ PRODUCTS = [
             "depending on your event, plus a roll-away bag for transport and storage."
         ),
     },
+    {
+        "slug": "20x20-tent-backyard-event-kit",
+        "parent_slug": "tent-rentals",
+        "parent_name": "Tent Rentals Atlanta",
+        "products_only": True,
+        "name": "20x20 Tent Backyard Event Kit",
+        "short_name": "20x20 Backyard Event Kit",
+        "category": "Tents",
+        "price": 777.00,
+        "unit": "kit",
+        "unit_plural": "kits",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Tent, tables, chairs and linens bundled together",
+        "image": "/images/products/20x20-tent-backyard-event-kit.jpg",
+        "image_alt": "White 20x20 high peak frame tent, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 533,
+        "options": [],
+        "specs": [
+            ("Tent", '(1) 20\' x 20\' high peak tent'),
+            ("Tables", '(4) 60" round tables'),
+            ("Chairs", "(32) black resin folding chairs"),
+            ("Linens", '(4) 120" round linens, in black, white or ivory'),
+        ],
+        "description": (
+            "Our 20x20 Tent Backyard Event Kit is a complete backyard party package built around a "
+            "20' x 20' high peak tent, with four 60\" round tables, thirty-two black resin folding "
+            "chairs and four 120\" round linens in your choice of black, white or ivory. It's sized "
+            "to seat around 32 guests under cover, sun- or rain-ready, without having to piece "
+            "together a tent, tables, chairs and linens as separate orders."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
