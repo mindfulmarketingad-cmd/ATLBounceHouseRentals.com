@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; Vinings</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/trendy-fun-party/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2255%20Cumberland%20Pkwy%20SE%20Building%201600%2CSuite%23200%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="trendy-fun-party"
           data-analytics-name="Trendy Fun Party" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/star-event-rentals-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3270%20Walton%20Riverwood%20Ln%20SE%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="star-event-rentals-llc"
           data-analytics-name="Star Event Rentals LLC" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/jammin-photobooth/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1000%20Parkwood%20Cir%20SE%20Suite%20%23900%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="jammin-photobooth"
           data-analytics-name="JAMMIN&#x27; Photobooth" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/jumping-hearts-party-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2018%20Powers%20Ferry%20Rd%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="jumping-hearts-party-rentals"
           data-analytics-name="Jumping Hearts Party Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -218,7 +223,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/collection-furnishings/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=5500%20S%20Cobb%20Dr%20SE%20Bldg.%20500%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="collection-furnishings"
           data-analytics-name="Collection Furnishings" data-analytics-city="Atlanta">Directions</a>
@@ -241,7 +246,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/feature-displays/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2100%20Powers%20Ferry%20Rd%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="feature-displays"
           data-analytics-name="Feature Displays" data-analytics-city="Atlanta">Directions</a>
@@ -264,7 +269,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/hitch-mobile-cocktail-lounge/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2030%20Powers%20Ferry%20Rd%20%23339%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="hitch-mobile-cocktail-lounge"
           data-analytics-name="Hitch Mobile Cocktail Lounge" data-analytics-city="Atlanta">Directions</a>
@@ -287,7 +292,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/stupendous-party-kreations-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2727%20Paces%20Ferry%20Rd%20SE%20Building%20One%2C%20Suite%20750%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="stupendous-party-kreations-llc"
           data-analytics-name="Stupendous Party Kreations, LLC" data-analytics-city="Atlanta">Directions</a>
@@ -310,7 +315,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/touched-with-perfection-event-services/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1870%20The%20Exchange%20SE%2C%20Atlanta%2C%20GA%2030339" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="touched-with-perfection-event-services"
           data-analytics-name="Touched with Perfection Event Services" data-analytics-city="Atlanta">Directions</a>
@@ -350,7 +355,7 @@
   <div class="container">
     <h2>Book a Provider in Vinings Today</h2>
     <p>Tell us about your event and we'll match you with an available Vinings provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

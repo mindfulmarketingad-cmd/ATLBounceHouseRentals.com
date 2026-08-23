@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; East Atlanta</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/fortune-first-event-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2015%20Boulderview%20Dr%20SE%2C%20Atlanta%2C%20GA%2030316" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="fortune-first-event-rentals"
           data-analytics-name="Fortune First Event Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/big-eastern-events-atlanta-casino-rentals-best-atlanta-casino-party-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=245%20N%20Highland%20Ave%20NE%20STE%20230%2C%20Atlanta%2C%20GA%2030307" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="big-eastern-events-atlanta-casino-rentals-best-atlanta-casino-party-rentals"
           data-analytics-name="Big Eastern Events: Atlanta Casino Rentals - Best Atlanta Casino &amp; Party Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/moonwalks-99/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1095%20Wylie%20St%20SE%2C%20Atlanta%2C%20GA%2030316" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="moonwalks-99"
           data-analytics-name="Moonwalks $99" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/event4rent/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1926%20Hosea%20L%20Williams%20Dr%20NE%20Ste%20353%2C%20Atlanta%2C%20GA%2030317" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="event4rent"
           data-analytics-name="Event4Rent" data-analytics-city="Atlanta">Directions</a>
@@ -234,7 +239,7 @@
   <div class="container">
     <h2>Book a Provider in East Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with an available East Atlanta provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

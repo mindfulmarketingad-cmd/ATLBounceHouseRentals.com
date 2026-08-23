@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; Midtown</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/magic-events-photo-booth/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=650%20Ponce%20De%20Leon%20Ave%20NE%20300%20%231916%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="magic-events-photo-booth"
           data-analytics-name="Magic Events - Photo Booth" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/360-photo-booth-eventz/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=116%20Ponce%20De%20Leon%20Ave%20NE%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="360-photo-booth-eventz"
           data-analytics-name="360 Photo Booth Eventz" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/just-in-time-photo-booths/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=811%20Peachtree%20St%20NE%20%231105%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="just-in-time-photo-booths"
           data-analytics-name="Just In Time Photo Booths" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/big-bang-fotos-photo-booth-rental-atlanta/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=650%20Ponce%20De%20Leon%20Ave%20NE%20Ste.%20300%202647%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="big-bang-fotos-photo-booth-rental-atlanta"
           data-analytics-name="Big Bang Fotos | Photo Booth Rental Atlanta" data-analytics-city="Atlanta">Directions</a>
@@ -218,7 +223,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/lll-event-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=400%20W%20Peachtree%20St%20NW%20Suite%20%234%201153%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="lll-event-rentals"
           data-analytics-name="LLL Event Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -241,7 +246,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/elite-spin-360-photo-booth-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=650%20Ponce%20De%20Leon%20Ave%20NE%20STE%20300%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="elite-spin-360-photo-booth-llc"
           data-analytics-name="Elite Spin 360 Photo Booth, LLC" data-analytics-city="Atlanta">Directions</a>
@@ -264,7 +269,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/atlanta-photo-booth-rentals-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=16%20W%20Peachtree%20Pl%20NW%20B%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="atlanta-photo-booth-rentals-llc"
           data-analytics-name="Atlanta Photo Booth Rentals LLC" data-analytics-city="Atlanta">Directions</a>
@@ -287,7 +292,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/gorgeous-event-rentals-atlanta-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=730%20Peachtree%20St%20NE%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="gorgeous-event-rentals-atlanta-llc"
           data-analytics-name="Gorgeous Event Rentals Atlanta LLC" data-analytics-city="Atlanta">Directions</a>
@@ -310,7 +315,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/mullen-brothers-porta-potty-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=689%20W%20Peachtree%20St%20NW%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="mullen-brothers-porta-potty-rentals"
           data-analytics-name="Mullen Brothers Porta Potty Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -333,7 +338,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/premier-event-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=730%20Peachtree%20St%20NE%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="premier-event-rentals"
           data-analytics-name="Premier Event Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -356,7 +361,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/reventals-atlanta-party-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=235%20Peachtree%20Rd%20NE%20Suite%20400%2C%20Atlanta%2C%20GA%2030308" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="reventals-atlanta-party-rentals"
           data-analytics-name="Reventals Atlanta Party Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -395,7 +400,7 @@
   <div class="container">
     <h2>Book a Provider in Midtown Today</h2>
     <p>Tell us about your event and we'll match you with an available Midtown provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

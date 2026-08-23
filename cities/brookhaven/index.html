@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; Brookhaven</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/the-creatorspace/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2055%20Piedmont%20Rd%20NE%2C%20Atlanta%2C%20GA%2030324" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="the-creatorspace"
           data-analytics-name="The Creatorspace" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/elite-mobile-parties/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3078%20Clairmont%20Rd%20%23524%2C%20Atlanta%2C%20GA%2030329" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="elite-mobile-parties"
           data-analytics-name="Elite Mobile Parties" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/bbj-la-tavola-atlanta/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=700%20Miami%20Cir%20NE%20%233%2C%20Atlanta%2C%20GA%2030324" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="bbj-la-tavola-atlanta"
           data-analytics-name="BBJ La Tavola - Atlanta" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/atlanta-city-porta-potty-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2688%20Osborne%20Rd%20NE%2C%20Atlanta%2C%20GA%2030319" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="atlanta-city-porta-potty-rentals"
           data-analytics-name="Atlanta City Porta Potty Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -233,7 +238,7 @@
   <div class="container">
     <h2>Book a Provider in Brookhaven Today</h2>
     <p>Tell us about your event and we'll match you with an available Brookhaven provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

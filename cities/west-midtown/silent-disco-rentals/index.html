@@ -33,7 +33,7 @@
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://atlbouncehouserentals.com/"}, {"@type": "ListItem", "position": 2, "name": "Cities", "item": "https://atlbouncehouserentals.com/cities/"}, {"@type": "ListItem", "position": 3, "name": "West Midtown", "item": "https://atlbouncehouserentals.com/cities/west-midtown/"}, {"@type": "ListItem", "position": 4, "name": "Silent Disco Rentals", "item": "https://atlbouncehouserentals.com/cities/west-midtown/silent-disco-rentals/"}]}
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do silent disco rentals cost in West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "In West Midtown, silent disco rentals typically run $90&ndash;$600+ depending on quantity, size and rental length. Final pricing depends on your date and delivery distance. Request a free quote for exact pricing."}}, {"@type": "Question", "name": "Do providers deliver silent disco rentals to West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The 1 directory provider listed below deliver, set up and tear down silent disco rentals throughout West Midtown, including Berkeley Park, Blandtown, West Highlands."}}, {"@type": "Question", "name": "How do I book silent disco rentals in West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "Click Free Instant Quote to tell us about your event. We'll match you with available West Midtown providers for your date."}}]}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do silent disco rentals cost in West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "In West Midtown, silent disco rentals typically run $90&ndash;$600+ depending on quantity, size and rental length. Final pricing depends on your date and delivery distance. Request a free quote for exact pricing."}}, {"@type": "Question", "name": "Do providers deliver silent disco rentals to West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The 1 directory provider listed below deliver, set up and tear down silent disco rentals throughout West Midtown, including Berkeley Park, Blandtown, West Highlands."}}, {"@type": "Question", "name": "How do I book silent disco rentals in West Midtown?", "acceptedAnswer": {"@type": "Answer", "text": "Call or text 404-737-1843 to tell us about your event. We'll match you with available West Midtown providers for your date."}}]}
 </script>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -51,19 +51,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; <a href="/cities/west-midtown/">West Midtown</a> &rsaquo; Silent Disco Rentals</div>
@@ -265,7 +270,7 @@
       </details>
       <details class="faq-item">
         <summary>How do I book silent disco rentals in West Midtown?</summary>
-        <div class="faq-a"><p>Click <a href="#" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available West Midtown providers for your date.</p></div>
+        <div class="faq-a"><p>Call or text <a href="tel:+14047371843">404-737-1843</a> to tell us about your event. We'll match you with available West Midtown providers for your date.</p></div>
       </details>
     </div>
   </div>
@@ -275,7 +280,7 @@
   <div class="container">
     <h2>Book Silent Disco Rentals in West Midtown Today</h2>
     <p>Tell us about your event and we'll match you with available West Midtown providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

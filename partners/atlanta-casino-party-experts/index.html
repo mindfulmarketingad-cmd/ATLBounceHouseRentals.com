@@ -43,19 +43,24 @@
         <a href="/">Home</a>
         <a href="/cities/">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/partners.html">Partners</a> &rsaquo; Atlanta Casino Party Experts</div>
@@ -118,7 +123,7 @@
         <div class="quote-card" style="margin-bottom:22px;">
           <h2>Book This Provider</h2>
           <p class="sub">Tell us about your event and we'll get you a quote from Atlanta Casino Party Experts and other available Atlanta providers &mdash; usually within minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>

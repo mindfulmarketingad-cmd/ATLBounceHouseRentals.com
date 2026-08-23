@@ -278,19 +278,24 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
-        <a href="/products/"{cls("products")}>Products</a>
+        <a href="/products/"{cls("products")}>Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:{PHONE_HREF}">
           <span class="header-call-number">{PHONE_DISPLAY}</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
-</header>'''
+</header>
+<script>(function(){{try{{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){{n+=i.qty||0;}});var el=document.getElementById("header-cart-count");if(el){{if(n>0){{el.textContent=n;el.hidden=false;}}else{{el.hidden=true;}}}}}}catch(e){{}}}})();</script>'''
 
 
 FOOTER = f'''<footer class="site-footer">
@@ -504,7 +509,7 @@ def provider_rows(providers):
           <td class="num">{it["reviews"]}</td>
           <td class="verified">{ver}</td>
           <td class="svc">{svc_short}</td>
-          <td class="book"><button type="button" class="table-book-btn" data-wizard-open aria-label="Book {esc(it["name"])}">Free Instant Quote</button></td>
+          <td class="book"><a class="table-book-btn" href="/products/" aria-label="Rent party supplies for {esc(it["name"])}">Rent Party Supplies</a></td>
         </tr>''')
     return "\n".join(rows)
 
@@ -578,7 +583,7 @@ def build_index(providers, families):
         ("How much does it cost to rent a bounce house in Atlanta?",
          "<p>In Atlanta, a classic bounce house typically rents for about $120&ndash;$260 per day, while larger combo units, water slides and obstacle courses range from roughly $180 to $900+ depending on size. Full party packages run from around $220 to $1,800+. Final pricing depends on the date, delivery distance, rental length and add-ons. <a href=\"/#providers\">Request a free quote</a> for an exact figure.</p>"),
         ("How do I book a bounce house rental in Atlanta?",
-         "<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> in the header or at the top of this page. Tell us your event type, date, ZIP code and what you need, and we'll match you with available Atlanta directory providers so you can compare and book.</p>"),
+         f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> and tell us your event type, date, ZIP code and what you need &mdash; we'll match you with available Atlanta directory providers so you can compare and book. Renting an item we stock ourselves instead? Browse <a href=\"/products/\">Rent Party Supplies</a> and request it directly.</p>"),
         ("What areas around Atlanta do you serve?",
          "<p>Our directory providers serve the City of Atlanta and the surrounding metro, including Midtown, Buckhead, Downtown, Decatur, Sandy Springs, College Park, East Point, Dunwoody, Chamblee and more.</p>"),
         ("What types of bounce houses and party rentals are available?",
@@ -620,7 +625,7 @@ def build_index(providers, families):
           <span class="header-call-number">{PHONE_DISPLAY}</span>
           <span class="header-call-label">Call or text for a free quote</span>
         </a>
-        <a class="btn hero-quote-btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+        <a class="btn hero-quote-btn" href="/products/">Rent Party Supplies &rsaquo;</a>
       </div>
     </div>
   </div>
@@ -636,7 +641,7 @@ def build_index(providers, families):
     <div class="grid grid-3">
       <div class="card">
         <h3>Bounce Houses</h3>
-        <p>A Buckhead parent needed a bounce house for a Saturday birthday party with only a few days' notice. One Free Instant Quote request connected her with several available Atlanta providers the same afternoon, and she had a classic bounce house booked within the hour.</p>
+        <p>A Buckhead parent needed a bounce house for a Saturday birthday party with only a few days' notice. One quick request connected her with several available Atlanta providers the same afternoon, and she had a classic bounce house booked within the hour.</p>
       </div>
       <div class="card">
         <h3>Chiavari Chairs</h3>
@@ -709,7 +714,7 @@ def build_index(providers, families):
   <div class="container">
     <h2>Ready to Book Your Atlanta Bounce House Rental?</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers in minutes. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -738,7 +743,7 @@ def build_partners(providers):
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Partners</div>
     <h1>Atlanta Bounce House &amp; Party Rental Providers</h1>
-    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews, then click Free Instant Quote to tell us about your event and get matched with the right provider.</p>
+    <p>Browse {len(providers)} bounce house and party rental businesses serving Atlanta and the surrounding Georgia metro. Compare ratings and reviews, then call or text {PHONE_DISPLAY} to tell us about your event and get matched with the right provider.</p>
   </div>
 </div>
 
@@ -747,7 +752,7 @@ def build_partners(providers):
     {featured_image_html(alt_override="Atlanta party rental providers set up for a celebration")}
 {provider_table(providers)}
     <div class="callout" style="margin-top:26px;">
-      <p><strong>Ready to book?</strong> Use the <a href="#" data-wizard-open>Free Instant Quote</a> wizard to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
+      <p><strong>Ready to book?</strong> Call or text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> to tell us about your event and we'll connect you with an available Atlanta company in minutes. Free quotes, no obligation.</p>
     </div>
   </div>
 </section>
@@ -872,7 +877,7 @@ def build_partner_pages(providers):
         <div class="quote-card" style="margin-bottom:22px;">
           <h2>Book This Provider</h2>
           <p class="sub">Tell us about your event and we'll get you a quote from {esc(name)} and other available Atlanta providers &mdash; usually within minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -979,7 +984,7 @@ def listicle_card_html(p, rank):
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/{p["slug"]}/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="{directions_url(p)}" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="{esc(p["slug"])}"
           data-analytics-name="{esc(p["name"])}" data-analytics-city="{esc(p["city"])}">Directions</a>
@@ -1171,7 +1176,7 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
@@ -1327,7 +1332,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Need Help Choosing the Right Bounce House?</h2>
     <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -1449,7 +1454,7 @@ def build_bounce_houses():
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
           <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/" style="margin-bottom:14px;">Rent Party Supplies &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -1479,7 +1484,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Ready to Book?</h2>
     <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -3203,7 +3208,7 @@ def build_services_index(providers, families):
     </div>
     {seasonal_html}
     <div class="callout">
-      <p><strong>Not sure what you need?</strong> Use the Free Instant Quote wizard and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
+      <p><strong>Not sure what you need?</strong> Call or text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> and tell us about your event — we'll match you with the right Atlanta providers and equipment for your date.</p>
     </div>
   </div>
 </section>
@@ -3212,7 +3217,7 @@ def build_services_index(providers, families):
   <div class="container">
     <h2>Get a Free Atlanta Bounce House Quote</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -3269,7 +3274,7 @@ def build_service_pages(providers):
             (f"How much do {nml} cost in Atlanta?",
              f"<p>In the Atlanta area, {nml} typically range from {lo} for a small event up to {hi} for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. <a href=\"/#providers\">Request a free quote</a> for exact pricing.</p>"),
             (f"How do I book {nml} in Atlanta?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
+             f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to tell us about your event. We'll match you with available Atlanta providers that offer {nml} for your date.</p>"),
             (f"Do providers deliver {nml} across metro Atlanta?",
              f"<p>Yes. Directory providers deliver {nml} to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup.</p>"),
             (f"How far in advance should I reserve {nml}?",
@@ -3346,7 +3351,7 @@ def build_service_pages(providers):
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book {s["name"]}</h2>
           <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -3363,7 +3368,7 @@ def build_service_pages(providers):
   <div class="container">
     <h2>Book {s["name"]} in Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -3761,7 +3766,7 @@ def build_specialty_service_pages():
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book {pg["name"]}</h2>
           <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -3778,7 +3783,7 @@ def build_specialty_service_pages():
   <div class="container">
     <h2>Book {pg["name"]} in Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -3879,7 +3884,8 @@ def build_product_pages():
       data-product-unit="{esc(p["unit"])}"
       data-product-unit-plural="{esc(p["unit_plural"])}"
       data-product-min="{p["min_qty"]}"
-      data-product-delivery-fee="{PRODUCT_DELIVERY_FEE}">
+      data-product-delivery-fee="{PRODUCT_DELIVERY_FEE}"
+      data-product-parent="{esc(p["parent_name"])}">
 
       <div class="pr-media">
         {media_html}
@@ -3912,6 +3918,7 @@ def build_product_pages():
         </div>
 
         <a class="btn btn-block" href="#request">Request These {esc(p["unit_plural"].title())} &rsaquo;</a>
+        <button type="button" class="btn btn-outline btn-block" style="margin-top:10px;" data-add-to-cart>Add to Cart</button>
         <p class="muted" style="font-size:0.84rem;margin-top:10px;">This isn't a charge &mdash; it sends us your request, and we confirm availability and the final invoice before anything is due.</p>
       </div>
     </div>
@@ -4008,6 +4015,7 @@ def build_product_pages():
 <script src="/js/analytics.js"></script>
 <script src="/js/search-index.js"></script>
 <script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
 <script src="/js/product.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
@@ -4037,58 +4045,78 @@ def build_products_page():
                 f'aria-label="{esc(prod["name"])} photo coming soon">{esc(prod["short_name"])}</div>')
 
     cards = "\n      ".join(
-        f'''<a class="prod-card" href="{product_href(prod)}" data-product-item
+        f'''<div class="prod-card" data-product-item
          data-name="{esc(prod["name"].lower())}" data-category="{esc(prod["category"])}"
-         data-parent="{esc(prod["parent_name"].lower())}">
-        {card_media(prod)}
+         data-parent="{esc(prod["parent_name"].lower())}" data-price="{prod["price"]:.2f}"
+         data-slug="{esc(prod["slug"])}" data-href="{product_href(prod)}"
+         data-unit="{esc(prod["unit"])}" data-min-qty="{prod["min_qty"]}">
+        <a class="prod-card-media-link" href="{product_href(prod)}">{card_media(prod)}</a>
         <div class="prod-card-body">
           <p class="prod-card-category muted">{esc(prod["category"])}</p>
-          <h3>{esc(prod["name"])}</h3>
+          <h3><a href="{product_href(prod)}">{esc(prod["name"])}</a></h3>
           <p class="prod-card-price"><strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
           <p class="muted">{esc(prod["includes"])}</p>
-          <span class="prod-card-cta">Pick your quantity &rsaquo;</span>
+          <div class="prod-card-actions">
+            <a class="prod-card-cta" href="{product_href(prod)}">Pick your quantity &rsaquo;</a>
+            <button type="button" class="btn btn-outline btn-sm" data-add-to-cart>Add to Cart</button>
+          </div>
         </div>
-      </a>''' for prod in sorted_products)
+      </div>''' for prod in sorted_products)
 
-    filter_chips = "\n          ".join(
-        f'<button type="button" class="products-filter-chip" data-category-filter="{esc(cat)}">{esc(cat)}</button>'
+    sidebar_categories = "\n          ".join(
+        f'<li><button type="button" class="products-cat-link" data-category-filter="{esc(cat)}">{esc(cat)}</button></li>'
         for cat in categories)
 
     bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
         {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
-        {"@type": "ListItem", "position": 2, "name": "Products", "item": DOMAIN + "/products/"},
+        {"@type": "ListItem", "position": 2, "name": "Rent Party Supplies", "item": DOMAIN + "/products/"},
     ]}
     extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
 
     page = head(
-        "All Rental Products | Atlanta Bounce House Rentals",
+        "Rent Party Supplies in Atlanta Georgia | Atlanta Bounce House Rentals",
         f"Browse all {len(PRODUCTS)} items we stock and deliver ourselves in Atlanta, Georgia &mdash; chairs, tables, bar equipment and A/V gear. Pick your quantity, filter by category or search by name.",
         DOMAIN + "/products/", extra)
     page += header("products") + f'''
 <div class="page-head">
   <div class="container">
-    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Products</div>
-    <h1>All Rental Products</h1>
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Rent Party Supplies</div>
+    <h1>Rent Party Supplies in Atlanta Georgia</h1>
     <p>Every item we stock and deliver ourselves in Atlanta, Georgia &mdash; pick your exact quantity and request delivery directly, no back-and-forth quoting. For provider-matched categories, see <a href="/services/">Services</a> instead.</p>
   </div>
 </div>
 
 <section>
   <div class="container">
-    <div class="products-toolbar">
-      <div class="products-search">
-        <input type="search" id="products-search-input" placeholder="Search products&hellip;" aria-label="Search products" autocomplete="off">
-      </div>
-      <div class="products-filters" role="group" aria-label="Filter by category">
-        <button type="button" class="products-filter-chip active" data-category-filter="">All Categories</button>
-        {filter_chips}
+    <div class="products-layout">
+      <aside class="products-sidebar">
+        <div class="products-search">
+          <input type="search" id="products-search-input" placeholder="Search products&hellip;" aria-label="Search products" autocomplete="off">
+        </div>
+        <h2 class="products-sidebar-title">Category</h2>
+        <ul class="products-category-list" role="group" aria-label="Filter by category">
+          <li><button type="button" class="products-cat-link active" data-category-filter="">All Categories</button></li>
+          {sidebar_categories}
+        </ul>
+      </aside>
+      <div class="products-main">
+        <div class="products-toolbar-row">
+          <p class="products-count-heading" id="products-count"></p>
+          <div class="products-sort">
+            <label for="products-sort-select">Sort By</label>
+            <select id="products-sort-select">
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="prod-card-grid prod-card-grid-3col" id="products-grid">
+          {cards}
+        </div>
+        <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>
       </div>
     </div>
-    <p class="muted" id="products-count"></p>
-    <div class="prod-card-grid" id="products-grid">
-      {cards}
-    </div>
-    <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>
   </div>
 </section>
 
@@ -4106,12 +4134,131 @@ def build_products_page():
 <script src="/js/analytics.js"></script>
 <script src="/js/search-index.js"></script>
 <script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
 <script src="/js/products.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
 '''
     d = os.path.join(ROOT, "products")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(page)
+
+
+# ----------------------------------------------------------------- cart
+def build_cart_page():
+    """/cart/ — client-rendered from localStorage (js/cart.js + js/cart-page.js).
+    One combined request across every item in the cart posts a single row to
+    the Supabase `leads` table — see supabase/migrate_cart_orders.sql."""
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Cart", "item": DOMAIN + "/cart/"},
+    ]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+
+    page = head(
+        "Your Cart | Atlanta Bounce House Rentals",
+        "Review the rental items in your cart and send us one combined request &mdash; we'll confirm availability and send an invoice.",
+        DOMAIN + "/cart/", extra)
+    page += header("cart") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Cart</div>
+    <h1>Your Cart</h1>
+    <p>Review your items and send us one combined request &mdash; we'll confirm availability and send a single invoice covering everything.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="cart-empty" id="cart-empty" hidden>
+      <p>Your cart is empty.</p>
+      <a class="btn" href="/products/">Browse Rental Products &rsaquo;</a>
+    </div>
+
+    <div class="cart-layout" id="cart-layout" data-delivery-fee="{PRODUCT_DELIVERY_FEE}" hidden>
+      <div class="cart-items" id="cart-items"></div>
+
+      <aside class="cart-summary">
+        <h2>Order Summary</h2>
+        <div class="cart-summary-lines" id="cart-summary-lines"></div>
+        <div class="cart-summary-row cart-summary-total">
+          <span>Estimated Total</span>
+          <strong id="cart-summary-total"></strong>
+        </div>
+        <a class="btn btn-block" href="#cart-checkout">Checkout &rsaquo;</a>
+        <p class="muted" style="font-size:0.82rem;margin-top:10px;">One flat ${PRODUCT_DELIVERY_FEE:,.2f} delivery fee applies to the whole order, no matter how many items you add.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="cart-checkout">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Request These Items</div>
+      <h2>Send Your Combined Request</h2>
+      <p>Tell us where and when you need everything delivered. We'll confirm availability and send one invoice &mdash; nothing is charged from this form.</p>
+    </div>
+
+    <form class="pr-form" id="cart-form" novalidate>
+      <div data-cart-success class="form-success" style="display:none;">
+        <strong>Request received.</strong> We'll confirm availability and send your invoice shortly. For anything urgent, call or text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>.
+      </div>
+      <div data-cart-error class="form-success" style="display:none;background:#fdeaea;border-color:#f3c2c2;color:#a12626;"></div>
+
+      <div data-cart-fields>
+        <div class="pr-summary-bar">
+          <span id="cart-form-summary"></span>
+          <strong id="cart-form-total"></strong>
+        </div>
+
+        <h3>Your details</h3>
+        <div class="pr-grid">
+          <div class="field"><label for="cart-name">Full name <span class="req">*</span></label><input id="cart-name" name="name" type="text" autocomplete="name" required></div>
+          <div class="field"><label for="cart-company">Company / organization</label><input id="cart-company" name="company" type="text" autocomplete="organization"></div>
+          <div class="field"><label for="cart-phone">Phone <span class="req">*</span></label><input id="cart-phone" name="phone" type="tel" autocomplete="tel" required></div>
+          <div class="field"><label for="cart-email">Email <span class="req">*</span></label><input id="cart-email" name="email" type="email" autocomplete="email" required></div>
+        </div>
+
+        <h3>Delivery details</h3>
+        <div class="pr-grid">
+          <div class="field pr-span2"><label for="cart-venue">Venue name</label><input id="cart-venue" name="venue_name" type="text" placeholder="e.g. Summerour Studio"></div>
+          <div class="field pr-span2"><label for="cart-address">Delivery street address <span class="req">*</span></label><input id="cart-address" name="delivery_address" type="text" autocomplete="street-address" required></div>
+          <div class="field"><label for="cart-city">City <span class="req">*</span></label><input id="cart-city" name="delivery_city" type="text" autocomplete="address-level2" required></div>
+          <div class="field"><label for="cart-state">State</label><input id="cart-state" name="delivery_state" type="text" value="GA" autocomplete="address-level1"></div>
+          <div class="field"><label for="cart-zip">ZIP code <span class="req">*</span></label><input id="cart-zip" name="zip_code" type="text" inputmode="numeric" autocomplete="postal-code" required></div>
+        </div>
+
+        <h3>Dates</h3>
+        <div class="pr-grid">
+          <div class="field"><label for="cart-delivery-date">Delivery date <span class="req">*</span></label><input id="cart-delivery-date" name="delivery_date" type="date" required></div>
+          <div class="field"><label for="cart-delivery-time">Preferred delivery time</label><input id="cart-delivery-time" name="delivery_time" type="time"></div>
+          <div class="field"><label for="cart-pickup-date">Pickup date</label><input id="cart-pickup-date" name="pickup_date" type="date"></div>
+        </div>
+
+        <div class="field"><label for="cart-message">Anything else we should know?</label><textarea id="cart-message" name="message" rows="4" placeholder="Setup location, stairs/elevator access, gate codes, timing constraints&hellip;"></textarea></div>
+
+        <button class="btn btn-block" type="submit" id="cart-submit">Send My Request</button>
+        <p class="form-note">Or call/text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a>. We reply fast &mdash; usually within the hour during business hours.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/cart-page.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "cart")
     os.makedirs(d, exist_ok=True)
     open(os.path.join(d, "index.html"), "w").write(page)
 
@@ -4163,7 +4310,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Need Help Choosing the Right Bounce House?</h2>
     <p>Tell us about your event — guest count, date, venue — and we'll match you with the perfect unit and best price.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -4285,7 +4432,7 @@ def build_bounce_houses():
         <div class="bh-contact-card">
           <h3>Get Pricing &amp; Reserve</h3>
           <p class="sub">Tell us about your event and we&rsquo;ll confirm availability and send you a quote in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open style="margin-bottom:14px;">Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/" style="margin-bottom:14px;">Rent Party Supplies &rsaquo;</a>
           <div class="bh-or">— or fill out the form —</div>
           <form data-quote-form novalidate>
             <div data-success class="form-success" style="display:none;">
@@ -4315,7 +4462,7 @@ def build_bounce_houses():
   <div class="container">
     <h2>Ready to Book?</h2>
     <p>Tell us about your event and we'll confirm availability and lock in your date. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -4423,7 +4570,7 @@ def build_locations(providers):
   <div class="container">
     <h2>Find Bounce House Rentals Near You</h2>
     <p>Tell us about your event and we'll match you with local Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -4561,7 +4708,7 @@ def build_locations(providers):
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book Rentals in {esc(nl)}</h2>
           <p class="sub">Tell us about your event and we'll match you with available providers serving {esc(nl)} in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -4578,7 +4725,7 @@ def build_locations(providers):
   <div class="container">
     <h2>Book a Bounce House in {esc(nl)} Today</h2>
     <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -4732,7 +4879,7 @@ def build_cities(providers):
   <div class="container">
     <h2>Don't See Your City?</h2>
     <p>Tell us about your event and we'll match you with an available Atlanta-area provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -4817,7 +4964,7 @@ def build_cities(providers):
   <div class="container">
     <h2>Book a Provider in {esc(nl)} Today</h2>
     <p>Tell us about your event and we'll match you with an available {esc(nl)} provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -5024,7 +5171,7 @@ def build_find_pages(providers, families):
                     (f"Do providers deliver {svc_name.lower()} to {nl}?",
                      f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down rentals throughout {nl}, including {esc(hoods3)}.</p>"),
                     (f"How do I book {svc_name.lower()} in {nl}?",
-                     f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
+                     f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to tell us about your event and we'll match you with an available {nl} provider for your date.</p>"),
                 ]
             else:
                 if fam.get("desc_template"):
@@ -5062,7 +5209,7 @@ def build_find_pages(providers, families):
                     (f"Do providers deliver {svc_name.lower()} to {nl}?",
                      f"<p>Yes. The {len(matched)} directory provider{'s' if len(matched) != 1 else ''} listed below deliver, set up and tear down {svc_name.lower()} throughout {nl}, including {esc(hoods3)}.</p>"),
                     (f"How do I book {svc_name.lower()} in {nl}?",
-                     f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
+                     f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to tell us about your event. We'll match you with available {nl} providers for your date.</p>"),
                 ]
 
             faq_html, faq_ld = faq_block(faqs)
@@ -5144,7 +5291,7 @@ def build_find_pages(providers, families):
   <div class="container">
     <h2>Book {svc_name} in {esc(nl)} Today</h2>
     <p>Tell us about your event and we'll match you with available {esc(nl)} providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -5217,7 +5364,7 @@ def build_find_pages(providers, families):
             (f"How much do {svc_name.lower()} cost?",
              f"<p>Pricing varies by provider, quantity and rental length. <a href=\"#\" data-wizard-open>Request a free quote</a> for exact pricing on your event.</p>"),
             (f"How do I book {svc_name.lower()} near me?",
-             f"<p>Click <a href=\"#\" data-wizard-open>Free Instant Quote</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
+             f"<p>Call or text <a href=\"tel:{PHONE_HREF}\">{PHONE_DISPLAY}</a> to tell us about your event and we'll match you with an available provider near you.</p>"),
             (f"How far in advance should I reserve {svc_name.lower()}?",
              f"<p>For weekend dates during Atlanta's busy spring and summer event season, book 2&ndash;4 weeks ahead when possible &mdash; popular providers and dates fill up fastest. Need something last minute? <a href=\"#\" data-wizard-open>Request a free quote</a> and we'll check live availability with providers near you.</p>"),
             (f"Do {svc_name.lower()} providers deliver and set up?",
@@ -5320,7 +5467,7 @@ def build_find_pages(providers, families):
   <div class="container">
     <h2>Book {svc_name} Today</h2>
     <p>Tell us about your event and we'll match you with an available provider near you. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -5407,7 +5554,7 @@ def build_find_pages(providers, families):
   <div class="container">
     <h2>Can't Find Your City or Service?</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -5509,7 +5656,7 @@ def build_cheap(providers):
   <div class="container">
     <h2>Get the Lowest Bounce House Price in Atlanta</h2>
     <p>Tell us about your event and we'll match you with the best-priced Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 
@@ -5540,7 +5687,7 @@ def build_leads():
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Leads</div>
     <h1>Live Atlanta Rental Leads</h1>
-    <p>Real-time inquiries from customers across Atlanta, captured through our website Free Instant Quote form. Every lead's name is public — subscribe to unlock full contact details and claim the job.</p>
+    <p>Real-time inquiries from customers across Atlanta, captured through our website's request forms. Every lead's name is public — subscribe to unlock full contact details and claim the job.</p>
   </div>
 </div>
 
@@ -5842,7 +5989,7 @@ def build_vercel_redirects(families):
 
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/products/", "/bounce-houses/", "/locations/",
+    urls = ["/", "/services/", "/products/", "/cart/", "/bounce-houses/", "/locations/",
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
@@ -5919,6 +6066,7 @@ def main():
     build_specialty_service_pages()
     build_product_pages()
     build_products_page()
+    build_cart_page()
     build_bounce_houses()
     build_locations(providers)
     city_urls = build_cities(providers)

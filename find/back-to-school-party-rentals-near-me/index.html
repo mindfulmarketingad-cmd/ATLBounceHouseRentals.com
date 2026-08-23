@@ -33,7 +33,7 @@
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://atlbouncehouserentals.com/"}, {"@type": "ListItem", "position": 2, "name": "Find", "item": "https://atlbouncehouserentals.com/find/"}, {"@type": "ListItem", "position": 3, "name": "Back To School Party Rentals Near Me", "item": "https://atlbouncehouserentals.com/find/back-to-school-party-rentals-near-me/"}]}
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Where can I find back to school party rentals near me in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Our directory lists 98 Atlanta-area providers offering back to school party rentals. Use the map above to find the closest one to you, or request a free quote and we'll match you with an available provider."}}, {"@type": "Question", "name": "How much do back to school party rentals cost?", "acceptedAnswer": {"@type": "Answer", "text": "Pricing varies by provider, quantity and rental length. Request a free quote for exact pricing on your event."}}, {"@type": "Question", "name": "How do I book back to school party rentals near me?", "acceptedAnswer": {"@type": "Answer", "text": "Click Free Instant Quote to tell us about your event and we'll match you with an available provider near you."}}, {"@type": "Question", "name": "How far in advance should I reserve back to school party rentals?", "acceptedAnswer": {"@type": "Answer", "text": "For weekend dates during Atlanta's busy spring and summer event season, book 2&ndash;4 weeks ahead when possible &mdash; popular providers and dates fill up fastest. Need something last minute? Request a free quote and we'll check live availability with providers near you."}}, {"@type": "Question", "name": "Do back to school party rentals providers deliver and set up?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers offering back to school party rentals in metro Atlanta typically include delivery, setup and teardown/pickup in their standard service area. Delivery radius and fees vary by provider and distance, so confirm details when you request your quote."}}, {"@type": "Question", "name": "What should I check before booking back to school party rentals near me?", "acceptedAnswer": {"@type": "Answer", "text": "Compare star rating, review count and Google verification status for each provider (shown on every listing below), confirm the provider services your ZIP code, and ask about delivery windows, setup time and any minimum order requirements for your event date."}}]}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Where can I find back to school party rentals near me in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Our directory lists 98 Atlanta-area providers offering back to school party rentals. Use the map above to find the closest one to you, or request a free quote and we'll match you with an available provider."}}, {"@type": "Question", "name": "How much do back to school party rentals cost?", "acceptedAnswer": {"@type": "Answer", "text": "Pricing varies by provider, quantity and rental length. Request a free quote for exact pricing on your event."}}, {"@type": "Question", "name": "How do I book back to school party rentals near me?", "acceptedAnswer": {"@type": "Answer", "text": "Call or text 404-737-1843 to tell us about your event and we'll match you with an available provider near you."}}, {"@type": "Question", "name": "How far in advance should I reserve back to school party rentals?", "acceptedAnswer": {"@type": "Answer", "text": "For weekend dates during Atlanta's busy spring and summer event season, book 2&ndash;4 weeks ahead when possible &mdash; popular providers and dates fill up fastest. Need something last minute? Request a free quote and we'll check live availability with providers near you."}}, {"@type": "Question", "name": "Do back to school party rentals providers deliver and set up?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers offering back to school party rentals in metro Atlanta typically include delivery, setup and teardown/pickup in their standard service area. Delivery radius and fees vary by provider and distance, so confirm details when you request your quote."}}, {"@type": "Question", "name": "What should I check before booking back to school party rentals near me?", "acceptedAnswer": {"@type": "Answer", "text": "Compare star rating, review count and Google verification status for each provider (shown on every listing below), confirm the provider services your ZIP code, and ask about delivery windows, setup time and any minimum order requirements for your event date."}}]}
 </script>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -51,19 +51,24 @@
         <a href="/">Home</a>
         <a href="/cities/">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/find/">Find</a> &rsaquo; Back To School Party Rentals Near Me</div>
@@ -381,7 +386,7 @@
       </details>
       <details class="faq-item">
         <summary>How do I book back to school party rentals near me?</summary>
-        <div class="faq-a"><p>Click <a href="#" data-wizard-open>Free Instant Quote</a> to tell us about your event and we'll match you with an available provider near you.</p></div>
+        <div class="faq-a"><p>Call or text <a href="tel:+14047371843">404-737-1843</a> to tell us about your event and we'll match you with an available provider near you.</p></div>
       </details>
       <details class="faq-item">
         <summary>How far in advance should I reserve back to school party rentals?</summary>
@@ -403,7 +408,7 @@
   <div class="container">
     <h2>Book Back To School Party Rentals Today</h2>
     <p>Tell us about your event and we'll match you with an available provider near you. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

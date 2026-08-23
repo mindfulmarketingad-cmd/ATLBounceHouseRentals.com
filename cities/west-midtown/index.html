@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; West Midtown</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/hip-and-hitched/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=892%20Jefferson%20St%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="hip-and-hitched"
           data-analytics-name="Hip and Hitched" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/mag-nificent-instant-photo-experiences/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2212%20Defoors%20Ferry%20Rd%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="mag-nificent-instant-photo-experiences"
           data-analytics-name="Mag-nificent Instant Photo Experiences" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/the-art-in-service-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1650%20Marietta%20Blvd%20NW%20D-06%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="the-art-in-service-llc"
           data-analytics-name="The Art in Service LLC" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/so-lovely-events/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1314%20Chattahoochee%20Ave%20NW%20B8%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="so-lovely-events"
           data-analytics-name="So Lovely Events" data-analytics-city="Atlanta">Directions</a>
@@ -218,7 +223,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/play-time-events-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1441%20Woodmont%20Ln%20NW%20%23437%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="play-time-events-llc"
           data-analytics-name="Play Time Events LLC" data-analytics-city="Atlanta">Directions</a>
@@ -241,7 +246,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/blackout-experience-silent-party-sundays-bonfire-atl/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1080%20Donald%20Lee%20Hollowell%20Pkwy%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="blackout-experience-silent-party-sundays-bonfire-atl"
           data-analytics-name="Blackout Experience Silent Party Sundays @ Bonfire ATL" data-analytics-city="Atlanta">Directions</a>
@@ -264,7 +269,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/i-do-linens/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1810%20Plymouth%20Rd%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="i-do-linens"
           data-analytics-name="I Do Linens" data-analytics-city="Atlanta">Directions</a>
@@ -287,7 +292,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/raising-the-bar/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1119%20Logan%20Cir%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="raising-the-bar"
           data-analytics-name="Raising The Bar" data-analytics-city="Atlanta">Directions</a>
@@ -310,7 +315,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/monte-carlo-productions/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=767%20Trabert%20Ave%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="monte-carlo-productions"
           data-analytics-name="Monte Carlo Productions" data-analytics-city="Atlanta">Directions</a>
@@ -333,7 +338,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/eventworks-rentals-atlanta/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1400%20West%20Marietta%20St%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="eventworks-rentals-atlanta"
           data-analytics-name="EventWorks Rentals Atlanta" data-analytics-city="Atlanta">Directions</a>
@@ -356,7 +361,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/unique-event-elements/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1446%20Southland%20Cir%20NW%20Suite%20200%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="unique-event-elements"
           data-analytics-name="Unique Event Elements" data-analytics-city="Atlanta">Directions</a>
@@ -379,7 +384,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/event-drapery/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1346%20Logan%20Cir%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="event-drapery"
           data-analytics-name="Event Drapery" data-analytics-city="Atlanta">Directions</a>
@@ -402,7 +407,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/stripper-pole-rental-for-parties-productions-and-video-shoots-atlanta-georgia/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=976%20Jefferson%20St%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="stripper-pole-rental-for-parties-productions-and-video-shoots-atlanta-georgia"
           data-analytics-name="Stripper Pole Rental for Parties, Productions and Video Shoots Atlanta Georgia" data-analytics-city="Atlanta">Directions</a>
@@ -425,7 +430,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/atlanta-party-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2160%20Hills%20Ave%20NW%20Bldg%20B%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="atlanta-party-rentals"
           data-analytics-name="Atlanta Party Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -448,7 +453,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/quest-events/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1400%20West%20Marietta%20St%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="quest-events"
           data-analytics-name="Quest Events" data-analytics-city="Atlanta">Directions</a>
@@ -471,7 +476,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/kendoll-party-rental/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=1212%20James%20Jackson%20Pkwy%20NW%2C%20Atlanta%2C%20GA%2030318" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="kendoll-party-rental"
           data-analytics-name="Kendoll$ Party Rental" data-analytics-city="Atlanta">Directions</a>
@@ -515,7 +520,7 @@
   <div class="container">
     <h2>Book a Provider in West Midtown Today</h2>
     <p>Tell us about your event and we'll match you with an available West Midtown provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; College Park</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/all-about-the-bounce-atl/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=6385%20Old%20National%20Hwy%2C%20Atlanta%2C%20GA%2030349" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="all-about-the-bounce-atl"
           data-analytics-name="All About The Bounce ATL" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/phoenix-amusements-inc-entertainment-rentals-amusement-machine-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3449%20Buffington%20Center%2C%20Atlanta%2C%20GA%2030349" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="phoenix-amusements-inc-entertainment-rentals-amusement-machine-rentals"
           data-analytics-name="Phoenix Amusements, Inc. - Entertainment Rentals &amp; Amusement Machine Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/shisha-arabia-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3800%20Camp%20Creek%20Pkwy%20blg%201400%20suite%20116%20%2310%2C%20Atlanta%2C%20GA%2030349" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="shisha-arabia-rentals"
           data-analytics-name="shisha arabia rentals" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/a-d-elegant-events-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=836%20Oakview%20Trc%2C%20Atlanta%2C%20GA%2030349" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="a-d-elegant-events-llc"
           data-analytics-name="A &amp; D Elegant Events LLC." data-analytics-city="Atlanta">Directions</a>
@@ -218,7 +223,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/reventals-nashville-party-rentals/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=2227%20Godby%20Rd%2C%20Atlanta%2C%20GA%2030349" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="reventals-nashville-party-rentals"
           data-analytics-name="Reventals Nashville Party Rentals" data-analytics-city="Atlanta">Directions</a>
@@ -261,7 +266,7 @@
   <div class="container">
     <h2>Book a Provider in College Park Today</h2>
     <p>Tell us about your event and we'll match you with an available College Park provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

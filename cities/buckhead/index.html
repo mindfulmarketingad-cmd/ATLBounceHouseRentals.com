@@ -47,19 +47,24 @@
         <a href="/">Home</a>
         <a href="/cities/" class="active">By City</a>
         <a href="/services/">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/cities/">Cities</a> &rsaquo; Buckhead</div>
@@ -126,7 +131,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/my-atlanta-events-rental/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3525%20Piedmont%20Rd%20NE%20Bldg%206%20Suite%20315%2C%20Atlanta%2C%20GA%2030305" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="my-atlanta-events-rental"
           data-analytics-name="My Atlanta Events Rental" data-analytics-city="Atlanta">Directions</a>
@@ -149,7 +154,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/unforgettable-designz-and-events-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3379%20Peachtree%20Rd%20NE%20Suite%20655%2C%20Atlanta%2C%20GA%2030326" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="unforgettable-designz-and-events-llc"
           data-analytics-name="Unforgettable Designz and Events, LLC" data-analytics-city="Atlanta">Directions</a>
@@ -172,7 +177,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/atlanta-casino-party-experts/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3379%20Peachtree%20Rd%2C%20Atlanta%2C%20GA%2030326" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="atlanta-casino-party-experts"
           data-analytics-name="Atlanta Casino Party Experts" data-analytics-city="Atlanta">Directions</a>
@@ -195,7 +200,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/azizi-party-and-rental-atl/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3390%20Stratford%20Rd%20NE%2C%20Atlanta%2C%20GA%2030326" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="azizi-party-and-rental-atl"
           data-analytics-name="azizi party and rental ATL" data-analytics-city="Atlanta">Directions</a>
@@ -218,7 +223,7 @@
       </div>
       <div class="lc-actions">
         <a class="btn" href="/partners/trippy-digital-360-photo-booth-llc/">View Details</a>
-        <a class="btn btn-ghost" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="btn btn-ghost" href="/products/">Rent Party Supplies</a>
         <a class="lc-link" href="https://www.google.com/maps/dir/?api=1&destination=3343%20Peachtree%20Rd%20NE%2C%20Atlanta%2C%20GA%2030326" target="_blank" rel="noopener"
           data-analytics-event="directions_click" data-analytics-listing="trippy-digital-360-photo-booth-llc"
           data-analytics-name="Trippy Digital 360 Photo Booth LLC" data-analytics-city="Atlanta">Directions</a>
@@ -261,7 +266,7 @@
   <div class="container">
     <h2>Book a Provider in Buckhead Today</h2>
     <p>Tell us about your event and we'll match you with an available Buckhead provider. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

@@ -33,7 +33,7 @@
 {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://atlbouncehouserentals.com/"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://atlbouncehouserentals.com/services/"}, {"@type": "ListItem", "position": 3, "name": "Concession Rentals", "item": "https://atlbouncehouserentals.com/services/concession-rentals/"}]}
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do concession rentals cost in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "In the Atlanta area, concession rentals typically range from $55&ndash;$85 for a small event up to $180&ndash;$400+ for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. Request a free quote for exact pricing."}}, {"@type": "Question", "name": "How do I book concession rentals in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Click Free Instant Quote to tell us about your event. We'll match you with available Atlanta providers that offer concession rentals for your date."}}, {"@type": "Question", "name": "Do providers deliver concession rentals across metro Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers deliver concession rentals to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup."}}, {"@type": "Question", "name": "How far in advance should I reserve concession rentals?", "acceptedAnswer": {"@type": "Answer", "text": "Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;book now and we'll check live availability."}}]}
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How much do concession rentals cost in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "In the Atlanta area, concession rentals typically range from $55&ndash;$85 for a small event up to $180&ndash;$400+ for the largest setups. The final price depends on your date, the unit size, delivery distance and rental length. Request a free quote for exact pricing."}}, {"@type": "Question", "name": "How do I book concession rentals in Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Call or text 404-737-1843 to tell us about your event. We'll match you with available Atlanta providers that offer concession rentals for your date."}}, {"@type": "Question", "name": "Do providers deliver concession rentals across metro Atlanta?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Directory providers deliver concession rentals to Atlanta and surrounding areas including Midtown, Buckhead, Decatur, Sandy Springs, College Park and East Point, and they handle setup and pickup."}}, {"@type": "Question", "name": "How far in advance should I reserve concession rentals?", "acceptedAnswer": {"@type": "Answer", "text": "Booking 2&ndash;4 weeks ahead is recommended for weekend dates in Atlanta's busy spring and summer season. Last-minute requests are welcome too&mdash;book now and we'll check live availability."}}]}
 </script>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
@@ -51,19 +51,24 @@
         <a href="/">Home</a>
         <a href="/cities/">By City</a>
         <a href="/services/" class="active">By Service</a>
-        <a href="/products/">Products</a>
+        <a href="/products/">Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:+14047371843">
           <span class="header-call-number">404-737-1843</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
-        <a class="book-now-cta" href="#" data-wizard-open>Free Instant Quote</a>
+        <a class="cart-link" href="/cart/" aria-label="View cart">
+          <span class="cart-icon" aria-hidden="true">&#128722;</span>
+          <span class="cart-count" id="header-cart-count" hidden>0</span>
+        </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
   </div>
 </header>
+<script>(function(){try{var c=JSON.parse(localStorage.getItem("abhr_cart")||"[]"),n=0;c.forEach(function(i){n+=i.qty||0;});var el=document.getElementById("header-cart-count");if(el){if(n>0){el.textContent=n;el.hidden=false;}else{el.hidden=true;}}}catch(e){}})();</script>
 <div class="page-head">
   <div class="container">
     <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/services/">Services</a> &rsaquo; Concession Rentals</div>
@@ -192,7 +197,7 @@
         <div class="quote-card" style="position:sticky; top:90px;">
           <h2>Book Concession Rentals</h2>
           <p class="sub">Tell us about your event and we'll match you with available Atlanta providers in minutes.</p>
-          <a class="btn btn-block" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+          <a class="btn btn-block" href="/products/">Rent Party Supplies &rsaquo;</a>
           <div class="hero-trust" style="margin-top:14px;justify-content:center;">
             <span>Free quotes</span>
             <span>No obligation</span>
@@ -215,7 +220,7 @@
       </details>
       <details class="faq-item">
         <summary>How do I book concession rentals in Atlanta?</summary>
-        <div class="faq-a"><p>Click <a href="#" data-wizard-open>Free Instant Quote</a> to tell us about your event. We'll match you with available Atlanta providers that offer concession rentals for your date.</p></div>
+        <div class="faq-a"><p>Call or text <a href="tel:+14047371843">404-737-1843</a> to tell us about your event. We'll match you with available Atlanta providers that offer concession rentals for your date.</p></div>
       </details>
       <details class="faq-item">
         <summary>Do providers deliver concession rentals across metro Atlanta?</summary>
@@ -233,7 +238,7 @@
   <div class="container">
     <h2>Book Concession Rentals in Atlanta Today</h2>
     <p>Tell us about your event and we'll match you with available Atlanta providers. Free quotes, no obligation.</p>
-    <a class="btn" href="#" data-wizard-open>Free Instant Quote &rsaquo;</a>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
   </div>
 </section>
 

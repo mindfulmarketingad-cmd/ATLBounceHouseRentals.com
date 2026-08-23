@@ -3,7 +3,8 @@
   if (!grid) return;
 
   const searchInput = document.getElementById("products-search-input");
-  const chips = Array.from(document.querySelectorAll(".products-filter-chip"));
+  const catLinks = Array.from(document.querySelectorAll(".products-cat-link"));
+  const sortSelect = document.getElementById("products-sort-select");
   const cards = Array.from(grid.querySelectorAll("[data-product-item]"));
   const countEl = document.getElementById("products-count");
   const emptyEl = document.getElementById("products-empty");
@@ -24,28 +25,38 @@
       card.hidden = !show;
       if (show) visible++;
     });
-    countEl.textContent = visible === cards.length
-      ? cards.length + " products"
-      : "Showing " + visible + " of " + cards.length + " products";
+    countEl.textContent = (visible === cards.length ? cards.length : visible + " of " + cards.length) + " Product" + (cards.length === 1 ? "" : "s");
     emptyEl.hidden = visible !== 0;
     grid.hidden = visible === 0;
   }
 
+  function applySort() {
+    const mode = sortSelect ? sortSelect.value : "name-asc";
+    const sorted = cards.slice().sort(function (a, b) {
+      if (mode === "price-asc") return parseFloat(a.dataset.price) - parseFloat(b.dataset.price);
+      if (mode === "price-desc") return parseFloat(b.dataset.price) - parseFloat(a.dataset.price);
+      return a.dataset.name.localeCompare(b.dataset.name);
+    });
+    sorted.forEach(function (card) { grid.appendChild(card); });
+  }
+
   searchInput.addEventListener("input", applyFilters);
 
-  chips.forEach(function (chip) {
-    chip.addEventListener("click", function () {
-      activeCategory = chip.dataset.categoryFilter || "";
-      chips.forEach(function (c) { c.classList.toggle("active", c === chip); });
+  catLinks.forEach(function (link) {
+    link.addEventListener("click", function () {
+      activeCategory = link.dataset.categoryFilter || "";
+      catLinks.forEach(function (c) { c.classList.toggle("active", c === link); });
       applyFilters();
     });
   });
+
+  if (sortSelect) sortSelect.addEventListener("change", applySort);
 
   if (clearBtn) {
     clearBtn.addEventListener("click", function () {
       searchInput.value = "";
       activeCategory = "";
-      chips.forEach(function (c) { c.classList.toggle("active", c.dataset.categoryFilter === ""); });
+      catLinks.forEach(function (c) { c.classList.toggle("active", c.dataset.categoryFilter === ""); });
       applyFilters();
     });
   }
