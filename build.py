@@ -307,14 +307,14 @@ FOOTER = f'''<footer class="site-footer">
         <p><a href="tel:{PHONE_HREF}"><strong>{PHONE_DISPLAY}</strong></a></p>
       </div>
       <div>
-        <h4>Top Services</h4>
-        <a href="/services/classic-bounce-house-rentals/">Classic Bounce Houses</a>
-        <a href="/services/water-slide-rentals/">Water Slides</a>
-        <a href="/services/obstacle-course-rentals/">Obstacle Courses</a>
-        <a href="/services/silent-disco-rentals/">Silent Disco Rentals</a>
-        <a href="/services/photo-booth-rentals/">Photo Booth Rentals</a>
-        <a href="/services/party-package-rentals/">Party Packages</a>
-        <a href="/services/">All Services</a>
+        <h4>Top Products</h4>
+        <a href="/products/chiavari-chair-rentals/">Chiavari Chair Rentals</a>
+        <a href="/products/table-rentals/">Table Rentals</a>
+        <a href="/products/chair-rentals/">Chair Rentals</a>
+        <a href="/products/tent-rentals/">Tent Rentals</a>
+        <a href="/products/portable-bar-rentals/">Portable Bar Rentals</a>
+        <a href="/products/wedding-equipment-rentals/">Wedding Equipment Rentals</a>
+        <a href="/products/">All Products</a>
       </div>
       <div>
         <h4>Directory</h4>
@@ -326,6 +326,7 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/locations/">Service Areas</a>
         <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
         <a href="/partners.html">Partners</a>
+        <a href="/sitemap/">Sitemap</a>
         <a href="/leads/">Leads</a>
         <a href="/dashboard/">Site Analytics</a>
       </div>
@@ -6783,6 +6784,86 @@ def build_blog():
     return urls
 
 
+# ----------------------------------------------------------------- html sitemap
+def build_html_sitemap():
+    """/sitemap/ — a human-readable page linking to every major section and
+    category, distinct from sitemap.xml (which lists every individual URL
+    for search engines). Organized by section so a visitor or search
+    engine crawler can reach any category in one click from here."""
+    def col(title, links):
+        items = "\n          ".join(f'<li><a href="{href}">{esc(label)}</a></li>' for href, label in links)
+        return f'''<div class="sitemap-col">
+        <h2>{esc(title)}</h2>
+        <ul>
+          {items}
+        </ul>
+      </div>'''
+
+    main_pages = [
+        ("/", "Home"), ("/services/", "Services"), ("/products/", "Rent Party Supplies"),
+        ("/cart/", "Cart"), ("/blog/", "Blog"), ("/bounce-houses/", "Bounce Houses for Rent"),
+        ("/locations/", "Service Areas"), ("/cities/", "By City"),
+        ("/cheap-bounce-house-rentals/", "Cheap Bounce House Rentals"),
+        ("/partners.html", "Partners Directory"),
+    ]
+    service_links = [(f"/services/{slug}/", name) for slug, name in SERVICES.items()]
+    specialty_links_sm = [(f"/services/{slug}/", name) for slug, name in SPECIALTY_SLUGS]
+    collection_links_sm = [(f"/products/{slug}/", name) for slug, (name, _) in COLLECTION_META.items()]
+    blog_links = [(blog_href(post), post["h1"]) for post in BLOG_POSTS]
+    city_links = [(location_href(l), l["name"]) for l in LOCATIONS]
+    company_links = [
+        ("/legal/about.html", "About Us"), ("/legal/contact.html", "Contact"),
+        ("/legal/privacy-policy.html", "Privacy Policy"), ("/legal/terms.html", "Terms of Service"),
+        ("/legal/disclaimer.html", "Disclaimer"), ("/leads/", "Leads"), ("/dashboard/", "Site Analytics"),
+    ]
+
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Sitemap", "item": DOMAIN + "/sitemap/"}]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+
+    page = head(
+        "Sitemap | Atlanta Bounce House Rentals",
+        "Browse every section of Atlanta Bounce House Rentals — services, products, blog guides, service areas and company pages, all in one place.",
+        DOMAIN + "/sitemap/", extra)
+    page += header("sitemap") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Sitemap</div>
+    <h1>Sitemap</h1>
+    <p>Every section of the site in one place. For the machine-readable version, see <a href="/sitemap.xml">sitemap.xml</a>.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="sitemap-grid">
+      {col("Main Pages", main_pages)}
+      {col("Services (Directory)", service_links)}
+      {col("Specialty Rental Pages", specialty_links_sm)}
+      {col("Rent Party Supplies Collections", collection_links_sm)}
+      {col("Blog", blog_links)}
+      {col("Service Areas", city_links)}
+      {col("Company", company_links)}
+    </div>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "sitemap")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(page)
+
+
 # ----------------------------------------------------------------- legal
 def build_legal():
     data = json.load(open(os.path.join(ROOT, "data", "legal-content.json")))
@@ -6918,7 +6999,7 @@ def build_vercel_redirects(families):
 
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/products/", "/cart/", "/blog/", "/bounce-houses/", "/locations/",
+    urls = ["/", "/services/", "/products/", "/cart/", "/blog/", "/sitemap/", "/bounce-houses/", "/locations/",
             *[f"/products/{s}/" for s in COLLECTION_META],
             *[blog_href(p) for p in BLOG_POSTS],
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
@@ -7007,6 +7088,7 @@ def main():
     build_leads()
     build_dashboard()
     build_blog()
+    build_html_sitemap()
     build_legal()
     build_404()
     build_vercel_redirects(families)

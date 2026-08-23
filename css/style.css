@@ -1413,3 +1413,11 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .collection-block { height: 150px; }
   .collection-block-label { font-size: 0.85rem; padding: 10px 12px; }
 }
+
+/* ---------- html sitemap ---------- */
+.sitemap-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 32px; }
+.sitemap-col h2 { font-size: 0.95rem; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--sky-2); }
+.sitemap-col ul { list-style: none; margin: 0; padding: 0; }
+.sitemap-col li { margin-bottom: 9px; }
+.sitemap-col a { color: var(--ink); text-decoration: none; font-size: 0.9rem; }
+.sitemap-col a:hover { color: var(--accent-dark); text-decoration: underline; }
