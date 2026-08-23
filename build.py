@@ -2965,8 +2965,8 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Solid wood, rustic harvest style",
         "image": "/images/products/farm-table-8-foot-x42-inch.jpg",
-        "image_alt": "8' x 42\" Farm Table, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "Solid wood rustic farm table with tapered legs, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 559,
         "options": [],
         "specs": [],
         "description": (
