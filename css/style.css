@@ -1229,11 +1229,16 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
    Product request pages (/services/{service}/{product}/)
    ========================================================= */
 .pr-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
-.pr-media { position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; padding: 24px; display: flex; align-items: center; justify-content: center; min-height: 340px; }
+.pr-media { position: relative; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; padding: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 340px; }
 .pr-media img { max-width: 100%; height: auto; display: block; }
 .pr-media-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 280px; background: var(--bg-soft); border: 1px dashed var(--line); border-radius: var(--radius); color: var(--muted); text-align: center; padding: 20px; }
 .pr-media-placeholder span { font-weight: 800; color: var(--ink); font-size: 1.05rem; }
 .pr-media-placeholder small { font-size: 0.8rem; }
+.pr-thumbs { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.pr-thumb { padding: 0; border: 2px solid var(--line); border-radius: 8px; overflow: hidden; cursor: pointer; background: #fff; width: 62px; height: 62px; flex: none; }
+.pr-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pr-thumb:hover { border-color: var(--accent); }
+.pr-thumb.active { border-color: var(--accent-dark); }
 .pr-badge { position: absolute; top: 16px; right: 16px; background: #d4653a; color: #fff; font-size: 0.68rem; font-weight: 800; line-height: 1.15; text-align: center; text-transform: uppercase; letter-spacing: 0.03em; width: 84px; height: 84px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 8px; }
 
 .pr-buy { display: flex; flex-direction: column; }

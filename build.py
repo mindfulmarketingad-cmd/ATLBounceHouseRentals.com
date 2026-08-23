@@ -2860,8 +2860,13 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Table, chairs and linen bundled together",
         "image": "/images/products/childrens-birthday-party-kit.jpg",
-        "image_alt": "Children's Birthday Party Kit, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "Kids party table with white linen and white chiavari chairs set up outdoors in Atlanta, Georgia",
+        "image_w": 640, "image_h": 417,
+        "extra_images": [
+            {"src": "/images/products/childrens-birthday-party-kit-pink.jpg",
+             "alt": "Kids party table with pink linen and white chiavari chairs set up outdoors in Atlanta, Georgia",
+             "w": 640, "h": 478},
+        ],
         "options": [],
         "specs": [],
         "description": (
@@ -3828,9 +3833,25 @@ def build_product_pages():
         # Render the real photo when the file is actually on disk; otherwise a
         # neutral placeholder, so a product page is never broken by a missing
         # image and starts showing the photo automatically once it's added.
+        # A product can optionally list extra_images for a small click-to-swap
+        # gallery below the main photo (see childrens-birthday-party-kit).
         if p.get("image") and os.path.exists(os.path.join(ROOT, p["image"].lstrip("/"))):
-            media_html = (f'<img src="{p["image"]}" alt="{esc(p["image_alt"])}" '
-                          f'width="{p["image_w"]}" height="{p["image_h"]}">')
+            gallery_shots = [{"src": p["image"], "alt": p["image_alt"], "w": p["image_w"], "h": p["image_h"]}]
+            gallery_shots += [g for g in p.get("extra_images", [])
+                               if os.path.exists(os.path.join(ROOT, g["src"].lstrip("/")))]
+            if len(gallery_shots) > 1:
+                thumbs_html = "\n            ".join(
+                    f'<button type="button" class="pr-thumb{" active" if i == 0 else ""}" '
+                    f'data-gallery-src="{g["src"]}" data-gallery-alt="{esc(g["alt"])}" '
+                    f'data-gallery-w="{g["w"]}" data-gallery-h="{g["h"]}" aria-label="Show photo {i + 1}">'
+                    f'<img src="{g["src"]}" alt="" width="{g["w"]}" height="{g["h"]}" loading="lazy"></button>'
+                    for i, g in enumerate(gallery_shots))
+                media_html = (f'<img id="pr-main-image" src="{gallery_shots[0]["src"]}" alt="{esc(gallery_shots[0]["alt"])}" '
+                              f'width="{gallery_shots[0]["w"]}" height="{gallery_shots[0]["h"]}">'
+                              f'\n          <div class="pr-thumbs" data-pr-gallery>\n            {thumbs_html}\n          </div>')
+            else:
+                media_html = (f'<img src="{p["image"]}" alt="{esc(p["image_alt"])}" '
+                              f'width="{p["image_w"]}" height="{p["image_h"]}">')
         else:
             media_html = (f'<div class="pr-media-placeholder" role="img" '
                           f'aria-label="{esc(p["name"])} photo coming soon">'

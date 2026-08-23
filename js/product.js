@@ -81,6 +81,22 @@
     sel.addEventListener("change", render);
   });
 
+  // ─── Photo gallery (click a thumbnail to swap the main photo) ─────────
+  var galleryEl = root.querySelector("[data-pr-gallery]");
+  var mainImageEl = document.getElementById("pr-main-image");
+  if (galleryEl && mainImageEl) {
+    galleryEl.querySelectorAll("[data-gallery-src]").forEach(function (thumb) {
+      thumb.addEventListener("click", function () {
+        mainImageEl.src = thumb.getAttribute("data-gallery-src");
+        mainImageEl.alt = thumb.getAttribute("data-gallery-alt") || "";
+        mainImageEl.width = thumb.getAttribute("data-gallery-w");
+        mainImageEl.height = thumb.getAttribute("data-gallery-h");
+        galleryEl.querySelectorAll(".pr-thumb").forEach(function (t) { t.classList.remove("active"); });
+        thumb.classList.add("active");
+      });
+    });
+  }
+
   render();
 
   // ─── Submit ───────────────────────────────────────────────────────────
