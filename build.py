@@ -2070,8 +2070,8 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Woven seat, curved wood back",
         "image": "/images/products/wishbone-dining-chair-natural-wood.jpg",
-        "image_alt": "Natural wood wishbone dining chair with a woven seat, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "Natural wood wishbone dining chair with a cushioned seat, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 360,
         "options": [],
         "specs": [],
         "description": (
