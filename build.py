@@ -2810,8 +2810,8 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Child height, lightweight plastic",
         "image": "/images/products/child-plastic-table-6x30.jpg",
-        "image_alt": "Child Plastic Table - 6' x 30\", available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "White plastic folding table with metal legs, child height, available to rent in Atlanta, Georgia",
+        "image_w": 550, "image_h": 460,
         "options": [],
         "specs": [],
         "description": (
