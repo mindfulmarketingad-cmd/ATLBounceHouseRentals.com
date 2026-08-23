@@ -1835,6 +1835,37 @@ PRODUCTS = [
         ),
     },
     {
+        "slug": "wine-bucket-ss-4qt-mirror-finish",
+        "parent_slug": "bar-beverage-equipment-rentals",
+        "parent_name": "Bar & Beverage Equipment Rentals Atlanta",
+        "name": "Wine Bucket, S/S 4QT (Mirror Finish)",
+        "short_name": "Mirror-Finish Wine Bucket",
+        "category": "Bar & Beverage Equipment",
+        "price": 14.00,
+        "unit": "bucket",
+        "unit_plural": "buckets",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Fits standard wine bucket stands",
+        "image": "/images/products/wine-bucket-ss-4qt-mirror-finish.jpg",
+        "image_alt": "Mirror-finish stainless steel wine bucket with knob handles, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Capacity", "4 quarts"),
+            ("Depth", '8"'),
+            ("Material", "Stainless steel, mirror finish"),
+            ("Handles", "2 knob handles"),
+        ],
+        "description": (
+            "Our Mirror-Finish Wine Bucket brings a polished stainless steel look to your beverage "
+            "service, with a 4-quart capacity that keeps a bottle chilled and ready to pour. Two knob "
+            "handles make it easy to carry, and it fits standard wine bucket stands for tableside "
+            "service at weddings, parties and upscale gatherings."
+        ),
+    },
+    {
         "slug": "contemporary-black-leather-barstool",
         "parent_slug": "chair-rentals",
         "parent_name": "Chair Rentals Atlanta",
