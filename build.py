@@ -3394,6 +3394,38 @@ PRODUCTS = [
             "events."
         ),
     },
+    {
+        "slug": "10x10-pop-up-tent",
+        "parent_slug": "tent-rentals",
+        "parent_name": "Tent Rentals Atlanta",
+        "products_only": True,
+        "name": '10x10 Pop-Up Tent',
+        "short_name": "10x10 Pop-Up Tent",
+        "category": "Tents",
+        "price": 160.00,
+        "unit": "tent",
+        "unit_plural": "tents",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Comes fully assembled with roll-away bag",
+        "image": "/images/products/10x10-pop-up-tent.jpg",
+        "image_alt": "White 10x10 pop-up canopy tent, available to rent in Atlanta, Georgia",
+        "image_w": 640, "image_h": 640,
+        "options": [],
+        "specs": [
+            ("Size", '10\' x 10\''),
+            ("Leg Height", "5 adjustable height settings"),
+            ("Fabric", "Water and fire resistant, 99% UV protection"),
+            ("Included", "Roll-away bag, 3 side walls and 1 door"),
+        ],
+        "description": (
+            "Our 10x10 Pop-Up Tent arrives fully assembled with five leg-height adjustments, so it "
+            "sets up and breaks down in minutes. The water- and fire-resistant fabric blocks 99% of "
+            "UV rays, and it comes with three side walls and a door that can be used or left off "
+            "depending on your event, plus a roll-away bag for transport and storage."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
@@ -4453,6 +4485,7 @@ COLLECTION_META = {
     "wedding-equipment-rentals": ("Wedding Equipment Rentals", "Wedding arches and ceremony equipment, stocked and delivered by us."),
     "portable-bar-rentals": ("Portable Bar Rentals", "Portable bar units for weddings, parties and corporate events, stocked and delivered by us."),
     "pipe-and-drape-rentals": ("Pipe & Drape Equipment Rentals", "Pipe and drape backdrops and room dividers, stocked and delivered by us."),
+    "tent-rentals": ("Tent Rentals", "Pop-up canopy tents for backyard and outdoor events, stocked and delivered by us."),
 }
 
 # Category label -> the one collection page it maps to cleanly. "Chairs &
