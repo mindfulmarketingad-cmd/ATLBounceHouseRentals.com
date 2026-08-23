@@ -278,6 +278,7 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
+        <a href="/blog/"{cls("blog")}>Blog</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:{PHONE_HREF}">
@@ -320,6 +321,7 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/">Home</a>
         <a href="/services/">Services</a>
         <a href="/products/">All Rental Products</a>
+        <a href="/blog/">Event Rental Guides</a>
         <a href="/bounce-houses/">Bounce Houses for Rent</a>
         <a href="/locations/">Service Areas</a>
         <a href="/cheap-bounce-house-rentals/">Cheap Bounce House Rentals</a>
@@ -6261,6 +6263,349 @@ def build_dashboard():
     open(os.path.join(d, "index.html"), "w").write(html_out)
 
 
+# ----------------------------------------------------------------- blog
+# Long-form editorial content at /blog/{slug}/. Each post is a dict with an
+# `html` body written as plain HTML so a post can carry inline images, tables
+# and internal links freely. `slug` is derived from the H1 per the agreed URL
+# structure (/blog/[H1]).
+BLOG_POSTS = [
+    {
+        "slug": "what-are-chiavari-chairs",
+        "h1": "What Are Chiavari Chairs?",
+        "title": "What Are Chiavari Chairs? History, Materials & Uses | Atlanta Guide",
+        "meta_desc": ("A complete guide to Chiavari chairs: what they are, what they're made of, "
+                      "where they came from, why they're the most-requested event chair, and how to "
+                      "rent them in Atlanta, Georgia."),
+        "published": "2026-08-23",
+        "updated": "2026-08-23",
+        "excerpt": ("The Chiavari chair is the most requested formal event chair in the world. Here's "
+                    "where it came from, what it's built from, why planners keep choosing it, and how "
+                    "to rent one in Atlanta."),
+        "hero": ("/images/gallery/luxury-white-gold-ballroom.jpg",
+                 "Chiavari chairs arranged around banquet tables in an elegant white and gold Atlanta ballroom",
+                 481, 637),
+        "read_minutes": 8,
+        "html": """
+<p>If you have been to a wedding, a gala or an upscale corporate dinner in the last twenty years, you have almost certainly sat in a Chiavari chair. It is the slim, elegant, faintly bamboo-looking chair that seems to show up everywhere formal seating is required &mdash; and yet most people have never known its name, how to pronounce it (it is <em>kee-ah-VAR-ee</em>), or why it became the default choice for event designers around the world.</p>
+
+<p>This guide answers all of that: what a Chiavari chair actually is, where it came from, what it is made of, why it stayed popular for more than two centuries, and how to rent one for an event in Atlanta.</p>
+
+<h2 id="what-are-chiavari-chairs-used-for">What Are Chiavari Chairs Used For?</h2>
+
+<p>Chiavari chairs are event chairs. They are built for occasions where the seating is part of the decor rather than just a place to sit &mdash; which is why you rarely see them in a home or an office, and constantly see them under a tent, in a ballroom or on a lawn.</p>
+
+<h3>Weddings and receptions</h3>
+
+<p>Weddings are the single biggest use case. A Chiavari chair reads as formal without being heavy, and because the frame is slim and open, it never competes with florals, linens or the dress in photographs. Most Atlanta weddings use the same chair for both the ceremony and the reception, with the chairs moved and reset between the two.</p>
+
+<h3>Galas, fundraisers and corporate dinners</h3>
+
+<p>Black and mahogany Chiavari chairs are a common pick for awards dinners and nonprofit galas, where the room needs to feel elevated but not bridal. The slim profile matters here for a practical reason as much as an aesthetic one: you can fit more seats per table and more tables per room than you can with a wide banquet chair.</p>
+
+<h3>Milestone parties and showers</h3>
+
+<p>Sweet sixteens, quinceañeras, baby showers, anniversary parties and engagement dinners all lean on Chiavari seating for the same reason &mdash; it makes a rented space look intentional. For events with children on the guest list, <a href="/services/chiavari-chair-rentals/child-chiavari-chair-13-inch-seat-white/">child-size Chiavari chairs</a> in white and <a href="/services/chiavari-chair-rentals/child-chiavari-chair-13-inch-seat-pink/">pink</a> let a kids' table match the adult tables instead of looking like an afterthought.</p>
+
+<h3>Cocktail hours and bar areas</h3>
+
+<p>The Chiavari silhouette also comes in bar height. A <a href="/services/chiavari-chair-rentals/chiavari-barstool-chair-fruitwood/">Chiavari barstool</a> pairs with 42-inch high-top tables to carry the same design language from the dinner tables through to the cocktail area, which is a detail most guests feel without consciously noticing.</p>
+
+<h2 id="the-origin-of-chiavari-chairs">The Origin of Chiavari Chairs</h2>
+
+<p>The chair is named after the town it was invented in: Chiavari, a small coastal city in the Liguria region of northwestern Italy, about 25 miles southeast of Genoa.</p>
+
+<h3>Giuseppe Gaetano Descalzi and the &ldquo;Campanino&rdquo;</h3>
+
+<p>Around 1807, a local cabinetmaker named Giuseppe Gaetano Descalzi &mdash; nicknamed <em>Campanino</em> &mdash; was asked to study a set of French Empire chairs that a Ligurian nobleman had brought back from Paris. Rather than copy them, Descalzi redesigned them. He stripped out material wherever the structure did not need it, thinned the legs and spindles, and produced a chair that was dramatically lighter than the original while remaining strong enough for daily use.</p>
+
+<p>That combination &mdash; formal looks, very low weight, real durability &mdash; was genuinely new at the time, and it made the chair a local industry. Chiavari became known for the chairs, and the design spread across Europe through the nineteenth century.</p>
+
+<h3>How it reached American events</h3>
+
+<p>The Chiavari chair arrived in the United States as a high-end furniture import and lived for decades in hotels, embassies and ballrooms. Its move into the mass event-rental market came later, when manufacturers began producing the same silhouette in resin and aluminum. That made the chair cheap enough to stock by the hundred and durable enough to survive being loaded onto trucks week after week &mdash; which is the version almost every rental company, including ours, carries today.</p>
+
+<figure>
+  <img src="/images/products/gold-chiavari-chair-white-pad.jpg" alt="Gold Chiavari chair with a white cushion, the most requested finish for Atlanta weddings" width="500" height="500" loading="lazy">
+  <figcaption>The gold Chiavari chair with a white cushion &mdash; still the most requested finish for Atlanta weddings.</figcaption>
+</figure>
+
+<h2 id="what-are-chiavari-chairs-made-of">What Are Chiavari Chairs Made Of?</h2>
+
+<p>Original Chiavari chairs were made of wood &mdash; typically cherry, maple, beech or ash, hand-shaped and finished. Antique and high-end reproductions still are. But the chairs used in event rental today are usually one of three materials, and the difference matters if you are the one paying for them.</p>
+
+<h3>Resin</h3>
+
+<p>Resin Chiavari chairs are injection-molded from high-strength polypropylene or a similar polymer, often over an internal metal core. This is the workhorse of the rental industry. Resin holds color consistently across hundreds of chairs, does not chip or scratch the way painted wood does, handles humidity and outdoor use well, and stacks tightly for transport. Nearly every resin Chiavari chair carries a weight rating around 500 pounds.</p>
+
+<h3>Aluminum</h3>
+
+<p>Aluminum versions are light, rust-resistant and very durable, which makes them popular for venues that store and reset chairs constantly. They tend to cost more up front than resin and can feel slightly less warm in photos, but they age extremely well.</p>
+
+<h3>Wood</h3>
+
+<p>Solid wood Chiavari chairs are the closest to Descalzi's original and are still specified for luxury weddings and historic venues where authenticity matters. They are heavier, more expensive, and more vulnerable to scuffs and weather &mdash; which is why they are far less common in general rental inventory.</p>
+
+<h3>What about the cushion?</h3>
+
+<p>The seat pad is a separate component. Most rental Chiavari chairs use a removable cushion that attaches with Velcro to a hard backing board, which lets the same chair frame be dressed in different cushion colors. Every Chiavari chair we stock includes a hard-back cushion at no additional charge.</p>
+
+<table>
+  <thead><tr><th>Material</th><th>Typical weight capacity</th><th>Best for</th></tr></thead>
+  <tbody>
+    <tr><td>Resin</td><td>~500 lbs</td><td>Most events; outdoor and high-volume use</td></tr>
+    <tr><td>Aluminum</td><td>~500 lbs</td><td>Venues resetting chairs frequently</td></tr>
+    <tr><td>Wood</td><td>Varies by build</td><td>Luxury weddings, historic venues</td></tr>
+  </tbody>
+</table>
+
+<h2 id="why-are-chiavari-chairs-so-popular">Why Are Chiavari Chairs So Popular?</h2>
+
+<p>Plenty of attractive chairs exist. Very few of them have held the top spot in event rental for two hundred years. A few specific properties explain it.</p>
+
+<h3>They disappear in photographs</h3>
+
+<p>This is the reason most planners will give you first. The open back and thin frame mean a Chiavari chair does not create a visual wall behind your guests. Compare a room of Chiavari chairs to a room of upholstered banquet chairs in the same photo and the difference is obvious &mdash; one recedes, the other dominates.</p>
+
+<h3>They fit more people in the same room</h3>
+
+<p>A Chiavari chair is roughly 15 to 16 inches wide, meaningfully narrower than a standard padded banquet chair. Across a 60-inch round table that difference is the gap between comfortably seating eight and squeezing in ten. Across a full ballroom it can change your entire floor plan.</p>
+
+<h3>They stack, so they ship and store efficiently</h3>
+
+<p>Chiavari chairs stack vertically. That lowers delivery costs, shortens setup time, and makes it realistic to move 200 chairs between a ceremony space and a reception space during a cocktail hour.</p>
+
+<h3>They come in finishes that match anything</h3>
+
+<p>Gold, silver, white, black, mahogany, fruitwood and clear all exist in the same silhouette, so the chair adapts to the color story instead of dictating it. We stock <a href="/services/chiavari-chair-rentals/gold-chiavari-chair-white-pad/">gold</a>, <a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-white/">white</a>, <a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-silver/">silver</a> and <a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-mahogany/">mahogany</a> ourselves.</p>
+
+<figure>
+  <img src="/images/products/chiavari-chair-with-pad-mahogany.jpg" alt="Mahogany Chiavari chairs set at farm tables for an outdoor Atlanta wedding reception" width="640" height="426" loading="lazy">
+  <figcaption>Mahogany Chiavari chairs at farm tables &mdash; a common pairing for outdoor and barn-style Atlanta receptions.</figcaption>
+</figure>
+
+<h3>They are genuinely comfortable enough</h3>
+
+<p>A Chiavari chair is not a lounge chair, but with a cushion it is comfortable for the two to four hours a seated dinner actually lasts. That is a lower bar than it sounds &mdash; a lot of decorative event chairs fail it.</p>
+
+<h2 id="where-can-i-rent-chiavari-chairs">Where Can I Rent Chiavari Chairs for My Event?</h2>
+
+<p>In Atlanta you have two realistic paths, and which one is better depends mostly on your order size and how much back-and-forth you want.</p>
+
+<h3>Rent directly from us</h3>
+
+<p>We stock and deliver Chiavari chairs ourselves at a flat per-chair rate, so there is no quoting process &mdash; you pick your quantity, see your total including delivery, and send the request. Current inventory:</p>
+
+<ul>
+  <li><a href="/services/chiavari-chair-rentals/gold-chiavari-chair-white-pad/">Gold Chiavari Chair with White Pad</a> &mdash; $10.50 per chair</li>
+  <li><a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-white/">Chiavari Chair with Pad &ndash; White</a> &mdash; $10.50 per chair</li>
+  <li><a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-silver/">Chiavari Chair with Pad &ndash; Silver</a> &mdash; $10.50 per chair</li>
+  <li><a href="/services/chiavari-chair-rentals/chiavari-chair-with-pad-mahogany/">Chiavari Chair with Pad &ndash; Mahogany</a> &mdash; $10.50 per chair</li>
+  <li><a href="/services/chiavari-chair-rentals/chiavari-barstool-chair-fruitwood/">Chiavari Barstool Chair &ndash; Fruitwood</a> &mdash; $30.00 per barstool</li>
+  <li><a href="/services/chiavari-chair-rentals/child-chiavari-chair-13-inch-seat-white/">Child Chiavari Chair (13&quot; Seat) &ndash; White</a> &mdash; $6.50 per chair</li>
+  <li><a href="/services/chiavari-chair-rentals/child-chiavari-chair-13-inch-seat-pink/">Child Chiavari Chair (13&quot; Seat) &ndash; Pink</a> &mdash; $6.00 per chair</li>
+</ul>
+
+<p>You can browse all of them together on our <a href="/products/chiavari-chair-rentals/">Chiavari chair collection page</a>, or add several finishes to one order from the full <a href="/products/">Rent Party Supplies catalog</a>. Delivery is drop-off and pickup only, with a flat $200 standard delivery fee per order regardless of how many items you add.</p>
+
+<h3>Get matched with a local provider</h3>
+
+<p>For very large orders, full-service setup, or packages that bundle chairs with tenting and staffing, our <a href="/services/chiavari-chair-rentals/">Chiavari Chair Rentals in Atlanta</a> directory page connects you with vetted local companies across the metro.</p>
+
+<h3>How many chairs should you order?</h3>
+
+<p>Plan on one chair per confirmed guest plus roughly five percent for late additions. If your ceremony and reception are in separate spaces and the chairs will not be moved between them, you need two full sets &mdash; a detail that catches people out more often than any other.</p>
+
+<h3>What else should you book at the same time?</h3>
+
+<p>Chairs are one line item in a seating plan. Most orders pair them with <a href="/products/table-rentals/">tables</a> &mdash; 60-inch rounds for seated dinners, farm tables for rustic receptions, cocktail tables for the bar area. If your event needs a modern rather than classical look, <a href="/services/ghost-chair-rentals/">clear acrylic ghost chairs</a> fill the same role with a contemporary silhouette, and our broader <a href="/services/chair-rentals/">chair rentals page</a> covers folding, resin and stacking options for less formal events.</p>
+
+<h2 id="the-short-version">The Short Version</h2>
+
+<p>A Chiavari chair is a slim, stackable, open-backed event chair designed in Chiavari, Italy in the early 1800s by Giuseppe Gaetano Descalzi. Today it is usually made of resin or aluminum rather than wood, holds around 500 pounds, comes in gold, silver, white, black, mahogany and fruitwood, and is the default formal event chair worldwide because it photographs well, seats more guests per table, and stacks for easy transport.</p>
+
+<p>If you need them for an event in Atlanta, you can <a href="/products/chiavari-chair-rentals/">pick your quantity and request delivery directly</a> &mdash; or call or text us and we will walk you through it.</p>
+""",
+        "faqs": [
+            ("How much do Chiavari chair rentals cost in Atlanta?",
+             "<p>We rent Chiavari chairs at a flat $10.50 per chair for gold, white, silver and mahogany finishes, with child-size Chiavari chairs at $6.00 to $6.50 and Chiavari barstools at $30.00. A flat $200 standard delivery fee applies per order. Directory providers in the Atlanta metro typically quote $3.50 to $12 per chair depending on quantity and season.</p>"),
+            ("Do Chiavari chair rentals include cushions?",
+             "<p>Yes. Every Chiavari chair we stock includes a Velcro hard-back cushion at no additional charge. Most Atlanta providers also include a standard cushion in ivory, white or black, though premium or custom cushion colors may carry a surcharge.</p>"),
+            ("How much weight can a Chiavari chair hold?",
+             "<p>Resin and aluminum Chiavari chairs are typically rated to around 500 pounds. Wood versions vary by construction. If you have a specific weight requirement, ask before booking rather than assuming.</p>"),
+            ("Can Chiavari chairs be used outdoors?",
+             "<p>Resin and aluminum Chiavari chairs handle outdoor use well and are the standard choice for Atlanta garden weddings and tented receptions. Solid wood versions are more vulnerable to moisture and direct sun. Any chair should come off wet grass or be covered if heavy rain is forecast.</p>"),
+            ("How far in advance should I book Chiavari chairs in Atlanta?",
+             "<p>Book four to six weeks ahead for spring and fall wedding season, when Saturday dates across the metro fill fastest. Large orders of 200 or more chairs deserve more lead time. Last-minute requests are still worth making &mdash; call or text and we will check what is actually available for your date.</p>"),
+            ("How do you pronounce Chiavari?",
+             "<p>Kee-ah-VAR-ee. It is the name of the Italian town where the chair was designed in the early 1800s.</p>"),
+        ],
+    },
+]
+
+
+def blog_href(post):
+    return f'/blog/{post["slug"]}/'
+
+
+def build_blog():
+    """/blog/ index plus one long-form article page per BLOG_POSTS entry at
+    /blog/{slug}/. Article pages carry Article + BreadcrumbList + FAQPage
+    JSON-LD so they're eligible for rich results."""
+    urls = ["/blog/"]
+
+    # ---- individual posts -------------------------------------------------
+    for post in BLOG_POSTS:
+        href = blog_href(post)
+        hero_src, hero_alt, hero_w, hero_h = post["hero"]
+        faq_html, faq_ld = faq_block(post["faqs"])
+
+        # Table of contents built from the post's own H2s, so it can never
+        # drift from the body copy.
+        toc_items = re.findall(r'<h2 id="([^"]+)">(.*?)</h2>', post["html"], re.S)
+        toc_html = "\n        ".join(
+            f'<li><a href="#{hid}">{re.sub("<[^>]+>", "", htext).strip()}</a></li>'
+            for hid, htext in toc_items)
+
+        article_ld = {
+            "@context": "https://schema.org", "@type": "Article",
+            "headline": post["h1"],
+            "description": post["meta_desc"],
+            "image": DOMAIN + hero_src,
+            "datePublished": post["published"],
+            "dateModified": post["updated"],
+            "author": {"@type": "Organization", "name": "Atlanta Bounce House Rentals",
+                       "url": DOMAIN + "/"},
+            "publisher": {"@type": "Organization", "name": "Atlanta Bounce House Rentals",
+                          "logo": {"@type": "ImageObject", "url": DOMAIN + "/images/logo.svg"}},
+            "mainEntityOfPage": {"@type": "WebPage", "@id": DOMAIN + href},
+        }
+        bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Blog", "item": DOMAIN + "/blog/"},
+            {"@type": "ListItem", "position": 3, "name": post["h1"], "item": DOMAIN + href}]}
+        extra = (f'<script type="application/ld+json">\n{json.dumps(article_ld, ensure_ascii=False)}\n</script>\n'
+                 f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n{faq_ld}')
+
+        page = head(esc(post["title"]), post["meta_desc"], DOMAIN + href, extra)
+        page += header("blog") + f'''
+<div class="page-head">
+  <div class="container" style="max-width:860px;">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; <a href="/blog/">Blog</a> &rsaquo; {esc(post["h1"])}</div>
+    <h1>{esc(post["h1"])}</h1>
+    <p class="blog-meta">Updated {post["updated"]} &middot; {post["read_minutes"]} min read &middot; Atlanta Bounce House Rentals</p>
+  </div>
+</div>
+
+<article>
+  <div class="container blog-body">
+    <img class="blog-hero" src="{hero_src}" alt="{esc(hero_alt)}" width="{hero_w}" height="{hero_h}">
+
+    <nav class="blog-toc" aria-label="On this page">
+      <h2>On This Page</h2>
+      <ul>
+        {toc_html}
+      </ul>
+    </nav>
+
+    {post["html"]}
+
+    <aside class="blog-cta">
+      <h2>Rent Chiavari Chairs in Atlanta</h2>
+      <p>We stock gold, white, silver and mahogany Chiavari chairs at a flat $10.50 per chair, cushion included. Pick your quantity and request delivery in under a minute.</p>
+      <a class="btn" href="/products/chiavari-chair-rentals/">Browse Chiavari Chairs &rsaquo;</a>
+      <a class="btn btn-outline" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+    </aside>
+  </div>
+</article>
+{faq_html}
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Ready to Book Your Event Seating?</h2>
+    <p>Browse everything we stock and deliver ourselves across metro Atlanta &mdash; chairs, tables, bar equipment and more.</p>
+    <a class="btn" href="/products/">Rent Party Supplies &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+        d = os.path.join(ROOT, "blog", post["slug"])
+        os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, "index.html"), "w").write(page)
+        urls.append(href)
+
+    # ---- blog index -------------------------------------------------------
+    cards = "\n      ".join(
+        f'''<a class="blog-card" href="{blog_href(p)}">
+        <img src="{p["hero"][0]}" alt="{esc(p["hero"][1])}" width="{p["hero"][2]}" height="{p["hero"][3]}" loading="lazy">
+        <div class="blog-card-body">
+          <h2>{esc(p["h1"])}</h2>
+          <p class="blog-meta">Updated {p["updated"]} &middot; {p["read_minutes"]} min read</p>
+          <p>{esc(p["excerpt"])}</p>
+          <span class="prod-card-cta">Read the guide &rsaquo;</span>
+        </div>
+      </a>''' for p in BLOG_POSTS)
+
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": DOMAIN + "/blog/"}]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+
+    index_page = head(
+        "Event Rental Guides &amp; Advice | Atlanta Bounce House Rentals",
+        "In-depth guides to event rentals in Atlanta, Georgia — chairs, tables, tents and equipment, explained by the team that delivers them.",
+        DOMAIN + "/blog/", extra)
+    index_page += header("blog") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Blog</div>
+    <h1>Event Rental Guides</h1>
+    <p>Practical, in-depth answers to the questions Atlanta hosts and planners actually ask us &mdash; written by the team that delivers the equipment.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="blog-grid">
+      {cards}
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Rent Party Supplies in Atlanta</h2>
+    <p>Chairs, tables, bar equipment and A/V gear we stock and deliver ourselves &mdash; pick your quantity and request delivery directly.</p>
+    <a class="btn" href="/products/">Browse All Products &rsaquo;</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "blog")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(index_page)
+    return urls
+
+
 # ----------------------------------------------------------------- legal
 def build_legal():
     data = json.load(open(os.path.join(ROOT, "data", "legal-content.json")))
@@ -6396,8 +6741,9 @@ def build_vercel_redirects(families):
 
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/products/", "/cart/", "/bounce-houses/", "/locations/",
+    urls = ["/", "/services/", "/products/", "/cart/", "/blog/", "/bounce-houses/", "/locations/",
             *[f"/products/{s}/" for s in COLLECTION_META],
+            *[blog_href(p) for p in BLOG_POSTS],
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
     urls += [f"/services/{s}/" for s in SERVICES]
     urls += [f"/services/{slug}/" for slug, _ in SPECIALTY_SLUGS]
@@ -6483,6 +6829,7 @@ def main():
     build_cheap(providers)
     build_leads()
     build_dashboard()
+    build_blog()
     build_legal()
     build_404()
     build_vercel_redirects(families)
