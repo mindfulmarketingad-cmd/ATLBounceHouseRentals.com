@@ -2484,8 +2484,8 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Clear acrylic, cocktail height",
         "image": "/images/products/30-inch-round-clear-acrylic-highboy-table.jpg",
-        "image_alt": "30\" Clear Acrylic Highboy Table, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "30\" clear acrylic highboy cocktail table with a floral centerpiece set up for an event reception in Atlanta, Georgia",
+        "image_w": 640, "image_h": 975,
         "options": [],
         "specs": [],
         "description": (
