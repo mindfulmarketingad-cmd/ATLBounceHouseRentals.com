@@ -3077,7 +3077,7 @@ PRODUCTS = [
         "includes": "Wood top, seats 4",
         "image": "/images/products/round-table-36-inch.jpg",
         "image_alt": "36\" Round Table, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_w": 500, "image_h": 500,
         "options": [],
         "specs": [],
         "description": (
