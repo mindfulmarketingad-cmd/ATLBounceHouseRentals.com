@@ -278,18 +278,17 @@ def header(active=""):
         <a href="/"{cls("home")}>Home</a>
         <a href="/cities/"{cls("cities")}>By City</a>
         <a href="/services/"{cls("services")}>By Service</a>
-        <a href="/products/"{cls("products")}>Rent Party Supplies</a>
       </nav>
       <div class="header-ctas">
         <a class="header-call-cta" href="tel:{PHONE_HREF}">
           <span class="header-call-number">{PHONE_DISPLAY}</span>
           <span class="header-call-label">Call or text for quote</span>
         </a>
+        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
         <a class="cart-link" href="/cart/" aria-label="View cart">
           <span class="cart-icon" aria-hidden="true">&#128722;</span>
           <span class="cart-count" id="header-cart-count" hidden>0</span>
         </a>
-        <a class="book-now-cta" href="/products/">Rent Party Supplies</a>
       </div>
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">&#9776;</button>
     </div>
@@ -3894,7 +3893,7 @@ def build_product_pages():
 
       <div class="pr-buy">
         <p class="pr-includes">{esc(p["includes"])}</p>
-        <div class="pr-price"><strong>${price:.2f}</strong> <span class="muted">per {esc(p["unit"])}</span></div>
+        <div class="pr-price"><span class="prod-was-price">${price * 2:.2f}</span> <strong>${price:.2f}</strong> <span class="muted">per {esc(p["unit"])}</span></div>
 
         {opts_html}
 
@@ -4054,7 +4053,7 @@ def build_products_page():
         <div class="prod-card-body">
           <p class="prod-card-category muted">{esc(prod["category"])}</p>
           <h3><a href="{product_href(prod)}">{esc(prod["name"])}</a></h3>
-          <p class="prod-card-price"><strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
+          <p class="prod-card-price"><span class="prod-was-price">${prod["price"] * 2:.2f}</span> <strong>${prod["price"]:.2f}</strong> <span class="muted">per {esc(prod["unit"])}</span></p>
           <p class="muted">{esc(prod["includes"])}</p>
           <div class="prod-card-actions">
             <a class="prod-card-cta" href="{product_href(prod)}">Pick your quantity &rsaquo;</a>
