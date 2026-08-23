@@ -1315,6 +1315,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .products-sort select { padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; font-size: 0.88rem; background: #fff; }
 .prod-card-grid-3col { grid-template-columns: repeat(3, 1fr); }
 #products-empty { padding: 40px 0; text-align: center; font-size: 0.95rem; }
+.products-coming-soon { padding: 60px 20px; text-align: center; font-size: 1rem; color: var(--muted); background: var(--bg-soft); border: 1px dashed var(--line); border-radius: var(--radius); }
 .link-btn { background: none; border: none; color: var(--accent-dark); font-weight: 700; font-size: inherit; font-family: inherit; cursor: pointer; padding: 0; text-decoration: underline; }
 
 @media (max-width: 900px) {

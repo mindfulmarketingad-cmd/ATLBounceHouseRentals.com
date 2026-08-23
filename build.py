@@ -4107,6 +4107,7 @@ COLLECTION_META = {
     "bar-beverage-equipment-rentals": ("Bar & Beverage Equipment Rentals", "Portable bar and beverage equipment, stocked and delivered by us."),
     "audio-visual-equipment-rentals": ("Audio and Visual Equipment Rentals", "PA systems, microphones, podiums and A/V gear, stocked and delivered by us."),
     "wedding-equipment-rentals": ("Wedding Equipment Rentals", "Wedding arches and ceremony equipment, stocked and delivered by us."),
+    "portable-bar-rentals": ("Portable Bar Rentals", "Portable bar units for weddings, parties and corporate events, stocked and delivered by us."),
 }
 
 # Category label -> the one collection page it maps to cleanly. "Chairs &
@@ -4186,6 +4187,27 @@ def render_products_collection(products, url_path, page_name, intro):
         f'<li><a href="{href}"{_cls_active if s == current_slug else ""}>{esc(n)}</a></li>'
         for s, n, href in collection_links)
 
+    if products:
+        products_main_html = f'''<div class="products-toolbar-row">
+          <p class="products-count-heading" id="products-count"></p>
+          <div class="products-sort">
+            <label for="products-sort-select">Sort By</label>
+            <select id="products-sort-select">
+              <option value="name-asc">Name (A-Z)</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="prod-card-grid prod-card-grid-3col" id="products-grid">
+          {cards}
+        </div>
+        <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>'''
+    else:
+        products_main_html = (f'<p class="products-coming-soon">No items in this collection yet '
+                               f'&mdash; check back soon, or call/text <a href="tel:{PHONE_HREF}">{PHONE_DISPLAY}</a> '
+                               f'to ask about it directly.</p>')
+
     page = head(title,
         f"{intro} Pick your quantity, filter by category or search by name.",
         DOMAIN + url_path, extra)
@@ -4217,21 +4239,7 @@ def render_products_collection(products, url_path, page_name, intro):
         </ul>
       </aside>
       <div class="products-main">
-        <div class="products-toolbar-row">
-          <p class="products-count-heading" id="products-count"></p>
-          <div class="products-sort">
-            <label for="products-sort-select">Sort By</label>
-            <select id="products-sort-select">
-              <option value="name-asc">Name (A-Z)</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-            </select>
-          </div>
-        </div>
-        <div class="prod-card-grid prod-card-grid-3col" id="products-grid">
-          {cards}
-        </div>
-        <p class="muted" id="products-empty" hidden>No products match your search or filter. <button type="button" class="link-btn" id="products-clear">Clear search and filters</button></p>
+        {products_main_html}
       </div>
     </div>
   </div>
@@ -4275,13 +4283,12 @@ def build_products_page():
 def build_product_collection_pages():
     """/products/{parent_slug}/ — same collection-page layout as /products/,
     scoped to one product family (e.g. /products/chiavari-chair-rentals/,
-    /products/table-rentals/). One page per PRODUCTS_BY_PARENT group that
-    has a COLLECTION_META entry."""
-    for slug, items in PRODUCTS_BY_PARENT.items():
-        meta = COLLECTION_META.get(slug)
-        if not meta:
-            continue
-        name, intro = meta
+    /products/table-rentals/). One page per COLLECTION_META entry; a
+    collection with no products yet still renders (empty grid) so the page
+    exists ahead of its first product, matching the rest of the site's
+    "always renders, never broken" pattern."""
+    for slug, (name, intro) in COLLECTION_META.items():
+        items = PRODUCTS_BY_PARENT.get(slug, [])
         render_products_collection(items, f"/products/{slug}/", name, intro)
 
 
