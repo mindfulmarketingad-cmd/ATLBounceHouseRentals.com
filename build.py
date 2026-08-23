@@ -2685,8 +2685,8 @@ PRODUCTS = [
         "delivery_only": True,
         "includes": "Folding, seats 8 to 10",
         "image": "/images/products/banquet-table-8x30.jpg",
-        "image_alt": "Banquet Table - 8' x 30\", available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_alt": "8-foot by 30-inch wood folding banquet table with black metal legs, available to rent in Atlanta, Georgia",
+        "image_w": 220, "image_h": 129,
         "options": [],
         "specs": [],
         "description": (
