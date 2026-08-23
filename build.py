@@ -4367,6 +4367,7 @@ COLLECTION_META = {
     "audio-visual-equipment-rentals": ("Audio and Visual Equipment Rentals", "PA systems, microphones, podiums and A/V gear, stocked and delivered by us."),
     "wedding-equipment-rentals": ("Wedding Equipment Rentals", "Wedding arches and ceremony equipment, stocked and delivered by us."),
     "portable-bar-rentals": ("Portable Bar Rentals", "Portable bar units for weddings, parties and corporate events, stocked and delivered by us."),
+    "pipe-and-drape-rentals": ("Pipe & Drape Equipment Rentals", "Pipe and drape backdrops and room dividers, stocked and delivered by us."),
 }
 
 # Category label -> the one collection page it maps to cleanly. "Chairs &
