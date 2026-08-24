@@ -6949,6 +6949,285 @@ BLOG_POSTS = [
              "<p>Most resin folding chairs with a steel frame are rated between 300 and 800 pounds depending on the specific model and frame gauge. Ask your provider for the exact rating if you have a specific requirement.</p>"),
         ],
     },
+    {
+        "slug": "5-best-tent-rental-providers-in-atlanta-georgia",
+        "h1": "5 Best Tent Rental Providers in Atlanta Georgia",
+        "title": "5 Best Tent Rental Providers in Atlanta Georgia (2026)",
+        "meta_desc": ("Our ranked list of the 5 best tent rental providers in Atlanta, Georgia, based "
+                      "on rating, review volume and service offerings, plus how to rent a tent "
+                      "directly from us."),
+        "published": "2026-08-24",
+        "updated": "2026-08-24",
+        "excerpt": ("A ranked, honest look at the top 5 tent rental companies serving metro Atlanta "
+                    "— who they are, what they offer, and how they compare on rating and reviews."),
+        "hero": ("/images/gallery/luxury-poolside-tent-event.jpg",
+                 "Elegant white event tent set up poolside for a celebration in Atlanta, Georgia",
+                 1600, 1069),
+        "read_minutes": 7,
+        "html": """
+<p>Renting a tent for an outdoor event in Atlanta is one of those decisions that is easy to get wrong in a way you will not notice until the day of the event &mdash; the wrong size, a company that does not actually stake and secure the tent properly, or a provider who cannot deliver on your date. To save you the research, we pulled together the top 5 tent rental providers in our Atlanta directory, ranked by Google rating and review volume.</p>
+
+<h2 id="how-we-ranked-these-providers">How We Ranked These Providers</h2>
+
+<p>Every company below is pulled from our <a href="/partners.html">Atlanta rental provider directory</a>, filtered specifically to businesses that list tent rental as a service, then ranked by a combination of Google star rating and total review count &mdash; a company with a 5.0 rating and 3 reviews is weighted differently than one with a 4.6 and 80 reviews, since review volume tells you how many real events a company has actually delivered.</p>
+
+<h2 id="quick-comparison">Quick Comparison</h2>
+
+<table>
+  <thead><tr><th>Rank</th><th>Provider</th><th>Rating</th><th>Reviews</th><th>City</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>EventWorks Rentals Atlanta</td><td>4.6</td><td>80</td><td>Atlanta</td></tr>
+    <tr><td>2</td><td>The Art in Service LLC</td><td>5.0</td><td>13</td><td>Atlanta</td></tr>
+    <tr><td>3</td><td>Atlanta Tent Rental</td><td>4.6</td><td>21</td><td>Atlanta</td></tr>
+    <tr><td>4</td><td>A &amp; D Elegant Events LLC.</td><td>4.7</td><td>13</td><td>Atlanta</td></tr>
+    <tr><td>5</td><td>Reece Tent Rental</td><td>New</td><td>0</td><td>Atlanta</td></tr>
+  </tbody>
+</table>
+
+<h2 id="rank-1-eventworks-rentals-atlanta">1. EventWorks Rentals Atlanta</h2>
+
+<p>With 80 reviews and a 4.6-star average, EventWorks Rentals Atlanta has the largest track record of any tent provider in our directory by a wide margin. That review volume is the strongest signal you can get that a company reliably shows up, sets up correctly and delivers on the date promised &mdash; the three things that actually matter with a tent rental.</p>
+
+<h3>Service Area</h3>
+<p>Based in Atlanta off West Marietta Street, serving the full metro area. See their <a href="/partners/eventworks-rentals-atlanta/">full profile and reviews</a>.</p>
+
+<h2 id="rank-2-the-art-in-service-llc">2. The Art in Service LLC</h2>
+
+<p>A perfect 5.0-star rating across 13 reviews, with tent rental as one of several event services alongside banquet hall space, bartending and event management. That range makes them a strong option if your event needs more than just the tent itself.</p>
+
+<h3>Service Area</h3>
+<p>Based in Atlanta off Marietta Blvd NW, serving the metro area. See their <a href="/partners/the-art-in-service-llc/">full profile and reviews</a>.</p>
+
+<h2 id="rank-3-atlanta-tent-rental">3. Atlanta Tent Rental</h2>
+
+<p>The name says it plainly: tents are the focus. A 4.6-star rating across 21 reviews puts them solidly in the top tier, and a company built specifically around tent rental tends to carry more size and style options than a general party rental business that offers tents as one line item.</p>
+
+<h3>Service Area</h3>
+<p>Based in Atlanta off Peachtree Square, serving the metro area. See their <a href="/partners/atlanta-tent-rental/">full profile and reviews</a>.</p>
+
+<h2 id="rank-4-a-d-elegant-events">4. A &amp; D Elegant Events LLC.</h2>
+
+<p>A 4.7-star rating across 13 reviews, with tent rental alongside broader event planning services. If you want a single point of contact handling both the tent and other elements of your event's setup, a provider that also does event planning can simplify coordination.</p>
+
+<h3>Service Area</h3>
+<p>Based in Atlanta, serving the metro area. See their <a href="/partners/a-d-elegant-events-llc/">full profile and reviews</a>.</p>
+
+<h2 id="rank-5-reece-tent-rental">5. Reece Tent Rental</h2>
+
+<p>A newer listing in our directory without an established review history yet, but tent rental and wedding service are both explicitly listed among their offerings. Worth a call if the top four are booked on your date or if you want to compare an additional quote.</p>
+
+<h3>Service Area</h3>
+<p>Based in Atlanta, serving the metro area. See their <a href="/partners/reece-tent-rental/">full profile</a>.</p>
+
+<h2 id="renting-a-tent-directly-from-us">Renting a Tent Directly From Us</h2>
+
+<p>Alongside the directory above, we also stock and deliver tents ourselves at a flat rate, with no quoting process. Current inventory on our <a href="/products/tent-rentals/">Tent Rentals collection page</a>:</p>
+
+<ul>
+  <li><a href="/products/tent-rentals/10x10-pop-up-tent/">10x10 Pop-Up Tent</a> &mdash; $160.00, fully assembled with adjustable legs and 99% UV-blocking fabric</li>
+  <li><a href="/products/tent-rentals/20x20-tent-backyard-event-kit/">20x20 Tent Backyard Event Kit</a> &mdash; $777.00, a complete package with tent, tables, chairs and linens for around 32 guests</li>
+  <li><a href="/products/tent-rentals/tent-french-door-white/">Tent, French Door (White)</a> &mdash; $220.00, an aluminum-framed glass door panel upgrade for a frame tent</li>
+</ul>
+
+<p>Pick your quantity and request delivery directly &mdash; a flat $200 standard delivery fee applies per order, drop-off and pickup only.</p>
+
+<h2 id="nearby-areas-we-serve">Nearby Areas We Serve</h2>
+
+<p>Along with Atlanta proper, our directory providers and our own direct tent inventory serve the surrounding metro, including <a href="/locations/buckhead/">Buckhead</a>, <a href="/locations/midtown/">Midtown</a>, <a href="/locations/decatur/">Decatur</a>, <a href="/locations/sandy-springs/">Sandy Springs</a>, <a href="/locations/dunwoody/">Dunwoody</a>, <a href="/locations/marietta/">Marietta</a>, <a href="/locations/roswell/">Roswell</a>, <a href="/locations/alpharetta/">Alpharetta</a>, <a href="/locations/brookhaven/">Brookhaven</a> and <a href="/locations/vinings/">Vinings</a>. See the <a href="/locations/">full list of service areas</a> for more.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>EventWorks Rentals Atlanta leads our ranking on review volume and rating, followed by The Art in Service LLC, Atlanta Tent Rental, A &amp; D Elegant Events and Reece Tent Rental. All five are real businesses in our Atlanta directory offering tent rental as a listed service. If you would rather skip the quoting process entirely, we also stock our own tents and event kits directly &mdash; <a href="/products/tent-rentals/">browse them here</a> and request delivery in under a minute.</p>
+
+<p>For a broader look at your options, see our companion posts <a href="/blog/all-tent-rental-providers-in-atlanta-ga/">All Tent Rental Providers in Atlanta GA</a> and <a href="/blog/where-can-i-rent-a-tent-in-atlanta-georgia/">Where Can I Rent a Tent in Atlanta Georgia</a>.</p>
+""",
+        "faqs": [
+            ("How much does it cost to rent a tent in Atlanta?",
+             "<p>Directory providers typically charge $150 to $600+ for a standard 20x20 frame tent depending on size, season and add-ons like sidewalls or flooring. We rent a 10x10 pop-up tent directly for $160.00 and a full 20x20 tent-and-furniture event kit for $777.00, both plus a flat $200 delivery fee.</p>"),
+            ("How far in advance should I book a tent rental in Atlanta?",
+             "<p>Book four to six weeks ahead for spring and fall wedding season, when tent inventory across the metro is tightest. Smaller pop-up tents for backyard parties can often be booked with a week or two of notice.</p>"),
+            ("Do tent rental companies handle setup?",
+             "<p>Directory providers generally include delivery and setup in their tent rental price. Our own tent products are delivery and pickup only &mdash; you or your team handle the actual assembly, which is straightforward for the pop-up styles.</p>"),
+            ("Do I need a permit to put up a tent in Atlanta?",
+             "<p>Larger tents (typically over 400 square feet) may require a permit depending on your jurisdiction and whether the event is on public or private property. Ask your tent provider or venue &mdash; established companies like the ones above can usually tell you immediately whether your specific size and location need one.</p>"),
+            ("What size tent do I need for my guest count?",
+             "<p>As a rough guide, plan about 10 to 12 square feet per seated guest with tables and chairs, or roughly 8 square feet per standing guest for a cocktail-style layout. A 20x20 tent (400 sq ft) comfortably seats around 32 guests at round tables, matching our own 20x20 event kit.</p>"),
+        ],
+    },
+    {
+        "slug": "all-tent-rental-providers-in-atlanta-ga",
+        "h1": "All Tent Rental Providers in Atlanta GA",
+        "title": "All Tent Rental Providers in Atlanta GA | Full Directory List",
+        "meta_desc": ("The full directory list of tent rental providers serving Atlanta, Georgia, "
+                      "with ratings, reviews and service areas, plus tents we stock and deliver "
+                      "directly."),
+        "published": "2026-08-24",
+        "updated": "2026-08-24",
+        "excerpt": ("Every tent rental company currently listed in our Atlanta directory, in one "
+                    "place, with ratings, reviews and what makes each one worth a call."),
+        "hero": ("/images/gallery/boho-tent-fall-event.jpg",
+                 "Rustic tent with wood tables and chairs set up for an outdoor Atlanta fall event",
+                 435, 459),
+        "read_minutes": 6,
+        "html": """
+<p>Rather than picking favorites, this is the complete list: every tent rental provider currently listed in our Atlanta directory, in one place, so you can compare all of them yourself and reach out to whichever fits your event, budget and date.</p>
+
+<h2 id="how-this-list-is-built">How This List Is Built</h2>
+
+<p>Our directory tracks Atlanta-area party and event rental businesses and tags each one by the services it lists, including tent rental. The list below includes every provider currently tagged with tent rental service in their listing, pulled straight from the same data that powers our <a href="/partners.html">full partner directory</a>. It updates as new businesses join the directory or update their listed services, so check back if you do not see a familiar name. For a ranked, opinionated take on the same five companies, see our companion post <a href="/blog/5-best-tent-rental-providers-in-atlanta-georgia/">5 Best Tent Rental Providers in Atlanta Georgia</a>.</p>
+
+<h2 id="atlanta-tent-rental-providers">Atlanta Tent Rental Providers</h2>
+
+<h3>EventWorks Rentals Atlanta</h3>
+<p>4.6 stars, 80 reviews &mdash; the largest review count of any tent provider in the directory. Based off West Marietta Street in Atlanta, serving the metro area. <a href="/partners/eventworks-rentals-atlanta/">View full profile</a>.</p>
+
+<h3>The Art in Service LLC</h3>
+<p>5.0 stars, 13 reviews. Based off Marietta Blvd NW in Atlanta. Also offers banquet hall space, bartending and event management, so it is worth a call if your event needs more than just the tent itself. <a href="/partners/the-art-in-service-llc/">View full profile</a>.</p>
+
+<h3>Atlanta Tent Rental</h3>
+<p>4.6 stars, 21 reviews. Based off Peachtree Square in Atlanta. Tent rental is the core of their business, which typically means a wider range of sizes and styles than a general party rental company carries. <a href="/partners/atlanta-tent-rental/">View full profile</a>.</p>
+
+<h3>A &amp; D Elegant Events LLC.</h3>
+<p>4.7 stars, 13 reviews. Based in Atlanta. Also offers event planning services alongside tent and party equipment rental, a good fit if you want one vendor coordinating more than the tent alone. <a href="/partners/a-d-elegant-events-llc/">View full profile</a>.</p>
+
+<h3>Reece Tent Rental</h3>
+<p>New listing, no reviews yet. Based in Atlanta. Also lists event planning and wedding services. Worth a call for a comparison quote or if the other four are booked on your date. <a href="/partners/reece-tent-rental/">View full profile</a>.</p>
+
+<h2 id="how-to-narrow-down-your-list">How to Narrow Down Your List</h2>
+
+<p>With five real options, a few quick filters will usually get you to the right call fast.</p>
+
+<h3>Start with review volume</h3>
+<p>A provider with 80 reviews at 4.6 stars has delivered far more events than one with a handful of reviews, even at a higher star average. Volume is a proxy for reliability.</p>
+
+<h3>Match the provider to your event type</h3>
+<p>If your event needs more than a tent &mdash; planning, bartending, banquet space &mdash; a full-service provider like The Art in Service or A &amp; D Elegant Events can consolidate that into one vendor relationship instead of several.</p>
+
+<h3>Call more than one</h3>
+<p>Tent size options, sidewall availability, flooring and lighting add-ons vary by provider. Getting two or three quotes for the same date and size is the fastest way to see what is actually available and at what price.</p>
+
+<h3>Check whether you even need a directory provider</h3>
+<p>If your guest count fits a standard 10x10 or 20x20 tent and you do not need custom sizing or full setup and teardown, ordering directly at a flat rate is usually faster than waiting on quotes &mdash; see the next section, or read our full comparison in <a href="/blog/where-can-i-rent-a-tent-in-atlanta-georgia/">Where Can I Rent a Tent in Atlanta Georgia</a>.</p>
+
+<h2 id="rent-a-tent-directly-from-us-instead">Rent a Tent Directly From Us Instead</h2>
+
+<p>If you would rather skip the quoting process, we stock and deliver tents ourselves at a flat rate on our <a href="/products/tent-rentals/">Tent Rentals collection page</a>:</p>
+
+<ul>
+  <li><a href="/products/tent-rentals/10x10-pop-up-tent/">10x10 Pop-Up Tent</a> &mdash; $160.00</li>
+  <li><a href="/products/tent-rentals/20x20-tent-backyard-event-kit/">20x20 Tent Backyard Event Kit</a> (tent, tables, chairs and linens included) &mdash; $777.00</li>
+  <li><a href="/products/tent-rentals/tent-french-door-white/">Tent, French Door (White)</a> &mdash; $220.00</li>
+</ul>
+
+<p>Pick your quantity and request delivery directly &mdash; a flat $200 standard delivery fee applies per order.</p>
+
+<h2 id="nearby-areas-we-serve">Nearby Areas We Serve</h2>
+
+<p>Beyond Atlanta proper, providers in our directory and our own tent inventory reach <a href="/locations/buckhead/">Buckhead</a>, <a href="/locations/midtown/">Midtown</a>, <a href="/locations/decatur/">Decatur</a>, <a href="/locations/sandy-springs/">Sandy Springs</a>, <a href="/locations/dunwoody/">Dunwoody</a>, <a href="/locations/marietta/">Marietta</a>, <a href="/locations/roswell/">Roswell</a>, <a href="/locations/alpharetta/">Alpharetta</a>, <a href="/locations/brookhaven/">Brookhaven</a> and <a href="/locations/vinings/">Vinings</a>. See the <a href="/locations/">full list of service areas</a> for more.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Five providers currently list tent rental as a service in our Atlanta directory: EventWorks Rentals Atlanta, The Art in Service LLC, Atlanta Tent Rental, A &amp; D Elegant Events LLC and Reece Tent Rental. For a ranked take on the same list, see <a href="/blog/5-best-tent-rental-providers-in-atlanta-georgia/">5 Best Tent Rental Providers in Atlanta Georgia</a>. If you would rather book directly with no quoting process, <a href="/products/tent-rentals/">browse the tents we stock ourselves</a>.</p>
+""",
+        "faqs": [
+            ("Is this list of tent providers complete?",
+             "<p>It reflects every business currently tagged with tent rental service in our Atlanta directory as of the publish date above. New providers are added regularly &mdash; if you know a tent rental company that should be listed, <a href='/legal/contact.html'>let us know</a>.</p>"),
+            ("How do I contact a provider on this list?",
+             "<p>Click through to any provider's full profile page for their listed contact details and service information, or use our <a href='/#providers' data-wizard-open>quote request wizard</a> to reach multiple providers with one submission.</p>"),
+            ("Can I rent a tent without going through a directory provider?",
+             "<p>Yes &mdash; we stock a 10x10 pop-up tent, a 20x20 tent event kit and a French door tent panel directly and deliver them ourselves. <a href='/products/tent-rentals/'>Browse them here</a> and request delivery without a quoting process.</p>"),
+            ("What is the difference between a frame tent and a pole tent?",
+             "<p>A frame tent uses a rigid metal frame with no center poles, so the entire footprint is usable floor space &mdash; the standard for backyards and paved areas. A pole tent uses center poles and guy lines staked into the ground, which requires more surrounding space but can be less expensive for very large sizes.</p>"),
+            ("Do these providers deliver outside Atlanta proper?",
+             "<p>Most Atlanta-area tent providers, including the ones listed here, serve the broader metro &mdash; Buckhead, Midtown, Decatur, Sandy Springs, Marietta, Roswell, Alpharetta and surrounding areas. Confirm delivery range and any travel fee when you request a quote.</p>"),
+        ],
+    },
+    {
+        "slug": "where-can-i-rent-a-tent-in-atlanta-georgia",
+        "h1": "Where Can I Rent A Tent In Atlanta Georgia",
+        "title": "Where Can I Rent a Tent in Atlanta, Georgia? | Full Guide",
+        "meta_desc": ("Where to rent a tent in Atlanta, Georgia — compare renting directly from us "
+                      "versus local directory providers, what tents cost, and how to pick the right "
+                      "size for your event."),
+        "published": "2026-08-24",
+        "updated": "2026-08-24",
+        "excerpt": ("Two real paths to renting a tent in Atlanta — order directly from us with no "
+                    "quoting, or compare quotes from vetted local providers. Here's how to decide."),
+        "hero": ("/images/products/20x20-tent-backyard-event-kit.jpg",
+                 "White 20x20 high peak frame tent set up for a backyard event in Atlanta, Georgia",
+                 640, 533),
+        "read_minutes": 7,
+        "html": """
+<p>&ldquo;Where can I rent a tent in Atlanta?&rdquo; is a simpler question than it sounds, because it usually splits into two very different answers depending on how much control and speed you want: order directly from a company that stocks and delivers the tent itself, or go through a directory to compare quotes from multiple local providers. Both are real options in Atlanta. Here is how to pick between them.</p>
+
+<h2 id="option-1-rent-directly-from-us">Option 1: Rent Directly From Us</h2>
+
+<p>We stock and deliver tents ourselves at a flat, published rate &mdash; no phone tag, no waiting on a quote. You pick your size, see your total including delivery, and send the request.</p>
+
+<h3>10x10 Pop-Up Tent &mdash; $160.00</h3>
+<p>Arrives fully assembled with five leg-height adjustments and water- and fire-resistant fabric rated for 99% UV protection. Comes with a roll-away bag, three side walls and a door. <a href="/products/tent-rentals/10x10-pop-up-tent/">See details and order</a>.</p>
+
+<h3>20x20 Tent Backyard Event Kit &mdash; $777.00</h3>
+<p>A complete package built around a 20' x 20' high peak tent, with four 60&quot; round tables, thirty-two black resin folding chairs and four 120&quot; round linens in black, white or ivory &mdash; sized for around 32 guests. <a href="/products/tent-rentals/20x20-tent-backyard-event-kit/">See details and order</a>.</p>
+
+<h3>Tent, French Door (White) &mdash; $220.00</h3>
+<p>An aluminum-framed glass double door wall panel that upgrades a plain frame tent entrance. <a href="/products/tent-rentals/tent-french-door-white/">See details and order</a>.</p>
+
+<p>All three are delivery and pickup only, with a flat $200 standard delivery fee per order &mdash; browse the full lineup on our <a href="/products/tent-rentals/">Tent Rentals collection page</a>.</p>
+
+<h2 id="option-2-compare-quotes-from-local-providers">Option 2: Compare Quotes From Local Providers</h2>
+
+<p>If your event needs a larger custom size, full setup and teardown, or extras like flooring, lighting and climate control, a full-service local tent company is usually the better fit. Our directory currently lists five Atlanta-area providers offering tent rental:</p>
+
+<ul>
+  <li><a href="/partners/eventworks-rentals-atlanta/">EventWorks Rentals Atlanta</a> &mdash; 4.6 stars, 80 reviews</li>
+  <li><a href="/partners/the-art-in-service-llc/">The Art in Service LLC</a> &mdash; 5.0 stars, 13 reviews</li>
+  <li><a href="/partners/atlanta-tent-rental/">Atlanta Tent Rental</a> &mdash; 4.6 stars, 21 reviews</li>
+  <li><a href="/partners/a-d-elegant-events-llc/">A &amp; D Elegant Events LLC.</a> &mdash; 4.7 stars, 13 reviews</li>
+  <li><a href="/partners/reece-tent-rental/">Reece Tent Rental</a> &mdash; new listing</li>
+</ul>
+
+<p>See our full breakdown of these companies in <a href="/blog/5-best-tent-rental-providers-in-atlanta-georgia/">5 Best Tent Rental Providers in Atlanta Georgia</a> and <a href="/blog/all-tent-rental-providers-in-atlanta-ga/">All Tent Rental Providers in Atlanta GA</a>.</p>
+
+<h2 id="how-to-decide-between-the-two">How to Decide Between the Two</h2>
+
+<h3>Choose direct ordering if&hellip;</h3>
+<p>Your guest count fits a 10x10 or 20x20 tent, you can handle a straightforward pop-up assembly yourself, and you want a fixed price with no back-and-forth. This is also the faster option when you are booking on short notice.</p>
+
+<h3>Choose a directory provider if&hellip;</h3>
+<p>You need a custom or larger size, full setup and teardown, sidewalls, flooring, climate control, or lighting packages, or you want to bundle the tent with a broader event rental order handled by one company.</p>
+
+<h2 id="what-tents-cost-in-atlanta">What Tents Cost in Atlanta</h2>
+
+<p>Directory providers in the Atlanta metro typically price a standard 20x20 frame tent between $150 and $600+ depending on size, season and add-ons. Our own flat rates &mdash; $160.00 for a 10x10 pop-up and $777.00 for a full 20x20 tent-and-furniture event kit &mdash; sit within that same range, plus the standard $200 delivery fee that applies to any order from us.</p>
+
+<h2 id="how-to-pick-the-right-tent-size">How to Pick the Right Tent Size</h2>
+
+<p>As a rough guide, plan around 10 to 12 square feet per seated guest with tables and chairs, or about 8 square feet per standing guest for a cocktail-style layout. A 10x10 tent (100 sq ft) suits a small backyard gathering of 8 to 12 people standing. A 20x20 tent (400 sq ft) comfortably seats around 32 guests at round tables &mdash; exactly the guest count our own 20x20 event kit is built around.</p>
+
+<h2 id="nearby-areas-we-serve">Nearby Areas We Serve</h2>
+
+<p>Both our own direct tent inventory and directory providers reach beyond Atlanta proper into <a href="/locations/buckhead/">Buckhead</a>, <a href="/locations/midtown/">Midtown</a>, <a href="/locations/decatur/">Decatur</a>, <a href="/locations/sandy-springs/">Sandy Springs</a>, <a href="/locations/dunwoody/">Dunwoody</a>, <a href="/locations/marietta/">Marietta</a>, <a href="/locations/roswell/">Roswell</a>, <a href="/locations/alpharetta/">Alpharetta</a>, <a href="/locations/brookhaven/">Brookhaven</a> and <a href="/locations/vinings/">Vinings</a>. See the <a href="/locations/">full list of service areas</a> for more.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>You have two real ways to rent a tent in Atlanta: order a 10x10, 20x20 or French door tent panel directly from us at a flat rate with no quoting, or compare quotes from one of five vetted local providers in our directory for a larger or fully custom setup. Either way, plan your size around 10 to 12 square feet per seated guest and book at least a few weeks ahead during spring and fall wedding season.</p>
+
+<p><a href="/products/tent-rentals/">Browse our tents and request delivery</a>, or call or text <a href="tel:+14047371843">404-737-1843</a> and we will point you to the right option for your event.</p>
+""",
+        "faqs": [
+            ("Where is the fastest place to rent a tent in Atlanta?",
+             "<p>Ordering directly from our <a href='/products/tent-rentals/'>Tent Rentals collection page</a> is the fastest path &mdash; pick your size, see your total, and send the request with no quoting process. A directory provider may take longer since it involves a quote request and response.</p>"),
+            ("How much does it cost to rent a tent in Atlanta?",
+             "<p>Directory providers typically charge $150 to $600+ for a standard 20x20 frame tent. We rent a 10x10 pop-up tent directly for $160.00 and a full 20x20 tent-and-furniture event kit for $777.00, both plus a flat $200 delivery fee.</p>"),
+            ("Do I need a permit to set up a tent in Atlanta?",
+             "<p>Larger tents (typically over 400 square feet) may require a permit depending on your jurisdiction and whether the event is on public or private property. Confirm with your tent provider or venue before your date.</p>"),
+            ("Can I set up a pop-up tent myself?",
+             "<p>Yes. Our 10x10 Pop-Up Tent arrives fully assembled with adjustable legs and typically sets up in a few minutes without special tools. Larger frame tents like our 20x20 event kit generally benefit from two or more people for assembly.</p>"),
+            ("What if I need a tent bigger than 20x20?",
+             "<p>For larger custom sizes, a full-service directory provider is the better fit &mdash; see our list of Atlanta tent rental companies in <a href='/blog/all-tent-rental-providers-in-atlanta-ga/'>All Tent Rental Providers in Atlanta GA</a>.</p>"),
+        ],
+    },
 ]
 
 
