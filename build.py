@@ -7282,7 +7282,174 @@ BLOG_POSTS = [
              "<p>For larger custom sizes, a full-service directory provider is the better fit &mdash; see our list of Atlanta tent rental companies in <a href='/blog/all-tent-rental-providers-in-atlanta-ga/'>All Tent Rental Providers in Atlanta GA</a>.</p>"),
         ],
     },
+    {
+        "slug": "small-scale-party-rental",
+        "h1": "Small-Scale Party Rentals: The Essentials Guide",
+        "title": "Small-Scale Party Rentals: What to Rent for a Small Gathering | Atlanta Guide",
+        "meta_desc": ("What to actually rent for a small gathering of 10 to 30 guests — the real "
+                      "essentials, what to skip, and a sample budget using real Atlanta rental "
+                      "prices."),
+        "published": "2026-08-24",
+        "updated": "2026-08-24",
+        "excerpt": ("Not every party needs a 20-person tent crew. Here's what a small gathering "
+                    "actually needs, what to skip, and a real sample budget built from our own "
+                    "catalog prices."),
+        "hero": ("/images/gallery/pink-kids-party-tables-chairs.jpg",
+                 "Folding tables and chairs set up for a small backyard gathering in Atlanta, Georgia",
+                 1600, 1066),
+        "read_minutes": 8,
+        "html": """
+<p>Most of the advice out there about event rentals is written for weddings and 150-guest galas. If you are planning something smaller &mdash; a milestone birthday, a backyard baby shower, a graduation cookout, a small retirement send-off &mdash; that advice does not really apply, and it is easy to either under-rent (and run out of chairs) or over-rent (and pay for a tent you did not need). This is a straight answer to what a small gathering actually needs, what you can safely skip, and roughly what it costs.</p>
+
+<h2 id="what-counts-as-small-scale">What Counts as a &ldquo;Small-Scale&rdquo; Event?</h2>
+
+<p>For the purposes of this guide, small-scale means somewhere between 10 and 30 guests &mdash; big enough that your own furniture will not cover it, small enough that you do not need a full event production company. That is the range where a handful of the right rentals makes a real difference and a full-service tent-and-linen package is usually overkill.</p>
+
+<h2 id="seating-essentials">Seating: The One Thing You Cannot Skip</h2>
+
+<p>Every small gathering needs seats, and this is where people either overspend or under-plan. A few real numbers to work from:</p>
+
+<h3>How many chairs do you actually need?</h3>
+<p>Plan for your confirmed headcount, not your invite list. For a casual backyard event, expect roughly 60 to 75 percent of invited guests to be seated at any given moment &mdash; the rest are standing, at the food table, or with kids. For a seated dinner or a ceremony, plan one chair per guest.</p>
+
+<h3>What kind of chair fits a small event?</h3>
+<p>A <a href="/services/chair-rentals/resin-folding-chair-with-pad-natural-wood/">Resin Folding Chair with Pad</a> at $6.00 each is the practical default for a backyard party &mdash; weather-resistant, comfortable enough for a few hours, and available in black, white or natural wood to match your setup. If the event is a bit more dressed-up &mdash; a small ceremony, an anniversary dinner &mdash; a <a href="/products/chiavari-chair-rentals/">Chiavari chair</a> at $10.50 gives the same footprint a noticeably more formal look for not much more per chair.</p>
+
+<figure>
+  <img src="/images/products/resin-folding-chair-with-pad-natural-wood.jpg" alt="Natural wood-finish resin folding chair with a cushioned seat pad" width="640" height="640" loading="lazy">
+  <figcaption>A padded resin folding chair covers most small backyard events without overspending.</figcaption>
+</figure>
+
+<h2 id="tables-that-actually-get-used">Tables That Actually Get Used</h2>
+
+<p>Small events do not need a full seated-dinner table layout unless you are actually doing a seated dinner. A few smaller tables placed well usually beat one big table for a casual gathering.</p>
+
+<h3>Cocktail-height highboy tables</h3>
+<p>A <a href="/services/table-rentals/30-inch-round-highboy-table-pkg-n/">30" Round Highboy Table</a> at $25.00 gives guests a place to set down a drink or plate without committing to a full seated layout &mdash; two or three of these scattered around a backyard does more for flow than one long banquet table.</p>
+
+<h3>A dedicated food or gift table</h3>
+<p>A single <a href="/products/table-rentals/">banquet or round table</a> as a drop point for food, drinks or gifts keeps your kitchen counter from becoming the default staging area, which it will if you do not plan for it.</p>
+
+<h3>What to skip</h3>
+<p>Unless you are doing a full seated dinner for the whole guest list, skip renting a table seat per person. It is one of the most common small-event overspends &mdash; a mix of a couple of highboys and your own existing furniture usually covers a casual gathering just fine.</p>
+
+<h2 id="do-you-need-a-tent">Do You Need a Tent?</h2>
+
+<p>Not always &mdash; but for an outdoor event with a real weather risk or a need for shade, a small tent is worth the cost far more often than people expect.</p>
+
+<h3>When a 10x10 covers you</h3>
+<p>Our <a href="/products/tent-rentals/10x10-pop-up-tent/">10x10 Pop-Up Tent</a> at $160.00 is sized right for a small gathering: enough shade or rain cover for a food table and a cluster of seating, arrives fully assembled with adjustable legs, and sets up in minutes. For a genuinely small event, this is usually a better call than a full 20x20 frame tent.</p>
+
+<h3>When you can skip it entirely</h3>
+<p>Indoor events, evening events without a strong rain forecast, and gatherings under an existing porch or patio cover often do not need a tent at all. Check the forecast a few days out rather than defaulting to renting one just in case.</p>
+
+<h2 id="bar-and-drink-setup">Bar and Drink Setup for a Small Gathering</h2>
+
+<p>You do not need a full bar station for 20 people, but a dedicated drink area keeps guests from crowding your kitchen.</p>
+
+<h3>A simple mobile bar</h3>
+<p>A <a href="/services/bar-beverage-equipment-rentals/5-foot-stainless-steel-mobile-bar/">5' Stainless Steel Mobile Bar</a> at $179.99 gives you one clean surface for drinks, ice and glassware instead of spreading bottles across a kitchen counter. For a smaller budget, our <a href="/products/portable-bar-rentals/">Portable Bar Rentals collection</a> has folding bar tables starting at $95.00.</p>
+
+<h3>A small, nice detail: a real wine bucket</h3>
+<p>A <a href="/services/bar-beverage-equipment-rentals/wine-bucket-ss-4qt-mirror-finish/">Mirror-Finish Wine Bucket</a> at $14.00 is a small rental that reads as a much bigger upgrade than its price &mdash; a chilled bottle in a proper bucket looks intentional in a way a cooler bag does not.</p>
+
+<figure>
+  <img src="/images/products/5-foot-stainless-steel-mobile-bar.jpg" alt="5-foot stainless steel mobile bar with ice bin and storage shelving" width="640" height="640" loading="lazy">
+  <figcaption>A single mobile bar station keeps drinks out of the kitchen without a full bar setup.</figcaption>
+</figure>
+
+<h2 id="small-touches-that-matter">Small Touches That Make a Bigger Difference Than You'd Think</h2>
+
+<p>At small-event scale, a few inexpensive rentals do more visible work than they would at a 150-guest wedding, simply because there is less going on for guests to look at.</p>
+
+<h3>A display easel for a welcome sign or seating chart</h3>
+<p>An <a href="/products/audio-visual-equipment-rentals/">easel from our A/V equipment collection</a> for a welcome sign, photo display or memory board is a small detail that photographs well and costs very little relative to the impact.</p>
+
+<h3>A wedding arch, even for a small ceremony</h3>
+<p>If any part of your small gathering involves a ceremony moment &mdash; a vow renewal, a small backyard wedding, a proposal &mdash; our <a href="/products/wedding-equipment-rentals/brass-arch/">Wedding Brass Arch</a> at $65.00 gives you a real focal point for photos without the cost of full floral installation.</p>
+
+<h2 id="sample-checklist-and-budget">A Sample Checklist and Budget for a 20-Guest Backyard Party</h2>
+
+<p>Here is a realistic, itemized example using our actual current prices, for a casual 20-guest backyard gathering with no seated dinner:</p>
+
+<table>
+  <thead><tr><th>Item</th><th>Qty</th><th>Rate</th><th>Subtotal</th></tr></thead>
+  <tbody>
+    <tr><td><a href="/services/chair-rentals/resin-folding-chair-with-pad-natural-wood/">Resin Folding Chair w/Pad</a></td><td>15</td><td>$6.00</td><td>$90.00</td></tr>
+    <tr><td><a href="/services/table-rentals/30-inch-round-highboy-table-pkg-n/">30" Round Highboy Table</a></td><td>3</td><td>$25.00</td><td>$75.00</td></tr>
+    <tr><td><a href="/services/bar-beverage-equipment-rentals/5-foot-stainless-steel-mobile-bar/">5' Stainless Steel Mobile Bar</a></td><td>1</td><td>$179.99</td><td>$179.99</td></tr>
+    <tr><td><a href="/services/bar-beverage-equipment-rentals/wine-bucket-ss-4qt-mirror-finish/">Mirror-Finish Wine Bucket</a></td><td>1</td><td>$14.00</td><td>$14.00</td></tr>
+    <tr><td>Standard delivery fee (flat, per order)</td><td>&mdash;</td><td>&mdash;</td><td>$200.00</td></tr>
+    <tr><td><strong>Estimated total</strong></td><td></td><td></td><td><strong>$558.99</strong></td></tr>
+  </tbody>
+</table>
+
+<p>Add a <a href="/products/tent-rentals/10x10-pop-up-tent/">10x10 Pop-Up Tent</a> for $160.00 if the event is outdoors and you want shade or rain backup &mdash; that brings the total to $718.99. Because our delivery fee is flat per order rather than per item, adding more from the same order does not add another delivery charge.</p>
+
+<h2 id="how-to-order">How to Put This Together</h2>
+
+<p>You can add each item to your <a href="/cart/">cart</a> individually and send one combined request, covering everything in a single delivery. If you are not sure exactly what fits your event, our <a href="/event-builder/">Event Builder</a> asks a few quick questions and recommends items from our catalog automatically.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>For a small gathering of 10 to 30 guests, the real essentials are seating for roughly 60 to 75 percent of your guest count, one or two highboy tables rather than a full seated layout, a simple drink station, and a tent only if weather or shade genuinely requires it. A handful of small details &mdash; a real wine bucket, a display easel, an arch for a ceremony moment &mdash; do more visible work at this scale than they would at a larger event. Our sample 20-guest budget above lands around $559 to $719 depending on whether a tent is needed, all through <a href="/products/">one combined order with one flat delivery fee</a>.</p>
+""",
+        "faqs": [
+            ("How many chairs do I need for a 20-person backyard party?",
+             "<p>Plan for roughly 12 to 15 chairs for a casual 20-guest gathering, since not everyone sits at once — closer to 20 if it's a seated meal or ceremony. It's cheaper to add a few more on request than to run short.</p>"),
+            ("Do I need a tent for a small backyard event?",
+             "<p>Only if you need shade or rain backup. A <a href='/products/tent-rentals/10x10-pop-up-tent/'>10x10 pop-up tent</a> at $160.00 covers most small gatherings; check the forecast a few days out before deciding.</p>"),
+            ("What's the minimum order for delivery?",
+             "<p>There's no minimum — our delivery fee is a flat $200 per order regardless of how many items or how small the order is, so it's most cost-effective to combine everything you need into one request.</p>"),
+            ("Is it cheaper to buy party supplies than rent them for a small event?",
+             "<p>For a one-time small gathering, renting is usually cheaper than buying once you account for storage, and you get commercial-grade chairs and tables instead of flimsy retail folding furniture. Renting also means no cleanup, storage or disposal afterward.</p>"),
+            ("Can I mix items from different collections in one order?",
+             "<p>Yes. Add items from any collection — chairs, tables, bar equipment, tents — to your <a href='/cart/'>cart</a> and submit one combined request. One flat delivery fee covers the whole order.</p>"),
+        ],
+    },
 ]
+
+
+# Mid-article CTA card per post (see build_blog's <aside class="blog-cta">).
+# Keyed by slug so it stays specific to each post's topic; anything not
+# listed falls back to BLOG_CTA_DEFAULT rather than a stale hardcoded CTA.
+BLOG_CTA = {
+    "what-are-chiavari-chairs": {
+        "title": "Rent Chiavari Chairs in Atlanta",
+        "body": "We stock gold, white, silver and mahogany Chiavari chairs at a flat $10.50 per chair, cushion included. Pick your quantity and request delivery in under a minute.",
+        "href": "/products/chiavari-chair-rentals/", "label": "Browse Chiavari Chairs",
+    },
+    "what-are-ghost-chairs": {
+        "title": "Rent Ghost Chairs in Atlanta",
+        "body": "We stock clear acrylic ghost chairs and a ghost barstool at a flat rate starting at $17.00 per chair. Pick your quantity and request delivery in under a minute.",
+        "href": "/products/ghost-chair-rentals/", "label": "Browse Ghost Chairs",
+    },
+    "what-are-resin-folding-chairs": {
+        "title": "Rent Resin Folding Chairs in Atlanta",
+        "body": "We stock padded resin folding chairs in black, white and natural wood at a flat $6.00 per chair. Pick your quantity and request delivery in under a minute.",
+        "href": "/products/chair-rentals/", "label": "Browse Folding Chairs",
+    },
+    "5-best-tent-rental-providers-in-atlanta-georgia": {
+        "title": "Rent a Tent Directly From Us",
+        "body": "We stock 10x10 and 20x20 tents plus a French door panel upgrade, starting at $160.00. Pick your size and request delivery in under a minute — no quoting needed.",
+        "href": "/products/tent-rentals/", "label": "Browse Tent Rentals",
+    },
+    "all-tent-rental-providers-in-atlanta-ga": {
+        "title": "Rent a Tent Directly From Us",
+        "body": "We stock 10x10 and 20x20 tents plus a French door panel upgrade, starting at $160.00. Pick your size and request delivery in under a minute — no quoting needed.",
+        "href": "/products/tent-rentals/", "label": "Browse Tent Rentals",
+    },
+    "where-can-i-rent-a-tent-in-atlanta-georgia": {
+        "title": "Rent a Tent Directly From Us",
+        "body": "We stock 10x10 and 20x20 tents plus a French door panel upgrade, starting at $160.00. Pick your size and request delivery in under a minute — no quoting needed.",
+        "href": "/products/tent-rentals/", "label": "Browse Tent Rentals",
+    },
+}
+BLOG_CTA_DEFAULT = {
+    "title": "Rent Party Supplies in Atlanta",
+    "body": "Chairs, tables, bar equipment, tents and A/V gear we stock and deliver ourselves. Pick your quantity and request delivery in under a minute — no back-and-forth quoting.",
+    "href": "/products/", "label": "Browse All Products",
+}
 
 
 def blog_href(post):
@@ -7307,6 +7474,8 @@ def build_blog():
         toc_html = "\n        ".join(
             f'<li><a href="#{hid}">{re.sub("<[^>]+>", "", htext).strip()}</a></li>'
             for hid, htext in toc_items)
+
+        cta = BLOG_CTA.get(post["slug"], BLOG_CTA_DEFAULT)
 
         article_ld = {
             "@context": "https://schema.org", "@type": "Article",
@@ -7352,9 +7521,9 @@ def build_blog():
     {post["html"]}
 
     <aside class="blog-cta">
-      <h2>Rent Chiavari Chairs in Atlanta</h2>
-      <p>We stock gold, white, silver and mahogany Chiavari chairs at a flat $10.50 per chair, cushion included. Pick your quantity and request delivery in under a minute.</p>
-      <a class="btn" href="/products/chiavari-chair-rentals/">Browse Chiavari Chairs &rsaquo;</a>
+      <h2>{esc(cta["title"])}</h2>
+      <p>{esc(cta["body"])}</p>
+      <a class="btn" href="{cta["href"]}">{esc(cta["label"])} &rsaquo;</a>
       <a class="btn btn-outline" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
     </aside>
   </div>
