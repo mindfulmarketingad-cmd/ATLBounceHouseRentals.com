@@ -1467,3 +1467,7 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
   .gallery-slide img { height: 260px; }
   .gallery-arrow { width: 34px; height: 34px; }
 }
+
+/* ---------- homepage about copy ---------- */
+.home-about-copy { max-width: 780px; margin: 0 auto; text-align: center; }
+.home-about-copy p { line-height: 1.75; margin: 0 0 16px; color: var(--ink); }
