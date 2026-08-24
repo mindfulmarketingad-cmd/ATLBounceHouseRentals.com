@@ -3542,6 +3542,32 @@ PRODUCTS = [
             "event or upscale backyard party."
         ),
     },
+    {
+        "slug": "sno-cone-machine",
+        "parent_slug": "concession-equipment-rentals",
+        "parent_name": "Concession Equipment Rentals Atlanta",
+        "products_only": True,
+        "name": "Sno-Cone Machine",
+        "short_name": "Sno-Cone Machine",
+        "category": "Concession Equipment",
+        "price": 125.00,
+        "unit": "machine",
+        "unit_plural": "machines",
+        "min_qty": 1,
+        "default_qty": 1,
+        "delivery_only": True,
+        "includes": "Shaves ice for classic sno-cones",
+        "image": "/images/products/sno-cone-machine.jpg",
+        "image_alt": "Stainless steel sno-cone machine with shaved ice, available to rent in Atlanta, Georgia",
+        "image_w": 400, "image_h": 400,
+        "options": [],
+        "specs": [],
+        "description": (
+            "Our Sno-Cone Machine shaves fresh ice on demand for classic sno-cones, a favorite treat "
+            "for hot summer days, pool parties and outdoor gatherings. Pair it with your own flavored "
+            "syrups to keep guests cool and add a fun, self-serve activity to any event."
+        ),
+    },
 ]
 
 PRODUCTS_BY_PARENT = {}
@@ -4602,6 +4628,7 @@ COLLECTION_META = {
     "portable-bar-rentals": ("Portable Bar Rentals", "Portable bar units for weddings, parties and corporate events, stocked and delivered by us."),
     "pipe-and-drape-rentals": ("Pipe & Drape Equipment Rentals", "Pipe and drape backdrops and room dividers, stocked and delivered by us."),
     "tent-rentals": ("Tent Rentals", "Pop-up canopy tents for backyard and outdoor events, stocked and delivered by us."),
+    "concession-equipment-rentals": ("Concession Equipment Rentals", "Sno-cone, popcorn and other concession machines, stocked and delivered by us."),
 }
 
 # Category label -> the one collection page it maps to cleanly. "Chairs &
