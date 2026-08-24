@@ -6618,6 +6618,171 @@ BLOG_POSTS = [
              "<p>Kee-ah-VAR-ee. It is the name of the Italian town where the chair was designed in the early 1800s.</p>"),
         ],
     },
+    {
+        "slug": "what-are-ghost-chairs",
+        "h1": "What Are Ghost Chairs?",
+        "title": "What Are Ghost Chairs? History, Materials & Uses | Atlanta Guide",
+        "meta_desc": ("A complete guide to ghost chairs: what they are, what they're made of, where "
+                      "the design came from, why modern event planners love them, and how to rent "
+                      "them in Atlanta, Georgia."),
+        "published": "2026-08-24",
+        "updated": "2026-08-24",
+        "excerpt": ("The clear, invisible-looking chair showing up at every modern wedding and "
+                    "product launch has a real design pedigree. Here's what a ghost chair actually "
+                    "is, where it came from, and how to rent one in Atlanta."),
+        "hero": ("/images/products/ghost-chair-clear.jpg",
+                 "Clear acrylic ghost chairs arranged around a table at a modern Atlanta event",
+                 620, 620),
+        "read_minutes": 7,
+        "html": """
+<p>Walk into almost any modern wedding, product launch or rooftop event in the last decade and there is a good chance you will see a chair that looks like it is barely there &mdash; a transparent, glass-like seat with no visible color of its own. That is a ghost chair, and unlike its name suggests, it is not vague at all: it is a specific, patented design with a real designer, a real material story, and a real reason event planners keep reaching for it.</p>
+
+<p>This guide covers what a ghost chair is, where the design came from, what it is made of, why it became a modern-event staple, and how to rent one in Atlanta.</p>
+
+<h2 id="what-are-ghost-chairs-used-for">What Are Ghost Chairs Used For?</h2>
+
+<p>Ghost chairs are event and accent seating built around one core idea: taking up floor space without taking up visual space. That makes them a fit anywhere a room needs seating but cannot afford to look crowded or heavy.</p>
+
+<h3>Weddings and modern receptions</h3>
+
+<p>Ghost chairs are the default pick for minimalist, glam and modern-luxury wedding styles. Because the chair is transparent, it lets florals, linens, uplighting and the venue's own architecture stay the visual focus instead of competing with a solid-colored chair back. They are just as at home at an indoor ballroom reception as an outdoor garden ceremony.</p>
+
+<h3>Product launches and branded events</h3>
+
+<p>Brand activations and product launches lean on ghost chairs for the same reason photographers do: they disappear into any backdrop or brand color without needing to be recolored or reupholstered. A single order of ghost chairs can be reused across dramatically different branded environments.</p>
+
+<h3>Rooftop and lounge seating</h3>
+
+<p>Because the chair reads as light and airy, it is a common choice for cocktail lounges, rooftop bars and VIP seating areas where the goal is an open, uncluttered feel rather than a formal dining setup. Paired with cocktail tables, a set of ghost chairs can furnish a lounge area without visually shrinking the room.</p>
+
+<h3>Bar-height and mixed seating</h3>
+
+<p>The ghost silhouette also comes in barstool height. A <a href="/services/chair-rentals/ghost-clear-barstool/">Ghost Clear Barstool</a> lets a cocktail or bar area carry the same transparent look as the dining tables, which keeps a whole event feeling like one coherent design rather than several mismatched zones.</p>
+
+<figure>
+  <img src="/images/products/ghost-oval-back-chair.jpg" alt="Clear acrylic ghost chair with an oval cutout back" width="640" height="640" loading="lazy">
+  <figcaption>The oval-back ghost chair is a common variation on the original round-back Louis Ghost silhouette.</figcaption>
+</figure>
+
+<h2 id="the-origin-of-ghost-chairs">The Origin of Ghost Chairs</h2>
+
+<p>Unlike the Chiavari chair, which evolved gradually over two centuries, the ghost chair has a single, well-documented birthday: 2002.</p>
+
+<h3>Philippe Starck and the Louis Ghost chair</h3>
+
+<p>French designer Philippe Starck created the chair for the Italian furniture company Kartell, calling it the <em>Louis Ghost</em>. The name is a direct reference: Starck took the silhouette of a classic Louis XVI armchair &mdash; the oval back, the carved-looking frame, the traditional French seating shape &mdash; and reproduced it as a single piece of clear polycarbonate, with no fabric, no wood and no visible joints.</p>
+
+<p>The effect was deliberate. A shape everyone recognized as heavy, ornate and opaque suddenly became transparent and weightless, which is exactly where the "ghost" name comes from &mdash; a familiar form rendered invisible.</p>
+
+<h3>Why it was a manufacturing breakthrough, not just a design one</h3>
+
+<p>The Louis Ghost was not just a clever visual idea; it was one of the first chairs manufactured as a single piece of injection-molded polycarbonate at that scale. Producing a chair with curves, a seat, a back and legs all as one continuous molded piece was a genuine engineering challenge in 2002, and it is a large part of why the chair won design awards and museum placements rather than fading as a novelty.</p>
+
+<h3>How it reached the event rental market</h3>
+
+<p>The original Kartell Louis Ghost is a retail furniture piece, priced accordingly. As the look caught on in weddings and events through the 2000s and 2010s, rental manufacturers began producing the same general silhouette &mdash; clear polycarbonate or acrylic, one-piece construction, stackable &mdash; at a price point built for rental fleets rather than individual retail sale. That is the version almost every event rental company, including ours, stocks today, along with variations like the oval-back and barstool versions.</p>
+
+<h2 id="what-are-ghost-chairs-made-of">What Are Ghost Chairs Made Of?</h2>
+
+<p>Nearly every ghost chair on the rental market today is made from one of two closely related clear plastics, chosen specifically for how well they hold clarity and shape under repeated use.</p>
+
+<h3>Polycarbonate</h3>
+
+<p>Polycarbonate is the material Starck's original design used, and it remains common in higher-end reproductions. It is extremely impact-resistant, holds its clarity well over time, and can flex slightly under load without cracking &mdash; useful for a chair that gets stacked, loaded and unloaded constantly in a rental fleet.</p>
+
+<h3>Acrylic (PMMA)</h3>
+
+<p>Acrylic, also called PMMA or by the brand name Plexiglas, is the more common material in rental-grade ghost chairs. It is optically clearer than polycarbonate in some respects, less expensive to mold at volume, and still durable enough for standard event use, though it is somewhat more prone to stress-cracking under heavy repeated flexing than true polycarbonate.</p>
+
+<h3>Why "clear" is not the only finish</h3>
+
+<p>While fully clear is the classic and most requested finish, the same mold is often produced in smoke gray, amber and various tinted colors, and occasionally in solid opaque colors that keep the silhouette without the transparency. For most Atlanta events, though, clear remains the standard request because it is what reads as a "ghost chair" at a glance.</p>
+
+<table>
+  <thead><tr><th>Material</th><th>Typical weight capacity</th><th>Best for</th></tr></thead>
+  <tbody>
+    <tr><td>Polycarbonate</td><td>~1,000+ lbs</td><td>High-volume rental fleets; frequent stacking</td></tr>
+    <tr><td>Acrylic (PMMA)</td><td>~250&ndash;500 lbs</td><td>Standard event use; maximum clarity</td></tr>
+  </tbody>
+</table>
+
+<h2 id="why-are-ghost-chairs-so-popular">Why Are Ghost Chairs So Popular?</h2>
+
+<p>The ghost chair has stayed in constant demand for two decades in an industry where trends usually move fast. A few specific properties explain why.</p>
+
+<h3>They photograph like nothing else</h3>
+
+<p>Because the chair is transparent, it does not create the visual blocks of color that a normal chair does in a wide event photo. Florals, table settings and the venue itself stay the visual subject. For a couple or brand paying for professional photography, that matters more than almost any other seating decision.</p>
+
+<h3>They work with literally any color scheme</h3>
+
+<p>A clear chair cannot clash. Event designers do not have to plan seating color around it the way they would with a chiavari chair's gold, silver or mahogany finish, which makes the ghost chair a low-risk default when the rest of the design is still being finalized.</p>
+
+<h3>They read as modern without trying hard</h3>
+
+<p>Because the silhouette is instantly recognizable, a single order of ghost chairs signals "modern, considered design" without the planner having to build an elaborate concept around it. That makes it an efficient choice for planners working on a tight timeline.</p>
+
+<figure>
+  <img src="/images/products/ghost-clear-barstool.jpg" alt="Clear acrylic ghost barstool at bar height" width="640" height="640" loading="lazy">
+  <figcaption>The barstool-height version carries the same transparent look through to a cocktail or bar area.</figcaption>
+</figure>
+
+<h3>They stack and transport efficiently</h3>
+
+<p>Like the Chiavari chair, ghost chairs stack, which keeps delivery costs and setup time down for large orders. That efficiency is part of why rental pricing on ghost chairs has stayed competitive even as demand has grown.</p>
+
+<h3>They pair well with almost any other chair style</h3>
+<p>Because a ghost chair does not compete visually with anything, it mixes cleanly with farmhouse tables, gold chiavari chairs at a head table, or upholstered lounge furniture in a cocktail area &mdash; a flexibility a solid-color chair does not have.</p>
+
+<h2 id="where-can-i-rent-ghost-chairs">Where Can I Rent Ghost Chairs for My Event?</h2>
+
+<p>In Atlanta you have two realistic paths, depending on your order size and how much lead time you have.</p>
+
+<h3>Rent directly from us</h3>
+
+<p>We stock and deliver ghost chairs ourselves at a flat per-chair rate, so there is no quoting process &mdash; pick your quantity, see your total including delivery, and send the request. Current inventory:</p>
+
+<ul>
+  <li><a href="/services/ghost-chair-rentals/ghost-chair-clear/">Ghost Chair &ndash; Clear</a> &mdash; $17.00 per chair</li>
+  <li><a href="/services/chair-rentals/ghost-oval-back-chair/">Ghost Oval Back Chair</a> &mdash; $17.00 per chair</li>
+  <li><a href="/services/chair-rentals/ghost-clear-barstool/">Ghost Clear Barstool</a> &mdash; $28.00 per barstool</li>
+</ul>
+
+<p>Browse them together on our <a href="/products/ghost-chair-rentals/">Ghost Chair collection page</a>, or add ghost chairs to an order alongside other items from the full <a href="/products/">Rent Party Supplies catalog</a>. Delivery is drop-off and pickup only, with a flat $200 standard delivery fee per order regardless of how many items you add.</p>
+
+<h3>Get matched with a local provider</h3>
+
+<p>For very large orders, full-service setup, or packages that bundle ghost chairs with tenting and other decor, our <a href="/services/ghost-chair-rentals/">Ghost Chair Rentals in Atlanta</a> directory page connects you with vetted local companies across the metro.</p>
+
+<h3>How many chairs should you order?</h3>
+
+<p>Plan on one chair per confirmed guest plus roughly five percent for late additions &mdash; the same rule of thumb that applies to any event chair. If your ceremony and reception happen in separate spaces without the chairs being moved between them, budget for two full sets.</p>
+
+<h3>What else pairs well with ghost chairs?</h3>
+
+<p>Ghost chairs are frequently ordered alongside <a href="/products/table-rentals/">tables</a>, particularly the <a href="/services/table-rentals/30-inch-round-clear-acrylic-highboy-table/">clear acrylic highboy table</a>, which extends the same transparent look to the cocktail area. If you want a more traditional formal look instead, our <a href="/blog/what-are-chiavari-chairs/">Chiavari chair guide</a> covers the classic alternative, and our broader <a href="/services/chair-rentals/">chair rentals page</a> covers folding, resin and stacking options for less formal events.</p>
+
+<h2 id="the-short-version">The Short Version</h2>
+
+<p>A ghost chair is a transparent, single-piece molded chair based on the Louis Ghost design Philippe Starck created for Kartell in 2002, itself a reinterpretation of a classic Louis XVI chair silhouette rendered in clear polycarbonate. Rental-grade versions are usually acrylic or polycarbonate, come in clear, smoke and tinted finishes, and remain one of the most requested modern event chairs because they photograph cleanly, match any color scheme and read as considered design with almost no effort.</p>
+
+<p>If you need them for an event in Atlanta, you can <a href="/products/ghost-chair-rentals/">pick your quantity and request delivery directly</a> &mdash; or call or text us and we will walk you through it.</p>
+""",
+        "faqs": [
+            ("How much do ghost chair rentals cost in Atlanta?",
+             "<p>We rent ghost chairs at a flat $17.00 per chair for the clear round-back and oval-back styles, with the ghost barstool at $28.00. A flat $200 standard delivery fee applies per order. Directory providers in the Atlanta metro typically quote $3 to $9 per chair depending on quantity and season.</p>"),
+            ("What is the difference between a ghost chair and a Chiavari chair?",
+             "<p>A ghost chair is a transparent, single-piece molded acrylic or polycarbonate chair based on a 2002 Philippe Starck design for Kartell, popular for modern and minimalist events. A Chiavari chair is a slim, open-backed wood, resin or aluminum chair designed in Italy in the early 1800s, the standard for classic and formal events. Both stack, both photograph well, and both come in our rental fleet &mdash; see our <a href='/blog/what-are-chiavari-chairs/'>Chiavari chair guide</a> for the comparison.</p>"),
+            ("Are ghost chairs durable enough for outdoor Atlanta events?",
+             "<p>Yes. Polycarbonate and acrylic ghost chairs are weather- and UV-stable and hold up well under a tent or on a patio. Direct, prolonged sun exposure over many years can eventually cause slight yellowing, which is why rental fleets are inspected and rotated regularly.</p>"),
+            ("Can ghost chairs be mixed with other chair styles at one event?",
+             "<p>Yes, and it is common. Because ghost chairs do not compete visually with anything, they mix cleanly with Chiavari chairs, farmhouse tables or upholstered lounge furniture in different zones of the same event.</p>"),
+            ("How far in advance should I book ghost chairs in Atlanta?",
+             "<p>Book four to six weeks ahead for spring and fall wedding season, when Saturday dates across the metro fill fastest. Large orders deserve more lead time. Last-minute requests are still worth making &mdash; call or text and we will check what is actually available for your date.</p>"),
+            ("Who designed the ghost chair?",
+             "<p>French designer Philippe Starck designed the original Louis Ghost chair for the Italian furniture company Kartell in 2002, basing its silhouette on a classic Louis XVI armchair.</p>"),
+        ],
+    },
 ]
 
 
