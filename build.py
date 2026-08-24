@@ -588,6 +588,16 @@ def build_index(providers, families):
         <img src="{img}" alt="{esc(name)}, available to rent in Atlanta, Georgia" width="{w}" height="{h}" loading="lazy">
         <span class="collection-block-label">{esc(name)}</span>
       </a>''' for slug, name, img, w, h in HOME_COLLECTION_BLOCKS)
+    HOME_GALLERY = [
+        FEATURED_IMAGES["tent_luxury"],
+        FEATURED_IMAGES["gold_ballroom"],
+        FEATURED_IMAGES["kids_tables"],
+        FEATURED_IMAGES["boho_tent"],
+        FEATURED_IMAGES["bounce_house"],
+    ]
+    gallery_slides_html = "\n        ".join(
+        f'<div class="gallery-slide"><img src="{src}" alt="{esc(alt)}" width="{w}" height="{h}" loading="lazy"></div>'
+        for src, alt, w, h in HOME_GALLERY)
     areas = coverage_areas(providers)
     area_links = "\n      ".join(
         f'<li><a href="{location_href(l)}">Bounce House Rentals in {esc(l["name"])}</a></li>'
@@ -722,6 +732,23 @@ def build_index(providers, families):
   </div>
 </section>
 
+<section id="home-gallery">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Recent Events</div>
+      <h2>Atlanta Events We've Helped Bring Together</h2>
+    </div>
+    <div class="gallery-carousel" data-gallery>
+      <div class="gallery-track" data-gallery-track>
+        {gallery_slides_html}
+      </div>
+      <button type="button" class="gallery-arrow gallery-arrow-prev" data-gallery-prev aria-label="Previous photo">&#10094;</button>
+      <button type="button" class="gallery-arrow gallery-arrow-next" data-gallery-next aria-label="Next photo">&#10095;</button>
+      <div class="gallery-dots" data-gallery-dots></div>
+    </div>
+  </div>
+</section>
+
 <section class="alt" id="service-area">
   <div class="container">
     <div class="section-head">
@@ -765,6 +792,7 @@ def build_index(providers, families):
 <script src="/js/search-index.js"></script>
 <script src="/js/search.js"></script>
 <script src="/js/directory.js"></script>
+<script src="/js/gallery-carousel.js"></script>
 <script src="/js/wizard.js"></script>
 </body>
 </html>
