@@ -1753,7 +1753,7 @@ PRODUCTS = [
         "includes": "Child-size, sized for grades K-2",
         "image": "/images/products/child-chiavari-chair-13-inch-seat-white.jpg",
         "image_alt": "White child-size Chiavari chair, available to rent in Atlanta, Georgia",
-        "image_w": 640, "image_h": 640,
+        "image_w": 130, "image_h": 220,
         "options": [],
         "specs": [
             ("Seat Height", '12.5"H'),
