@@ -1424,3 +1424,29 @@ table.hours tr.today td.day::after { content: " • Today"; font-size: 0.72rem; 
 .sitemap-col li { margin-bottom: 9px; }
 .sitemap-col a { color: var(--ink); text-decoration: none; font-size: 0.9rem; }
 .sitemap-col a:hover { color: var(--accent-dark); text-decoration: underline; }
+
+/* ---------- homepage event builder banner ---------- */
+.eb-banner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.eb-banner h2 { margin: 4px 0 8px; }
+.eb-banner p { margin: 0; max-width: 560px; }
+.eb-banner .btn { flex: none; }
+
+/* ---------- /event-builder/ wizard ---------- */
+.eb-wrap { max-width: 640px; margin: 0 auto; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 34px; box-shadow: var(--shadow); }
+.eb-progress { height: 6px; background: var(--bg-soft); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+.eb-progress-bar { height: 100%; width: 20%; background: var(--accent); transition: width 0.2s ease; }
+.eb-step-label { font-size: 0.8rem; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 22px; }
+.eb-question h2 { font-size: 1.35rem; margin: 0 0 20px; }
+.eb-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.eb-option { display: block; width: 100%; text-align: left; padding: 16px 18px; border: 2px solid var(--line); border-radius: 10px; background: #fff; font-family: inherit; font-size: 0.98rem; font-weight: 700; color: var(--ink); cursor: pointer; transition: border-color 0.12s, background 0.12s; }
+.eb-option:hover { border-color: var(--accent); }
+.eb-option.selected { border-color: var(--accent); background: var(--sky); color: var(--accent-dark); }
+.eb-nav { margin-top: 26px; }
+.eb-results { max-width: 1080px; margin: 0 auto; }
+.eb-results-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 24px; }
+#eb-results-empty { padding: 30px 0; text-align: center; }
+@media (max-width: 600px) {
+  .eb-wrap { padding: 22px; }
+  .eb-options { grid-template-columns: 1fr; }
+  .eb-banner { flex-direction: column; align-items: flex-start; }
+}

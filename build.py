@@ -321,6 +321,7 @@ FOOTER = f'''<footer class="site-footer">
         <a href="/">Home</a>
         <a href="/services/">Services</a>
         <a href="/products/">All Rental Products</a>
+        <a href="/event-builder/">Event Builder</a>
         <a href="/blog/">Event Rental Guides</a>
         <a href="/bounce-houses/">Bounce Houses for Rent</a>
         <a href="/locations/">Service Areas</a>
@@ -643,6 +644,17 @@ def build_index(providers, families):
         <a class="btn hero-quote-btn" href="/products/">Rent Party Supplies &rsaquo;</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="alt" id="home-event-builder">
+  <div class="container eb-banner">
+    <div>
+      <div class="eyebrow">Not Sure Where To Start?</div>
+      <h2>Try Our Event Builder</h2>
+      <p>Answer a few quick questions about your event and we'll recommend the exact chairs, tables, tents and equipment we stock and deliver ourselves.</p>
+    </div>
+    <a class="btn" href="/event-builder/">Build My Event &rsaquo;</a>
   </div>
 </section>
 
@@ -7609,7 +7621,7 @@ def build_vercel_redirects(families):
 
 def build_sitemap(providers, find_urls=None, city_urls=None):
     bh_items = json.load(open(os.path.join(ROOT, "data", "bounce-houses.json")))
-    urls = ["/", "/services/", "/products/", "/cart/", "/blog/", "/sitemap/", "/bounce-houses/", "/locations/",
+    urls = ["/", "/services/", "/products/", "/cart/", "/blog/", "/sitemap/", "/event-builder/", "/bounce-houses/", "/locations/",
             *[f"/products/{s}/" for s in COLLECTION_META],
             *[blog_href(p) for p in BLOG_POSTS],
             "/cheap-bounce-house-rentals/", "/partners.html", "/leads/", "/dashboard/"]
@@ -7630,6 +7642,158 @@ def build_sitemap(providers, find_urls=None, city_urls=None):
 </urlset>
 '''
     open(os.path.join(ROOT, "sitemap.xml"), "w").write(sm)
+
+
+def build_products_data():
+    """js/products-data.js — every PRODUCTS entry as plain JSON, consumed by
+    /event-builder/ (js/event-builder.js) to recommend items client-side.
+    Kept separate from search-index.js since this carries structured
+    product fields (price, category, parent_slug) rather than page titles."""
+    entries = []
+    for p in PRODUCTS:
+        has_photo = bool(p.get("image")) and os.path.exists(os.path.join(ROOT, p["image"].lstrip("/")))
+        entries.append({
+            "slug": p["slug"], "name": p["name"], "short_name": p["short_name"],
+            "category": p["category"], "parent_slug": p["parent_slug"], "parent_name": p["parent_name"],
+            "price": p["price"], "unit": p["unit"], "unit_plural": p["unit_plural"],
+            "min_qty": p["min_qty"], "includes": p["includes"],
+            "href": product_href(p),
+            "image": p["image"] if has_photo else None,
+            "image_alt": p["image_alt"], "image_w": p["image_w"], "image_h": p["image_h"],
+        })
+    js = "window.ABHR_PRODUCTS = " + json.dumps(entries, ensure_ascii=False) + ";\n"
+    open(os.path.join(ROOT, "js", "products-data.js"), "w").write(js)
+
+
+def build_event_builder():
+    """/event-builder/ — a short multi-step quiz (js/event-builder.js) that
+    recommends items from our own PRODUCTS catalog based on event type,
+    guest count, setting and style. Client-side only; no backend beyond the
+    existing cart.js Add to Cart wiring, which the results cards reuse."""
+    bc_ld = {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": DOMAIN + "/"},
+        {"@type": "ListItem", "position": 2, "name": "Event Builder", "item": DOMAIN + "/event-builder/"}]}
+    extra = f'<script type="application/ld+json">\n{json.dumps(bc_ld, ensure_ascii=False)}\n</script>\n'
+
+    page = head(
+        "Event Builder | Atlanta Bounce House Rentals",
+        "Answer a few quick questions about your event and we'll recommend the exact chairs, tables, tents and equipment we stock and deliver ourselves in Atlanta, Georgia.",
+        DOMAIN + "/event-builder/", extra)
+    page += header("event-builder") + f'''
+<div class="page-head">
+  <div class="container">
+    <div class="breadcrumbs"><a href="/">Home</a> &rsaquo; Event Builder</div>
+    <h1>Event Builder</h1>
+    <p>Answer a few quick questions and we'll recommend the exact items from our own catalog that fit your event &mdash; no back-and-forth quoting.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="eb-wrap" id="eb-wrap" data-step="1">
+      <div class="eb-progress" aria-hidden="true">
+        <div class="eb-progress-bar" id="eb-progress-bar"></div>
+      </div>
+      <p class="eb-step-label" id="eb-step-label">Question 1 of 5</p>
+
+      <div class="eb-question" data-eb-step="1">
+        <h2>What are you planning?</h2>
+        <div class="eb-options" data-eb-field="eventType">
+          <button type="button" class="eb-option" data-value="wedding">Wedding</button>
+          <button type="button" class="eb-option" data-value="kids-party">Birthday / Kids Party</button>
+          <button type="button" class="eb-option" data-value="corporate">Corporate Event</button>
+          <button type="button" class="eb-option" data-value="backyard">Backyard / Casual Party</button>
+          <button type="button" class="eb-option" data-value="other">Other Celebration</button>
+        </div>
+      </div>
+
+      <div class="eb-question" data-eb-step="2" hidden>
+        <h2>About how many guests?</h2>
+        <div class="eb-options" data-eb-field="guestCount">
+          <button type="button" class="eb-option" data-value="20">Under 20</button>
+          <button type="button" class="eb-option" data-value="50">20 &ndash; 50</button>
+          <button type="button" class="eb-option" data-value="100">50 &ndash; 100</button>
+          <button type="button" class="eb-option" data-value="150">100+</button>
+        </div>
+      </div>
+
+      <div class="eb-question" data-eb-step="3" hidden>
+        <h2>Where is it happening?</h2>
+        <div class="eb-options" data-eb-field="setting">
+          <button type="button" class="eb-option" data-value="indoor">Indoor</button>
+          <button type="button" class="eb-option" data-value="outdoor">Outdoor</button>
+          <button type="button" class="eb-option" data-value="both">Both / Not Sure</button>
+        </div>
+      </div>
+
+      <div class="eb-question" data-eb-step="4" hidden>
+        <h2>What's your style?</h2>
+        <div class="eb-options" data-eb-field="style">
+          <button type="button" class="eb-option" data-value="classic">Classic &amp; Elegant</button>
+          <button type="button" class="eb-option" data-value="modern">Modern &amp; Minimal</button>
+          <button type="button" class="eb-option" data-value="casual">Casual &amp; Budget-Friendly</button>
+        </div>
+      </div>
+
+      <div class="eb-question" data-eb-step="5" hidden>
+        <h2>What do you still need? <span class="muted">(pick all that apply)</span></h2>
+        <div class="eb-options eb-options-multi" data-eb-field="needs">
+          <button type="button" class="eb-option" data-value="seating">Seating</button>
+          <button type="button" class="eb-option" data-value="tables">Tables</button>
+          <button type="button" class="eb-option" data-value="tent">Tent / Shade</button>
+          <button type="button" class="eb-option" data-value="bar">Bar / Drinks</button>
+          <button type="button" class="eb-option" data-value="av">A/V &amp; Sound</button>
+          <button type="button" class="eb-option" data-value="decor">Wedding Decor</button>
+        </div>
+        <button type="button" class="btn btn-block" id="eb-see-results" style="margin-top:22px;">See My Recommendations &rsaquo;</button>
+      </div>
+
+      <div class="eb-nav">
+        <button type="button" class="btn btn-outline" id="eb-back" hidden>&lsaquo; Back</button>
+      </div>
+    </div>
+
+    <div class="eb-results" id="eb-results" hidden>
+      <div class="section-head">
+        <div class="eyebrow">Your Recommendations</div>
+        <h2>Here's What We'd Suggest</h2>
+        <p id="eb-results-summary" class="muted"></p>
+      </div>
+      <div class="prod-card-grid" id="eb-results-grid"></div>
+      <p class="muted" id="eb-results-empty" hidden>We don't have a direct match in our own catalog for this combination yet &mdash; but our directory providers can help. <a href="#" data-wizard-open>Get matched with a local provider &rsaquo;</a></p>
+      <div class="eb-results-actions">
+        <a class="btn" href="/cart/">Go to Cart &rsaquo;</a>
+        <button type="button" class="btn btn-outline" id="eb-start-over">Start Over</button>
+        <a class="btn btn-outline" href="/products/">Browse Full Catalog &rsaquo;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="container">
+    <h2>Not Sure What You Need?</h2>
+    <p>Call or text us and we'll walk you through it directly &mdash; or our directory can match you with a local provider.</p>
+    <a class="btn" href="tel:{PHONE_HREF}">Call {PHONE_DISPLAY}</a>
+  </div>
+</section>
+
+{FOOTER}
+
+<script src="/js/main.js"></script>
+<script src="/js/analytics.js"></script>
+<script src="/js/search-index.js"></script>
+<script src="/js/search.js"></script>
+<script src="/js/cart.js"></script>
+<script src="/js/products-data.js"></script>
+<script src="/js/event-builder.js"></script>
+<script src="/js/wizard.js"></script>
+</body>
+</html>
+'''
+    d = os.path.join(ROOT, "event-builder")
+    os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w").write(page)
 
 
 def build_search_index():
@@ -7699,6 +7863,8 @@ def main():
     build_dashboard()
     build_blog()
     build_html_sitemap()
+    build_products_data()
+    build_event_builder()
     build_legal()
     build_404()
     build_vercel_redirects(families)
